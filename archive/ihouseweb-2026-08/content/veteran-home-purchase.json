@@ -1,0 +1,139 @@
+{
+ "path": "/veteran-home-purchase",
+ "name": "Veteran Home Purchase",
+ "type": null,
+ "head": {
+  "title": "VA Loan Specialist in Northern Colorado | The Little Lady Sells Homes \r\n",
+  "description": "Veterans deserve a home to call their own. Trust The Little Lady Sells Homes for expert VA loan guidance in Fort Collins, Loveland, Greeley, and Eaton. Over 25% of our transactions have helped veterans find their dream home",
+  "url": "https://www.thelittleladysellshomes.com/veteran-home-purchase",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/Featured-Community-1184537413.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f4680a4d27eb430783f6",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300227739",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/veteran-home-purchase",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f4680a4d27eb430783f7",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><title></title>\r\n<style type=\"text/css\">body {\r\n      font-family: Arial, sans-serif;\r\n      line-height: 1.6;\r\n      margin: 20px;\r\n      padding: 0;\r\n    }\r\n    h1, h2, h3 {\r\n      color: #333;\r\n    }\r\n    h1 {\r\n      font-size: 2.5em;\r\n    }\r\n    h2 {\r\n      font-size: 2em;\r\n      margin-top: 20px;\r\n    }\r\n    h3 {\r\n      font-size: 1.5em;\r\n      margin-top: 15px;\r\n    }\r\n    p {\r\n      font-size: 1em;\r\n      margin-top: 10px;\r\n    }\r\n    \r\n      width: 100%;\r\n      height: 300px;\r\n      background-color: #ccc;\r\n      text-align: center;\r\n      line-height: 300px;\r\n      font-size: 24px;\r\n      color: white;\r\n    }\r\n</style>\r\n</head><body><div style=\"text-align: center;\">\r\n<h4><strong><span style=\"font-size:22px;\">The Little Lady Sells Homes: Your VA Loan Specialist in Northern Colorado</span></strong></h4>\r\n</div>\r\n\r\n<div style=\"position: relative; width: 40%; /* Adjusted to 40% of the container's width */ height: 0; padding-top: 40%; /* Adjusted to maintain the aspect ratio */ margin: 1.6em auto 0.9em; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); overflow: hidden; border-radius: 8px;\"><iframe allow=\"fullscreen\" allowfullscreen=\"allowfullscreen\" loading=\"lazy\" src=\"https://www.canva.com/design/DAF9BA4uth4/H5DyUY3Ru6ZGUjdYakkgSQ/view?embed\" style=\"position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0; margin: 0;\"></iframe></div>\r\n\r\n<h4 style=\"margin-left: 40px;\"><strong><span style=\"font-size:20px;\">Are you a Veteran, Active-Duty Service Member, or Military Family?</span></strong></h4>\r\n\r\n<p style=\"margin-left: 40px;\">Looking to buy a home in Northern Colorado, including Fort Collins, Loveland, Greeley, and Eaton? You've come to the right place! Christine, the founder of The Little Lady Sells Homes, specializes in <strong>VA loans</strong> and is committed to serving our nation's heroes.</p>\r\n\r\n<h4 style=\"margin-left: 40px;\"><strong><span style=\"font-size:20px;\">Why Choose Christine for Your VA Home Loan Needs?</span></strong></h4>\r\n\r\n<p style=\"margin-left: 40px;\">As a child and grandchild of veterans, Christine deeply understands the unique challenges and benefits that come with <strong>VA home loans</strong>. With over 25 years of real estate experience in <strong>Northern Colorado</strong>, she possesses the local knowledge and expertise to guide you through every step of the <strong>VA loan process</strong>.</p>\r\n\r\n<h4 style=\"margin-left: 40px;\"><strong><span style=\"font-size:20px;\">Experience You Can Trust</span></strong></h4>\r\n\r\n<p style=\"margin-left: 40px;\">Christine is proud to share that over 25% of her transactions have been dedicated to helping veterans. Whether you're looking to settle in Fort Collins, Loveland, Greeley, or Eaton, she has the experience and local insights to make your home buying journey a success.</p>\r\n\r\n<h4 style=\"margin-left: 40px;\"><strong><span style=\"font-size:20px;\">Giving Back to Our Heroes</span></strong></h4>\r\n\r\n<p style=\"margin-left: 40px;\">To show our appreciation for your service, Christine offers $500 to assist with <strong>closing costs</strong>. This financial support can make a significant difference, especially for those who have served our country.</p>\r\n\r\n<h4 style=\"margin-left: 40px;\"><strong><span style=\"font-size:20px;\">Personalized Service for Your Home Buying Journey</span></strong></h4>\r\n\r\n<p style=\"margin-left: 40px;\">Christine offers personalized attention and expert guidance to help you find the best homes that fit both your needs and budget. She is dedicated to ensuring you have a smooth and stress-free <strong>VA home buying experience</strong>.</p>\r\n\r\n<h4 style=\"margin-left: 40px;\"><strong><span style=\"font-size:20px;\">Get Started with Your VA Loan Today</span></strong></h4>\r\n\r\n<p style=\"margin-left: 40px;\">Ready to find your dream home in Northern Colorado, including Fort Collins, Loveland, Greeley, and Eaton, using a VA loan? Fill out the form below, and Christine will be in touch with you shortly. Let The Little Lady Sells Homes be your go-to <strong>VA loan real estate expert</strong> in Northern Colorado.</p>\r\n<!-- Your form can go here --></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f4680a4d27eb430783f8",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301656063",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f4680a4d27eb430783f9",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301656064",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f4680a4d27eb430783fa",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301656065",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f4680a4d27eb430783fb",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301656066",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f4680a4d27eb430783fc",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301681860",
+       "label": "Check all boxes that apply:",
+       "value": [],
+       "options": [
+        "Tour A Property",
+        "First Time Homebuyer",
+        "Investor",
+        "Relocating",
+        "Rent To Own",
+        "Teacher",
+        "Veteran",
+        "Client Appreciation",
+        "None of the above"
+       ],
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f4680a4d27eb430783fd",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984442",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301656063": "",
+     "email-301656064": "",
+     "phone-301656065": "",
+     "textarea-301656066": "",
+     "checkboxes-301681860": [],
+     "marketing-opt-in-301984442": false
+    },
+    "initialErrors": {
+     "name-301656063": "",
+     "email-301656064": "",
+     "phone-301656065": "",
+     "textarea-301656066": "",
+     "checkboxes-301681860": "",
+     "marketing-opt-in-301984442": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

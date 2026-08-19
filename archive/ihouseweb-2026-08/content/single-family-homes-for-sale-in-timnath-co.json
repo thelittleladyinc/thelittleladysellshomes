@@ -1,0 +1,49 @@
+{
+ "path": "/single-family-homes-for-sale-in-timnath-co",
+ "name": "Single Family Homes For Sale in Timnath, CO",
+ "type": null,
+ "head": {
+  "title": "Single Family Homes For Sale in Timnath, CO",
+  "description": "Find properties for sale in Timnath, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/single-family-homes-for-sale-in-timnath-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/single-family-homes-for-sale-in-timnath-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f2123d43d7aefd074dab",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f2123d43d7aefd074daa",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Timnath, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

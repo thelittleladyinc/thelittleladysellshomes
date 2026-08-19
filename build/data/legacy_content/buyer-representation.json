@@ -1,0 +1,102 @@
+{
+ "path": "/buyer-representation",
+ "name": "Buyer Representation",
+ "type": null,
+ "head": {
+  "title": "Northern Colorado Open Houses | Explore Homes with a Buyer’s Agent",
+  "description": "Find the best Open Houses in Northern Colorado! Tour homes in Loveland, Fort Collins, and Windsor—but don’t forget, the listing agent works for the seller. See why having your own buyer’s agent is essential!",
+  "url": "https://www.thelittleladysellshomes.com/buyer-representation",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/9C532521-1774-443D-9C2C-2813C926A7FC.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f575fb9f4279350ecb61",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300280133",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/buyer-representation",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f575fb9f4279350ecb62",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n<title></title>\r\n<meta name=\"description\" content=\"Expert buyer representation in Northern Colorado. Get professional guidance, negotiation support, and access to exclusive listings. Find your dream home today!\"><meta name=\"keywords\" content=\"Buyer Representation, Northern Colorado Homes, Home Buying Process, Real Estate Agent, Fort Collins, Loveland, Greeley, Windsor, Eaton, Berthoud\"><meta name=\"author\" content=\"The Little Lady Sells Homes\">\r\n<link href=\"styles.css\" rel=\"stylesheet\">\r\n<style type=\"text/css\">body {\r\n            font-family: Arial, sans-serif;\r\n            margin: 0;\r\n            padding: 0;\r\n            background-color: #f9f9f9;\r\n            color: #333;\r\n        }\r\n        header, footer {\r\n            text-align: center;\r\n            background-color: #8B0000; /* Updated to brand color */\r\n            color: white;\r\n            padding: 15px 10px;\r\n        }\r\n        section {\r\n            padding: 20px;\r\n            max-width: 800px;\r\n            margin: 0 auto;\r\n            background: white;\r\n            border-radius: 8px;\r\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\r\n        }\r\n        h1, h2 {\r\n            color: #8B0000; /* Updated to brand color */\r\n        }\r\n        ul, ol {\r\n            padding-left: 20px;\r\n        }\r\n        form {\r\n            display: flex;\r\n            flex-direction: column;\r\n            gap: 10px;\r\n        }\r\n        label {\r\n            font-weight: bold;\r\n        }\r\n        input, textarea {\r\n            width: 100%;\r\n            padding: 10px;\r\n            border: 1px solid #ccc;\r\n            border-radius: 5px;\r\n        }\r\n        button {\r\n            background-color: #8B0000; /* Updated to brand color */\r\n            color: white;\r\n            border: none;\r\n            padding: 10px;\r\n            cursor: pointer;\r\n            border-radius: 5px;\r\n        }\r\n        button:hover {\r\n            background-color: #a52a2a; /* Slight variation for hover effect */\r\n        }\r\n        @media (max-width: 600px) {\r\n            section {\r\n                padding: 15px;\r\n            }\r\n        }\r\n</style>\r\n<header>\r\n<h1><span style=\"color:#FFFFFF;\">Buyer&rsquo;s Representation</span></h1>\r\n\r\n<p>Your trusted guide to purchasing a home in Northern Colorado.</p>\r\n</header>\r\n\r\n<section id=\"why-choose\">\r\n<h2>Why Choose Buyer Representation?</h2>\r\n\r\n<p>As your buyer&rsquo;s agent, I work exclusively for you, ensuring your best interests are protected throughout the home-buying process.</p>\r\n\r\n<ul>\r\n\t<li>Expert negotiation to get you the best deal</li>\r\n\t<li>Comprehensive market analysis for informed decisions</li>\r\n\t<li>Assistance with contracts and paperwork</li>\r\n\t<li>Guidance from home search to closing</li>\r\n\t<li>Access to exclusive listings and new home developments</li>\r\n</ul>\r\n</section>\r\n\r\n<section id=\"process\">\r\n<h2>Our Home Buying Process</h2>\r\n\r\n<p>Here&rsquo;s what you can expect when working with me:</p>\r\n\r\n<ol>\r\n\t<li><strong>Initial Consultation:</strong> Understanding your needs and preferences.</li>\r\n\t<li><strong>Home Search:</strong> Finding properties that match your criteria.</li>\r\n\t<li><strong>Viewing &amp; Evaluation:</strong> Touring homes and assessing value.</li>\r\n\t<li><strong>Making an Offer:</strong> Negotiating terms in your favor.</li>\r\n\t<li><strong>Closing:</strong> Ensuring a smooth transaction and handing over the keys.</li>\r\n</ol>\r\n</section>\r\n\r\n<section id=\"contact\">\r\n<form action=\"/submit-form\" method=\"post\"><button type=\"submit\">Send Message</button></form>\r\n</section>\r\n\r\n<footer>\r\n<p>&copy; 2025 The Little Lady Sells Homes | Northern Colorado Real Estate</p>\r\n</footer></head></html>\n"
+      }
+     },
+     {
+      "id": "6a84f575fb9f4279350ecb63",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-302030989",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f575fb9f4279350ecb64",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-302030990",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f575fb9f4279350ecb65",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-302030991",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f575fb9f4279350ecb66",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-302030992",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-302030989": "",
+     "email-302030990": "",
+     "phone-302030991": "",
+     "textarea-302030992": ""
+    },
+    "initialErrors": {
+     "name-302030989": "",
+     "email-302030990": "",
+     "phone-302030991": "",
+     "textarea-302030992": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

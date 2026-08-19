@@ -1,0 +1,24 @@
+{
+ "path": "/affordability-calculator",
+ "name": "Affordability Calculator",
+ "type": null,
+ "head": {
+  "title": "Affordability Calculator | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/affordability-calculator",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "6a84f8d5ca9e0740110792fd",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f8d5ca9e0740110792fc",
+   "type": "customContent",
+   "html": "<div><script type=\"text/javascript\" src=\"https://widget.hifello.com/affordability-calculator-widget.js\" async=\"\" defer>// <![CDATA[ // ]]></script><fello-affordability-calculator-widget style=\"font-size: 36px;\" widget-id=\"66db5d8ac19484002dbeb35f\"></fello-affordability-calculator-widget></div>\r\n\n"
+  }
+ ],
+ "post": null
+}

@@ -1,0 +1,139 @@
+{
+ "path": "/colorado-investment-property",
+ "name": "Colorado Investment Property",
+ "type": null,
+ "head": {
+  "title": "Colorado Investment Property",
+  "description": "Are you looking at investing in Colorado? Work with an experienced Realtor that will guide you on your investment journey. With knowledge of Creative Financing including Real Estate Wholesale, Lease with Option to Buy, Buy and Hold Rental Property, Fix and Flips and Short Term Rental Property, Christine Gwinnup with The Little Lady Sells Homes is on your side.",
+  "url": "https://www.thelittleladysellshomes.com/colorado-investment-property",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/Featured-Community-213445882.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f46964b75d6ce90259ae",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300227740",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/colorado-investment-property",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f46964b75d6ce90259af",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><h1 style=\"text-align: center;\"><span style=\"color:#F40009;\"><u>Colorado Investment Property Search<br>\r\n<img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_man%7BC%7D%7BC%7D%7BC%7D%7BC%7D%7BC%7D%7BC%7D%7BC%7D%7BC%7D%7BC%7D<!--cke_bookmark_90S-->%7BC%7D%7BC%7D%7BC%7D%7BC%7D%7BC%7D%7BC%7D%7BC%7D%7BC%7D%7BC%7D<!--cke_bookmark_90E-->ager/Featured%20Communities/Featured-Community-213445882.jpg?width=600&amp;height=398&amp;aspect_ratio=600%3A398\" style=\"height: 398px; width: 600px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_man{C}{C}{C}{C}{C}{C}{C}{C}{C}<!--cke_bookmark_90S-->{C}{C}{C}{C}{C}{C}{C}{C}{C}<!--cke_bookmark_90E-->ager/Featured%20Communities/Featured-Community-213445882.jpg?width=1200&amp;height=796&amp;aspect_ratio=600%3A398 2x\"></u></span></h1>\r\n\r\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td style=\"text-align: center;\">\r\n\t\t\t<p><span style=\"font-size:18px;\">Finding opportunity to create cashflow for&nbsp;Investors is one of the most rewarding aspects of being a Realtor.&nbsp;&nbsp;Once Christine became a Realtor, she was able to help others create wealth.&nbsp;She has developed a data-driven process when searching for the perfect investment property for each of her Clients.<br>\r\n\t\t\t<br>\r\n\t\t\tChristine invested in Real Estate&nbsp;many years before becoming a&nbsp;Realtor.&nbsp; She brings&nbsp;experience in single family rental property, multiplex, condos, Lease with Option to Buy,&nbsp;Fix and Flips, Short Term Rentals, including Airbnb, pre-foreclosures, foreclosures and Creative Financing.</span></p>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td style=\"text-align: center;\">\r\n\t\t\t<h3 style=\"text-align: left;\">Christine actively searches for property with cashflow potential. When she finds one, she:&nbsp;</h3>\r\n\r\n\t\t\t<ol>\r\n\t\t\t\t<li style=\"text-align: left;\"><span style=\"font-size:18px;\">Presents the information to her Northern Colorado Investor Network at biweekly meetings.</span></li>\r\n\t\t\t\t<li style=\"text-align: left;\"><span style=\"font-size:18px;\">Sends an Investor Alert email to all subscribed members.</span></li>\r\n\t\t\t</ol>\r\n\r\n\t\t\t<hr>\r\n\t\t\t<h3 style=\"text-align: left;\">Get&nbsp;notified when excellent investment opportunity is found:</h3>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f46964b75d6ce90259b0",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301656067",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f46964b75d6ce90259b1",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301656068",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f46964b75d6ce90259b2",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301656069",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f46964b75d6ce90259b3",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301656070",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f46964b75d6ce90259b4",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301681857",
+       "label": "Check all boxes that apply:",
+       "value": [],
+       "options": [
+        "Tour A Property",
+        "First Time Homebuyer",
+        "Investor",
+        "Relocating",
+        "Rent To Own",
+        "Teacher",
+        "Veteran",
+        "Client Appreciation",
+        "None of the above"
+       ],
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f46964b75d6ce90259b5",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984419",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301656067": "",
+     "email-301656068": "",
+     "phone-301656069": "",
+     "textarea-301656070": "",
+     "checkboxes-301681857": [],
+     "marketing-opt-in-301984419": false
+    },
+    "initialErrors": {
+     "name-301656067": "",
+     "email-301656068": "",
+     "phone-301656069": "",
+     "textarea-301656070": "",
+     "checkboxes-301681857": "",
+     "marketing-opt-in-301984419": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

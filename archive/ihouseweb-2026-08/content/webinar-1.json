@@ -1,0 +1,115 @@
+{
+ "path": "/webinar-1",
+ "name": "Webinar",
+ "type": null,
+ "head": {
+  "title": "Maximizing Home Value in a High-Interest Market: A Seller's Guide by The BOLD Collective",
+  "description": "Discover how to navigate the challenges of a high-interest-rate environment and sell your home for top dollar. Join The BOLD Collective powered by lpt for an exclusive webinar packed with actionable insights and expert advice.",
+  "url": "https://www.thelittleladysellshomes.com/webinar-1",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/6jytmr0RTIGcAS1XAI571VIlh0Xk1ylSsg.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f48165ad16394f08c418",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300253526",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/webinar-1",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f48165ad16394f08c419",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p style=\"text-align: center;\"><span style=\"font-size:18px;\">Register for Maximizing Home Value in a High-Interest Market: A Seller's Guide<br>\r\n10/21/2023&nbsp;10:30am</span></p></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f48165ad16394f08c41a",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301835686",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f48165ad16394f08c41b",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301835687",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f48165ad16394f08c41c",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301835688",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f48165ad16394f08c41d",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301835689",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f48165ad16394f08c41e",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984444",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301835686": "",
+     "email-301835687": "",
+     "phone-301835688": "",
+     "textarea-301835689": "",
+     "marketing-opt-in-301984444": false
+    },
+    "initialErrors": {
+     "name-301835686": "",
+     "email-301835687": "",
+     "phone-301835688": "",
+     "textarea-301835689": "",
+     "marketing-opt-in-301984444": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

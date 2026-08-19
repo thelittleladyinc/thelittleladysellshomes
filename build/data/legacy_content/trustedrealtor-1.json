@@ -1,0 +1,24 @@
+{
+ "path": "/trustedrealtor-1",
+ "name": "Trust",
+ "type": null,
+ "head": {
+  "title": "Trust | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/trustedrealtor-1",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "6a84f3bd790f4ac9df0466a4",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f3bd790f4ac9df0466a3",
+   "type": "customContent",
+   "html": "<p><img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/AdobeStock_257055845.jpeg?width=800&amp;height=400&amp;aspect_ratio=800%3A400\" style=\"float: right; width: 800px; height: 400px; border-width: 5px; border-style: solid;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/AdobeStock_257055845.jpeg?width=1600&amp;height=800&amp;aspect_ratio=800%3A400 2x\"><br>\r\nContact Christine with Realty ONE Group with all Real Estate Questions.</p>\r\n\r\n<p>Call 303-709-4262 or fill out the form below and she will reach out to you with&nbsp;patience, not pressure.<br>\r\n&nbsp;</p>\r\n\n"
+  }
+ ],
+ "post": null
+}

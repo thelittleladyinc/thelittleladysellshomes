@@ -1,0 +1,46 @@
+{
+ "path": "/search-larimer-county",
+ "name": "Search Larimer County",
+ "type": null,
+ "head": {
+  "title": "Search Larimer County",
+  "description": "Find properties for sale in Larimer County, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/search-larimer-county",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/search-larimer-county"
+ },
+ "blocks": [
+  {
+   "id": "6a84f39bac80b260890bd05f",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f39bac80b260890bd05e",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "county",
+      "value": "Larimer County, CO"
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

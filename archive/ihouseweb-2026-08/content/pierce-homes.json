@@ -1,0 +1,28 @@
+{
+ "path": "/pierce-homes",
+ "name": "Pierce Homes",
+ "type": null,
+ "head": {
+  "title": "Pierce Homes | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/pierce-homes",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/Neighborhood%20Community%20-%201176474574.jpg",
+   "height": 300,
+   "width": 400
+  },
+  "hasOverlay": true
+ },
+ "blocks": [
+  {
+   "id": "featured-location-74983",
+   "type": "featuredLocation",
+   "html": null,
+   "options": {
+    "featuredLocationId": 74983
+   }
+  }
+ ],
+ "post": null
+}

@@ -1,0 +1,140 @@
+{
+ "path": "/first-time-homebuyer",
+ "name": "Colorado First Time Homebuyer",
+ "type": null,
+ "head": {
+  "title": "Top Northern Colorado Realtor - The Little Lady Sells Homes",
+  "description": "Looking for a reliable and experienced realtor in Northern Colorado? Look no further than The Little Lady Sells Homes! With expertise in the local market, down payment assistance programs, and a dedication to helping first-time homebuyers, Christine Gwinnup is the perfect partner for your home buying journey. Contact us at 303-709-4262 today to learn more and start your search for your dream home!",
+  "url": "https://www.thelittleladysellshomes.com/first-time-homebuyer",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/IMG_2512.jpeg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f8560688ce02e50f0fd6",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300209338",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/first-time-homebuyer",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f8560688ce02e50f0fd7",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><h1 style=\"text-align: center;\"><span style=\"font-size:26px;\">First Time Home Buyer Grants are Available in Colorado</span></h1>\r\n\r\n<hr>\r\n<table border=\"0\" cellpadding=\"15\" cellspacing=\"5\" style=\"width:100%;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td style=\"vertical-align: bottom; width: 50%;\">\r\n\t\t\t<p><span style=\"font-size:18px;\">Hoping to become a homeowner but don't know where to start? Contact Christine at The Little Lady Sells Homes. She's dedicated to helping first-time homebuyers achieve their dream of homeownership. With her expertise and guidance, many clients have been able to purchase homes with <a href=\"https://www.chfainfo.com/homeownership/down-payment-assistance\">down payment assistance programs</a> and $500 toward closing costs. Fill out the form&nbsp;<span style=\"font-size:18px;\"><a data-form-id=\"300211461\" href=\"/client-appreciation-offer\" target=\"modal_form\">HERE</a></span> for consideration or call 303-709-4262 to learn more. Christine also hosts First-Time Homebuyer Seminars covering topics such as pre-approval, credit scores, finding the right home, negotiating, and closing deals. Achieve your dream of homeownership with Christine's help.</span><span style=\"font-size:18px;\"></span></p>\r\n\r\n\t\t\t<p style=\"text-align: center;\"><a class=\"btn btn-primary\" data-form-id=\"300212984\" href=\"/first-time-homebuyer-guide\" target=\"modal_form\">Get Your&nbsp;Free First Time Homebuyer Guide</a></p>\r\n\t\t\t</td>\r\n\t\t\t<td style=\"text-align: center;\"><iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"\" frameborder=\"0\" height=\"315\" src=\"https://www.youtube.com/embed/SuP9-KdJpsU\" title=\"YouTube video player\" width=\"560\"></iframe></td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<hr>\r\n<p style=\"text-align: center;\"><span style=\"font-size:20px;\">Fill out the information below to schedule a consultation with The Little Lady</span></p>\r\n\r\n<p style=\"text-align: center;\"></p></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f8560688ce02e50f0fd8",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301531576",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f8560688ce02e50f0fd9",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301531577",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f8560688ce02e50f0fda",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301531578",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f8560688ce02e50f0fdb",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301531579",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f8560688ce02e50f0fdc",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301681910",
+       "label": "Check all boxes that apply:",
+       "value": [],
+       "options": [
+        "Tour A Property",
+        "First Time Homebuyer",
+        "Investor",
+        "Relocating",
+        "Rent To Own",
+        "Teacher",
+        "Veteran",
+        "Sign Up For Newsletters",
+        "Client Appreciation",
+        "None of the above"
+       ],
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f8560688ce02e50f0fdd",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984418",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301531576": "",
+     "email-301531577": "",
+     "phone-301531578": "",
+     "textarea-301531579": "",
+     "checkboxes-301681910": [],
+     "marketing-opt-in-301984418": false
+    },
+    "initialErrors": {
+     "name-301531576": "",
+     "email-301531577": "",
+     "phone-301531578": "",
+     "textarea-301531579": "",
+     "checkboxes-301681910": "",
+     "marketing-opt-in-301984418": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

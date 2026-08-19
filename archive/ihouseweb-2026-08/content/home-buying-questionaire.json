@@ -1,0 +1,179 @@
+{
+ "path": "/home-buying-questionaire",
+ "name": "Home Buying Questionaire",
+ "type": null,
+ "head": {
+  "title": "Home Buying Questionaire | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/home-buying-questionaire",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "6a84f46d382a95117306a1a1",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300232069",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/home-buying-questionaire",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f46d382a95117306a1a2",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301686252",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f46d382a95117306a1a3",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301686253",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f46d382a95117306a1a4",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301686254",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f46d382a95117306a1a5",
+      "type": "select",
+      "mode": "default",
+      "options": {
+       "name": "select-301686255",
+       "label": "What is your timeline?",
+       "value": "asap",
+       "options": [
+        "asap",
+        "in the next month",
+        "3-6 months",
+        "6-9 months",
+        "9-12 months",
+        "over a year"
+       ],
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f46d382a95117306a1a6",
+      "type": "select",
+      "mode": "default",
+      "options": {
+       "name": "select-301686256",
+       "label": "Would you like me to connect you with a Lender?",
+       "value": "yes",
+       "options": [
+        "yes",
+        "no"
+       ],
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f46d382a95117306a1a7",
+      "type": "select",
+      "mode": "default",
+      "options": {
+       "name": "select-301686257",
+       "label": "Do you have an idea what your credit score is?",
+       "value": "under 500",
+       "options": [
+        "under 500",
+        "500-550",
+        "550-600",
+        "600-650",
+        "above 650"
+       ],
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f46d382a95117306a1a8",
+      "type": "select",
+      "mode": "default",
+      "options": {
+       "name": "select-301686258",
+       "label": "Are you interested in Rent To Own?",
+       "value": "yes",
+       "options": [
+        "yes",
+        "no",
+        "maybe"
+       ],
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f46d382a95117306a1a9",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301686259",
+       "label": "Anything else you would like to share?",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f46d382a95117306a1aa",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984428",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301686252": "",
+     "phone-301686253": "",
+     "email-301686254": "",
+     "select-301686255": "asap",
+     "select-301686256": "yes",
+     "select-301686257": "under 500",
+     "select-301686258": "yes",
+     "textarea-301686259": "",
+     "marketing-opt-in-301984428": false
+    },
+    "initialErrors": {
+     "name-301686252": "",
+     "phone-301686253": "",
+     "email-301686254": "",
+     "select-301686255": "",
+     "select-301686256": "",
+     "select-301686257": "",
+     "select-301686258": "",
+     "textarea-301686259": "",
+     "marketing-opt-in-301984428": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

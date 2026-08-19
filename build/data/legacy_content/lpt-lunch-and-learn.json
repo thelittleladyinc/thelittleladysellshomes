@@ -1,0 +1,149 @@
+{
+ "path": "/lpt-lunch-and-learn",
+ "name": "LPT Lunch And Learn",
+ "type": null,
+ "head": {
+  "title": "LPT Realty Lunch Rally: Network & Learn with The BOLD Collective in Northern Colorado",
+  "description": "Real Estate Agents of Northern Colorado. Join us at the LPT Realty Lunch Rally. Elevate your real estate game with expert insights, networking opportunities, and a delicious lunch. Perfect for agents in Northern Colorado.",
+  "url": "https://www.thelittleladysellshomes.com/lpt-lunch-and-learn",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/IMG_1045.jpeg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f48e0a4d27eb4307856c",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300254241",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/lpt-lunch-and-learn",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f48e0a4d27eb4307856d",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><script>\r\n  gtag('event', 'conversion', {'send_to': 'AW-11022138132/GVYpCOzNmJ4ZEJT24Ycp'});\r\n</script>\r\n</head><body><p style=\"text-align: center;\">Find out why LPT is the fastest growing Real Estate Brokerage in History!<br>\r\nRSVP: The last Thursday of every month at Biaggi's&nbsp;in Johnstown.<br>\r\n<br>\r\n<em>Sign Up Below</em></p></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f48e0a4d27eb4307856e",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301840526",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f48e0a4d27eb4307856f",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301840527",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f48e0a4d27eb43078570",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301840528",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f48e0a4d27eb43078571",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301840529",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f48e0a4d27eb43078572",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301840530",
+       "label": "Are you able to attend?",
+       "value": [],
+       "options": [
+        "yes",
+        "no"
+       ],
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f48e0a4d27eb43078573",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301840531",
+       "label": "If you can't make it, Would you like someone to contact you?",
+       "value": [],
+       "options": [
+        "yes",
+        "no"
+       ],
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f48e0a4d27eb43078574",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984432",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301840526": "",
+     "email-301840527": "",
+     "phone-301840528": "",
+     "textarea-301840529": "",
+     "checkboxes-301840530": [],
+     "checkboxes-301840531": [],
+     "marketing-opt-in-301984432": false
+    },
+    "initialErrors": {
+     "name-301840526": "",
+     "email-301840527": "",
+     "phone-301840528": "",
+     "textarea-301840529": "",
+     "checkboxes-301840530": "",
+     "checkboxes-301840531": "",
+     "marketing-opt-in-301984432": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

@@ -1,0 +1,53 @@
+{
+ "path": "/condos-and-attached-homes-for-sale-in-greeley-co",
+ "name": "Condos and Attached Homes For Sale in Greeley, CO",
+ "type": null,
+ "head": {
+  "title": "Condos and Attached Homes For Sale in Greeley, CO",
+  "description": "Find properties for sale in Greeley, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/condos-and-attached-homes-for-sale-in-greeley-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/condos-and-attached-homes-for-sale-in-greeley-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f0d30458d14e180af2f2",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f0d30458d14e180af2f1",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "keywords": [
+      "Patio"
+     ],
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Greeley, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "condo",
+      "house"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

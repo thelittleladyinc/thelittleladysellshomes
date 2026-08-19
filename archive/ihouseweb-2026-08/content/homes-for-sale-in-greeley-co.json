@@ -1,0 +1,61 @@
+{
+ "path": "/homes-for-sale-in-greeley-co",
+ "name": "Homes for Sale in Greeley, CO",
+ "type": null,
+ "head": {
+  "title": "Greeley CO Homes for Sale | Christine Gwinnup, Top Realtor​",
+  "description": "Explore homes for sale in Greeley, CO. Get $500 toward closing costs when you buy or list with Christine Gwinnup — bold marketing, fast results.",
+  "url": "https://www.thelittleladysellshomes.com/homes-for-sale-in-greeley-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/homes-for-sale-in-greeley-co",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Christine%20Gwinnup%20The%20Little%20LAdy%20Sells%20Homes%20Real%20Estate%20Agent%20Best%20Greeley%20Realtor.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f0b4c70441f958036b1d",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f0b4c70441f958036b1e",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<!-- Greeley Homes for Sale Landing Page | Optimized SEO + Conversion --><html><body><section style=\"padding: 60px 20px; text-align: center; background-color: #ffffff;\">\r\n<div style=\"max-width: 900px; margin: 0 auto;\">\r\n<h1 style=\"font-size: 36px; font-weight: 800; color: #111; margin-bottom: 10px;\">Homes for Sale in Greeley, Colorado</h1>\r\n\r\n<p style=\"font-size: 18px; color: #444; margin-bottom: 20px;\">Looking for affordable homes in Greeley? Whether you&rsquo;re a first-time homebuyer, relocating, or investing, Greeley is one of Northern Colorado&rsquo;s most value-packed markets. With great neighborhoods, strong rental potential, and quick access to I-25, Greeley offers opportunity at every price point.</p>\r\n\r\n<p style=\"font-size: 18px; color: #444; margin-bottom: 20px;\"></p></div></section></body></html>\n"
+  },
+  {
+   "id": "6a84f0b4c70441f958036b1c",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Greeley, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house",
+      "condo",
+      "multi"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

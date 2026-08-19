@@ -1,0 +1,150 @@
+# 2026-08-15: Netlify now REGENERATES the site on every deploy, so editing
+# build/build.py and pushing is enough. It previously ran no build at all and
+# published the committed /site as-is, which meant a content change pushed
+# without a local rebuild silently did nothing — no error, no clue.
+#
+# The original reasoning ("nothing that can fail at deploy time") is preserved
+# rather than discarded: scripts/netlify-build.sh treats a build-image problem
+# (no python3, pip failure) as non-fatal and publishes the committed /site
+# exactly as before, and treats an actual generator error as fatal so a
+# half-written /site is never published and the last good deploy keeps serving.
+# See that script's header for the full reasoning; its failure paths are
+# covered by tests.
+#
+# Committing /site is still worth doing: it stays the fallback, and it keeps
+# `git diff` honest about what a content change actually produces.
+# (site/_redirects already handles "/" -> "/index.html".)
+[build]
+  command = "bash scripts/netlify-build.sh"
+  publish = "site"
+
+[functions]
+  directory = "netlify/functions"
+
+# 2026-08-14: there was no [[headers]] block at all. Two costs, in order of
+# impact:
+#
+#  1. No Cache-Control on static assets. The site ships ~5.5MB of imagery,
+#     and every byte of it was being revalidated far more often than
+#     necessary -- a direct, free Core Web Vitals win on exactly the
+#     community pages that need to rank on mobile.
+#  2. No baseline security headers, on a site collecting lead data through
+#     68 forms. Not ranking factors, but standard hygiene.
+#
+# Every long-lived asset gets an immutable TTL. CSS/JS earned that on 2026-08-17
+# by becoming content-hashed (see the block below and fingerprint_assets() in
+# build.py) -- until then they were deliberately on a short TTL, because caching an
+# unversioned filename for a year would mean a style change never reaching anyone.
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "geolocation=(self), microphone=(), camera=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/vendor/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/qr/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# 2026-08-17: these were max-age=3600 with UNVERSIONED filenames, and it cost a
+# whole afternoon of confusion. Christine reported two bugs that were already
+# fixed — her map spots "disappearing on zoom" (there is not one zoom handler in
+# map.js) and the market-report stat block rendering as run-together text (the CSS
+# for it is present and correct, and byte-identical to source). Both were her
+# browser serving an asset from before the deploy that fixed them.
+#
+# The general failure is worse than the confusion: for an hour after every deploy,
+# returning visitors ran the OLD JavaScript against the NEW HTML. A mismatch
+# between markup and the script driving it produces behaviour nobody can reproduce.
+#
+# build.py now content-hashes every CSS/JS file and rewrites the references
+# (fingerprint_assets(), the last step of the build), so a changed file gets a new
+# NAME. A deploy therefore reaches everyone instantly — there is nothing stale left
+# to serve — and because the filename now identifies the content, these can be
+# cached as hard as the images are. Repeat visitors stop re-fetching 71KB of CSS
+# and 48KB of map code on every visit.
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ---- Shared MLS backend (2026-08-19) --------------------------------------
+# This site carries NO MLS credentials and NO MLS-touching functions, on
+# purpose. One MLS Grid account serves both of Christine's brands, and its
+# rate budget is only safe with ONE pacer and ONE photo cache -- the ones on
+# the Signature deployment. These 200 rewrites proxy the data endpoints
+# server-side, so the browser sees same-origin URLs (no CORS), relative photo
+# URLs inside responses keep working, and every photo already cached for
+# signaturepropertycollection.com is served to this site for free.
+#
+# If MLS Grid ever grants a second dedicated key for this brand, replace
+# these proxies with local functions -- until then, adding MLS creds to THIS
+# site's Netlify env would create a second, uncoordinated pacer, which is
+# exactly what caused suspension #3.
+[[redirects]]
+  from = "/.netlify/functions/listings-search"
+  to = "https://signaturepropertycollection.com/.netlify/functions/listings-search"
+  status = 200
+
+[[redirects]]
+  from = "/.netlify/functions/listing-photo"
+  to = "https://signaturepropertycollection.com/.netlify/functions/listing-photo"
+  status = 200
+
+[[redirects]]
+  from = "/.netlify/functions/walkability"
+  to = "https://signaturepropertycollection.com/.netlify/functions/walkability"
+  status = 200
+
+[[redirects]]
+  from = "/.netlify/functions/nearby-places"
+  to = "https://signaturepropertycollection.com/.netlify/functions/nearby-places"
+  status = 200
+
+[[redirects]]
+  from = "/.netlify/functions/local-spots"
+  to = "https://signaturepropertycollection.com/.netlify/functions/local-spots"
+  status = 200
+
+[[redirects]]
+  from = "/.netlify/functions/sold-homes-geocode"
+  to = "https://signaturepropertycollection.com/.netlify/functions/sold-homes-geocode"
+  status = 200
+
+# The health page reports the state of the backend this site actually uses --
+# which is the shared Signature deployment, so its own health function is the
+# honest source here too.
+[[redirects]]
+  from = "/.netlify/functions/site-health"
+  to = "https://signaturepropertycollection.com/.netlify/functions/site-health"
+  status = 200
+
+# Clean, shareable, indexable URL for one listing -- proxied to the shared
+# backend's listing-page function. Phase-1 tradeoff, stated honestly: the
+# rendered detail page carries the Signature shell (it is built into that
+# deployment). Same agent, same phone, working page. Phase 2 can brand it
+# per-site by teaching listing-page.js to pick a shell by Host header.
+[[redirects]]
+  from = "/listing/:id"
+  to = "https://signaturepropertycollection.com/.netlify/functions/listing-page?id=:id"
+  status = 200
+  force = false

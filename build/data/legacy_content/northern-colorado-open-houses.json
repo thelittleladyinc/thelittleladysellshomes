@@ -1,0 +1,62 @@
+{
+ "path": "/northern-colorado-open-houses",
+ "name": "Northern Colorado Open Houses",
+ "type": null,
+ "head": {
+  "title": "Looking for open houses in Fort Collins, Loveland, Greeley, Eaton, or Wellington?",
+  "description": "Thinking about buying a home? Visit open houses in Loveland, Fort Collins, and Windsor—but don’t go alone! Learn how a buyer’s agent protects your interests and saves you money!\r\n",
+  "url": "https://www.thelittleladysellshomes.com/northern-colorado-open-houses",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/northern-colorado-open-houses",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/OPEN%20Houses%20near%20me.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f3bc1c9ec8583a06766c",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f3bc1c9ec8583a06766d",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Looking for Open Houses in Northern Colorado? Explore homes in Loveland, Fort Collins, Greeley, and Windsor&mdash;but don&rsquo;t go alone! Learn how a buyer&rsquo;s agent can protect your interests.\"><meta name=\"keywords\" content=\"Open Houses Northern Colorado, Loveland open houses, Fort Collins real estate, Greeley homes for sale, Windsor open houses, Eaton homes, Berthoud real estate, Severance open houses, Johnstown homes, Ault properties, buyer representation, real estate agent\"><meta name=\"author\" content=\"The Little Lady Sells Homes\">\r\n<title></title>\r\n<link href=\"styles.css\" rel=\"stylesheet\">\r\n<style type=\"text/css\">body {\r\n            font-family: 'Poppins', sans-serif;\r\n            margin: 0;\r\n            padding: 0;\r\n            background-color: #f8f8f8;\r\n        }\r\n        header {\r\n            background: #004a99;\r\n            color: #ffffff;\r\n            text-align: center;\r\n            padding: 1rem;\r\n        }\r\n        .container {\r\n            max-width: 1200px;\r\n            margin: 20px auto;\r\n            padding: 20px;\r\n            background: white;\r\n            border-radius: 8px;\r\n            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\r\n        }\r\n        h1, h2 {\r\n            color: #004a99;\r\n        }\r\n        .cta {\r\n            text-align: center;\r\n            margin-top: 20px;\r\n        }\r\n        .cta a {\r\n            background: #008CBA;\r\n            color: white;\r\n            padding: 15px 25px;\r\n            text-decoration: none;\r\n            border-radius: 5px;\r\n            display: inline-block;\r\n            font-size: 1.2rem;\r\n        }\r\n        .cta a:hover {\r\n            background: #005f8b;\r\n            transform: scale(1.05);\r\n            transition: 0.3s ease-in-out;\r\n        }\r\n        @media (max-width: 768px) {\r\n            .cta {\r\n                position: fixed;\r\n                bottom: 10px;\r\n                left: 50%;\r\n                transform: translateX(-50%);\r\n                width: 80%;\r\n                text-align: center;\r\n            }\r\n        }\r\n</style>\r\n<header>\r\n<h1><span style=\"color:#FFFFFF;\">Open Houses in Northern Colorado</span></h1>\r\n\r\n<p>Explore the latest open houses in Loveland, Fort Collins, Greeley, and beyond&mdash;but remember, the listing agent represents the seller!</p>\r\n</header>\r\n\r\n</head><body><div class=\"container\">\r\n<h2>Why You Shouldn&rsquo;t Visit Open Houses Alone</h2>\r\n\r\n<p>Attending open houses is a great way to explore homes, but it&rsquo;s important to remember that **the listing agent works for the seller, not you**. Without your own representation, you could miss key details or end up paying more than necessary.</p>\r\n\r\n<h2>Protect Your Interests with a Buyer&rsquo;s Agent</h2>\r\n\r\n<ul>\r\n\t<li>**Negotiate the best price** &ndash; A buyer&rsquo;s agent ensures you don&rsquo;t overpay.</li>\r\n\t<li>**Identify hidden risks** &ndash; Inspections, contingencies, and disclosures matter.</li>\r\n\t<li>**Exclusive buyer representation** &ndash; Unlike the listing agent, I work **only for you**.</li>\r\n</ul>\r\n\r\n<h3>Want Expert Guidance at Open Houses?</h3>\r\n\r\n<p>Learn more about how having your own agent benefits you. Visit our <a href=\"https://www.thelittleladysellshomes.com/buyer-representation\" target=\"_blank\">Buyer Representation</a> page to see why working with me gives you an advantage.</p>\r\n\r\n<div class=\"cta\">\r\n<p>Ready to explore homes with expert guidance? Let&rsquo;s talk today!</p>\r\n<a href=\"https://www.thelittleladysellshomes.com/contact\" target=\"_blank\">Find Your Dream Home &ndash; Book a Free Call Now!</a></div>\r\n</div>\r\n</body></html>\n"
+  },
+  {
+   "id": "6a84f3bc1c9ec8583a06766b",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "openHouse": {
+      "days": "0",
+      "direction": "add",
+      "outside": true
+     },
+     "page": 1,
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  },
+  {
+   "id": "6a84f3bc1c9ec8583a06766e",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><h2></h2>\r\n</body></html>\n"
+  }
+ ],
+ "post": null
+}

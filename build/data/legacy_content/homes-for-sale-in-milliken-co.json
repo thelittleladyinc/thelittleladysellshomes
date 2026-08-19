@@ -1,0 +1,51 @@
+{
+ "path": "/homes-for-sale-in-milliken-co",
+ "name": "Homes for Sale in Milliken, CO",
+ "type": null,
+ "head": {
+  "title": "Homes for Sale in Milliken, CO",
+  "description": "Find properties for sale in Milliken, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/homes-for-sale-in-milliken-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/homes-for-sale-in-milliken-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f282eedcbfed450ca4bc",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f282eedcbfed450ca4bb",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Milliken, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house",
+      "condo",
+      "multi"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

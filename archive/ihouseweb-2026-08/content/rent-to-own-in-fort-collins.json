@@ -1,0 +1,102 @@
+{
+ "path": "/rent-to-own-in-fort-collins",
+ "name": "Rent To Own in Fort Collins",
+ "type": null,
+ "head": {
+  "title": "Rent to Own Homes in Fort Collins CO | Christine Gwinnup",
+  "description": "Browse rent to own homes in Fort Collins, Colorado. Get expert help from Christine Gwinnup and take the first step toward homeownership today.",
+  "url": "https://www.thelittleladysellshomes.com/rent-to-own-in-fort-collins",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Rent%20To%20Own%20Fort%20Collins%20Colorado%20Christine%20Gwinnup%20Realtor%20(2).png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f59e090535858707fce3",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300287186",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/rent-to-own-in-fort-collins",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f59e090535858707fce4",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Explore rent to own homes in Fort Collins, Colorado. Get access to listings, expert insights, and a flexible path to homeownership with Christine Gwinnup, local Realtor.\">\r\n<title></title>\r\n<style type=\"text/css\">body {\r\n      font-family: 'Segoe UI', sans-serif;\r\n      margin: 0;\r\n      padding: 0;\r\n      color: #333;\r\n      background-color: #f9f9f9;\r\n    }\r\n    header {\r\n      background: linear-gradient(to right, #8B0000, #b22222);\r\n      color: white;\r\n      text-align: center;\r\n      padding: 2rem 1rem;\r\n    }\r\n    header h1 {\r\n      font-size: 2.5rem;\r\n      margin-bottom: 0.5rem;\r\n    }\r\n    .container {\r\n      max-width: 1100px;\r\n      margin: 2rem auto;\r\n      padding: 1rem;\r\n      background: white;\r\n      box-shadow: 0 0 10px rgba(0,0,0,0.05);\r\n      border-radius: 8px;\r\n    }\r\n    h2 {\r\n      color: #8B0000;\r\n      margin-top: 2rem;\r\n    }\r\n    ul, ol {\r\n      margin-left: 1.5rem;\r\n    }\r\n    .highlight-box {\r\n      background: #fff6f6;\r\n      border-left: 5px solid #8B0000;\r\n      padding: 1rem 1.5rem;\r\n      margin: 2rem 0;\r\n      border-radius: 6px;\r\n    }\r\n    .cta {\r\n      text-align: center;\r\n      background: #fdf0f0;\r\n      padding: 2rem 1rem;\r\n      margin: 2rem 0;\r\n      border: 2px dashed #8B0000;\r\n      border-radius: 8px;\r\n    }\r\n    .cta form {\r\n      display: flex;\r\n      flex-direction: column;\r\n      align-items: center;\r\n    }\r\n    .cta input, .cta button {\r\n      padding: 0.75rem;\r\n      margin: 0.5rem 0;\r\n      font-size: 1rem;\r\n      width: 80%;\r\n      max-width: 400px;\r\n    }\r\n    .cta button {\r\n      background-color: #8B0000;\r\n      color: white;\r\n      border: none;\r\n      cursor: pointer;\r\n      transition: background 0.3s;\r\n    }\r\n    .cta button:hover {\r\n      background-color: #a40000;\r\n    }\r\n    footer {\r\n      text-align: center;\r\n      padding: 2rem 1rem;\r\n      font-size: 0.9rem;\r\n      background: #eee;\r\n    }\r\n    a {\r\n      color: #8B0000;\r\n      text-decoration: none;\r\n    }\r\n    a:hover {\r\n      text-decoration: underline;\r\n    }\r\n</style>\r\n<header>\r\n<h1>Rent to Own Homes in Fort Collins, Colorado</h1>\r\n\r\n<p>Your Flexible Path to Homeownership with Christine Gwinnup</p>\r\n</header>\r\n\r\n<main class=\"container\">\r\n<section class=\"highlight-box\">\r\n<h2>Dream of Buying in Fort Collins&mdash;but Not Quite Ready?</h2>\r\n\r\n<p style=\"text-align: center;\">Whether you're working on your credit, saving for a down payment, or just want to explore the area first, rent-to-own homes offer a flexible way to make Fort Collins your forever home.<br>\r\n<br>\r\n<a href=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Guides/Rent-to-Own-Homes-in-Northern-Colorado-Your-Path-to-Homeownership%20(1).pdf\">GET YOUR RENT TO OWN GUIDE HERE</a></p>\r\n</section>\r\n\r\n<section>\r\n<h2>Why Rent to Own in Fort Collins?</h2>\r\n\r\n<ul>\r\n\t<li>✔ Live in the home you plan to buy while preparing financially</li>\r\n\t<li>✔ Lock in today&rsquo;s prices in a rising market</li>\r\n\t<li>✔ Build equity while you rent</li>\r\n\t<li>✔ Test out the neighborhood, schools, and lifestyle</li>\r\n</ul>\r\n</section>\r\n\r\n<section>\r\n<h2>Fort Collins Lifestyle: Why Locals Love It</h2>\r\n\r\n<p>From craft breweries to bike trails, Colorado State University, top-tier schools, and year-round outdoor adventures&mdash;Fort Collins has it all. It&rsquo;s consistently ranked one of the best places to live in the U.S., and it&rsquo;s easy to see why.</p>\r\n</section>\r\n\r\n<section>\r\n<h2>How the Rent to Own Process Works</h2>\r\n\r\n<ol>\r\n\t<li><strong>Step 1:</strong> Schedule a quick consultation with Christine</li>\r\n\t<li><strong>Step 2:</strong> Review active rent-to-own properties in Fort Collins</li>\r\n\t<li><strong>Step 3:</strong> Work with our trusted lenders to create your ownership plan</li>\r\n\t<li><strong>Step 4:</strong> Move in and start building equity right away!</li>\r\n</ol>\r\n</section>\r\n\r\n<section class=\"cta\">\r\n<h2>Get the Latest Rent to Own Homes<br>\r\nin Fort Collins</h2>\r\n\r\n<p>Fill out the form below to get current listings, insider tips, and a personalized path to homeownership in Fort Collins:</p>\r\n\r\n<p style=\"font-size: 0.85rem; margin-top: 1rem;\">Prefer to talk now? Text Christine at <a href=\"tel:3037094262\">303-709-4262</a></p>\r\n</section>\r\n\r\n<section>\r\n<h2>Why Choose Christine Gwinnup?</h2>\r\n\r\n<ul>\r\n\t<li><strong>Local Expert:</strong> A top-ranking Realtor in Northern Colorado, including Fort Collins</li>\r\n\t<li><strong>Proven Results:</strong> Over 30 homes closed this year</li>\r\n\t<li><strong>Strategic Guidance:</strong> Rent-to-own, creative financing, off-market properties &amp; more</li>\r\n\t<li><strong>Real Talk:</strong> Transparent, tenacious, and results-driven</li>\r\n</ul>\r\n</section>\r\n</main>\r\n\r\n<footer>\r\n<p>&copy; 2025 Christine Gwinnup &ndash; The Little Lady Sells Homes | LPT Realty | <a href=\"https://www.thelittleladysellshomes.com\">Visit Website</a></p>\r\n</footer></head></html>\n"
+      }
+     },
+     {
+      "id": "6a84f59e090535858707fce5",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-302085477",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f59e090535858707fce6",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-302085478",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f59e090535858707fce7",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-302085479",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f59e090535858707fce8",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-302085480",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-302085477": "",
+     "email-302085478": "",
+     "phone-302085479": "",
+     "textarea-302085480": ""
+    },
+    "initialErrors": {
+     "name-302085477": "",
+     "email-302085478": "",
+     "phone-302085479": "",
+     "textarea-302085480": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

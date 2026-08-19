@@ -1,0 +1,24 @@
+{
+ "path": "/greeley-wyoming-stats",
+ "name": "Greeley, Colorado Market Statistics",
+ "type": null,
+ "head": {
+  "title": "Greeley, Colorado Market Statistics | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/greeley-wyoming-stats",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "6a84f47178a5a33fad094c81",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f47178a5a33fad094c80",
+   "type": "customContent",
+   "html": "<iframe height=\"2000\" src=\"https://altos.re/r/fe85ebc\" width=\"100%\"></iframe>\n"
+  }
+ ],
+ "post": null
+}

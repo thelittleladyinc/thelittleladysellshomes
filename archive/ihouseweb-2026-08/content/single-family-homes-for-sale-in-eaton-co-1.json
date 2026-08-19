@@ -1,0 +1,49 @@
+{
+ "path": "/single-family-homes-for-sale-in-eaton-co-1",
+ "name": "Single Family Homes for Sale in Eaton, CO",
+ "type": null,
+ "head": {
+  "title": "Single Family Homes for Sale in Eaton, CO",
+  "description": "Find properties for sale in Eaton, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/single-family-homes-for-sale-in-eaton-co-1",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/single-family-homes-for-sale-in-eaton-co-1"
+ },
+ "blocks": [
+  {
+   "id": "6a84f4ce29ddb4f20002c1cb",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f4ce29ddb4f20002c1ca",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Eaton, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

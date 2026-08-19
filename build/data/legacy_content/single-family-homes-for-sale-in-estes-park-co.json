@@ -1,0 +1,49 @@
+{
+ "path": "/single-family-homes-for-sale-in-estes-park-co",
+ "name": "Single Family Homes For Sale in Estes Park, CO",
+ "type": null,
+ "head": {
+  "title": "Single Family Homes For Sale in Estes Park, CO",
+  "description": "Find properties for sale in Estes Park, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/single-family-homes-for-sale-in-estes-park-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/single-family-homes-for-sale-in-estes-park-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f81924d983d7fc064acb",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f81924d983d7fc064aca",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Estes Park, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

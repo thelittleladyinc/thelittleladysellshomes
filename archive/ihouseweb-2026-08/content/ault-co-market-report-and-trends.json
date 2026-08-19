@@ -1,0 +1,56 @@
+{
+ "path": "/ault-co-market-report-and-trends",
+ "name": "Ault, CO Market Report and Trends",
+ "type": null,
+ "head": {
+  "title": "Ault, CO Market Report and Trends | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/ault-co-market-report-and-trends",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "heading-market-report-block-303749567",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "content-top-market-report-block-303749567",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><iframe height=\"2000\" src=\"https://altos.re/r/e89b04ae-4b4f-4971-b9be-636696480b43\" width=\"100%\"></iframe></body></html>\n"
+  },
+  {
+   "id": "market-report-block-303749567",
+   "type": "marketReportBlock",
+   "html": null,
+   "options": {
+    "searchParamsComps": {
+     "itemsPerPage": 10,
+     "view": "split",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Ault, CO"
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "location": {
+     "type": "city",
+     "value": "Ault, CO",
+     "key": "Ault,CO",
+     "name": "Ault"
+    },
+    "locations": [
+     {
+      "type": "city",
+      "value": "Ault, CO",
+      "key": "Ault,CO",
+      "name": "Ault"
+     }
+    ]
+   }
+  }
+ ],
+ "post": null
+}

@@ -1,0 +1,3942 @@
+[
+ {
+  "path": "/-/Home/privacy",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Home/dmca",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/WebUser/register",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/WebUser/login",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/WebUser/forgot_password",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/WebUser/account",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/ListingSearch/saved_listings",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/ListingSearch/saved_searches",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Blog/category/:category*",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Blog/tag/:tag*",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Blog/author/:author*",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Blog/date/:date*",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Blog/search/:date*",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Blog/tags/*",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/idx/market-report/:search*",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/idx/search/:search*",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/ListingSearch/load_saved_search",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/idx/listing/:listingSlug*",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/idx/listing/featured/:listingSlug*",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/111-2nd-st-ault",
+  "name": "YOUR NEIGHBOR JUST SOLD HER HOME FOR $117,000 MORE THAN SHE BOUGHT IT FOR!",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/111-2nd-st-ault-1",
+  "name": "111 2nd st Ault",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/3d-tours",
+  "name": "3D Tours",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/5-proven-strategies-to-make-your-home-stand-out-in-a-high-interest-rate-market",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/5-reasons-you-shouldnt-go-to-open-houses-alone",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/5-things-to-know-before-signing-a-rent-to-own-agreement-in-loveland",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/7-easy-fall-day-trips-from-loveland-colorado-2025-edition",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/a-first-time-homebuyers-guide-for-the-northern-colorado-real-estate-market",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/advanced-search",
+  "name": "Advanced Search",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/advanced-search-legacy",
+  "name": "Advanced Search",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/affordability-calculator",
+  "name": "Affordability Calculator",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/affordable-homes-in-northern-colorado-whats-available-under-400k",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/alternatives-to-rent-to-own-in-loveland-co",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/are-the-lower-interest-rates-on-new-construction-really-worth-it",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/are-you-ready-to-sell-a-homeowners-checklist",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/aspen-meadows-eaton",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/august-2024-residential-real-estate-market-update-for-northern-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/ault-co-market-report-and-trends",
+  "name": "Ault, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/ault-conestoga-subdivision",
+  "name": "Ault: Conestoga Subdivision",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/ault-realtor",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/ault-summer-festival",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/ault-summer-festival-coming-this-weekend",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/avoiding-financial-stress",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/berthoud-co-market-report-and-trends",
+  "name": "Berthoud, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/best-places-to-watch-fireworks-in-northern-colorado-for-2024",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/blog",
+  "name": "Blog",
+  "layoutId": "6283abe66d248da50502968f"
+ },
+ {
+  "path": "/build-a-plan-of-action-and-get-ready",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/building-dreams-and-wealth-a-tale-of-generational-success-in-northern-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/buyer-representation",
+  "name": "Buyer Representation",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/buyers-or-sellers-market",
+  "name": "How’s the Real Estate Market in Northern Colorado?",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/buyerseller-info",
+  "name": "Buyer/Seller Info",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/buying-a-home",
+  "name": "Homebuyer Process",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/buying-land-larimer-co",
+  "name": "Buying Land in Larimer Co",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/buying-land-northern-colorado",
+  "name": "Buying Land in Northern Colorado",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/buying-land-weld-co",
+  "name": "Buying Land in Weld Co",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/can-you-build-a-shop-barn-or-guest-house-on-rural-land",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/can-you-buy-a-foreclosure-in-weld-county-in-2025",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/can-you-finance-land-in-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/cash-for-my-home",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/cash-offer",
+  "name": "Want to Sell Fast?",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/cash-offer-now",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/cash-offer-vs-traditional-home-sale-which-is-right-for-you",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/cheyenne-wy-market-report-and-trends",
+  "name": "Cheyenne, WY Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/christine-and-drews-home-buying-journey",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/christine-gwinnup-realtor-agent-coach-and-mentor",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/christine-gwinnup-the-little-lady-sells-homes",
+  "name": "Christine Gwinnup, The Little Lady Sells Homes",
+  "layoutId": "6283abe66d248da505029695"
+ },
+ {
+  "path": "/client-appreciation-offer",
+  "name": "Client Appreciation Offer",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/closing-costs",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/coaching-for-real-estate-agents",
+  "name": "Coaching for Real Estate Agents",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/coaching-for-real-estate-agents1",
+  "name": "Coaching for Real Estate Agents",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/colorado-investment-property",
+  "name": "Colorado Investment Property",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/colorado-teacher-salary-schedules-1",
+  "name": "Colorado Teacher Salary Schedules",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/commercial-search-legacy",
+  "name": "Commercial Search",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/common-ways-of-holding-title",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/condominium-and-pud-ownership",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-aspen-meadows-eaton-co",
+  "name": "Condos and Attached Homes for Sale in Aspen Meadows, Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-ault-co",
+  "name": "Condos and Attached Homes For Sale in Ault, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-berthoud-co",
+  "name": "Condos and Attached Homes For Sale in Berthoud, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-briggsdale-co",
+  "name": "Condos and Attached Homes For Sale in Briggsdale, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-carr-co",
+  "name": "Condos and Attached Homes for Sale in Carr, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-eaton-co",
+  "name": "Condos and Attached Homes For Sale in Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-eaton-co-1",
+  "name": "Condos and Attached Homes for Sale in Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-estes-park-co",
+  "name": "Condos and Attached Homes For Sale in Estes Park, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-evans-co",
+  "name": "Condos and Attached Homes For Sale in Evans, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-fort-collins-co",
+  "name": "Condos and Attached Homes For Sale in Fort Collins, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-greeley-co",
+  "name": "Condos and Attached Homes For Sale in Greeley, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-johnstown-co",
+  "name": "Condos and Attached Homes For Sale in Johnstown, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-longmont-co",
+  "name": "Condos and Attached Homes For Sale in Longmont, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-loveland-co",
+  "name": "Condos and Attached Homes For Sale in Loveland, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-loveland-co-1",
+  "name": "Condos and Attached Homes For Sale in Loveland, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-mead-co",
+  "name": "Condos and Attached Homes For Sale in Mead, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-milliken-co",
+  "name": "Condos and Attached Homes For Sale in Milliken, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-nunn-co",
+  "name": "Condos and Attached Homes For Sale in Nunn, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-pierce-co",
+  "name": "Condos and Attached Homes For Sale in Pierce, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-platteville-co",
+  "name": "Condos and Attached Homes For Sale in Platteville, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-red-feather-lakes-co",
+  "name": "Condos and Attached Homes For Sale in Red Feather Lakes, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-severance-co",
+  "name": "Condos and Attached Homes For Sale in Severance, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-timnath-co",
+  "name": "Condos and Attached Homes For Sale in Timnath, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-wellington-co",
+  "name": "Condos and Attached Homes For Sale in Wellington, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/condos-and-attached-homes-for-sale-in-windsor-co",
+  "name": "Condos and Attached Homes For Sale in Windsor, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/conestoga-subdivision-ault-colorado",
+  "name": "Conestoga Subdivision Ault, Colorado",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/considering-offers",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/contact",
+  "name": "Contact Christine Gwinnup, The Little Lady Sells Homes",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/creative-financing",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/day-trips-from-loveland-co",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discover-colorados-winter-wonderland-top-activities-for-every-adventurer",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discover-eaton-colorado",
+  "name": "Discover Eaton, Colorado",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/discover-loveland-colorado-the-2024-ultimate-guide-presented-by-little-lady",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discover-pierce-colorado-a-charming-town-on-the-eastern-plains",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discover-the-best-festivals-and-activities-in-colorado-this-june-2024",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discover-the-best-luxury-homes-in-northern-colorado-a-guide-to-elegant-living",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discover-the-charm-of-cherry-hills-village",
+  "name": "Discover the Charm of Cherry Hills Village",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/discover-the-charm-of-cherry-hills-village-explore-homes-for-sale-in-this-encha",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discover-the-charm-of-country-living-in-northern-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discover-the-charm-of-eaton-colorado-a-new-dining-hotspot-and-so-much-more",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discover-the-culinary-delights-of-colorados-food-truck-scene-1",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discover-the-magic-of-downtown-lovelands-newest-hotspot-sage-speakeasy",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discover-your-dream-home-in-castle-pines-north",
+  "name": "Discover Your Dream Home in Castle Pines North",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/discover-your-dream-home-in-castle-pines-north-explore-the-best-homes-for-sale",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discover-your-dream-home-the-ultimate-guide-to-loveland-co-homes-for-sale",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discover-your-dream-home-top-berthoud-homes-for-sale-you-cant-miss",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discovering-a-culinary-gem-asian-cafe-in-loveland",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discovering-ault-colorado-a-unique-little-town-with-rich-heritage-and-charming",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/discovering-eaton-colorado-on-the-northern-plains",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/do-you-need-a-legal-easement-for-access",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/do-you-need-a-road-maintenance-agreement",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/documents",
+  "name": "Documents",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/downsizing-thank-you",
+  "name": "Your Guide Is On Its Way!",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/dream-home-finder",
+  "name": "Find Your Dream Home With The Little Lady",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/eaton-co-houses-for-sale",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/eaton-co-market-report-and-trends",
+  "name": "Eaton, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/eaton-home-value",
+  "name": "How Huch Is My Eaton Home Worth?",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/eaton-real-estate-your-guide-to-homeownership",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/embrace-adventure-and-relaxation-in-colorados-great-outdoors",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/environmental-issues",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-ault-co",
+  "name": "Equestrian Homes For Sale in Ault, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-berthoud-co",
+  "name": "Equestrian Homes For Sale in Berthoud, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-briggsdale-co",
+  "name": "Equestrian Homes For Sale in Briggsdale, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-carr-co",
+  "name": "Equestrian Homes for Sale in Carr, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-eaton-co",
+  "name": "Equestrian Homes For Sale in Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-estes-park-co",
+  "name": "Equestrian Homes For Sale in Estes Park, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-evans-co",
+  "name": "Equestrian Homes For Sale in Evans, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-fort-collins-co",
+  "name": "Equestrian Homes For Sale in Fort Collins, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-greeley-co",
+  "name": "Equestrian Homes For Sale in Greeley, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-johnstown-co",
+  "name": "Equestrian Homes For Sale in Johnstown, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-longmont-co",
+  "name": "Equestrian Homes For Sale in Longmont, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-loveland-co",
+  "name": "Equestrian Homes For Sale in Loveland, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-loveland-co-1",
+  "name": "Equestrian Homes For Sale in Loveland, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-mead-co",
+  "name": "Equestrian Homes For Sale in Mead, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-milliken-co",
+  "name": "Equestrian Homes For Sale in Milliken, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-nunn-co",
+  "name": "Equestrian Homes For Sale in Nunn, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-pierce-co",
+  "name": "Equestrian Homes For Sale in Pierce, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-platteville-co",
+  "name": "Equestrian Homes For Sale in Platteville, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-red-feather-lakes-co",
+  "name": "Equestrian Homes For Sale in Red Feather Lakes, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-severance-co",
+  "name": "Equestrian Homes For Sale in Severance, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-timnath-co",
+  "name": "Equestrian Homes For Sale in Timnath, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-wellington-co",
+  "name": "Equestrian Homes For Sale in Wellington, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/equestrian-homes-for-sale-in-windsor-co",
+  "name": "Equestrian Homes For Sale in Windsor, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/erie-co-market-report-and-trends",
+  "name": "Erie, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/exciting-september-events-in-northern-colorado-you-wont-want-to-miss",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/exclusive-listings",
+  "name": "Exclusive Listings",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/expiredlisting",
+  "name": "Expired Listing",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/explore-your-path-to-northern-colorado-living",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/family-friendly-holiday-adventures-in-northern-colorado-create-magical-memories",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-aspen-meadows-eaton-co",
+  "name": "Farm and Ranch for Sale in Aspen Meadows, Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-ault-co",
+  "name": "Farm and Ranch For Sale in Ault, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-berthoud-co",
+  "name": "Farm and Ranch For Sale in Berthoud, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-briggsdale-co",
+  "name": "Farm and Ranch For Sale in Briggsdale, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-eaton-co",
+  "name": "Farm and Ranch For Sale in Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-eaton-co-1",
+  "name": "Farm and Ranch for Sale in Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-estes-park-co",
+  "name": "Farm and Ranch For Sale in Estes Park, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-evans-co",
+  "name": "Farm and Ranch For Sale in Evans, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-fort-collins-co",
+  "name": "Farm and Ranch For Sale in Fort Collins, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-greeley-co",
+  "name": "Farm and Ranch For Sale in Greeley, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-johnstown-co",
+  "name": "Farm and Ranch For Sale in Johnstown, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-longmont-co",
+  "name": "Farm and Ranch For Sale in Longmont, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-loveland-co",
+  "name": "Farm and Ranch For Sale in Loveland, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-loveland-co-1",
+  "name": "Farm and Ranch For Sale in Loveland, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-mead-co",
+  "name": "Farm and Ranch For Sale in Mead, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-milliken-co",
+  "name": "Farm and Ranch For Sale in Milliken, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-nunn-co",
+  "name": "Farm and Ranch For Sale in Nunn, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-pierce-co",
+  "name": "Farm and Ranch For Sale in Pierce, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-platteville-co",
+  "name": "Farm and Ranch For Sale in Platteville, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-red-feather-lakes-co",
+  "name": "Farm and Ranch For Sale in Red Feather Lakes, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-severance-co",
+  "name": "Farm and Ranch For Sale in Severance, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-timnath-co",
+  "name": "Farm and Ranch For Sale in Timnath, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-wellington-co",
+  "name": "Farm and Ranch For Sale in Wellington, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farm-and-ranch-for-sale-in-windsor-co",
+  "name": "Farm and Ranch For Sale in Windsor, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/farms-and-ranches-for-sale-in-carr-co",
+  "name": "Farms and Ranches for Sale in Carr, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/fast-cash-offer",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/finding-the-right-agent",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/finding-the-right-seller",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/first-time-homebuyer",
+  "name": "Colorado First Time Homebuyer",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/first-time-homebuyer-guide",
+  "name": "First Time Homebuyer Guide",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/for-sale-by-owner-a-good-idea",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/for-sale-by-owner-northern-colorado-fsbo",
+  "name": "For Sale By Owner: Northern Colorado FSBO",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-ault-co",
+  "name": "Foreclosure Homes for Sale in Ault, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-berthoud-co",
+  "name": "Foreclosure Homes for Sale in Berthoud, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-briggsdale-co",
+  "name": "Foreclosure Homes for Sale in Briggsdale, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-carr-co",
+  "name": "Foreclosure Homes for Sale in Carr, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-eaton-co",
+  "name": "Foreclosure Homes for Sale in Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-estes-park-co",
+  "name": "Foreclosure Homes for Sale in Estes Park, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-evans-co",
+  "name": "Foreclosure Homes for Sale in Evans, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-fort-collins-co",
+  "name": "Foreclosure Homes for Sale in Fort Collins, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-greeley-co",
+  "name": "Foreclosure Homes for Sale in Greeley, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-johnstown-co",
+  "name": "Foreclosure Homes for Sale in Johnstown, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-longmont-co",
+  "name": "Foreclosure Homes for Sale in Longmont, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-loveland-co",
+  "name": "Foreclosure Homes for Sale in Loveland, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-mead-co",
+  "name": "Foreclosure Homes for Sale in Mead, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-milliken-co",
+  "name": "Foreclosure Homes for Sale in Milliken, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-nunn-co",
+  "name": "Foreclosure Homes for Sale in Nunn, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-pierce-co",
+  "name": "Foreclosure Homes for Sale in Pierce, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-platteville-co",
+  "name": "Foreclosure Homes for Sale in Platteville, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-red-feather-lakes-co",
+  "name": "Foreclosure Homes for Sale in Red Feather Lakes, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-severance-co",
+  "name": "Foreclosure Homes for Sale in Severance, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-timnath-co",
+  "name": "Foreclosure Homes for Sale in Timnath, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-wellington-co",
+  "name": "Foreclosure Homes for Sale in Wellington, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-homes-for-sale-in-windsor-co",
+  "name": "Foreclosure Homes for Sale in Windsor, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosure-search-legacy",
+  "name": "Foreclosure Search",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/foreclosures-in-northern-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/foreclosures-in-weld-county",
+  "name": "Foreclosures in Northern Colorado: Your Gateway to Affordability and Investment Opportunity",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/fort-collins-co-market-report-and-trends",
+  "name": "Fort Collins, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/get-the-ultimate-northern-colorado-seller-guide",
+  "name": "Get the Ultimate Northern Colorado Seller Guide",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/get-your-home-fall-ready-tips-for-a-cozy-and-safe-winter-season",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/getting-a-legitimate-lender-and-getting-pre-approved",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/getting-the-highest-price-in-the-shortest-time",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/greeley-rent-to-own",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/greeley-wyoming-stats",
+  "name": "Greeley, Colorado Market Statistics",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/greeleymarket-report-and-trends",
+  "name": "Greeley, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/home-buying-questionaire",
+  "name": "Home Buying Questionaire",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/home-page",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/",
+  "name": "Home Page",
+  "layoutId": "6283abe66d248da505029695"
+ },
+ {
+  "path": "/home-sale-calculator",
+  "name": "Affordability Calculator",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/homes-for-sale-in-allendale-co",
+  "name": "Homes for sale in Allendale, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-anderson-farm-co",
+  "name": "Homes for sale in Anderson Farm, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-aspen-meadows-eaton-co",
+  "name": "Homes for Sale in Aspen Meadows, Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-aspen-meadows-eaton-co-250000-to-400000",
+  "name": "Homes for Sale in Aspen Meadows, Eaton, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-aspen-meadows-eaton-co-400000-to-600000",
+  "name": "Homes for Sale in Aspen Meadows, Eaton, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-aspen-meadows-eaton-co-600000-to-800000",
+  "name": "Homes for Sale in Aspen Meadows, Eaton, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-aspen-meadows-eaton-co-800000-to-1000000",
+  "name": "Homes for Sale in Aspen Meadows, Eaton, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-aspen-meadows-eaton-co-under-250000",
+  "name": "Homes for Sale in Aspen Meadows, Eaton, CO Under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-ault-co",
+  "name": "Homes for Sale in Ault, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-ault-co-250000-to-400000",
+  "name": "Homes for Sale in Ault, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-ault-co-400000-to-600000",
+  "name": "Homes for Sale in Ault, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-ault-co-600000-to-800000",
+  "name": "Homes for Sale in Ault, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-ault-co-800000-to-1000000",
+  "name": "Homes for Sale in Ault, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-ault-co-under-250000",
+  "name": "Homes for Sale in Ault, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-berthoud-co",
+  "name": "Homes for Sale in Berthoud, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-berthoud-co-250000-to-400000",
+  "name": "Homes for Sale in Berthoud, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-berthoud-co-400000-to-600000",
+  "name": "Homes for Sale in Berthoud, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-berthoud-co-600000-to-800000",
+  "name": "Homes for Sale in Berthoud, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-berthoud-co-800000-to-1000000",
+  "name": "Homes for Sale in Berthoud, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-berthoud-co-under-250000",
+  "name": "Homes for Sale in Berthoud, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-briggsdale-co",
+  "name": "Homes for Sale in Briggsdale, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-briggsdale-co-250000-to-400000",
+  "name": "Homes for Sale in Briggsdale, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-briggsdale-co-400000-to-600000",
+  "name": "Homes for Sale in Briggsdale, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-briggsdale-co-600000-to-800000",
+  "name": "Homes for Sale in Briggsdale, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-briggsdale-co-800000-to-1000000",
+  "name": "Homes for Sale in Briggsdale, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-briggsdale-co-under-250000",
+  "name": "Homes for Sale in Briggsdale, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-brookside-co",
+  "name": "Homes for sale in Brookside, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-buffalo-creek-co",
+  "name": "Homes for sale in Buffalo Creek, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-burns-wy",
+  "name": "Homes for Sale in Burns, WY",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-burns-wy-250000-to-400000",
+  "name": "Homes for Sale in Burns, WY $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-burns-wy-400000-to-600000",
+  "name": "Homes for Sale in Burns, WY $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-burns-wy-600000-to-800000",
+  "name": "Homes for Sale in Burns, WY $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-burns-wy-800000-to-1000000",
+  "name": "Homes for Sale in Burns, WY $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-burns-wy-under-250000",
+  "name": "Homes for Sale in Burns, WY under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-carr-co",
+  "name": "Homes for Sale in Carr, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-carr-co-250000-to-400000",
+  "name": "Homes for Sale in Carr, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-carr-co-400000-to-600000",
+  "name": "Homes for Sale in Carr, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-carr-co-600000-to-800000",
+  "name": "Homes for Sale in Carr, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-carr-co-800000-to-1000000",
+  "name": "Homes for Sale in Carr, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-carr-co-under-250000",
+  "name": "Homes for Sale in Carr, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-cheyenne-wy",
+  "name": "Homes for Sale in Cheyenne, WY",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-cheyenne-wy-250000-to-400000",
+  "name": "Homes for Sale in Cheyenne, WY $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-cheyenne-wy-400000-to-600000",
+  "name": "Homes for Sale in Cheyenne, WY $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-cheyenne-wy-600000-to-800000",
+  "name": "Homes for Sale in Cheyenne, WY $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-cheyenne-wy-800000-to-1000000",
+  "name": "Homes for Sale in Cheyenne, WY $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-cheyenne-wy-under-250000",
+  "name": "Homes for Sale in Cheyenne, WY under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-columbine-estates-co",
+  "name": "Homes for sale in Columbine Estates, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-country-meadows-co",
+  "name": "Homes for sale in Country Meadows, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-durango-co",
+  "name": "Homes for sale in Durango, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-eaton-co",
+  "name": "Homes for Sale in Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-eaton-co-1",
+  "name": "Homes for Sale in Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-eaton-co-250000-to-400000",
+  "name": "Homes for Sale in Eaton, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-eaton-co-250000-to-400000-1",
+  "name": "Homes for Sale in Eaton, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-eaton-co-400000-to-600000",
+  "name": "Homes for Sale in Eaton, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-eaton-co-400000-to-600000-1",
+  "name": "Homes for Sale in Eaton, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-eaton-co-600000-to-800000",
+  "name": "Homes for Sale in Eaton, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-eaton-co-600000-to-800000-1",
+  "name": "Homes for Sale in Eaton, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-eaton-co-800000-to-1000000",
+  "name": "Homes for Sale in Eaton, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-eaton-co-800000-to-1000000-1",
+  "name": "Homes for Sale in Eaton, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-eaton-co-under-250000",
+  "name": "Homes for Sale in Eaton, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-eaton-co-under-250000-1",
+  "name": "Homes for Sale in Eaton, CO Under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-estes-park",
+  "name": "Homes For Sale in Estes Park",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-estes-park-co",
+  "name": "Homes for Sale in Estes Park, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-estes-park-co-250000-to-400000",
+  "name": "Homes for Sale in Estes Park, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-estes-park-co-400000-to-600000",
+  "name": "Homes for Sale in Estes Park, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-estes-park-co-600000-to-800000",
+  "name": "Homes for Sale in Estes Park, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-estes-park-co-800000-to-1000000",
+  "name": "Homes for Sale in Estes Park, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-estes-park-co-under-250000",
+  "name": "Homes for Sale in Estes Park, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-evans-co",
+  "name": "Homes for Sale in Evans, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-evans-co-250000-to-400000",
+  "name": "Homes for Sale in Evans, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-evans-co-400000-to-600000",
+  "name": "Homes for Sale in Evans, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-evans-co-600000-to-800000",
+  "name": "Homes for Sale in Evans, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-evans-co-800000-to-1000000",
+  "name": "Homes for Sale in Evans, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-evans-co-under-250000",
+  "name": "Homes for Sale in Evans, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-fort-collins-co",
+  "name": "All Homes for Sale in Fort Collins",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-fort-collins-co-250000-to-400000",
+  "name": "Homes for Sale in Fort Collins, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-fort-collins-co-400000-to-600000",
+  "name": "Homes for Sale in Fort Collins, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-fort-collins-co-600000-to-800000",
+  "name": "Homes for Sale in Fort Collins, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-fort-collins-co-800000-to-1000000",
+  "name": "Homes for Sale in Fort Collins, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-fort-collins-co-under-250000",
+  "name": "Homes for Sale in Fort Collins, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-garden-gate-co",
+  "name": "Homes for sale in Garden Gate, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-greeley-co",
+  "name": "Homes for Sale in Greeley, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-greeley-co-250000-to-400000",
+  "name": "Homes for Sale in Greeley, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-greeley-co-400000-to-600000",
+  "name": "Homes for Sale in Greeley, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-greeley-co-600000-to-800000",
+  "name": "Homes for Sale in Greeley, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-greeley-co-800000-to-1000000",
+  "name": "Homes for Sale in Greeley, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-greeley-co-under-250000",
+  "name": "Homes for Sale in Greeley, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-harvest-gold-second-co",
+  "name": "Homes for sale in Harvest Gold Second, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-johnstown-co",
+  "name": "Homes for Sale in Johnstown, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-johnstown-co-250000-to-400000",
+  "name": "Homes for Sale in Johnstown, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-johnstown-co-400000-to-600000",
+  "name": "Homes for Sale in Johnstown, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-johnstown-co-600000-to-800000",
+  "name": "Homes for Sale in Johnstown, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-johnstown-co-800000-to-1000000",
+  "name": "Homes for Sale in Johnstown, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-johnstown-co-under-250000",
+  "name": "Homes for Sale in Johnstown, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-kendall-brook-co",
+  "name": "Homes for sale in Kendall Brook, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-lakeshore-at-centerra-condos-co",
+  "name": "Homes for sale in Lakeshore at Centerra Condos, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-longmont-co",
+  "name": "Homes for Sale in Longmont, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-longmont-co-250000-to-400000",
+  "name": "Homes for Sale in Longmont, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-longmont-co-400000-to-600000",
+  "name": "Homes for Sale in Longmont, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-longmont-co-600000-to-800000",
+  "name": "Homes for Sale in Longmont, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-longmont-co-800000-to-1000000",
+  "name": "Homes for Sale in Longmont, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-longmont-co-under-250000",
+  "name": "Homes for Sale in Longmont, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-loveland-co",
+  "name": "Homes for Sale in Loveland, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-loveland-co-1",
+  "name": "Homes for Sale in Loveland, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-loveland-co-250000-to-400000",
+  "name": "Homes for Sale in Loveland, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-loveland-co-250000-to-400000-1",
+  "name": "Homes for Sale in Loveland, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-loveland-co-400000-to-600000",
+  "name": "Homes for Sale in Loveland, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-loveland-co-400000-to-600000-1",
+  "name": "Homes for Sale in Loveland, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-loveland-co-600000-to-800000",
+  "name": "Homes for Sale in Loveland, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-loveland-co-600000-to-800000-1",
+  "name": "Homes for Sale in Loveland, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-loveland-co-800000-to-1000000",
+  "name": "Homes for Sale in Loveland, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-loveland-co-800000-to-1000000-1",
+  "name": "Homes for Sale in Loveland, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-loveland-co-under-250000",
+  "name": "Homes for Sale in Loveland, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-loveland-co-under-250000-1",
+  "name": "Homes for Sale in Loveland, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-mariana-glen-co",
+  "name": "Homes for sale in Mariana Glen, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-mead-co",
+  "name": "Homes for Sale in Mead, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-mead-co-250000-to-400000",
+  "name": "Homes for Sale in Mead, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-mead-co-400000-to-600000",
+  "name": "Homes for Sale in Mead, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-mead-co-600000-to-800000",
+  "name": "Homes for Sale in Mead, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-mead-co-800000-to-1000000",
+  "name": "Homes for Sale in Mead, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-mead-co-under-250000",
+  "name": "Homes for Sale in Mead, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-millennium-co",
+  "name": "Homes for sale in Millennium, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-milliken-co",
+  "name": "Homes for Sale in Milliken, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-milliken-co-250000-to-400000",
+  "name": "Homes for Sale in Milliken, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-milliken-co-400000-to-600000",
+  "name": "Homes for Sale in Milliken, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-milliken-co-600000-to-800000",
+  "name": "Homes for Sale in Milliken, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-milliken-co-800000-to-1000000",
+  "name": "Homes for Sale in Milliken, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-milliken-co-under-250000",
+  "name": "Homes for Sale in Milliken, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-moores-co",
+  "name": "Homes for sale in Moores, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-mountains-edge-co",
+  "name": "Homes for sale in Mountains Edge, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-northern-colorado",
+  "name": "Homes for sale in Northern Colorado",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-nunn-co",
+  "name": "Homes for Sale in Nunn, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-nunn-co-250000-to-400000",
+  "name": "Homes for Sale in Nunn, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-nunn-co-400000-to-600000",
+  "name": "Homes for Sale in Nunn, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-nunn-co-600000-to-800000",
+  "name": "Homes for Sale in Nunn, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-nunn-co-800000-to-1000000",
+  "name": "Homes for Sale in Nunn, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-nunn-co-under-250000",
+  "name": "Homes for Sale in Nunn, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-paradise-acres-co",
+  "name": "Homes for sale in Paradise Acres, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-paradise-acres-co-1",
+  "name": "Homes for sale in Paradise Acres, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-paradise-acres-co-2",
+  "name": "Homes for sale in Paradise Acres, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-park-meadows-co",
+  "name": "Homes for sale in Park Meadows, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-pierce-co",
+  "name": "Homes for Sale in Pierce, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-pierce-co-250000-to-400000",
+  "name": "Homes for Sale in Pierce, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-pierce-co-400000-to-600000",
+  "name": "Homes for Sale in Pierce, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-pierce-co-600000-to-800000",
+  "name": "Homes for Sale in Pierce, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-pierce-co-800000-to-1000000",
+  "name": "Homes for Sale in Pierce, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-pierce-co-under-250000",
+  "name": "Homes for Sale in Pierce, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-pierce-colorado",
+  "name": "Homes for sale in Pierce, Colorado",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/homes-for-sale-in-pierce-colorado-1",
+  "name": "Homes for sale in Pierce, Colorado",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/homes-for-sale-in-pierce-colorado-2",
+  "name": "Homes for sale in Pierce, Colorado",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/homes-for-sale-in-platteville-co",
+  "name": "Homes for Sale in Platteville, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-platteville-co-250000-to-400000",
+  "name": "Homes for Sale in Platteville, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-platteville-co-400000-to-600000",
+  "name": "Homes for Sale in Platteville, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-platteville-co-600000-to-800000",
+  "name": "Homes for Sale in Platteville, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-platteville-co-800000-to-1000000",
+  "name": "Homes for Sale in Platteville, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-platteville-co-under-250000",
+  "name": "Homes for Sale in Platteville, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-red-feather-lakes-co",
+  "name": "Homes for Sale in Red Feather Lakes, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-red-feather-lakes-co-250000-to-400000",
+  "name": "Homes for Sale in Red Feather Lakes, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-red-feather-lakes-co-400000-to-600000",
+  "name": "Homes for Sale in Red Feather Lakes, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-red-feather-lakes-co-600000-to-800000",
+  "name": "Homes for Sale in Red Feather Lakes, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-red-feather-lakes-co-800000-to-1000000",
+  "name": "Homes for Sale in Red Feather Lakes, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-red-feather-lakes-co-under-250000",
+  "name": "Homes for Sale in Red Feather Lakes, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-rigden-farm-co",
+  "name": "Homes for sale in Rigden Farm, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-severance-co",
+  "name": "Homes for Sale in Severance, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-severance-co-250000-to-400000",
+  "name": "Homes for Sale in Severance, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-severance-co-400000-to-600000",
+  "name": "Homes for Sale in Severance, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-severance-co-600000-to-800000",
+  "name": "Homes for Sale in Severance, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-severance-co-800000-to-1000000",
+  "name": "Homes for Sale in Severance, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-severance-co-under-250000",
+  "name": "Homes for Sale in Severance, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-sherri-mar-co",
+  "name": "Homes for sale in Sherri Mar, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-silver-glen-co",
+  "name": "Homes for sale in Silver Glen, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-sugarloaf-estates-co",
+  "name": "Homes for sale in Sugarloaf Estates, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-sugarloaf-estates-co-1",
+  "name": "Homes for sale in Sugarloaf Estates, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-thompson-valley-co",
+  "name": "Homes for sale in Thompson Valley, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-timbervine-co",
+  "name": "Homes for sale in Timbervine, CO",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/homes-for-sale-in-timnath-co",
+  "name": "Homes for Sale in Timnath, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-timnath-co-250000-to-400000",
+  "name": "Homes for Sale in Timnath, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-timnath-co-400000-to-600000",
+  "name": "Homes for Sale in Timnath, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-timnath-co-600000-to-800000",
+  "name": "Homes for Sale in Timnath, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-timnath-co-800000-to-1000000",
+  "name": "Homes for Sale in Timnath, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-timnath-co-under-250000",
+  "name": "Homes for Sale in Timnath, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-wellington-co",
+  "name": "Homes for Sale in Wellington, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-wellington-co-250000-to-400000",
+  "name": "Homes for Sale in Wellington, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-wellington-co-400000-to-600000",
+  "name": "Homes for Sale in Wellington, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-wellington-co-600000-to-800000",
+  "name": "Homes for Sale in Wellington, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-wellington-co-800000-to-1000000",
+  "name": "Homes for Sale in Wellington, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-wellington-co-under-250000",
+  "name": "Homes for Sale in Wellington, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-windsor-co",
+  "name": "Homes for Sale in Windsor, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-windsor-co-250000-to-400000",
+  "name": "Homes for Sale in Windsor, CO $250,000 to $400,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-windsor-co-400000-to-600000",
+  "name": "Homes for Sale in Windsor, CO $400,000 to $600,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-windsor-co-600000-to-800000",
+  "name": "Homes for Sale in Windsor, CO $600,000 to $800,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-windsor-co-800000-to-1000000",
+  "name": "Homes for Sale in Windsor, CO $800,000 to $1,000,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/homes-for-sale-in-windsor-co-under-250000",
+  "name": "Homes for Sale in Windsor, CO under $250,000",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/hot-normal-and-cold-markets",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/how-christines-bold-edge-marketing-plan-sells-homes-fast",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/how-does-selling-your-home-for-cash-work-a-step-by-step-guide",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/how-far-is-windsor-colorado-from-denver-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/how-i-get-homes-sold-faster-for-more-money",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/how-interest-rates-impact-northern-colorados-real-estate-market-in-2024",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/how-much-is-my-home-worth-1",
+  "name": "How Much Is Your Home Worth?",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/how-much-is-my-northern-colorado-home-worth",
+  "name": "Get the Best Price for Your Home Today!",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/how-much-is-your-home-worth-1",
+  "name": "How Much Is Your Home Worth?",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/how-much-land-do-you-need-for-a-well-in-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/how-to-choose-the-right-real-estate-brokerage-in-colorado-5-questions-to-ask",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/how-to-get-the-most-money-when-selling-your-home",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/how-to-read-a-colorado-well-permit",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/how-to-sell-and-buy-at-the-same-time-when-downsizing",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/how-to-sell-your-home-fast-in-northern-colorado-insider-tips",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/how-to-sell-your-home-for-cash-in-northern-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/how-to-sell-your-home-in-eaton-co-fast-and-for-top-dollar",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/httpswwwthelittleladysellshomescomrent-to-own-vs-buying-northern-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/im-ready-to-sell-my-home",
+  "name": "Sell Your Home for More with The Little Lady",
+  "layoutId": "6283abe66d248da50502968f"
+ },
+ {
+  "path": "/importance-of-inspection",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/inflation-and-eatons-real-estate-market-navigating-the-challenges",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/insist-on-a-home-inspection",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/investing-in-northern-colorado-real-estate-what-you-need-to-know",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/is-buying-a-home-still-a-smart-plan",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/is-eaton-colorado-a-good-place-to-live",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/is-multi-generational-living-right-for-you-heres-what-to-know",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/is-northern-colorado-still-a-sellers-market",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/is-northern-colorado-still-a-sellers-market-in-2025",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/is-rent-to-own-a-fraud",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/is-rent-to-own-a-good-idea-in-loveland-co",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/is-the-colorado-housing-market-cooling-down-1",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/is-the-housing-market-going-to-crash",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/is-the-spring-the-best-time-to-sell",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/items-you-need-when-applying-for-a-loan",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/johnstown-co-market-report-and-trends",
+  "name": "Johnstown, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/join-lpt-realty",
+  "name": "Join the Revolution in Real Estate with LPT Realty",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/join-lpt-realty-colorado",
+  "name": "LPT Realty - How to Join",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/july-in-northern-colorado-a-festival-extravaganza",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/know-why-you-are-selling",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/land-buying-checklist-what-to-look-for-before-you-make-an-offer",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/land-contract",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/larimer-county-foreclosures",
+  "name": "Larimer County Home Foreclosures",
+  "layoutId": "6283abe66d248da505029695"
+ },
+ {
+  "path": "/larimer-county-foreclosures-1",
+  "name": "Larimer County Foreclosures",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/lead-poisoning",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/lets-tour",
+  "name": "Let's Tour!",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/listings-portfolio-videos",
+  "name": "Listings Portfolio Videos",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/listings-video-portfolio",
+  "name": "Listings Video Portfolio",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/living-near-agriculture-what-buyers-should-expect",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/living-trusts",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/longmont-co-market-report-and-trends",
+  "name": "Longmont, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/loveland-co-buyers-guide",
+  "name": "Loveland Co Buyer's Guide",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/loveland-co-market-report-and-trends",
+  "name": "Loveland, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/loveland-colorado-luxury-homes-1m-properties",
+  "name": "Loveland, Colorado Luxury Homes – $1M+ Properties",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/loveland-homes-for-sale",
+  "name": "Loveland Homes For Sale",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/loveland-vs-fort-collins-which-northern-colorado-city-is-right-for-you",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/lpt-lunch-and-learn",
+  "name": "LPT Lunch And Learn",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/lpt-realty-advantage",
+  "name": "LPT Realty Advantage",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/luxury-home-trends-for-2025-in-northern-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-aspen-meadows-eaton-co",
+  "name": "Luxury Homes for Sale in Aspen Meadows, Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-ault-co",
+  "name": "Luxury Homes for Sale in Ault, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-berthoud-co",
+  "name": "Luxury Homes for Sale in Berthoud, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-briggsdale-co",
+  "name": "Luxury Homes for Sale in Briggsdale, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-burns-wy",
+  "name": "Luxury Homes for Sale in Burns, WY",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-carr-co",
+  "name": "Luxury Homes for Sale in Carr, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-cheyenne-wy",
+  "name": "Luxury Homes for Sale in Cheyenne, WY",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-eaton-co",
+  "name": "Luxury Homes for Sale in Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-eaton-co-1",
+  "name": "Luxury Homes for Sale in Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-estes-park-co",
+  "name": "Luxury Homes for Sale in Estes Park, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-evans-co",
+  "name": "Luxury Homes for Sale in Evans, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-fort-collins-co",
+  "name": "Luxury Homes for Sale in Fort Collins, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-greeley-co",
+  "name": "Luxury Homes for Sale in Greeley, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-johnstown-co",
+  "name": "Luxury Homes for Sale in Johnstown, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-longmont-co",
+  "name": "Luxury Homes for Sale in Longmont, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-loveland-co",
+  "name": "Luxury Homes for Sale in Loveland, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-loveland-co-1",
+  "name": "Luxury Homes for Sale in Loveland, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-mead-co",
+  "name": "Luxury Homes for Sale in Mead, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-milliken-co",
+  "name": "Luxury Homes for Sale in Milliken, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-nunn-co",
+  "name": "Luxury Homes for Sale in Nunn, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-pierce-co",
+  "name": "Luxury Homes for Sale in Pierce, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-platteville-co",
+  "name": "Luxury Homes for Sale in Platteville, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-red-feather-lakes-co",
+  "name": "Luxury Homes for Sale in Red Feather Lakes, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-severance-co",
+  "name": "Luxury Homes for Sale in Severance, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-timnath-co",
+  "name": "Luxury Homes for Sale in Timnath, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-wellington-co",
+  "name": "Luxury Homes for Sale in Wellington, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-for-sale-in-windsor-co",
+  "name": "Luxury Homes for Sale in Windsor, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/luxury-homes-in-larimer-and-weld-county",
+  "name": "Luxury Homes in Larimer and Weld County",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/luxury-homes-in-northern-colorado",
+  "name": "Luxury Homes in Northern Colorado",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/luxury-homes-in-weld-and-larimer",
+  "name": "Luxury Homes in Weld and Larimer",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/making-a-good-first-impression",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/map-search-legacy",
+  "name": "Map Search",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/marketing-matters",
+  "name": "Sell Your Colorado Home Fast: Expert Listing Agent",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/mechanics-liens",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/milliken-co-market-report-and-trends",
+  "name": "Milliken, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/modern-convenience-meets-rural-living",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/mortgage-calculator",
+  "name": "Mortgage Calculator",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/mortgage-calculator-1",
+  "name": "How Much of a Home Can I Afford",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/mortgage-calculator-2",
+  "name": "How Much Home Can You Afford?",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/mortgage-rates-drop-what-this-means-for-the-real-estate-market",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/multi-generational-homes-for-sale-in-northern-colorado-find-your-familys-fit",
+  "name": "Multi-Generational Homes for Sale in Northern Colorado: Find Your Family's Fit",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/my-active-listings",
+  "name": "The Little Lady's Active Listings",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/my-adventure-on-the-blox-sharing-the-journey-with-you",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/my-commercial-listings",
+  "name": "My Commercial Listings",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/my-post",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/my-post-1",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/my-post-2",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/my-sold-listings",
+  "name": "My Sold Listings",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/myths-about-selling-your-home-for-cash-the-truth-revealed",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/newsletter",
+  "name": "Newsletter",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/noco-fthb-dpa-programs",
+  "name": "Northern CO FTHB & DPA Programs",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/noco-homeownership-plan",
+  "name": "First Time Homebuyer",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/noco-homes-under-400000",
+  "name": "NoCo Homes Under $400,000",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/noco-market-trends-in-larimer-county",
+  "name": "NoCo Market Trends in Larimer County",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/northern-colorado-downsizing-guide",
+  "name": "Download Your Free Downsizing Guide for Northern Colorado Homeowners",
+  "layoutId": "6283abe66d248da50502968f"
+ },
+ {
+  "path": "/northern-colorado-downsizing-guide-1",
+  "name": "Downsizing Guide",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/northern-colorado-home-search",
+  "name": "Northern Colorado Home Search",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/northern-colorado-june-2026-real-estate-market",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/northern-colorado-lake-homes",
+  "name": "Northern Colorado Water Front Homes",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/northern-colorado-open-houses",
+  "name": "Northern Colorado Open Houses",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/northern-colorado-real-estate-market-update-august-2025",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/open-house-sign-in",
+  "name": "Open House Sign In",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/open-houses-legacy",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/open-houses-this-week",
+  "name": "OPEN HOUSES NEAR ME",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/open-houses-this-weekend-in-fort-collins-loveland-greeley-and-eaton",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/open-zoning-buying-selling-land-larimer",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/order-your-free-sellers-guide-and-prepare-your-northern-colorado-home-to-sell",
+  "name": "Order Your Free Seller's Guide and Prepare Your Northern Colorado Home to Sell",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/outdoor-living-spaces-a-must-have-for-northern-colorado-buyers",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/owning-your-own-slice-of-colorado-a-guide-to-buying-land",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/past-newsletters",
+  "name": "Past Newsletters",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/pierce-co-market-report-and-trends",
+  "name": "Pierce, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/plan-of-action",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/popcorn-at-the-movies-is-one-thing-popcorn-on-your-ceilings-is-another",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/preparing-your-home-for-showings-a-sellers-checklist",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/preparing-your-home-for-summer",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/price-reduced-1",
+  "name": "Price Reduced!",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/quick-search",
+  "name": "Why Do Buyers Choose To Work With The Little Lady?",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/quick-search-legacy",
+  "name": "Quick Search",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/raindance-homes-for-sale-in-windsor-co",
+  "name": "RainDance Homes For Sale in Windsor, Co",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/ready-to-list",
+  "name": "Considering Selling?",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/real-estate-glossary",
+  "name": "Real Estate Glossary",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/real-estate-investing-tips-for-beginners",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/real-estate-tips-for-first-time-sellers",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/relocation-1",
+  "name": "Colorado Relocation",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/rent-to-own",
+  "name": "Rent To Own",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/rent-to-own-homes-in-colorado-who-is-it-actually-good-for",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/rent-to-own-homes-in-fort-collins-is-it-right-for-you-in-2025",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/rent-to-own-in-fort-collins",
+  "name": "Rent To Own in Fort Collins",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/rent-to-own-in-loveland",
+  "name": "Rent To Own in Loveland",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/rent-to-own-og",
+  "name": "Rent To Own",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/rent-to-own-questions",
+  "name": "Rent To Own Questions",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/rent-to-own-vs-buying-in-2025-whats-the-smarter-move-for-northern-colorado-bu",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/required-reporting-to-the-irs",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/schedule-a-showing",
+  "name": "Schedule a Showing",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/search-by-area",
+  "name": "Search by Area",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/search-colorado",
+  "name": "Search Colorado Homes For Sale",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/search-larimer-county",
+  "name": "Search Larimer County",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/search-northern-colorado-homes-for-sale",
+  "name": "Search Northern Colorado Homes For Sale",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/search-weld-county",
+  "name": "Search Weld County",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/search-weld-county-1",
+  "name": "Search Weld County",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/search-wyoming",
+  "name": "Search Wyoming Homes For Sale",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/sell-your-home-in-eaton-co",
+  "name": "Sell Your Home in Eaton, CO | Top Real Estate Agent & Listing Specialist",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/selling-during-the-holiday-season-pros-and-cons-1",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/selling-during-the-holiday-season-pros-and-cons-1-1",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/selling-soon",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/septic-inspections-larimer-vs-weld-county-colorado-land-buying-guide",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/setting-the-price",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/severance-co-market-report-and-trends",
+  "name": "Severance, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-aspen-meadows-eaton-co",
+  "name": "Single Family Homes for Sale in Aspen Meadows, Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-ault-co",
+  "name": "Single Family Homes For Sale in Ault, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-berthoud-co",
+  "name": "Single Family Homes For Sale in Berthoud, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-briggsdale-co",
+  "name": "Single Family Homes For Sale in Briggsdale, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-carr-co",
+  "name": "Single Family Homes for Sale in Carr, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-eaton-co",
+  "name": "Single Family Homes For Sale in Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-eaton-co-1",
+  "name": "Single Family Homes for Sale in Eaton, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-estes-park-co",
+  "name": "Single Family Homes For Sale in Estes Park, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-evans-co",
+  "name": "Single Family Homes For Sale in Evans, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-fort-collins-co",
+  "name": "Single Family Homes For Sale in Fort Collins, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-greeley-co",
+  "name": "Single Family Homes For Sale in Greeley, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-johnstown-co",
+  "name": "Single Family Homes For Sale in Johnstown, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-longmont-co",
+  "name": "Single Family Homes For Sale in Longmont, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-loveland-co",
+  "name": "Single Family Homes For Sale in Loveland, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-loveland-co-1",
+  "name": "Single Family Homes For Sale in Loveland, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-mead-co",
+  "name": "Single Family Homes For Sale in Mead, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-milliken-co",
+  "name": "Single Family Homes For Sale in Milliken, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-nunn-co",
+  "name": "Single Family Homes For Sale in Nunn, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-pierce-co",
+  "name": "Single Family Homes For Sale in Pierce, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-platteville-co",
+  "name": "Single Family Homes For Sale in Platteville, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-red-feather-lakes-co",
+  "name": "Single Family Homes For Sale in Red Feather Lakes, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-severance-co",
+  "name": "Single Family Homes For Sale in Severance, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-timnath-co",
+  "name": "Single Family Homes For Sale in Timnath, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-wellington-co",
+  "name": "Single Family Homes For Sale in Wellington, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/single-family-homes-for-sale-in-windsor-co",
+  "name": "Single Family Homes For Sale in Windsor, CO",
+  "layoutId": "6283abe66d248da505029693"
+ },
+ {
+  "path": "/smart-moves-scenic-views-is-fall-the-best-time-to-sell-in-northern-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/special-buyer-programs",
+  "name": "Are There Programs Available To Buy A Home in Colorado?",
+  "layoutId": "6283abe66d248da50502968f"
+ },
+ {
+  "path": "/statements-of-information",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/teacher-home-buying-grants",
+  "name": "Colorado Teacher Home Buying Grants",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/testimonials",
+  "name": "Testimonials",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/the-5-biggest-mistakes-sellers-make-and-how-to-avoid-them",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-advantages-of-different-types-of-mortgage-lenders",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-benefits-of-buying-a-home-in-a-master-planned-community",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-best-places-to-retire-in-northern-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-biweekly-mortgage-who-needs-it",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-essential-guide-to-selling-rural-properties-in-larimer-county",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-fastest-way-to-sell-your-home-for-cash-in-northern-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-functions-of-an-escrow",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-future-of-real-estate-innovative-tech-trends-for-selling-your-home-in-north",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-little-ladys-5-big-mistakes-people-make-when-moving-from-the-big-city",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-little-ladys-land-listings",
+  "name": "The Little Lady's Land Listings",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-little-ladys-listings",
+  "name": "The Little Lady's Listings",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-little-ladys-residential-listings",
+  "name": "The Little Lady's Residential Listings",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-no-cost-thirty-year-fixed-rate-mortgage",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-top-5-reasons-people-are-moving-to-eaton-co",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-top-5-reasons-to-own-a-home-with-acreage-in-northern-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-top-7-benefits-of-placing-your-real-estate-career-in-colorados-front-range",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/the-ultimate-guide-to-finding-the-best-real-estate-agent-in-eaton-co-expert-ti",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/thinking-about-attending-open-houses-alone-read-this-first-1",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/thinking-about-buying-a-foreclosure",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/thinking-about-relocating-in-the-new-year-heres-how-to-start-preparing-now",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/thinking-of-relocating-to-northern-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/timnath-co-market-report-and-trends-2",
+  "name": "Timnath, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/title-insurance-requirements-for-insuring-trusts",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/title-insurance-when-refinancing-your-loan",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/title-insurance-where-does-your-dollar-go",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/to-stage-or-not-to-stage-whats-best-for-selling-your-home",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/top-home-design-trends-for-2024-transform-your-home-with-these-stylish-ideas",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/top-realtor-in-northern-colorado",
+  "name": "Top Realtor in Northern Colorado",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/trustedrealtor",
+  "name": "Trust",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/trustedrealtor-1",
+  "name": "Trust",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/types-of-mortgage-lenders",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/underground-heating-oil-tanks",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/understanding-foreclosures",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/understanding-open-zoning-in-larimer-county",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/understanding-preliminary-reports",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/understanding-seller-closing-costs-what-every-homeowner-should-know",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/understanding-title-insurance",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/understanding-your-homes-value-free-online-tools-vs-professional-appraisals",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/unleashing-the-power-of-innovative-marketing-in-real-estate",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/unlock-the-potential-of-your-home-tips-to-maximize-its-value",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/unlock-the-secrets-to-selling-your-home-expert-strategies-and-tips",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/unlocking-success-the-little-ladys-journey-with-1608-e-1st-st-loveland-colo",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/unsubscribe",
+  "name": "Unsubscribe",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/use-a-buyers-agent",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/veteran-home-purchase",
+  "name": "Veteran Home Purchase",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/webinar",
+  "name": "Webinar",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/webinar-1",
+  "name": "Webinar",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/weekend-getaways-in-northern-colorado-your-guide-to-adventure-and-relaxation",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/welcome-to-my-new-website",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/welcome-to-your-dream-home-at-111-2nd-st-ault-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/weld-county-foreclosures",
+  "name": "How To Get A List Of Foreclosures in Weld County Colorado",
+  "layoutId": "6283abe66d248da505029691"
+ },
+ {
+  "path": "/wellington-co-market-report-and-trends",
+  "name": "Wellington, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/west-greeley",
+  "name": "West Greeley",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/what-are-cash-buyers-looking-for-the-little-lady-sells-homes",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/what-is-a-short-sale-anyway",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/what-is-a-transfer-of-title-for-septic-systems",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/what-is-an-ilc-and-when-should-you-get-a-full-survey",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/what-to-know-about-fire-districts-and-insurance-requirements",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/what-to-know-about-selling-your-home-in-the-fall-eaton-co-market-update-by-th",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/what-to-know-about-selling-your-home-in-the-fall-eaton-co-market-update-by-th-1",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/whats-a-fico",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/whats-the-real-cost-to-develop-raw-land-in-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/when-is-the-right-time-to-downsize",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/where-does-the-money-come-from-for-mortgage-loans",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/which-arm-is-the-best-alternative",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/why-buyers-choose-christine-gwinnup-northern-colorado-real-estate-local-agent",
+  "name": "Why Buyers Choose The Little Lady Sells Homes",
+  "layoutId": "6283abe66d248da50502968d"
+ },
+ {
+  "path": "/why-cheyenne-is-becoming-a-hot-spot-for-real-estate-investors",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/why-december-could-be-the-best-month-to-sell-your-home",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/why-do-you-need-title-insurance",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/why-fall-might-be-the-smartest-time-to-sell-your-home-in-northern-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/why-more-coloradans-are-choosing-cheyenne",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/why-real-estate-agents-in-colorado-are-switching-to-a-100-commission-model",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/why-you-should-not-make-any-major-credit-purchases",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/wildfires-and-colorado-home-values",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/windsor-co-market-report-and-trends",
+  "name": "Windsor, CO Market Report and Trends",
+  "layoutId": "6283abe66d248da505029697"
+ },
+ {
+  "path": "/winter-home-maintenance-made-simple-keep-your-home-safe-and-cozy",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/winter-real-estate-update",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/your-savings-and-down-payment",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/your-ultimate-guide-to-becoming-a-real-estate-agent-in-colorado",
+  "name": "Your Ultimate Guide to Becoming a Real Estate Agent in Colorado",
+  "layoutId": "6283abe66d248da50502968f"
+ },
+ {
+  "path": "/zoning-in-northern-colorado",
+  "name": "",
+  "layoutId": "6283abe66d248da50502968b"
+ },
+ {
+  "path": "/aspen-meadows-homes",
+  "name": "Aspen Meadows Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/ault-homes",
+  "name": "Ault Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/berthoud-homes",
+  "name": "Berthoud Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/briggsdale-homes",
+  "name": "Briggsdale Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/carr-homes",
+  "name": "Carr Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/eaton-homes",
+  "name": "Eaton Homes For Sale",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/eaton-commons-homes",
+  "name": "Eaton Commons Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/estes-park-homes",
+  "name": "Estes Park Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/evans-homes",
+  "name": "Evans Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/fort-collins-homes",
+  "name": "Fort Collins Homes For Sale",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/governors-ranch-homes",
+  "name": "Governors Ranch Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/greeley-homes",
+  "name": "Greeley Homes For Sale",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/hawkstone-homes",
+  "name": "Hawkstone Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/johnstown-homes",
+  "name": "Johnstown Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/longmont-homes",
+  "name": "Longmont Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/loveland-homes",
+  "name": "Loveland, CO Homes For Sale",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/maplewood-estates-homes",
+  "name": "Maplewood Estates Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/mead-homes",
+  "name": "Mead Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/milliken-homes",
+  "name": "Milliken Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/nunn-homes",
+  "name": "Nunn Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/pierce-homes",
+  "name": "Pierce Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/platteville-homes",
+  "name": "Platteville Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/red-feather-lakes-homes",
+  "name": "Red Feather Lakes Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/severance-homes",
+  "name": "Severance Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/timnath-homes",
+  "name": "Timnath Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/wellington-homes",
+  "name": "Wellington Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/windsor-homes",
+  "name": "Windsor Homes",
+  "layoutId": "6283abe66d248da505029699"
+ },
+ {
+  "path": "/-/Article/show_article/1",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/2",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/3",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/4",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/5",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/6",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/7",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/8",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/9",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/10",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/11",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/12",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/13",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/14",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/15",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/16",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/17",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/18",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/19",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/20",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/21",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/22",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/23",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/24",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/25",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/26",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/27",
+  "name": "Mello-Roos",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/-/Article/show_article/28",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/29",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/30",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/31",
+  "name": "Closing and Title Costs",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/-/Article/show_article/32",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/33",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/34",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/35",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/36",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/37",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/38",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/39",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/40",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/41",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/468",
+  "name": "Adjustable Rate Mortgages - The Pros and Cons",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/-/Article/show_article/469",
+  "name": "Adjustable Rate Mortgages-The Basics",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/-/Article/show_article/470",
+  "name": "Closing Costs When Buying or Refinancing a Home",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/-/Article/show_article/471",
+  "name": "Documenting Your Assets - Verifying Your Down Payment",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/-/Article/show_article/472",
+  "name": "FICO® Score - a Brief Explanation",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/-/Article/show_article/473",
+  "name": "FICO® Scores and Your Mortgage",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/-/Article/show_article/474",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/475",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/476",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/477",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/478",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/479",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/480",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/481",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/482",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_article/483",
+  "name": "",
+  "layoutId": ""
+ },
+ {
+  "path": "/-/Article/show_glossary",
+  "name": "Glossary of Real Estate Terms",
+  "layoutId": "6283abe66d248da505029689"
+ },
+ {
+  "path": "/-/WebForm/index/300284617",
+  "name": "",
+  "layoutId": "6283abe66d248da505029691"
+ }
+]

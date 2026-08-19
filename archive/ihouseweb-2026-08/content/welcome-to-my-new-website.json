@@ -1,0 +1,37 @@
+{
+ "path": "/welcome-to-my-new-website",
+ "name": null,
+ "type": "blogPost",
+ "head": {
+  "title": "Welcome to my new website",
+  "description": "Welcome to my new and improved real estate website. I invite you to look around and see what is available. As your Greeley, Colorado real estate expert I can provide you will all of the information to accomplish your real estate goals.\n\n\n\tLooking for a ne",
+  "url": "https://www.thelittleladysellshomes.com/welcome-to-my-new-website",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/welcome-to-my-new-website",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/featurette-contact-me.png"
+  }
+ },
+ "blocks": [],
+ "post": {
+  "title": "Welcome to my new website",
+  "metaTitle": "Welcome to my new website",
+  "metaDescription": "Welcome to my new and improved real estate website. I invite you to look around and see what is available. As your Greeley, Colorado real estate expert I can provide you will all of the information to accomplish your real estate goals.\n\n\n\tLooking for a ne",
+  "snippet": "Welcome to my new and improved real estate website. I invite you to look around and see what is available. As your Greeley, Colorado real estate expert I can provide you will all of the information to accomplish your real estate goals.\n\n\n\tLooking for a ne",
+  "author": "Christine Gwinnup",
+  "postId": 301751712,
+  "countComments": 0,
+  "allowComments": true,
+  "published": true,
+  "publishDate": "2022-05-17 07:06:31",
+  "okToShow": true,
+  "tags": [],
+  "featuredImage": null,
+  "firstImage": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/featurette-contact-me.png",
+  "body": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p>Welcome to my new and improved real estate website. I invite you to look around and see what is available. As your Greeley, Colorado real estate expert I can provide you will all of the information to accomplish your real estate goals.</p>\n\n<ul>\n\t<li>Looking for a new home for yourself or your family: <a href=\"/quick-search\">Quick Search</a></li>\n\t<li>Know exactly what you are looking for in your new home: <a href=\"/advanced-search\">Advanced Search</a></li>\n\t<li>You want me to find your dream home for you so you do not have to do the searching yourself?: <a href=\"/dream-home-finder\">Dream Home Finder</a></li>\n\t<li>Thinking of selling your home? Let me go to work for you and find out your home's exact value: <a href=\"/free-market-analysis\">FREE Market Analysis</a></li>\n</ul>\n\n<p><u><strong>Save your search!</strong></u><br>\nSaving your search is an important step if&nbsp;if you would like to be able to quickly refer back to your search at a future date. &nbsp;More importantly I will be able to quickly notify you directly of any new listings that come available on the market that match your search criteria. &nbsp;The beautiful thing is that you can make as many of these saved searches as you would like.</p>\n\n<p dir=\"ltr\">First, you must be registered on our website. This is easy. It only requires your first and last name, an email address and a password. <a href=\"/Web/AR1140900/WebUser/register/\">Register Here</a>. To save any search, simply perform a search using the Quick Search or Advanced Search, click on the &ldquo;search&rdquo; button, and then click &ldquo;save search&rdquo;, which is located in the top right hand corner just above the search results. This will prompt you to title your saved search and provide you with the option of being notified by email. &nbsp;Check the box to be notified by email of new listings that match your search.</p>\n\n<p dir=\"ltr\">To look at or edit your saved searches, you must be logged in. On the homepage, top right hand corner is where you can view your saved searches. Click this link and you will then see all the searches you saved, you can delete them, edit the email notifications and more.</p>\n\n<p>If you would like any assistance, please do not hesitate to Contact Me or call me directly at 303-709-4262</p>\n\n<p><img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/featurette-contact-me.png?width=165&amp;height=165&amp;aspect_ratio=165%3A165\" style=\"border-width: 0px; border-style: solid; width: 165px; height: 165px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/featurette-contact-me.png?width=330&amp;height=330&amp;aspect_ratio=165%3A165 2x\"></p>\n</body></html>\n",
+  "passwordRequired": false,
+  "loggedIn": false,
+  "useCaptcha": true,
+  "showFeaturedImage": true,
+  "featuredImageAsMasthead": false
+ }
+}

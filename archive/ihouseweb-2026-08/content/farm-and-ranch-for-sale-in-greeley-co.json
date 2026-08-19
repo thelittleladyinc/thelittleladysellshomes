@@ -1,0 +1,54 @@
+{
+ "path": "/farm-and-ranch-for-sale-in-greeley-co",
+ "name": "Farm and Ranch For Sale in Greeley, CO",
+ "type": null,
+ "head": {
+  "title": "Farm and Ranch For Sale in Greeley, CO",
+  "description": "Find farms and ranches for sale in Greeley, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/farm-and-ranch-for-sale-in-greeley-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/farm-and-ranch-for-sale-in-greeley-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f0d190203296e4030496",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f0d190203296e4030497",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p style=\"text-align: center;\">Are you looking for an a Farm and Ranch home in Greeley or&nbsp;the surrounding Northern Colorado area?<br>\r\nYour Local, Award-Winning Realtor, Christine Gwinnup will send you&nbsp;<br>\r\nINSTANT NOTIFICATION&nbsp;each and every time a new home within your&nbsp;criteria hits the market.&nbsp;<br>\r\nBeing first to tour a home gives you the advantage to get the BEST home for the LEAST amount of money!<br>\r\n<br>\r\n<strong>CLICK THE LINKS BELOW FOR MORE INFORMATION</strong><br>\r\n&nbsp;<strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong><strong><a href=\"tel:303-709-4262\">&nbsp; TOUR A PROPERTY&nbsp;</a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong><br>\r\n<strong><a data-form-id=\"300208218\" href=\"/contact\" target=\"modal_form\">&nbsp; SEE WHAT YOU ARE APPROVED FOR&nbsp; &nbsp;</a></strong><br>\r\n<strong>&nbsp;&nbsp;<a href=\"/first-time-homebuyer\">FIRST TIME HOME BUYING GRANTS</a>&nbsp;&nbsp;</strong><br>\r\n<strong><a href=\"https://www.thelittleladysellshomes.com/about\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;WHO IS THE LITTLE LADY&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</a><br>\r\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<a href=\"/buying-a-home\">STEPS TO BUYING A HOME</a>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>\r\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href=\"tel:303-709-4262\">CALL CHRISTINE 303-709-4262</a></strong></p>\r\n</body></html>\n"
+  },
+  {
+   "id": "6a84f0d190203296e4030495",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Greeley, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "farm"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

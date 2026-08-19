@@ -1,0 +1,49 @@
+{
+ "path": "/farm-and-ranch-for-sale-in-briggsdale-co",
+ "name": "Farm and Ranch For Sale in Briggsdale, CO",
+ "type": null,
+ "head": {
+  "title": "Farm and Ranch For Sale in Briggsdale, CO",
+  "description": "Find farms and ranches for sale in Briggsdale, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/farm-and-ranch-for-sale-in-briggsdale-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/farm-and-ranch-for-sale-in-briggsdale-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84fc350cb8d00acc0bf084",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84fc350cb8d00acc0bf083",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Briggsdale, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "farm"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

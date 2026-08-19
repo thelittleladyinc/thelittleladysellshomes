@@ -1,0 +1,229 @@
+{
+ "path": "/rent-to-own-questions",
+ "name": "Rent To Own Questions",
+ "type": null,
+ "head": {
+  "title": "Rent To Own your home in Colorado and Wyoming!",
+  "description": "No Credit? Bad Credit? Rent To Own is still a possibility. Contact Christine Gwinnup at 303-709-4262 for answers to your questions",
+  "url": "https://www.thelittleladysellshomes.com/rent-to-own-questions",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/Featured-Community-1184537413.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f46cabbf40646f08e6ca",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300228932",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/rent-to-own-questions",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f46cabbf40646f08e6cb",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p style=\"text-align: center;\"><span style=\"font-size:20px;\"></span><br>\r\n<span style=\"font-size:20px;\"></span></p>\r\n\r\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td><img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/featured-community-304728377.jpg?width=500&amp;height=333&amp;aspect_ratio=500%3A333\" style=\"width: 500px; height: 333px; float: left; margin-left: 200px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/featured-community-304728377.jpg?width=1000&amp;height=666&amp;aspect_ratio=500%3A333 2x\"></td>\r\n\t\t\t<td style=\"text-align: center;\"><span style=\"font-size:20px;\">RENT TO OWN!<br>\r\n\t\t\tThere are two types of Rent To Own Programs available.<br>\r\n\t\t\tThe following questions will help Christine know if either is right for you.&nbsp;<br>\r\n\t\t\tThere are no wrong answers!</span>&nbsp;</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p></p></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f46cabbf40646f08e6cc",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301664169",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f46cabbf40646f08e6cd",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301664170",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f46cabbf40646f08e6ce",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301664171",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f46cabbf40646f08e6cf",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301664172",
+       "label": "How many bedrooms do you need? (minimum)",
+       "value": [],
+       "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+       ],
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f46cabbf40646f08e6d0",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301664178",
+       "label": "How much of a monthly payment do you feel comfortable with?",
+       "value": [],
+       "options": [
+        "$1500-$2000",
+        "$2000-$2500",
+        "$2500-$3000",
+        "$3000-$3500",
+        "$3500-$4000"
+       ],
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f46cabbf40646f08e6d1",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301664173",
+       "label": "Is your credit above 620?",
+       "value": [],
+       "options": [
+        "yes",
+        "no",
+        "not sure"
+       ],
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f46cabbf40646f08e6d2",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301664174",
+       "label": "Do you have a downpayment?",
+       "value": [],
+       "options": [
+        "$3000-$5000",
+        "$5000-$10000",
+        "$10000-$15000",
+        "$15000-$20000"
+       ],
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f46cabbf40646f08e6d3",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-301664175",
+       "label": "What towns/cities are you interested in?",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f46cabbf40646f08e6d4",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-301664177",
+       "label": "Anything more you would like me to know?",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f46cabbf40646f08e6d5",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301681865",
+       "label": "Check all boxes that apply:",
+       "value": [],
+       "options": [
+        "Tour A Property",
+        "First Time Homebuyer",
+        "Investor",
+        "Relocating",
+        "Rent To Own",
+        "Teacher",
+        "Veteran",
+        "Client Appreciation",
+        "None of the above"
+       ],
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f46cabbf40646f08e6d6",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984436",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301664169": "",
+     "phone-301664170": "",
+     "email-301664171": "",
+     "checkboxes-301664172": [],
+     "checkboxes-301664178": [],
+     "checkboxes-301664173": [],
+     "checkboxes-301664174": [],
+     "text-301664175": "",
+     "text-301664177": "",
+     "checkboxes-301681865": [],
+     "marketing-opt-in-301984436": false
+    },
+    "initialErrors": {
+     "name-301664169": "",
+     "phone-301664170": "",
+     "email-301664171": "",
+     "checkboxes-301664172": "",
+     "checkboxes-301664178": "",
+     "checkboxes-301664173": "",
+     "checkboxes-301664174": "",
+     "text-301664175": "",
+     "text-301664177": "",
+     "checkboxes-301681865": "",
+     "marketing-opt-in-301984436": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

@@ -1,0 +1,178 @@
+{
+ "path": "/relocation-1",
+ "name": "Colorado Relocation",
+ "type": null,
+ "head": {
+  "title": "Relocate to Northern Colorado with Confidence: Christine Gwinnup & The Little Lady Sells Homes",
+  "description": "Considering a move to Northern Colorado? Let Christine Gwinnup and The Little Lady Sells Homes guide you to your dream home. With over 25 years of experience, we make your relocation smooth and personalized. Contact us at 303-709-4262",
+  "url": "https://www.thelittleladysellshomes.com/relocation-1",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/AdobeStock_481183534.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f0373e080a85cf0b4c37",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300208221",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/relocation-1",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f0373e080a85cf0b4c38",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><meta charset=\"UTF-8\">\r\n<title></title>\r\n<style type=\"text/css\">body {\r\n      font-family: Arial, sans-serif;\r\n      line-height: 1.6;\r\n      margin: 20px;\r\n      background-color: #f4f4f4;\r\n    }\r\n    h1, h2, h3 {\r\n      color: #333;\r\n    }\r\n    p {\r\n      font-size: 18px;\r\n    }\r\n    .luxurious {\r\n      background-color: #fff;\r\n      padding: 20px;\r\n      border-radius: 8px;\r\n      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\r\n    }\r\n    .image-placeholder {\r\n      width: 100%;\r\n      height: 300px;\r\n      background-color: #ccc;\r\n      text-align: center;\r\n      line-height: 300px;\r\n      font-size: 24px;\r\n      margin-bottom: 20px;\r\n    }\r\n</style>\r\n</head><body><div class=\"luxurious\">\r\n<h1>Relocating to Colorado? Is It Time For Your Dreams To Come True?&nbsp;Your Colorado Dream Home Awaits!</h1>\r\n<!-- Image Placeholder -->\r\n\r\n<h2>Why Choose Northern Colorado?</h2>\r\n\r\n<p>Northern Colorado is more than just a location&mdash;it's a lifestyle. Imagine living in a place where the mountains meet modernity, where you can enjoy both outdoor adventures and urban conveniences. From the educational hubs of Fort Collins and Boulder to the artistic communities in Loveland and Windsor, Northern Colorado offers a rich tapestry of experiences.<br>\r\n<br>\r\n<img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/RELOCATION%20EXPERTS.png\" style=\"border-width: 0px; border-style: solid;\"></p>\r\n\r\n<h2>Meet Christine Gwinnup: Your Northern Colorado Real Estate Expert</h2>\r\n\r\n<p>Christine Gwinnup isn't just another Realtor; she's your gateway to the Northern Colorado lifestyle. With over 25 years of experience, Christine has unparalleled insights into the local real estate market. She specializes in helping out-of-state clients transition smoothly, understanding the intricacies and emotions involved in such a significant life change.</p>\r\n\r\n<h2>Explore the Best of Northern Colorado</h2>\r\n\r\n<p>Choosing where to live is a big decision, and Christine is here to simplify it for you. She offers personalized tours of Northern Colorado's most sought-after cities, providing you with a comprehensive understanding of what each area has to offer&mdash;from schools and amenities to culture and community vibes.</p>\r\n\r\n<h2>Your Personalized Home-Buying Journey</h2>\r\n\r\n<p>Christine believes that every home-buying experience should be as unique as the buyer. That's why she offers a tailored approach, taking the time to understand your specific needs and preferences. From property visits to final negotiations, Christine will be your trusted advisor, ensuring that you find a home that not just meets, but exceeds your expectations.</p>\r\n\r\n<h2>Get Started Today!</h2>\r\n\r\n<p>Why wait to live your dream? Take the first step towards a fulfilling life in Northern Colorado. Contact Christine Gwinnup with The Little Lady Sells Homes at 303-709-4262 today, and embark on a home-buying journey that you'll cherish for a lifetime.</p>\r\n</div>\r\n\r\n<p></p></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f0373e080a85cf0b4c39",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-301523748",
+       "label": "Moving from",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f0373e080a85cf0b4c3a",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-301523749",
+       "label": "Moving to",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f0373e080a85cf0b4c3b",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-301523750",
+       "label": "Move date",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f0373e080a85cf0b4c3c",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301523744",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f0373e080a85cf0b4c3d",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301523745",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f0373e080a85cf0b4c3e",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301523746",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f0373e080a85cf0b4c3f",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301523747",
+       "label": "Comments",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f0373e080a85cf0b4c40",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301681805",
+       "label": "Check all boxes that apply:",
+       "value": [],
+       "options": [
+        "Tour A Property",
+        "First Time Homebuyer",
+        "Investor",
+        "Relocating",
+        "Rent To Own",
+        "Teacher",
+        "Veteran",
+        "Client Appreciation",
+        "None of the above"
+       ],
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f0373e080a85cf0b4c41",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984420",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "text-301523748": "",
+     "text-301523749": "",
+     "text-301523750": "",
+     "name-301523744": "",
+     "email-301523745": "",
+     "phone-301523746": "",
+     "textarea-301523747": "",
+     "checkboxes-301681805": [],
+     "marketing-opt-in-301984420": false
+    },
+    "initialErrors": {
+     "text-301523748": "",
+     "text-301523749": "",
+     "text-301523750": "",
+     "name-301523744": "",
+     "email-301523745": "",
+     "phone-301523746": "",
+     "textarea-301523747": "",
+     "checkboxes-301681805": "",
+     "marketing-opt-in-301984420": ""
+    },
+    "useCaptcha": true,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

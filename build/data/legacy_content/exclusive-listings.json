@@ -1,0 +1,139 @@
+{
+ "path": "/exclusive-listings",
+ "name": "Exclusive Listings",
+ "type": null,
+ "head": {
+  "title": "Northern Colorado Homes For Sale",
+  "description": "Be the first to know when Northern Colorado Homes hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/exclusive-listings",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/GET%20EXCLUSINVEL%20(2).png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f46ba347549e81075e7c",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300228381",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/exclusive-listings",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f46ba347549e81075e7d",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><h1 style=\"text-align: center;\"><span style=\"background-color:#FF0000;\"></span></h1>\r\n\r\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style='font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"; font-size: 1rem; text-align: left; width: 100%;'>\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td style=\"text-align: center;\">\r\n\t\t\t<h1><span style=\"font-size:36px;\"><span style=\"color:#FFFFFF;\"><span style=\"background-color:#000000;\">Get Exclusive Listings of the Best Homes Currently Available For Sale in Northern Colorado</span></span></span><span style=\"font-size:28px;\"><span style=\"background-color:#F40009\r\n              ;\"></span></span></h1>\r\n\r\n\t\t\t<p><span style=\"font-size:20px;\">Fill out your information below to get an Exclusive List of the Best Homes currently For Sale and Upcoming Listings in some of the most sought-after neighborhoods in Northern Colorado&nbsp;</span></p>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p></p></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f46ba347549e81075e7e",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301660412",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f46ba347549e81075e7f",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301660413",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f46ba347549e81075e80",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301660414",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f46ba347549e81075e81",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301660415",
+       "label": "Are you interested in our Biweekly Newsletter that will keep you on top of Northern Colorado Market Trends for 2023?",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f46ba347549e81075e82",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301681912",
+       "label": "Check all boxes that apply:",
+       "value": [],
+       "options": [
+        "Tour A Property",
+        "First Time Homebuyer",
+        "Investor",
+        "Relocating",
+        "Rent To Own",
+        "Teacher",
+        "Veteran",
+        "Client Appreciation",
+        "None of the above"
+       ],
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f46ba347549e81075e83",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984425",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301660412": "",
+     "email-301660413": "",
+     "phone-301660414": "",
+     "textarea-301660415": "",
+     "checkboxes-301681912": [],
+     "marketing-opt-in-301984425": false
+    },
+    "initialErrors": {
+     "name-301660412": "",
+     "email-301660413": "",
+     "phone-301660414": "",
+     "textarea-301660415": "",
+     "checkboxes-301681912": "",
+     "marketing-opt-in-301984425": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

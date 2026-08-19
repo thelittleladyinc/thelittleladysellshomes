@@ -1,0 +1,102 @@
+{
+ "path": "/-/WebForm/index/300287187",
+ "name": null,
+ "type": null,
+ "head": {
+  "title": "Weld County Foreclosures | Updated Listings & Local Expert",
+  "description": "Browse Weld County foreclosures and bank-owned homes. Get expert help from Christine Gwinnup and request the latest list of distressed properties today.",
+  "url": "",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Weld%20County%20Foreclosures%20Real%20Estate%20Agent.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f59f0b3ba48fd20da23b",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300287187",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/-/WebForm/index/300287187",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f59f0b3ba48fd20da23c",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Search Weld County foreclosures and distressed properties. Learn the difference between foreclosures, short sales, and bank-owned homes. Get expert guidance from Christine Gwinnup.\">\r\n<title></title>\r\n<style type=\"text/css\">body {\r\n      font-family: 'Segoe UI', sans-serif;\r\n      margin: 0;\r\n      padding: 0;\r\n      background-color: #f9f9f9;\r\n      color: #333;\r\n    }\r\n    header {\r\n      background: linear-gradient(to right, #8B0000, #a40000);\r\n      color: white;\r\n      padding: 2rem 1rem;\r\n      text-align: center;\r\n    }\r\n    header h1 {\r\n      font-size: 2.4rem;\r\n    }\r\n    .container {\r\n      max-width: 1100px;\r\n      margin: 2rem auto;\r\n      padding: 1rem;\r\n      background: white;\r\n      border-radius: 8px;\r\n      box-shadow: 0 0 10px rgba(0,0,0,0.05);\r\n    }\r\n    h2 {\r\n      color: #8B0000;\r\n      margin-top: 2rem;\r\n    }\r\n    ul, ol {\r\n      margin-left: 1.5rem;\r\n    }\r\n    .highlight-box {\r\n      background: #fff4f4;\r\n      border-left: 6px solid #8B0000;\r\n      padding: 1rem 1.5rem;\r\n      border-radius: 6px;\r\n      margin: 2rem 0;\r\n    }\r\n    .cta {\r\n      text-align: center;\r\n      background: #fbeaea;\r\n      padding: 2rem 1rem;\r\n      margin: 2rem 0;\r\n      border: 2px dashed #8B0000;\r\n      border-radius: 8px;\r\n    }\r\n    .cta form {\r\n      display: flex;\r\n      flex-direction: column;\r\n      align-items: center;\r\n    }\r\n    .cta input, .cta button {\r\n      padding: 0.75rem;\r\n      margin: 0.5rem 0;\r\n      font-size: 1rem;\r\n      width: 80%;\r\n      max-width: 400px;\r\n    }\r\n    .cta button {\r\n      background-color: #8B0000;\r\n      color: white;\r\n      border: none;\r\n      cursor: pointer;\r\n      transition: background 0.3s;\r\n    }\r\n    .cta button:hover {\r\n      background-color: #a30000;\r\n    }\r\n    footer {\r\n      text-align: center;\r\n      padding: 2rem 1rem;\r\n      background: #eee;\r\n      font-size: 0.9rem;\r\n    }\r\n    a {\r\n      color: #8B0000;\r\n      text-decoration: none;\r\n    }\r\n    a:hover {\r\n      text-decoration: underline;\r\n    }\r\n</style>\r\n<header>\r\n<h1>Weld County Foreclosures</h1>\r\n\r\n<p>Search Distressed Properties, Bank-Owned Homes &amp; Investment Deals</p>\r\n</header>\r\n\r\n<main class=\"container\">\r\n<section class=\"highlight-box\">\r\n<h2>Looking for a Deal in Weld County?</h2>\r\n\r\n<p>Foreclosures and bank-owned homes offer some of the best opportunities to buy below market value&mdash;if you know where to look. Let Christine Gwinnup help you navigate the process and find smart investments.</p>\r\n</section>\r\n\r\n<section>\r\n<h2>Types of Distressed Properties You&rsquo;ll Find:</h2>\r\n\r\n<ul>\r\n\t<li><strong>Foreclosures:</strong> Homes seized by the lender and often sold at auction or post-auction (REO)</li>\r\n\t<li><strong>Bank-Owned (REO):</strong> Properties owned by banks after failed auctions, often sold like traditional listings</li>\r\n\t<li><strong>Short Sales:</strong> Properties where the seller owes more than the home&rsquo;s worth&mdash;needs lender approval</li>\r\n</ul>\r\n</section>\r\n\r\n<section>\r\n<h2>How to Buy a Foreclosure in Weld County</h2>\r\n\r\n<ol>\r\n\t<li><strong>Step 1:</strong> Get pre-approved or provide proof of funds</li>\r\n\t<li><strong>Step 2:</strong> Browse foreclosures &amp; REO listings (Christine will send you the most updated list)</li>\r\n\t<li><strong>Step 3:</strong> Schedule showings and inspections as needed</li>\r\n\t<li><strong>Step 4:</strong> Negotiate and close&mdash;Christine will protect your investment</li>\r\n</ol>\r\n</section>\r\n\r\n<section class=\"cta\">\r\n<h2>Get the Latest Foreclosure List for Weld County</h2>\r\n\r\n<p>Fill out the form below and Christine will send you the current foreclosure &amp; distressed property list:</p>\r\n\r\n<p style=\"font-size: 0.85rem; margin-top: 1rem;\">Or text Christine at <a href=\"tel:3037094262\">303-709-4262</a> to request the list instantly.</p>\r\n</section>\r\n\r\n<section>\r\n<h2>Why Work with Christine Gwinnup?</h2>\r\n\r\n<ul>\r\n\t<li><strong>Local Expert:</strong> Weld County and Northern Colorado real estate specialist</li>\r\n\t<li><strong>Investor-Savvy:</strong> Over 14 investment properties bought and sold personally</li>\r\n\t<li><strong>Market Knowledge:</strong> Knows when to buy smart and how to negotiate tough</li>\r\n\t<li><strong>Trusted &amp; Fierce:</strong> Your money, your goals, fiercely protected</li>\r\n</ul>\r\n</section>\r\n</main>\r\n\r\n<footer>\r\n<p>&copy; 2025 Christine Gwinnup &ndash; The Little Lady Sells Homes | LPT Realty | <a href=\"https://www.thelittleladysellshomes.com\">Visit Website</a></p>\r\n</footer></head></html>\n"
+      }
+     },
+     {
+      "id": "6a84f59f0b3ba48fd20da23d",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-302085481",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f59f0b3ba48fd20da23e",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-302085482",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f59f0b3ba48fd20da23f",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-302085483",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f59f0b3ba48fd20da240",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-302085484",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-302085481": "",
+     "email-302085482": "",
+     "phone-302085483": "",
+     "textarea-302085484": ""
+    },
+    "initialErrors": {
+     "name-302085481": "",
+     "email-302085482": "",
+     "phone-302085483": "",
+     "textarea-302085484": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

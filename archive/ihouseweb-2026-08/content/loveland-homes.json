@@ -1,0 +1,28 @@
+{
+ "path": "/loveland-homes",
+ "name": "Loveland, CO Homes For Sale",
+ "type": null,
+ "head": {
+  "title": "Loveland CO Homes for Sale | Top Listing Specialist Christine Gwinnup",
+  "description": "Explore homes for sale in Loveland, Colorado—from luxury listings to first-time buyer gems. Work with Christine Gwinnup, Loveland’s top real estate agent and trusted listing specialist.",
+  "url": "https://www.thelittleladysellshomes.com/loveland-homes",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Loveland%20Colorado%20Real%20Estate.png",
+   "height": 300,
+   "width": 400
+  },
+  "hasOverlay": true
+ },
+ "blocks": [
+  {
+   "id": "featured-location-74967",
+   "type": "featuredLocation",
+   "html": null,
+   "options": {
+    "featuredLocationId": 74967
+   }
+  }
+ ],
+ "post": null
+}

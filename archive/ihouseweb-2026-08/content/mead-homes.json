@@ -1,0 +1,28 @@
+{
+ "path": "/mead-homes",
+ "name": "Mead Homes",
+ "type": null,
+ "head": {
+  "title": "Mead Homes | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/mead-homes",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/Featured-Community-1403578811.jpg",
+   "height": 300,
+   "width": 400
+  },
+  "hasOverlay": true
+ },
+ "blocks": [
+  {
+   "id": "featured-location-74995",
+   "type": "featuredLocation",
+   "html": null,
+   "options": {
+    "featuredLocationId": 74995
+   }
+  }
+ ],
+ "post": null
+}

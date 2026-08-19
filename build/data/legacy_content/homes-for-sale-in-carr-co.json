@@ -1,0 +1,51 @@
+{
+ "path": "/homes-for-sale-in-carr-co",
+ "name": "Homes for Sale in Carr, CO",
+ "type": null,
+ "head": {
+  "title": "Homes for Sale in Carr, CO",
+  "description": "Find properties for sale in Carr, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/homes-for-sale-in-carr-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/homes-for-sale-in-carr-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f3ad307c714d000fa0f8",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f3ad307c714d000fa0f7",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Carr, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house",
+      "condo",
+      "multi"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

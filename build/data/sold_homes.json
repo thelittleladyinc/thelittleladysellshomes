@@ -1,0 +1,352 @@
+{
+  "_README": [
+    "Christine's sold homes, as plotted on /sold-homes-map.html.",
+    "",
+    "THIS IS THE ONLY FILE YOU NEED TO EDIT TO ADD A PIN TO THE MAP.",
+    "Run `python3 build/build.py` afterward, then commit and push. The build",
+    "regenerates both the page and the copy the Netlify geocoder function reads",
+    "(netlify/functions/lib/_sold-homes-data.json), so the two can no longer",
+    "drift apart the way they used to.",
+    "",
+    "A VIDEO IS OPTIONAL. This is the whole point of this file: before",
+    "2026-08-14 the map was built only from the sold-status entries in",
+    "_LISTING_VIDEO_ENTRIES in build.py, which meant a home only got a pin if",
+    "Christine had also filmed a YouTube tour for it. That capped the map at 12",
+    "pins out of 150+ real sales. Now the minimum entry is just an address and",
+    "a city:",
+    "",
+    "  { \"address\": \"1234 Example St\", \"city\": \"Loveland\" }",
+    "",
+    "Fields:",
+    "  address  (required) street address, no city -- e.g. \"32 Victoria Dr\"",
+    "  city     (required) town only, no state -- e.g. \"Johnstown\". This",
+    "           matters: without it the Geocoding API guesses between",
+    "           same-named streets in different towns and drops the pin in the",
+    "           wrong place.",
+    "  state    (optional) defaults to CO",
+    "  year     (optional) year sold, shown in the pin popup when present",
+    "  videoId  (optional) YouTube ID -- adds the clickable tour to the popup",
+    "  title    (optional) video title, used as the link's accessible label",
+    "",
+    "Only list homes Christine actually represented. These are her own past",
+    "sales, published by her -- deliberately NOT pulled from the MLS feed,",
+    "which excludes Sold/Closed status entirely on purpose (see",
+    "REPLICATED_STATUSES in netlify/functions/lib/_mls-shared.js).",
+    "",
+    "2026-08-15: 14 addresses added from Christine's own sold-listings page.",
+    "Deliberately address + city + year only -- NOT the price, beds, or square",
+    "footage that page displays alongside them. Those figures come out of the IRES",
+    "IDX feed, whose own notice on that page limits the data to consumers'",
+    "personal, non-commercial use. Her transaction history is hers to publish; the",
+    "MLS's listing content is not, and the map does not need it.",
+    "",
+    "Two exclusions from that page, both on purpose:",
+    "  - 2411 Glade Rd, Loveland: this is Christine's own business address (see",
+    "    SITE['address'] in build.py). It appears as a real 2025 sale, but putting",
+    "    her own address on a public map is her call to make, not a default.",
+    "  - 1598 Carriage Dr, Eaton was listed twice under two MLS numbers",
+    "    (1048702 and 7428613). Added once.",
+    "",
+    "2026-08-15 (pages 2-3 of the same source): the full sold list on that page is",
+    "48 records. Everything with a street address is now here. Two records were",
+    "deliberately not added:",
+    "  - a 35-acre unimproved parcel in Nunn (sold Jul 2024) whose address the MLS",
+    "    itself lists as unavailable -- there is nothing to geocode.",
+    "  - 2411 Glade Rd, Loveland (Christine's own business address), noted above.",
+    "",
+    "Two addresses already in this file were CORRECTED against the MLS record,",
+    "because they had been taken from YouTube video titles typed by hand:",
+    "    5705 Snow Mesa Dr -> 5705 Snow Mesa Ct  (Loveland)",
+    "    4986 Stuart St    -> 4869 Stuart St     (Denver; digit transposition, and",
+    "                                             4986 W 5th St in Greeley is a real",
+    "                                             separate sale, which is probably",
+    "                                             where the wrong number came from)",
+    "Both keep their video tours. If either correction is wrong, the video title is",
+    "the thing to re-check, not the MLS.",
+    "2026-08-16: eight pins removed. They came from the sold-status inference in _LISTING_VIDEO_ENTRIES (build.py) -- 'absent from her live-listings sheet, so presumably closed' -- not from Christine's records. She confirmed 32 Victoria Dr and 475 Homestead Ln did NOT sell, which invalidated the other six by the same reasoning. A pin belongs here only when Christine's own records back it, which in practice means it carries a year. Removed: 1110 S Quitman St, 1316 Cimarron Cir, 294 Gila Trail, 32 Victoria Dr, 39243 Boulevard E, 45615 County Rd 27, 475 Homestead Ln, 929 W Independent Ave.",
+    "2026-08-16, same day: 1110 S Quitman St went back in. It was one of the eight removed above, and then her own 'Bold Collective — Updated Deal Tracker' in Drive turned out to record it CLOSED on 06/05/2026 at $405,000, co-listed with Kendra. That is a document, which is the standard -- one of the six unconfirmed addresses cleared it and five did not.",
+    "2026-08-16, third correction of the day and the one that came straight from Christine: \"i sold 294 gila, bold 3 rounty rd 27 not indpendevent or cimaron\". So 294 Gila Trail (Ault), 39243 Boulevard E (Eaton) and 45615 County Rd 27 (Pierce) go back in, and 929 W Independent Ave and 1316 Cimarron Cir are recorded not-sold. No year on these three -- she has confirmed the sale, which is the standard here; the year is not required for a pin and is not shown when absent."
+  ],
+  "homes": [
+    {
+      "address": "504 Graefe Ave",
+      "city": "Ault",
+      "videoId": "eiFurERq_As",
+      "title": "Charming Home for Sale at 504 Graefe Ave, Ault CO",
+      "year": "2024"
+    },
+    {
+      "address": "4869 Stuart St",
+      "city": "Denver",
+      "videoId": "oNZBc-MxzUg",
+      "title": "Stunning Home for Sale — 4986 Stuart St, Denver (Tennyson Art District)",
+      "year": "2024"
+    },
+    {
+      "address": "5705 Snow Mesa Ct",
+      "city": "Loveland",
+      "videoId": "MDfyzESb1Yk",
+      "title": "Why Is Loveland, CO Called the \"Sweetheart City\"? — 5705 Snow Mesa Dr",
+      "year": "2024"
+    },
+    {
+      "address": "913 Green Mountain Dr",
+      "city": "Erie",
+      "videoId": "e-_3Qs3liQ0",
+      "title": "Inside a $1.35M Luxury Home in Small-Town Colorado — 913 Green Mountain Dr, Erie"
+    },
+    {
+      "address": "3500 Lilac Ln",
+      "city": "Evans",
+      "state": "CO",
+      "year": "2026"
+    },
+    {
+      "address": "144 N 25th Ave",
+      "city": "Greeley",
+      "state": "CO",
+      "year": "2026"
+    },
+    {
+      "address": "1598 Carriage Dr",
+      "city": "Eaton",
+      "state": "CO",
+      "year": "2026"
+    },
+    {
+      "address": "3016 Glendevey Dr",
+      "city": "Loveland",
+      "state": "CO",
+      "year": "2026"
+    },
+    {
+      "address": "2238 11th St",
+      "city": "Greeley",
+      "state": "CO",
+      "year": "2026"
+    },
+    {
+      "address": "54175 County Rd 27",
+      "city": "Carr",
+      "state": "CO",
+      "year": "2026"
+    },
+    {
+      "address": "535 Ash Ave",
+      "city": "Ault",
+      "state": "CO",
+      "year": "2025"
+    },
+    {
+      "address": "315 Laurel Ave",
+      "city": "Eaton",
+      "state": "CO",
+      "year": "2025"
+    },
+    {
+      "address": "12734 Anhawa Ave",
+      "city": "Longmont",
+      "state": "CO",
+      "year": "2025"
+    },
+    {
+      "address": "50842 County Rd 33",
+      "city": "Nunn",
+      "state": "CO",
+      "year": "2025"
+    },
+    {
+      "address": "1006 4th St",
+      "city": "Pierce",
+      "state": "CO",
+      "year": "2025"
+    },
+    {
+      "address": "620 4th St",
+      "city": "Pierce",
+      "state": "CO",
+      "year": "2025"
+    },
+    {
+      "address": "2140 Bowen St",
+      "city": "Longmont",
+      "state": "CO",
+      "year": "2025"
+    },
+    {
+      "address": "3654 Mount Spalding St",
+      "city": "Wellington",
+      "state": "CO",
+      "year": "2025"
+    },
+    {
+      "address": "551 County Rd 67J",
+      "city": "Red Feather Lakes",
+      "state": "CO",
+      "year": "2025"
+    },
+    {
+      "address": "210 S Frances Ave",
+      "city": "Milliken",
+      "state": "CO",
+      "year": "2025"
+    },
+    {
+      "address": "107 N Ethel Ave",
+      "city": "Milliken",
+      "state": "CO",
+      "year": "2025"
+    },
+    {
+      "address": "14775 County Rd 88",
+      "city": "Pierce",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "205 8th St",
+      "city": "Gilcrest",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "4110 Julesberg Dr",
+      "city": "Loveland",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "5112 W 9th St",
+      "city": "Greeley",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "4953 W 5th St",
+      "city": "Greeley",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "446 Pony Express Trl",
+      "city": "Ault",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "621 Nokomis Rd",
+      "city": "Red Feather Lakes",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "13909 Dahlia St",
+      "city": "Thornton",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "1648 S Kenton St",
+      "city": "Aurora",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "375 Cherokee Trl",
+      "city": "Ault",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "111 2nd St",
+      "city": "Ault",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "1121 Walnut St",
+      "city": "Windsor",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "23570 County Rd 1",
+      "city": "Loveland",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "1022 1st St",
+      "city": "Nunn",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "304 W 52nd St",
+      "city": "Loveland",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "4986 W 5th St",
+      "city": "Greeley",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "1591 Sunflower Way",
+      "city": "Johnstown",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "810 S Rachel Ave",
+      "city": "Milliken",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "1608 E 1st St",
+      "city": "Loveland",
+      "state": "CO",
+      "year": "2024"
+    },
+    {
+      "address": "2200 37th St",
+      "city": "Evans",
+      "state": "CO",
+      "year": "2023"
+    },
+    {
+      "address": "47986 County Rd 122",
+      "city": "Grover",
+      "state": "CO",
+      "year": "2023"
+    },
+    {
+      "address": "1110 S Quitman St",
+      "city": "Denver",
+      "year": 2026,
+      "videoId": "e7kMY1yV7GI",
+      "title": "Denver Home Tour — Charming Mid-Century Ranch at 1110 S Quitman St"
+    },
+    {
+      "address": "294 Gila Trail",
+      "city": "Ault",
+      "videoId": "JvtRGf01JXU",
+      "title": "Why Everyone's Talking About This Ault, Colorado Home | 294 Gila Trail"
+    },
+    {
+      "address": "39243 Boulevard E",
+      "city": "Eaton",
+      "videoId": "L-uEVzq1bv4",
+      "title": "Eaton, CO Home Under $400K — 39243 Boulevard E"
+    },
+    {
+      "address": "45615 County Rd 27",
+      "city": "Pierce",
+      "videoId": "dVonJhu_zCo",
+      "title": "Dream Ranch on 20 Acres — 45615 County Rd 27, Pierce CO"
+    }
+  ]
+}

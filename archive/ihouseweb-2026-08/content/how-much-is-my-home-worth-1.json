@@ -1,0 +1,29 @@
+{
+ "path": "/how-much-is-my-home-worth-1",
+ "name": "How Much Is Your Home Worth?",
+ "type": null,
+ "head": {
+  "title": "Find out how much your Northern Colorado Home is worth?  | The Little Lady Sells Homes",
+  "description": "Get an accurate and professional home valuation from Christine Gwinnup, listing specialist at The Little Lady Sells Homes. Find out what your property is worth in today's market with a free, no-obligation estimate. Serving Northern Colorado.",
+  "url": "https://www.thelittleladysellshomes.com/how-much-is-my-home-worth-1",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/featured-community-54343258%20-%20Copy.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f5557d3503218e064b72",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f5557d3503218e064b71",
+   "type": "customContent",
+   "html": "<meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Get a Free Home Valuation from Christine Gwinnup, Listing Specialist at The Little Lady Sells Homes. Accurate, fast, and professional market insights for your property.\"><meta name=\"keywords\" content=\"home valuation, property estimate, home value, Northern Colorado real estate, market analysis, Christine Gwinnup\"><meta name=\"author\" content=\"Christine Gwinnup\">\r\n<title></title>\r\n<style type=\"text/css\">body {\r\n            font-family: Arial, sans-serif;\r\n            background-color: #f4f4f4;\r\n            margin: 0;\r\n            padding: 0;\r\n        }\r\n        header {\r\n            background-color: #b30000; /* Brighter red */\r\n            color: white;\r\n            text-align: center;\r\n            padding: 20px;\r\n        }\r\n        header h1 {\r\n            font-size: 36px;\r\n            margin: 0;\r\n        }\r\n        .container {\r\n            max-width: 1200px;\r\n            margin: 0 auto;\r\n            padding: 20px;\r\n        }\r\n        .cta-section {\r\n            background-color: white;\r\n            padding: 40px;\r\n            margin-top: 20px;\r\n            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);\r\n        }\r\n        .cta-section h2 {\r\n            font-size: 28px;\r\n            margin-bottom: 20px;\r\n            color: #333;\r\n        }\r\n        .cta-section p {\r\n            font-size: 18px;\r\n            margin-bottom: 20px;\r\n            color: #555;\r\n        }\r\n        .cta-form {\r\n            display: flex;\r\n            flex-direction: column;\r\n        }\r\n        .cta-form input, .cta-form button {\r\n            padding: 15px;\r\n            margin-bottom: 15px;\r\n            font-size: 16px;\r\n            border-radius: 5px;\r\n            border: 1px solid #ddd;\r\n        }\r\n        .cta-form input:focus, .cta-form button:focus {\r\n            outline: none;\r\n            border-color: #b30000; /* Brighter red for focus */\r\n        }\r\n        .cta-form button {\r\n            background-color: #b30000; /* Brighter red */\r\n            color: white;\r\n            cursor: pointer;\r\n        }\r\n        .cta-form button:hover {\r\n            background-color: #990000; /* Darker red for hover */\r\n        }\r\n        .footer {\r\n            background-color: #222;\r\n            color: white;\r\n            padding: 20px;\r\n            text-align: center;\r\n            font-size: 14px;\r\n        }\r\n</style>\r\n<header>\r\n<h1>The Little Lady Sells Homes</h1>\r\n\r\n<p>Get Your Free Home Valuation Today</p>\r\n</header>\r\n\r\n<div class=\"container\">\r\n<section class=\"cta-section\">\r\n<h2>Find Out What Your Home Is Worth in Today's Market</h2>\r\n\r\n<p>Are you curious about how much your home is worth? Whether you&rsquo;re thinking about selling or just curious about your home's current market value, Christine Gwinnup, your local Northern Colorado real estate expert, is here to provide a professional and accurate home valuation.</p>\r\n\r\n<p>Simply fill out the form below, and Christine will send you a personalized home valuation based on recent market trends and comparable sales in your area.</p>\r\n\r\n<form action=\"#\" class=\"cta-form\" method=\"post\"><input name=\"name\" placeholder=\"Your Full Name\" required=\"\" type=\"text\"> <input name=\"email\" placeholder=\"Your Email Address\" required=\"\" type=\"email\"> <input name=\"phone\" placeholder=\"Your Phone Number\" required=\"\" type=\"phone\"> <input name=\"address\" placeholder=\"Property Address\" required=\"\" type=\"text\"><button type=\"submit\">Get My Free Home Valuation</button></form>\r\n</section>\r\n\r\n<section class=\"cta-section\">\r\n<h2>Why Choose Christine Gwinnup?</h2>\r\n\r\n<p>Christine Gwinnup is a top-performing real estate agent in Northern Colorado, specializing in providing accurate, timely, and detailed home valuations. With years of experience and an in-depth understanding of local market conditions, she is committed to helping homeowners make informed decisions that best serve their needs.</p>\r\n\r\n<p>Christine uses a range of cutting-edge tools and market data to ensure that every valuation is as accurate as possible. As a listing specialist, her goal is to help you achieve the maximum value for your home in today's competitive market.</p>\r\n</section>\r\n</div>\r\n\r\n<footer class=\"footer\">\r\n<p>&copy; 2024 The Little Lady Sells Homes | LPT Realty | Christine Gwinnup | All Rights Reserved</p>\r\n</footer>\r\n\n"
+  }
+ ],
+ "post": null
+}

@@ -1,0 +1,51 @@
+{
+ "path": "/timnath-co-market-report-and-trends-2",
+ "name": "Timnath, CO Market Report and Trends",
+ "type": null,
+ "head": {
+  "title": "Timnath, CO Market Report and Trends | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/timnath-co-market-report-and-trends-2",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "heading-market-report-block-304232774",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "market-report-block-304232774",
+   "type": "marketReportBlock",
+   "html": null,
+   "options": {
+    "searchParamsComps": {
+     "itemsPerPage": 10,
+     "view": "split",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Timnath, CO"
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "location": {
+     "type": "city",
+     "value": "Timnath, CO",
+     "key": "Timnath,CO",
+     "name": "Timnath"
+    },
+    "locations": [
+     {
+      "type": "city",
+      "value": "Timnath, CO",
+      "key": "Timnath,CO",
+      "name": "Timnath"
+     }
+    ]
+   }
+  }
+ ],
+ "post": null
+}

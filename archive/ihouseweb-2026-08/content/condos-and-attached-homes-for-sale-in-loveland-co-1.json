@@ -1,0 +1,53 @@
+{
+ "path": "/condos-and-attached-homes-for-sale-in-loveland-co-1",
+ "name": "Condos and Attached Homes For Sale in Loveland, CO",
+ "type": null,
+ "head": {
+  "title": "Condos and Attached Homes For Sale in Loveland, CO",
+  "description": "Find properties for sale in Loveland, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/condos-and-attached-homes-for-sale-in-loveland-co-1",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/condos-and-attached-homes-for-sale-in-loveland-co-1"
+ },
+ "blocks": [
+  {
+   "id": "6a84f1011eda4e6efe094669",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f1011eda4e6efe094668",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "keywords": [
+      "Patio"
+     ],
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Loveland, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "condo",
+      "house"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

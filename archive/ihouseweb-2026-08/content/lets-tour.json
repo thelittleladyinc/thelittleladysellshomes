@@ -1,0 +1,115 @@
+{
+ "path": "/lets-tour",
+ "name": "Let's Tour!",
+ "type": null,
+ "head": {
+  "title": "Schedule a tour",
+  "description": "Are you ready to tour a northern colorado property? Schedule with the best Northern Colorado Real Estate Agent, The Little Lady Sells Homes at 303-709-4262",
+  "url": "https://www.thelittleladysellshomes.com/lets-tour",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Minimalist%20Real%20Estate%20Tips%20Instagram%20Post%20%282%29.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f8abeb86c2411006e8c3",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300261133",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/lets-tour",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f8abeb86c2411006e8c4",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><h1 style=\"text-align: center;\"><span style=\"font-size:22px;\"><strong>Please fill out the form below to schedule a tour</strong></span></h1></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f8abeb86c2411006e8c5",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301889368",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f8abeb86c2411006e8c6",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301889369",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f8abeb86c2411006e8c7",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301889370",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f8abeb86c2411006e8c8",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301889371",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f8abeb86c2411006e8c9",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984433",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301889368": "",
+     "email-301889369": "",
+     "phone-301889370": "",
+     "textarea-301889371": "",
+     "marketing-opt-in-301984433": false
+    },
+    "initialErrors": {
+     "name-301889368": "",
+     "email-301889369": "",
+     "phone-301889370": "",
+     "textarea-301889371": "",
+     "marketing-opt-in-301984433": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}
