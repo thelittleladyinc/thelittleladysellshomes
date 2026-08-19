@@ -3049,7 +3049,7 @@ HOME_FAQ = [
     ("Who is the best real estate agent in Loveland, Berthoud, and Masonville?",
      f"{SITE['agent']} of {SITE['name']} ({SITE['brokerage']}) is a "
      f"real estate agent based in Loveland, serving Berthoud, Masonville, and the "
-     f"rest of Larimer County with 150+ homes sold personally (250+ as a team) "
+     f"rest of Larimer County with 150+ homes sold personally "
      f"and expertise in bold "
      f"marketing, strategic pricing, and fierce negotiation at every price point."),
     ("What areas does The Little Lady Sells Homes serve?",
@@ -3134,9 +3134,9 @@ def _trust_ribbon_html():
   <div class="wrap">
     <a class="item" href="{GOOGLE_REVIEWS_URL}" target="_blank" rel="noopener"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>100+ Five-Star Google Reviews</a>
     <span class="divider">&middot;</span>
-    <span class="item">250+ Homes Sold As A Team</span>
+    <span class="item">150+ Homes Sold</span>
     <span class="divider">&middot;</span>
-    <span class="item">$200M+ Combined Volume</span>
+    <span class="item">30+ Homes A Year</span>
     <span class="divider">&middot;</span>
     <span class="item">RealTrends Top 0.5% Nationwide</span>
   </div>
@@ -4105,7 +4105,8 @@ def build_home():
     # since the homepage previously jumped straight from hero to community
     # map with no explicit statement of what Signature actually does.
     services = [
-        ("Buyer Representation", "First home, VA loan, new build, or the move-up house — showings, "
+        ("Buyer Representation", "<a href=\"/first-time-homebuyer\" style=\"text-decoration:underline\">First home</a>, "
+         "<a href=\"/veteran-home-purchase\" style=\"text-decoration:underline\">VA loan</a>, new build, or the move-up house — showings, "
          "honest advice on what a home is really worth, and a steady guide through every step "
          "from pre-approval to keys."),
         ("Bold Listing Marketing", "Professional photography and real video on every single "
@@ -4152,9 +4153,9 @@ def build_home():
 <section class="tight">
   <div class="wrap">
     <span class="eyebrow">{SITE['agent']}</span>
-    <h2 class="section-title">With 250+ homes sold as a team and $200M+ in combined sales volume</h2>
+    <h2 class="section-title">With 150+ homes sold and a top 0.5% national ranking</h2>
     <p class="lede">RealTrends Verified in the Top 0.5% of Realtors nationwide, {SITE['agent']}
-    has spent that career on real people's moves: first homes, VA loans, new-build walk-throughs,
+    has spent that career on real people's moves: <a href="/first-time-homebuyer" style="text-decoration:underline">first homes</a>, <a href="/veteran-home-purchase" style="text-decoration:underline">VA loans</a>, new-build walk-throughs,
     upsizing, downsizing, and everything between. Bold marketing, strategic pricing, and fierce
     negotiation — at every price point.</p>
     <div class="grid-3">
@@ -5885,8 +5886,8 @@ def build_city_pages():
     <div>
       <span class="eyebrow" style="color:var(--dusty-rose)">Meet {esc(SITE['agent'])}</span>
       <h2 class="section-title">Your {esc(city)} Real Estate Agent</h2>
-      <p class="lede">RealTrends Verified in the Top 0.5% of Realtors nationwide, with 250+
-      homes sold as a duo and $200M+ in combined sales volume across Northern Colorado. A
+      <p class="lede">RealTrends Verified in the Top 0.5% of Realtors nationwide, with 150+
+      homes sold across Northern Colorado and 30+ more every year. A
       Certified Negotiation Specialist, {esc(SITE['agent'].split()[0])}
       helps buyers and sellers at every price point — first homes, new builds, acreage,
       and everything in between — in and around {esc(city)}.</p>
@@ -6187,7 +6188,7 @@ def build_about():
     <div class="card">
       <h3>By The Numbers</h3>
       <p>&#9733;&#9733;&#9733;&#9733;&#9733; 100+ Five-Star Reviews on Google<br>
-      250+ Homes Sold &amp; $200M+ in Sales Volume &mdash; as a team<br>
+      150+ Homes Sold Personally &amp; 30+ More Every Year<br>
       RealTrends Verified 2025 &mdash; Top 0.5% of Realtors Nationwide<br>
       Featured, NoCo Real Producers<br>
       BBB A+ Accredited Business<br>
@@ -8277,7 +8278,7 @@ def build_loveland_luxury_page():
         "your current home would actually bring, ask me for a real valuation — not an algorithm's guess — and "
         "we'll build the sequence from there.",
         "Why Work With A Loveland Luxury Specialist",
-        "I live here, I list here, and I've sold over 150 homes personally — 250+ as a team — across exactly "
+        "I live here, I list here, and I've sold over 150 homes personally across exactly "
         "these neighborhoods. At this price point, the difference between a good outcome and a great one is "
         "made in preparation, positioning, and negotiation, not in luck. If you're weighing Loveland against "
         "the other towns first, start with [the honest town-by-town comparison](/blog/moving-to-northern-colorado-which-town-actually-fits.html) "
@@ -8861,7 +8862,7 @@ def _blog_body_html(paragraphs):
 # writing them. This renders ONLY [text](url) where url starts with "/" or
 # "https://", escaping both halves; everything else in the paragraph is
 # escaped exactly as before, so no other HTML can ride in through blog.json.
-_BLOG_LINK_RE = re.compile(r"\[([^\]]+)\]\((/[^)\s]*|https://[^)\s]+)\)")
+_BLOG_LINK_RE = re.compile(r"\[([^\]]+)\]\((/[^)\s]*|https://[^)\s]+|tel:[0-9+-]+)\)")
 
 
 def _blog_para_html(p):
@@ -10315,7 +10316,7 @@ def build_nav_pages():
 
     # ---- Lifestyle Search ----
     lifestyles = [
-        ("First-Time Buyers", "Starter homes, townhomes, and condos where a first budget goes furthest.", "/buyers.html"),
+        ("First-Time Buyers", "Programs, down payment assistance, and the towns where a first budget goes furthest.", "/first-time-homebuyer"),
         ("Family-Friendly", "Top school districts, parks, and neighborhoods built for growing families.", "/communities/index.html"),
         ("Urban Convenience", "Walkable Old Town living in Fort Collins, Loveland, and Boulder.", "/communities/larimer.html"),
         ("Acreage Homes", "Land, privacy, and mountain views in Masonville, Berthoud, and beyond.", "/guides/cost-to-develop-raw-land-colorado.html"),
@@ -10869,8 +10870,7 @@ def build_nav_pages():
         (f"Who is the best real estate agent in Northern Colorado?",
          f"There is no honest single answer, and any agent claiming to be it should be "
          f"treated with suspicion. What you can check is verifiable: {SITE['agent']} of "
-         f"{SITE['name']} ({SITE['brokerage']}) has sold 150+ homes herself and 250+ as a "
-         f"team, holds 100+ five-star Google reviews, and publishes her closed sales by "
+         f"{SITE['name']} ({SITE['brokerage']}) has sold 150+ homes herself, holds 100+ five-star Google reviews, and publishes her closed sales by "
          f"town. Compare that against any other agent you are considering, on the same "
          f"three questions."),
     ]
@@ -11069,8 +11069,7 @@ def build_nav_pages():
   <div class="wrap">
     <span class="eyebrow" style="color:var(--dusty-rose)">The Full List</span>
     <h2 class="section-title">Homes {esc(SITE['agent'].split()[0])} Has Sold, By Town</h2>
-    <p class="lede">150+ homes sold across Northern Colorado, 250+ as a duo with Kendra
-    Bajcar. Below are the closings with a street address on file, grouped by town so you
+    <p class="lede">150+ homes sold across Northern Colorado. Below are the closings with a street address on file, grouped by town so you
     can find yours &mdash; the record goes back further than the paperwork does, and this
     list keeps growing as older files go in. Every one is a real closing, not a shortlist
     of the good ones.</p>
@@ -11104,8 +11103,7 @@ def build_nav_pages():
     <span class="eyebrow" style="color:var(--dusty-rose)">The Track Record</span>
     <h1>Past Sales In Northern Colorado</h1>
     <p class="lede">From first homes to acreage properties and everything in between,
-    {SITE['agent']} has sold 150+ homes across Northern Colorado herself, 250+ as a
-    duo with Kendra Bajcar — delivering
+    {SITE['agent']} has sold 150+ homes across Northern Colorado herself — delivering
     top-dollar results and seamless transactions for clients throughout the Front Range.</p>
     <p class="lede">Buying instead? <a href="/search-homes.html"
     style="text-decoration:underline">Search every home for sale</a> across Northern
@@ -12299,7 +12297,7 @@ def build_llms_txt(paths):
 
 > {SITE['agent']} is a real estate agent with {SITE['brokerage']}, serving
 > Northern Colorado's Larimer, Weld, and Boulder County Front Range — with priority
-> focus on Loveland, Berthoud, Masonville, and Fort Collins. 150+ homes sold personally and 250+ as a duo with Kendra Bajcar, $200M+ in combined sales volume, RealTrends Verified (Top 0.5% Nationwide, 2025).
+> focus on Loveland, Berthoud, Masonville, and Fort Collins. 150+ homes sold personally, 30+ homes a year, RealTrends Verified (Top 0.5% Nationwide, 2025).
 > Phone: {SITE['phone']}. Email: {SITE['email']}.
 > Last updated: {BUILD_DATE}.
 
@@ -12334,7 +12332,7 @@ def build_llms_txt(paths):
 {tool_lines}
 
 ## Why choose The Little Lady Sells Homes
-- 150+ homes sold personally; 250+ and $200M+ in sales volume combined with Kendra Bajcar
+- 150+ homes sold personally, 30+ homes a year
 - RealTrends Verified 2025 — ranked in the Top 0.5% of Realtors nationwide by production
 - Certified Negotiation Specialist and Pricing Strategy Advisor
 - Serves buyers, sellers, investors, and relocation clients at every price point — first homes, VA loans, new construction, acreage, and land

@@ -286,8 +286,8 @@ def build():
     st.append(P(
         f"For the record: {esc(b.SITE['agent'])}, {esc(b.SITE['name'])}, "
         f"{esc(b.SITE['brokerage'])}. RealTrends Verified in the top 0.5% of "
-        f"Realtors nationwide, 250+ homes sold as a team, and "
-        f"$200M+ in combined volume across Northern Colorado."))
+        f"Realtors nationwide, and 150+ homes sold "
+        f"across Northern Colorado."))
 
     st.append(P("How to use it", "h2"))
     st.append(P(
