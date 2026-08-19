@@ -1,0 +1,51 @@
+{
+ "path": "/homes-for-sale-in-fort-collins-co",
+ "name": "All Homes for Sale in Fort Collins",
+ "type": null,
+ "head": {
+  "title": "Fort Collins Homes for Sale | The Little Lady Sells Homes - BOLD Collective",
+  "description": "Discover your dream home in Fort Collins, CO with The Little Lady Sells Homes. Our BOLD Collective team offers expert guidance and data-driven insights to help you make the best real estate decision. Browse listings now",
+  "url": "https://www.thelittleladysellshomes.com/homes-for-sale-in-fort-collins-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/homes-for-sale-in-fort-collins-co",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/AdobeStock_223903080.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f10e344d877f170a1938",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f10e344d877f170a1937",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Fort Collins, CO"
+     },
+     "listingType": "homes-for-sale-and-pending",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

@@ -1,0 +1,37 @@
+{
+ "path": "/home-sale-calculator",
+ "name": "Affordability Calculator",
+ "type": null,
+ "head": {
+  "title": "Home Sale Calculator: Estimate Your Net Proceeds & Selling Costs | The Little Lady Sells Homes",
+  "description": "Use our Home Sale Calculator to estimate how much you'll make from selling your home. Calculate the sale price, costs like repairs and agent commissions, and net proceeds. Get a clear picture of your home sale with The Little Lady Sells Homes.",
+  "url": "https://www.thelittleladysellshomes.com/home-sale-calculator",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/IMG_2472.jpeg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "heading-mortgage-rates-page",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "mortgage-rates-page",
+   "type": "mortgageRates",
+   "html": null,
+   "options": {
+    "listing": {
+     "price": 300000,
+     "state": "CO",
+     "listingType": "homes-for-sale",
+     "hoaMonthlyFee": 0
+    }
+   }
+  }
+ ],
+ "post": null
+}

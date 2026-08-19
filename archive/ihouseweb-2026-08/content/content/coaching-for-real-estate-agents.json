@@ -1,0 +1,110 @@
+{
+ "path": "/coaching-for-real-estate-agents",
+ "name": "Coaching for Real Estate Agents",
+ "type": null,
+ "head": {
+  "title": "Coaching for Real Estate Agents | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/coaching-for-real-estate-agents",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "6a84fc248435e61a3208aa87",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300224243",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/coaching-for-real-estate-agents",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84fc248435e61a3208aa88",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p style=\"text-align: center;\"><strong><u>Christine Gwinnup, REALTOR, B.A., M.ed</u></strong><br>\r\n*Social Media Marketing Certification<br>\r\n*Luxury Home Marketing Designation<br>\r\n*Member of&nbsp;The&nbsp;Institute for Luxury Home Marketing<br>\r\n*Data-driven Marketing Specialist<br>\r\n<br>\r\n<span style=\"font-size:22px;\"><span style=\"color:#FF0000;\"><strong>Who is The Little Lady?</strong></span></span><br>\r\nChristine's 23 years of Teaching Experience exposed her to the&nbsp;world of data. What did her students know and understand?<br>\r\nWhere were the gaps in her teaching style? How could she lean into information<br>\r\nand&nbsp;dive deeper to elevate her student's scores?<br>\r\n<br>\r\nA creative problem solver at<img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/heart.png?width=50&amp;height=43&amp;aspect_ratio=50%3A43\" style=\"border-width: 0px; border-style: solid; width: 50px; height: 43px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/heart.png?width=100&amp;height=86&amp;aspect_ratio=50%3A43 2x\">&nbsp;with an addiction to data,&nbsp;<br>\r\nChristine left the field of Education, and thrust herself into Sales,<br>\r\nsomething she knew nothing about. After reading every book she could get her<br>\r\nhands on, and learning the importance of a Sales Process, she quickly became the&nbsp;top<br>\r\nsalesperson&nbsp;at one of the best Harley Dealerships in the<br>\r\nUnited States.&nbsp; She&nbsp;quickly moved&nbsp;into the Internet Sales Manager Position<br>\r\nand sold 36 bikes in her final month&nbsp;on the floor.</p>\r\n\r\n<p style=\"text-align: center;\">Christine's love for Real Estate kept her buying and selling homes<br>\r\nthroughout the years and eventually lead her to completing&nbsp;both her<br>\r\nColorado and Wyoming Real Estate licenses.&nbsp;<br>\r\nBringing&nbsp;her knowledge from both of her past careers with her,<br>\r\nChristine developed her&nbsp;bold and Recognizable Northern Colorado Brand.<br>\r\nClosing 12 transactions in her first year and&nbsp;28 in&nbsp;her second year is proof<br>\r\nthat with education and motivation, almost anyone can succeed in Real Estate.<br>\r\n<br>\r\nChristine works with motivated agents helping them<br>\r\n1) Generate Leads for and from&nbsp;their Listings<br>\r\n2) Create a Brand that pushes sales to the next level&nbsp;<br>\r\n3) Create their Individual Processes<br>\r\n4) Problem Solve&nbsp;difficult Transactions</p>\r\n\r\n<p style=\"text-align: center;\">If you are interested in learning more<br>\r\nReach out to Christine at 303-709-4262<br>\r\nto see if you may be a good fit!</p></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84fc248435e61a3208aa89",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301632582",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84fc248435e61a3208aa8a",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301632583",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84fc248435e61a3208aa8b",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301632584",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84fc248435e61a3208aa8c",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-301632585",
+       "label": "What City do you live in?",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84fc248435e61a3208aa8d",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984417",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301632582": "",
+     "phone-301632583": "",
+     "email-301632584": "",
+     "text-301632585": "",
+     "marketing-opt-in-301984417": false
+    },
+    "initialErrors": {
+     "name-301632582": "",
+     "phone-301632583": "",
+     "email-301632584": "",
+     "text-301632585": "",
+     "marketing-opt-in-301984417": ""
+    },
+    "useCaptcha": true,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

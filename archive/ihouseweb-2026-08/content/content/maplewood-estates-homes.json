@@ -1,0 +1,28 @@
+{
+ "path": "/maplewood-estates-homes",
+ "name": "Maplewood Estates Homes",
+ "type": null,
+ "head": {
+  "title": "Maplewood Estates Homes | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/maplewood-estates-homes",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Maplewood%20Estates%202%20%281%29.jpg",
+   "height": 300,
+   "width": 400
+  },
+  "hasOverlay": true
+ },
+ "blocks": [
+  {
+   "id": "featured-location-76349",
+   "type": "featuredLocation",
+   "html": null,
+   "options": {
+    "featuredLocationId": 76349
+   }
+  }
+ ],
+ "post": null
+}

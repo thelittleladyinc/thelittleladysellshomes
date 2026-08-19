@@ -1,0 +1,45 @@
+{
+ "path": "/search-weld-county",
+ "name": "Search Weld County",
+ "type": null,
+ "head": {
+  "title": "Search Weld County | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/search-weld-county",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "featured-locations-100007958-heading",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "featured-locations-100007958",
+   "type": "featuredLocations",
+   "html": null,
+   "options": {
+    "format": "grid",
+    "featuredLocationIds": [
+     "74982",
+     "74997",
+     "74977",
+     "74990",
+     "74979",
+     "74998",
+     "74995",
+     "74993",
+     "74978",
+     "74983",
+     "74992",
+     "74985",
+     ""
+    ],
+    "gap": "30px",
+    "includeLinks": true,
+    "excludeFeaturedLocationContext": false
+   }
+  }
+ ],
+ "post": null
+}

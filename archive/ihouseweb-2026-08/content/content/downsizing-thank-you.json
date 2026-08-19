@@ -1,0 +1,29 @@
+{
+ "path": "/downsizing-thank-you",
+ "name": "Your Guide Is On Its Way!",
+ "type": null,
+ "head": {
+  "title": "Thank You – Your Free Downsizing Guide Is On Its Way",
+  "description": "Your free guide is on its way! Learn how Christine Gwinnup helps Northern Colorado homeowners sell smart, downsize confidently, and simplify their next chapter.",
+  "url": "https://www.thelittleladysellshomes.com/downsizing-thank-you",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Thinking%20about%20Downsizing%20.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f5a29a20e504980de0c5",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f5a29a20e504980de0c4",
+   "type": "customContent",
+   "html": "<p>Check your inbox for the <strong>Smart Downsizing Guide for Colorado Homeowners</strong>. If it doesn&rsquo;t show up within a few minutes, don&rsquo;t forget to check your spam or promotions folder.</p>\r\n\r\n<h2>Here&rsquo;s How I Help My Clients Downsize Smarter:</h2>\r\n\r\n<ul>\r\n\t<li><strong>Sell High. Buy Smart.</strong> I&rsquo;ll help you time the market to maximize both sides of your move.</li>\r\n\t<li><strong>Free Trailer Use for 1 Week.</strong> You can borrow mine when you're ready to move out.</li>\r\n\t<li><strong>Boxes Delivered to Your Door.</strong> No scrambling&mdash;I&rsquo;ll send moving boxes to your home.</li>\r\n\t<li><strong>Local Movers.</strong> I&rsquo;ll connect you with reliable, affordable movers who actually show up.</li>\r\n\t<li><strong>More Time to Move.</strong> I can often negotiate a few extra days in your home after closing.</li>\r\n</ul>\r\n\r\n<p>I&rsquo;m ranked in the top 0.5% of agents nationwide and proud to help Northern Colorado sellers make their next chapter simple&mdash;and profitable.</p>\r\n<a class=\"button\" href=\"https://www.thelittleladysellshomes.com/contact\">Schedule a Free Call</a>\r\n\r\n<p style=\"margin-top: 1rem; font-size: 0.95rem; color: #666;\">Want help planning your next move? I&rsquo;m happy to walk you through the smartest strategy for your home and goals.</p>\r\n<style type=\"text/css\">body {\r\n    font-family: 'Georgia', serif;\r\n    color: #222;\r\n    background-color: #fff;\r\n    max-width: 750px;\r\n    margin: auto;\r\n    padding: 2rem;\r\n    line-height: 1.7;\r\n  }\r\n  h1 {\r\n    color: #8B0000;\r\n    font-size: 2rem;\r\n    margin-bottom: 0.5rem;\r\n  }\r\n  h2 {\r\n    color: #444;\r\n    font-size: 1.3rem;\r\n    margin-top: 1.5rem;\r\n  }\r\n  ul {\r\n    margin-top: 1rem;\r\n    padding-left: 1.2rem;\r\n  }\r\n  ul li {\r\n    margin-bottom: 0.7rem;\r\n  }\r\n  a.button {\r\n    display: inline-block;\r\n    margin-top: 1.5rem;\r\n    padding: 0.75rem 1.25rem;\r\n    background-color: #8B0000;\r\n    color: #fff;\r\n    text-decoration: none;\r\n    font-weight: bold;\r\n    border-radius: 6px;\r\n  }\r\n  a.button:hover {\r\n    background-color: #a70000;\r\n  }\r\n</style>\r\n\n"
+  }
+ ],
+ "post": null
+}

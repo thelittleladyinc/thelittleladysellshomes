@@ -1,0 +1,46 @@
+{
+ "path": "/loveland-homes-for-sale",
+ "name": "Loveland Homes For Sale",
+ "type": null,
+ "head": {
+  "title": "Loveland Homes For Sale",
+  "description": "Find properties for sale in Loveland, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/loveland-homes-for-sale",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/loveland-homes-for-sale"
+ },
+ "blocks": [
+  {
+   "id": "6a84f03becbbefb05c054a2e",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f03becbbefb05c054a2d",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "split",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Loveland, CO"
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "split",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

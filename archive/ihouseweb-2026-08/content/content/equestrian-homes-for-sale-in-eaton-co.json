@@ -1,0 +1,55 @@
+{
+ "path": "/equestrian-homes-for-sale-in-eaton-co",
+ "name": "Equestrian Homes For Sale in Eaton, CO",
+ "type": null,
+ "head": {
+  "title": "Equestrian Homes For Sale in Eaton, CO",
+  "description": "Find properties for sale in Eaton, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/equestrian-homes-for-sale-in-eaton-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/equestrian-homes-for-sale-in-eaton-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f77f3e77501cf4025b34",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f77f3e77501cf4025b33",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "keywords": [
+      "Horse property",
+      "Horses permitted"
+     ],
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Eaton, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house",
+      "condo",
+      "multi"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

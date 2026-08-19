@@ -1,0 +1,39 @@
+{
+ "path": "/quick-search",
+ "name": "Why Do Buyers Choose To Work With The Little Lady?",
+ "type": null,
+ "head": {
+  "title": "Why Do Buyers Choose To Work With The Little Lady? | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/quick-search",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "heading-custom-search-form-303198711",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "content-top-custom-search-form-303198711",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><h1 style=\"text-align: center;\"><span style=\"font-size: 16px;\"></span><strong><span style=\"font-size:18px;\"> &nbsp;Working With A Top Performing, Northern Colorado Realtor&nbsp;Matters&nbsp; &nbsp;</span></strong> &nbsp; &nbsp;</h1>\r\n\r\n<table border=\"0\" cellpadding=\"5\" cellspacing=\"0\" style=\"width:100%;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td style=\"width: 315px; text-align: right; vertical-align: top;\"><img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Untitled%20design%20%2813%29.png\" style=\"float: right;\"></td>\r\n\t\t\t<td style=\"text-align: left;\">\r\n\t\t\t<p style=\"text-align: center;\"><span style=\"font-size:18px;\"><em>\"Christine is amazing! There aren&rsquo;t enough good things I<br>\r\n\t\t\tcould say about this outstanding woman! She is so professional,<br>\r\n\t\t\tand personable. She goes above and beyond and after closing, she doesn&rsquo;t<br>\r\n\t\t\tstop there. She continues to support and care. This was our first time buying a home.<br>\r\n\t\t\tShe made it possible with her hard work and dedication. Very grateful!\"</em><br>\r\n\t\t\tAlyssa Kern<br>\r\n\t\t\t<br>\r\n\t\t\t<a href=\"/testimonials\">READ MORE TESTIMONIALS</a></span></p>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p style=\"text-align: center;\"><span style=\"color:#FF0000;\"></span></p>\r\n</body></html>\n"
+  },
+  {
+   "id": "custom-search-form-303198711",
+   "type": "listingSearchForm",
+   "html": null,
+   "options": {
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "split",
+     "page": 1,
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "format": "quickSearch"
+   }
+  }
+ ],
+ "post": null
+}

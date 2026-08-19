@@ -1,0 +1,103 @@
+{
+ "path": "/open-house-sign-in",
+ "name": "Open House Sign In",
+ "type": null,
+ "head": {
+  "title": "Open House Sign In | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/open-house-sign-in",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "6a84f8d81f3cc59e70032e76",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300273983",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/open-house-sign-in",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f8d81f3cc59e70032e77",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301983094",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f8d81f3cc59e70032e78",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301983095",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f8d81f3cc59e70032e79",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301983096",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f8d81f3cc59e70032e7a",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301983097",
+       "label": "Are you working with a Realtor®?",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f8d81f3cc59e70032e7b",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984435",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301983094": "",
+     "email-301983095": "",
+     "phone-301983096": "",
+     "textarea-301983097": "",
+     "marketing-opt-in-301984435": false
+    },
+    "initialErrors": {
+     "name-301983094": "",
+     "email-301983095": "",
+     "phone-301983096": "",
+     "textarea-301983097": "",
+     "marketing-opt-in-301984435": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

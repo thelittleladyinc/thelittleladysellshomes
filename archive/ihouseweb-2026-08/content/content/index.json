@@ -1,0 +1,54 @@
+{
+ "path": "/",
+ "name": "Home Page",
+ "type": null,
+ "head": {
+  "title": "Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/banners/LRyluarTXktN8-awBAdyy826K_8JYX7cHw.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f028209014c49f00bf2d",
+   "type": "wrapper",
+   "html": null,
+   "options": {
+    "tag": "div",
+    "id": "BannerWrapper",
+    "marginBottom": "4rem",
+    "marginLeft": 0,
+    "marginRight": 0
+   }
+  },
+  {
+   "id": "6a84f028209014c49f00bf37",
+   "type": "wrapper",
+   "html": null,
+   "options": {
+    "tag": "div",
+    "id": "FeaturedContentWrapper",
+    "className": "text-dark",
+    "marginTop": "-4rem",
+    "marginBottom": "4rem",
+    "paddingTop": "4rem",
+    "backgroundColor": "light"
+   }
+  },
+  {
+   "id": "6a84f028209014c49f00bf3a",
+   "type": "wrapper",
+   "html": null,
+   "options": {
+    "tag": "div",
+    "id": "ContentWrapper"
+   }
+  }
+ ],
+ "post": null
+}

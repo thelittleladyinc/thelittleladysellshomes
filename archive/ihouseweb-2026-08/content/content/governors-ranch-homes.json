@@ -1,0 +1,28 @@
+{
+ "path": "/governors-ranch-homes",
+ "name": "Governors Ranch Homes",
+ "type": null,
+ "head": {
+  "title": "Find your forever home in Eaton, Colorado",
+  "description": "Searching for your perfect home in Eaton, Colorado? The Little Lady Sells Homes, is a local real estate agent who can help!",
+  "url": "https://www.thelittleladysellshomes.com/governors-ranch-homes",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/A%20front%20D%20to%20E%20%282%29.jpg",
+   "height": 300,
+   "width": 400
+  },
+  "hasOverlay": true
+ },
+ "blocks": [
+  {
+   "id": "featured-location-76350",
+   "type": "featuredLocation",
+   "html": null,
+   "options": {
+    "featuredLocationId": 76350
+   }
+  }
+ ],
+ "post": null
+}

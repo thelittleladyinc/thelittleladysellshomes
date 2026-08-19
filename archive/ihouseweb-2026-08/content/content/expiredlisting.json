@@ -1,0 +1,102 @@
+{
+ "path": "/expiredlisting",
+ "name": "Expired Listing",
+ "type": null,
+ "head": {
+  "title": "Listing Expired? Get a 1-Page Relaunch Plan | Weld & Larimer",
+  "description": "Your Home Didn't Sell? Strategic relaunch for Larimer & Weld sellers: pro media, smart distribution, and ZIP-targeted ads. Free 1-page plan from a RealTrends Top 0.05% agent.",
+  "url": "https://www.thelittleladysellshomes.com/expiredlisting",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Expired%20Listing%20Photo.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f5a44cc16635f709d935",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300291051",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/expiredlisting",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f5a44cc16635f709d936",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<!-- EXPIRED → SOLD Landing (iHOUSE-safe: no scripts/iframes) --><html><body><div style=\"max-width: 1100px; margin: 0 auto; padding: 24px; background: #f6f6f6; color: #0a0a0a; font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif\"><!-- Header / Trust -->\r\n<div style=\"display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px\">\r\n<div style=\"display:flex;align-items:center;gap:10px\">\r\n<div style=\"height: 40px; width: 40px; border-radius: 50%; background: #111; color: #fff; display: grid; place-items: center; font-weight: 700\">LL</div>\r\n\r\n<div>\r\n<div style=\"font-weight:700\">The Little Lady Sells Homes&reg;</div>\r\n\r\n<div style=\"color:#666;font-size:12px\">Weld &amp; Larimer Counties &bull; RealTrends Top 0.05%</div>\r\n</div>\r\n</div>\r\n<a href=\"#plan\" style=\"display:inline-block;padding:12px 18px;border-radius:16px;border:1px solid #111;color:#111;text-decoration:none\">Get My 1-Page Plan</a></div>\r\n<!-- Hero -->\r\n\r\n<h1 style=\"font:800 34px/1.15 system-ui;margin:0 0 8px\">The first time you listed, it didn&rsquo;t sell. I&rsquo;m here to help.</h1>\r\n\r\n<p style=\"margin:0 0 12px;color:#444;font-size:18px\">The market gave you feedback. I turn it into your edge with smart marketing and strong negotiation&mdash;so <b>you keep more of your money</b>.</p>\r\n\r\n<ul style=\"margin:0 0 14px 18px;color:#222\">\r\n\t<li>Fix the story: pro photos, short video, clean presentation</li>\r\n\t<li>Show it everywhere: target where buyers are actually coming from</li>\r\n\t<li>Negotiate the whole deal: price, repairs, appraisal, timing</li>\r\n</ul>\r\n\r\n<div style=\"display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 18px\"><a href=\"#plan\" style=\"display: inline-block; padding: 12px 18px; border-radius: 16px; border: 1px solid #111; background: #111; color: #fff; text-decoration: none; font-weight: 700\">Send My 1-Page Plan</a> <a href=\"https://calendly.com/YOUR-HANDLE/15min\" style=\"display:inline-block;padding:12px 18px;border-radius:16px;border:1px solid #111;color:#111;text-decoration:none\" target=\"_blank\">Book a 15-Minute Call</a></div>\r\n<!-- Trust strip -->\r\n\r\n<div style=\"display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:18px 0\">\r\n<div style=\"border: 1px solid #ddd; border-radius: 999px; padding: 10px 14px; background: #fff\">\r\n<div style=\"font-size:12px;color:#666\">Verified by RealTrends</div>\r\n\r\n<div style=\"font-weight:700\">Top 0.05% Nationwide</div>\r\n</div>\r\n\r\n<div style=\"border: 1px solid #ddd; border-radius: 999px; padding: 10px 14px; background: #fff\">\r\n<div style=\"font-size:12px;color:#666\">Local Expertise</div>\r\n\r\n<div style=\"font-weight:700\">Weld &amp; Larimer Counties</div>\r\n</div>\r\n\r\n<div style=\"border: 1px solid #ddd; border-radius: 999px; padding: 10px 14px; background: #fff\">\r\n<div style=\"font-size:12px;color:#666\">Marketing Engine</div>\r\n\r\n<div style=\"font-weight:700\">Pro Media + Retargeting</div>\r\n</div>\r\n</div>\r\n<!-- Real Results -->\r\n\r\n<div style=\"background: #fff; border: 1px solid #ddd; border-radius: 16px; padding: 18px; margin: 16px 0\">\r\n<h2 style=\"margin:0 0 8px;font:700 22px system-ui\">Real Results</h2>\r\n\r\n<div style=\"display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))\">\r\n<div style=\"border:1px solid #eee;border-radius:14px;padding:14px\">\r\n<div style=\"font-weight:700\">Year on the market &rarr; 6 days</div>\r\n\r\n<p style=\"margin:6px 0 0;color:#444\">Listed with another agent for a year. I brought staging, pro photography, drone + video, and targeted the right buyers. <b>Under contract in 6 days.</b></p>\r\n</div>\r\n\r\n<div style=\"border:1px solid #eee;border-radius:14px;padding:14px\">\r\n<div style=\"font-weight:700\">Off market &rarr; hired me &rarr; closed</div>\r\n\r\n<p style=\"margin:6px 0 0;color:#444\">Listed with another agent, went off the market. They called me to get it done. <b>We relaunched and closed.</b></p>\r\n\r\n<p style=\"margin:6px 0 0\"><a href=\"https://www.thelittleladysellshomes.com/idx/listing/CO-IRES/1030228/45615-County-Road-27-Pierce-CO-80650\" target=\"_blank\">See the Pierce property</a></p>\r\n</div>\r\n</div>\r\n\r\n<p style=\"color:#777;font-size:12px;margin-top:8px\">Each home is unique; timelines and outcomes vary with market conditions.</p>\r\n</div>\r\n<!-- Strategic Marketing -->\r\n\r\n<div style=\"background: #fff; border: 1px solid #ddd; border-radius: 16px; padding: 18px; margin: 16px 0\">\r\n<h2 style=\"margin:0 0 8px;font:700 22px system-ui\">Strategic Marketing That Fits <i>Your</i> Goals</h2>\r\n\r\n<p style=\"color:#555;margin:6px 0 10px\">Simple, targeted, effective. You choose the mix&mdash;I&rsquo;ll recommend the minimum needed to win.</p>\r\n\r\n<div style=\"display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))\">\r\n<div style=\"border:1px solid #eee;border-radius:14px;padding:14px\">\r\n<div style=\"font-weight:700\">Launch Essentials</div>\r\n\r\n<ul style=\"margin:6px 0 0 18px;color:#222\">\r\n\t<li>Pro photos + value-driven copy</li>\r\n\t<li>MLS optimization &amp; syndication</li>\r\n\t<li>Basic retargeting</li>\r\n\t<li>Open house plan</li>\r\n</ul>\r\n</div>\r\n\r\n<div style=\"border:1px solid #eee;border-radius:14px;padding:14px\">\r\n<div style=\"font-weight:700\">Market Accelerator</div>\r\n\r\n<ul style=\"margin:6px 0 0 18px;color:#222\">\r\n\t<li>Everything in Essentials</li>\r\n\t<li>60&ndash;90s video + vertical reels</li>\r\n\t<li>Neighborhood email</li>\r\n\t<li>ZIP-targeted ads to likely buyers</li>\r\n</ul>\r\n</div>\r\n\r\n<div style=\"border:1px solid #eee;border-radius:14px;padding:14px\">\r\n<div style=\"font-weight:700\">Premium Showcase</div>\r\n\r\n<ul style=\"margin:6px 0 0 18px;color:#222\">\r\n\t<li>Everything in Accelerator</li>\r\n\t<li>Staging consult</li>\r\n\t<li>Drone + twilight set</li>\r\n\t<li>Direct mail with QR to feeder ZIPs</li>\r\n</ul>\r\n</div>\r\n</div>\r\n\r\n<p style=\"color:#777;font-size:12px;margin-top:8px\">&Agrave;-la-carte: floor plan, virtual tour, agent-to-agent promotion, higher ad budgets, etc.</p>\r\n</div>\r\n<!-- Buyer Origin by ZIP -->\r\n\r\n<div style=\"background: #fff; border: 1px solid #ddd; border-radius: 16px; padding: 18px; margin: 16px 0\">\r\n<h2 style=\"margin:0 0 8px;font:700 22px system-ui\">Know Where Your Buyer Lives Now</h2>\r\n\r\n<p style=\"color:#555;margin:6px 0 10px\">I analyze recent closings to find the top ZIP codes buyers are moving from&mdash;then I weight ads (and optional mail) to those pockets so the right people see your home repeatedly.</p>\r\n\r\n<div style=\"display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))\">\r\n<div style=\"border:1px dashed #ddd;border-radius:12px;padding:10px\"><b>Example Feeder ZIPs for 80525</b><br>\r\n<span style=\"color:#555\">80234 &bull; 80023 &bull; 80634 &bull; 80538 &bull; 80528</span></div>\r\n\r\n<div style=\"border:1px dashed #ddd;border-radius:12px;padding:10px\"><b>Example Feeder ZIPs for 80634</b><br>\r\n<span style=\"color:#555\">80525 &bull; 80550 &bull; 80233 &bull; 80538 &bull; 80026</span></div>\r\n</div>\r\n\r\n<p style=\"color:#777;font-size:12px;margin-top:8px\">We&rsquo;ll use the latest data for your address&mdash;no guessing.</p>\r\n</div>\r\n<!-- Negotiation: Protect Your Net -->\r\n\r\n<div style=\"background: #fff; border: 1px solid #ddd; border-radius: 16px; padding: 18px; margin: 16px 0\">\r\n<h2 style=\"margin:0 0 8px;font:700 22px system-ui\">Negotiation That Protects Your Net</h2>\r\n\r\n<ul style=\"margin:6px 0 0 18px;color:#222\">\r\n\t<li>Multiple-offer strategy: launch timing, agent alerts, clear deadlines</li>\r\n\t<li>Inspection leverage: pre-list fixes; caps or &ldquo;information only&rdquo; when feasible</li>\r\n\t<li>Appraisal prep: comps + upgrades packet; appraisal-gap planning</li>\r\n\t<li>Timeline wins: rent-back or flexible closing so you avoid extra costs</li>\r\n\t<li>Backup offers: leverage and protection after you go under contract</li>\r\n</ul>\r\n\r\n<p style=\"margin:8px 0 0;color:#444\"><b>Bottom line:</b> I negotiate price <i>and</i> terms&mdash;so you keep more of your money.</p>\r\n</div>\r\n<!-- Form Area (native iHOUSE form here) -->\r\n\r\n<div id=\"plan\" style=\"background: #fff; border: 1px solid #ddd; border-radius: 16px; padding: 18px; margin: 16px 0\">\r\n<h2 style=\"margin:0 0 8px;font:700 22px system-ui\">Request Your 1-Page Plan</h2>\r\n\r\n<p style=\"color:#555;margin:0 0 8px\">No obligation. Delivered within 1 business day.</p>\r\n<!-- Paste your iHOUSE form widget/shortcode below --><!-- Example: [ihouse-form id=\"YOUR_FORM_ID\"] --></div>\r\n<!-- Footer -->\r\n\r\n<p style=\"text-align:center;color:#666;font-size:12px;margin:8px 0 0\">&copy; The Little Lady Sells Homes&reg; &bull; Brokerage: [Your Brokerage] &bull; DRE# [License]</p>\r\n</div></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f5a44cc16635f709d937",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-302114552",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f5a44cc16635f709d938",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-302114553",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f5a44cc16635f709d939",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-302114554",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f5a44cc16635f709d93a",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-302114555",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-302114552": "",
+     "email-302114553": "",
+     "phone-302114554": "",
+     "textarea-302114555": ""
+    },
+    "initialErrors": {
+     "name-302114552": "",
+     "email-302114553": "",
+     "phone-302114554": "",
+     "textarea-302114555": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

@@ -1,0 +1,24 @@
+{
+ "path": "/mortgage-calculator-2",
+ "name": "How Much Home Can You Afford?",
+ "type": null,
+ "head": {
+  "title": "How Much Home Can You Afford? | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/mortgage-calculator-2",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "6a84f53c7f35a8c2fa034d92",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f53c7f35a8c2fa034d91",
+   "type": "customContent",
+   "html": "<div><script type=\"text/javascript\" src=\"https://widget.hifello.com/mortgage-calculator-widget.js\" async=\"\" defer>// <![CDATA[\r\n\r\n// ]]></script><fello-mortgage-calculator-widget style=\"font-size: 36px;\" widget-id=\"66db585dd6f025002da46d40\"></fello-mortgage-calculator-widget></div>\r\n\n"
+  }
+ ],
+ "post": null
+}

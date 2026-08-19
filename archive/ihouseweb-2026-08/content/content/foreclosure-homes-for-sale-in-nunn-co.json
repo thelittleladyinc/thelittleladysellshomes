@@ -1,0 +1,49 @@
+{
+ "path": "/foreclosure-homes-for-sale-in-nunn-co",
+ "name": "Foreclosure Homes for Sale in Nunn, CO",
+ "type": null,
+ "head": {
+  "title": "Foreclosure Homes for Sale in Nunn, CO",
+  "description": "Find properties for sale in Nunn, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/foreclosure-homes-for-sale-in-nunn-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/foreclosure-homes-for-sale-in-nunn-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f40b33cad2653906ae28",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f40b33cad2653906ae27",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "categories": [
+      "foreclosure"
+     ],
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Nunn, CO"
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

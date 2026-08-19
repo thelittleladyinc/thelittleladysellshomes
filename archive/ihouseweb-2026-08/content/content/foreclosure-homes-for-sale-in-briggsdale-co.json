@@ -1,0 +1,49 @@
+{
+ "path": "/foreclosure-homes-for-sale-in-briggsdale-co",
+ "name": "Foreclosure Homes for Sale in Briggsdale, CO",
+ "type": null,
+ "head": {
+  "title": "Foreclosure Homes for Sale in Briggsdale, CO",
+  "description": "Find properties for sale in Briggsdale, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/foreclosure-homes-for-sale-in-briggsdale-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/foreclosure-homes-for-sale-in-briggsdale-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f3dbb5fc39272705d4a2",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f3dbb5fc39272705d4a1",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "categories": [
+      "foreclosure"
+     ],
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Briggsdale, CO"
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

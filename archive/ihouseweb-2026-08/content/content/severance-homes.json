@@ -1,0 +1,28 @@
+{
+ "path": "/severance-homes",
+ "name": "Severance Homes",
+ "type": null,
+ "head": {
+  "title": "Severance Homes | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/severance-homes",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/featured-community-54343258%20-%20Copy.jpg",
+   "height": 300,
+   "width": 400
+  },
+  "hasOverlay": true
+ },
+ "blocks": [
+  {
+   "id": "featured-location-74985",
+   "type": "featuredLocation",
+   "html": null,
+   "options": {
+    "featuredLocationId": 74985
+   }
+  }
+ ],
+ "post": null
+}

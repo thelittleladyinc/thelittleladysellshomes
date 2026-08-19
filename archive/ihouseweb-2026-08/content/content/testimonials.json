@@ -1,0 +1,25 @@
+{
+ "path": "/testimonials",
+ "name": "Testimonials",
+ "type": null,
+ "head": {
+  "title": "Testimonials | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/testimonials",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "heading-testimonials-page",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "testimonials-page-content",
+   "type": "testimonialsPage",
+   "html": null,
+   "options": []
+  }
+ ],
+ "post": null
+}

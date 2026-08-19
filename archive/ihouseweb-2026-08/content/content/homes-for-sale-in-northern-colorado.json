@@ -1,0 +1,57 @@
+{
+ "path": "/homes-for-sale-in-northern-colorado",
+ "name": "Homes for sale in Northern Colorado",
+ "type": null,
+ "head": {
+  "title": "Homes for sale in Northern Colorado",
+  "description": "Looking for homes for sale in Northern Colorado? Look no further! Our extensive listings offer a wide variety of properties in the area, from charming bungalows to modern townhouses. Our team can help you find the perfect home to suit your needs. ",
+  "url": "https://www.thelittleladysellshomes.com/homes-for-sale-in-northern-colorado",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/homes-for-sale-in-northern-colorado"
+ },
+ "blocks": [
+  {
+   "id": "6a84f3cd6032d4e6690fd0b8",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f3cd6032d4e6690fd0b9",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p style=\"text-align: center;\">Are you looking for a home in Northern Colorado area?<br>\r\nYour Local, Award-Winning Realtor, Christine Gwinnup will send you&nbsp;<br>\r\nINSTANT NOTIFICATION&nbsp;each and every time a new home within your&nbsp;criteria hits the market.&nbsp;<br>\r\nBeing first to tour a home gives you the advantage to get the BEST home for the LEAST amount of money!<br>\r\n&nbsp; &nbsp;&nbsp;</p>\r\n</body></html>\n"
+  },
+  {
+   "id": "6a84f3cd6032d4e6690fd0b7",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "radius",
+      "value": {
+       "point": [
+        40.36128209905985,
+        -105.04024453125015
+       ],
+       "radius": "54.09"
+      }
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

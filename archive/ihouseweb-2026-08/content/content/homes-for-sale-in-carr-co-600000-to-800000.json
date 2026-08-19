@@ -1,0 +1,60 @@
+{
+ "path": "/homes-for-sale-in-carr-co-600000-to-800000",
+ "name": "Homes for Sale in Carr, CO $600,000 to $800,000",
+ "type": null,
+ "head": {
+  "title": "Homes for Sale in Carr, CO $600,000 to $800,000",
+  "description": "Find properties for sale in Carr, CO from $600,000 to $800,000. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/homes-for-sale-in-carr-co-600000-to-800000",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/homes-for-sale-in-carr-co-600000-to-800000"
+ },
+ "blocks": [
+  {
+   "id": "6a84f3b1fd85c7e84c005de4",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f3b1fd85c7e84c005de5",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p style=\"text-align: center;\">Are you looking for an affordable home in Carr&nbsp;or&nbsp;the surrounding Northern Colorado area?<br>\r\nYour Local, Award-Winning Realtor, Christine Gwinnup will send you&nbsp;<br>\r\nINSTANT NOTIFICATION&nbsp;each and every time a new home within your&nbsp;criteria hits the market.&nbsp;<br>\r\nBeing first to tour a home gives you the advantage!&nbsp;<br>\r\nContact The Little Lady Sells Homes at 303-709-4262 and let her help you get the best home for the least amount of money.<br>\r\n<strong>CLICK THE LINKS BELOW FOR MORE INFORMATION</strong><br>\r\n&nbsp;</p>\r\n\r\n<p style=\"text-align: center;\"><a class=\"btn btn-primary\" href=\"tel:303-709-4262\">TOUR A PROPERTY</a><br>\r\n<br>\r\n<a class=\"btn btn-primary\" href=\"/contact\">SEE WHAT YOU ARE APPROVED FOR</a><br>\r\n<br>\r\n<a class=\"btn btn-primary\" href=\"/first-time-homebuyer\">FIRST TIME HOME BUYING GRANTS</a><br>\r\n<br>\r\n<a class=\"btn btn-primary\" href=\"/christine-gwinnup-the-little-lady-sells-homes\">WHO IS THE LITTLE LADY</a><br>\r\n<br>\r\n<a class=\"btn btn-primary\" href=\"/buying-a-home\">STEPS TO BUYING A HOME</a></p>\r\n\r\n</body></html>\n"
+  },
+  {
+   "id": "6a84f3b1fd85c7e84c005de3",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "price": {
+      "min": "600000",
+      "max": "800000"
+     },
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Carr, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house",
+      "condo",
+      "multi"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

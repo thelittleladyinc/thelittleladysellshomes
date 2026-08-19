@@ -1,0 +1,28 @@
+{
+ "path": "/aspen-meadows-homes",
+ "name": "Aspen Meadows Homes",
+ "type": null,
+ "head": {
+  "title": "Aspen Meadows Homes | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/aspen-meadows-homes",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://library-ihouseprd.b-cdn.net/featured-location-images/Neighborhood-Community-468619256.jpg",
+   "height": 300,
+   "width": 400
+  },
+  "hasOverlay": true
+ },
+ "blocks": [
+  {
+   "id": "featured-location-141955",
+   "type": "featuredLocation",
+   "html": null,
+   "options": {
+    "featuredLocationId": 141955
+   }
+  }
+ ],
+ "post": null
+}

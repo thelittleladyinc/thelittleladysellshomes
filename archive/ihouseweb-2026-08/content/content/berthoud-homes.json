@@ -1,0 +1,28 @@
+{
+ "path": "/berthoud-homes",
+ "name": "Berthoud Homes",
+ "type": null,
+ "head": {
+  "title": "Explore Berthoud, Colorado - A Quaint Town with Endless Charm | TheLittleLadySellsHomes.com",
+  "description": "Berthoud, Colorado, is the perfect destination for anyone looking to experience small-town charm while still enjoying easy access to big-city amenities. With a vibrant downtown area, beautiful parks and trails, and a rich history, Berthoud has something for everyone. Discover all that this hidden gem has to offer and plan your visit today!",
+  "url": "https://www.thelittleladysellshomes.com/berthoud-homes",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/featured-community-131637998.jpg",
+   "height": 300,
+   "width": 400
+  },
+  "hasOverlay": true
+ },
+ "blocks": [
+  {
+   "id": "featured-location-74991",
+   "type": "featuredLocation",
+   "html": null,
+   "options": {
+    "featuredLocationId": 74991
+   }
+  }
+ ],
+ "post": null
+}

@@ -1,0 +1,115 @@
+{
+ "path": "/top-realtor-in-northern-colorado",
+ "name": "Top Realtor in Northern Colorado",
+ "type": null,
+ "head": {
+  "title": "Best Real Estate Agent in Northern Colorado & Cheyenne, Wyoming | The Little Lady Sells Homes l BOLD Collective powered by lpt",
+  "description": "Discover top-notch real estate services with the Little Lady Sells Homes powered by lpt. Specializing in Eaton, Ault, Pierce, Nunn, Fort Collins, and Loveland. Your go-to source for buying and selling homes, including exclusive access to off-market properties and a large investor network.",
+  "url": "https://www.thelittleladysellshomes.com/top-realtor-in-northern-colorado",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/Featured-Community-127569044.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f48fc398b808e305fc80",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300255104",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/top-realtor-in-northern-colorado",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f48fc398b808e305fc81",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><title></title>\r\n</head><body><h1 style=\"text-align: center;\"><span style=\"font-size:28px;\">Unlock the Best Real Estate Deals in<br>\r\nNorthern Colorado with The Little Lady Sells Homes</span></h1>\r\n\r\n<p></p>\r\n<title></title>\r\n<h1>Unlock the Best Real Estate Deals in Northern Colorado &amp; Cheyenne, Wyoming with the BOLD Collective powered by lpt</h1>\r\n\r\n<p></p></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f48fc398b808e305fc82",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301846512",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f48fc398b808e305fc83",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301846513",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f48fc398b808e305fc84",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301846514",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f48fc398b808e305fc85",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301846515",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f48fc398b808e305fc86",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984439",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301846512": "",
+     "email-301846513": "",
+     "phone-301846514": "",
+     "textarea-301846515": "",
+     "marketing-opt-in-301984439": false
+    },
+    "initialErrors": {
+     "name-301846512": "",
+     "email-301846513": "",
+     "phone-301846514": "",
+     "textarea-301846515": "",
+     "marketing-opt-in-301984439": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

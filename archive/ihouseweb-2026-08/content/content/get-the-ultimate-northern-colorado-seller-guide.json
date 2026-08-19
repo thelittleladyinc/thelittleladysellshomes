@@ -1,0 +1,102 @@
+{
+ "path": "/get-the-ultimate-northern-colorado-seller-guide",
+ "name": "Get the Ultimate Northern Colorado Seller Guide",
+ "type": null,
+ "head": {
+  "title": "Free Northern Colorado Seller Guide | Christine Gwinnup",
+  "description": "Download this strategic seller guide from top NoCo producer Christine Gwinnup. 39 homes sold in 2024. Learn how to sell faster and smarter—without overspending.",
+  "url": "https://www.thelittleladysellshomes.com/get-the-ultimate-northern-colorado-seller-guide",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Screenshot%202025-06-02%20at%206.11.35%E2%80%AFPM.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f8e6224713476604ed06",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300285569",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/get-the-ultimate-northern-colorado-seller-guide",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f8e6224713476604ed07",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><div style=\"background-color: #ffffff; border: 2px solid #d4af37; border-radius: 12px; padding: 32px; max-width: 800px; margin: auto; font-family: Helvetica, sans-serif; color: #222222;\">\r\n<h1 style=\"font-size: 28px; color: #000000; text-align: center; margin-top: 0;\">Northern Colorado Seller Strategy Guide</h1>\r\n\r\n<p style=\"font-size: 16px; line-height: 1.6; text-align: center;\">Thinking of selling your home in 2025? This exclusive guide from top Northern Colorado listing agent Christine Gwinnup will help you understand what truly impacts your bottom line&mdash;so you can sell smarter, faster, and with confidence.</p>\r\n\r\n<ul style=\"font-size: 16px; line-height: 1.6; margin-top: 20px; padding-left: 24px;\">\r\n\t<li>How to price your home to attract the right buyers</li>\r\n\t<li>What prep steps and upgrades actually add value</li>\r\n\t<li>Marketing and negotiation strategies that work</li>\r\n\t<li>Access to a proven checklist used by 39 sellers in 2024</li>\r\n</ul>\r\n\r\n<p style=\"font-size: 18px; font-weight: bold; text-align: center; margin-top: 30px;\">Enter your information below to get instant access to the guide.</p>\r\n</div></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f8e6224713476604ed08",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-302072947",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f8e6224713476604ed09",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-302072948",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f8e6224713476604ed0a",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-302072949",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f8e6224713476604ed0b",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-302072950",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-302072947": "",
+     "email-302072948": "",
+     "phone-302072949": "",
+     "textarea-302072950": ""
+    },
+    "initialErrors": {
+     "name-302072947": "",
+     "email-302072948": "",
+     "phone-302072949": "",
+     "textarea-302072950": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

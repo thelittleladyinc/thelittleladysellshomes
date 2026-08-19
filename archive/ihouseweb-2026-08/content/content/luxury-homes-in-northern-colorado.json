@@ -1,0 +1,84 @@
+{
+ "path": "/luxury-homes-in-northern-colorado",
+ "name": "Luxury Homes in Northern Colorado",
+ "type": null,
+ "head": {
+  "title": "Luxury Homes in Northern Colorado",
+  "description": "Find properties for sale over $1,000,000. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/luxury-homes-in-northern-colorado",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/luxury-homes-in-northern-colorado"
+ },
+ "blocks": [
+  {
+   "id": "6a84f898d466f569ba0c1292",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f898d466f569ba0c1293",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p style=\"text-align: center;\">Are you looking for a Luxury home in Northern Colorado?<br>\r\nYour Local, Award-Winning Realtor, Christine Gwinnup will send you&nbsp;<br>\r\nINSTANT NOTIFICATION&nbsp;each and every time a new home within your&nbsp;criteria hits the market.&nbsp;<br>\r\nBeing first to tour a home gives you the advantage to get the BEST home for the LEAST amount of money!<br>\r\n<br>\r\n<strong>CLICK THE LINKS BELOW FOR MORE INFORMATION</strong><br>\r\n&nbsp;<span style=\"font-size:16px;\"><span style=\"color:#FF0000;\"><strong>&nbsp;&nbsp;</strong></span></span></p>\r\n\r\n<p style=\"text-align: center;\"><a class=\"btn btn-primary\" href=\"tel:303-709-4262\">TOUR A PROPERTY</a><br>\r\n<br>\r\n<a class=\"btn btn-primary\" href=\"/christine-gwinnup-the-little-lady-sells-homes\">WHO IS THE LITTLE LADY</a><br>\r\n<br>\r\n<a class=\"btn btn-primary\" href=\"/buying-a-home\">STEPS TO BUYING A HOME</a></p>\r\n</body></html>\n"
+  },
+  {
+   "id": "6a84f898d466f569ba0c1291",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "price": {
+      "min": "1000000"
+     },
+     "page": 1,
+     "location": {
+      "type": "polygon",
+      "value": [
+       [
+        40.93549307367414,
+        -105.16652657808412
+       ],
+       [
+        40.10347869196903,
+        -105.37801339449074
+       ],
+       [
+        40.07826427791366,
+        -104.18050362886571
+       ],
+       [
+        41.00082006145283,
+        -104.30135323824061
+       ],
+       [
+        40.98008834220656,
+        -105.16377999605307
+       ],
+       [
+        40.93549307367414,
+        -105.16652657808412
+       ]
+      ]
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "farm",
+      "house",
+      "condo"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}
