@@ -8765,6 +8765,37 @@ def build_blog():
     </a>"""
 
     cards_html = "\n      ".join(_card(p) for p in BLOG)
+
+    # ---- Most-read guides from the migrated iHouseWeb archive -------------
+    # The legacy posts live at their original ROOT urls (keep-what-ranks), so
+    # they can't be blog.json entries without duplicating them. They belong on
+    # this index anyway: they are the site's proven earners, ranked here by
+    # real Search Console clicks (organic only), not by anyone's guess.
+    most_read_html = ""
+    _lt_path = os.path.join(os.path.dirname(__file__), "data", "legacy_terms.json")
+    if os.path.exists(_lt_path):
+        with open(_lt_path) as _f:
+            _terms = json.load(_f)["terms"]
+        _top = [t for t in _terms
+                if t.get("gscClicks") and t.get("words", 0) > 150
+                and t.get("url") not in ("/", "/rent-to-own")  # RTO has its own hub
+                and not t["url"].startswith("/blog")][:12]
+        if _top:
+            _links = "\n        ".join(
+                f'<li><a href="{t["url"]}">{esc((t.get("name") or t.get("title") or "").split(" | ")[0])}</a>'
+                f' <span style="color:var(--slate-mist);font-size:12px">({t["gscClicks"]:,} clicks from Google search)</span></li>'
+                for t in _top)
+            most_read_html = f"""
+<section class="tight">
+  <div class="wrap">
+    <span class="eyebrow">Reader Favorites</span>
+    <h2 class="section-title">The Most-Read Guides On This Site</h2>
+    <ul style="list-style:none;padding:0;line-height:2.2;columns:2;column-gap:44px">
+        {_links}
+    </ul>
+  </div>
+</section>"""
+
     index_body = f"""
 <section class="hero" style="padding:90px 0 60px">
   <div class="wrap">
@@ -8775,6 +8806,7 @@ def build_blog():
     <a href="/feed.xml" style="text-decoration:underline">Subscribe via RSS &rarr;</a></p>
   </div>
 </section>
+{most_read_html}
 <section>
   <div class="wrap grid-3">
     {cards_html}
@@ -11954,8 +11986,23 @@ def build_redirects_and_meta(extra_paths=None):
     # tree that was just written, and a bad one fails the build instead of shipping.
     # Anchors and query strings are stripped before checking; external targets and
     # function rewrites are skipped, since they are not files on disk.
+    # 2026-08-19 blog split: the three luxury-only posts live on the sister
+    # Signature site now. Any legacy rule aimed at one of them goes there --
+    # cross-domain, which the existence guard rightly skips.
+    _lux_slugs = {
+        "june-2026-northern-colorado-luxury-market-report",
+        "psychology-of-pricing-luxury-homes-northern-colorado",
+        "wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest",
+    }
+    _legacy_url_redirects = {
+        _old: (f"https://signaturepropertycollection.com{_new}"
+               if _new.startswith("/blog/") and _new[len("/blog/"):-len(".html")] in _lux_slugs
+               else _new)
+        for _old, _new in LEGACY_URL_REDIRECTS.items()
+    }
+
     _bad_targets = []
-    for _old, _new in LEGACY_URL_REDIRECTS.items():
+    for _old, _new in _legacy_url_redirects.items():
         if _new.startswith(("http://", "https://", "/.netlify/")):
             continue
         _path = _new.split("#")[0].split("?")[0]
@@ -11968,7 +12015,7 @@ def build_redirects_and_meta(extra_paths=None):
             + "\n!! Fix the destination or drop the rule. A redirect to a missing "
               "page is a soft 404 wearing a 301."
         )
-    redirect_lines += [f"{old}  {new}  301" for old, new in LEGACY_URL_REDIRECTS.items()]
+    redirect_lines += [f"{old}  {new}  301" for old, new in _legacy_url_redirects.items()]
 
     # ---- Legacy AgentFire/WordPress URL reclamation (2026-08-14) ----
     #
