@@ -4845,6 +4845,7 @@ def build_county_pages():
         # which is genuinely different per county (Larimer carries thousands of views,
         # Arapahoe none) and is the one claim no other agent's county page can copy.
         body += _county_town_comparison(c)
+        body += _local_guides_block(c["slug"])
         body += _quiz_disclosure(
             f"Not sure which {esc(c['name'])} town fits? Four quick questions, matched "
             f"against {len(QUIZ_CITIES)} real towns {esc(SITE['agent'])} shows clients "
@@ -5548,6 +5549,75 @@ def _moving_to_block(city, county_name, school_district, commute, relocate_extra
 </section>"""
 
 
+
+# ---- Local guides mesh (2026-08-19) ---------------------------------------
+# Internal links INTO the top-traffic guide pages, from the town and county
+# pages whose readers those guides serve. The demand-driven upgrade pass gave
+# the guides depth; this hands each one dozens of internal links -- the
+# cheapest ranking support there is -- and gives town-page readers the local
+# answers they were statistically likely to search next anyway.
+LOCAL_GUIDES_BY_COUNTY = {
+    "larimer": [
+        ("/understanding-open-zoning-in-larimer-county", "What 'Open Zoning' Means in Larimer County"),
+        ("/what-is-an-ilc-and-when-should-you-get-a-full-survey", "ILC vs. Full Survey: What Buyers Actually Need"),
+        ("/buying-land-larimer-co", "Buying Land in Larimer County: Septic Transfers, Wells & Zoning"),
+        ("/whats-the-real-cost-to-develop-raw-land-in-colorado", "How Much It Really Costs To Develop Raw Land"),
+        ("/rent-to-own", "Rent To Own in Colorado: An Honest Guide"),
+    ],
+    "weld": [
+        ("/buying-land-weld-co", "Buying Land in Weld County: Water, Minerals & USDA Paths"),
+        ("/can-you-build-a-shop-barn-or-guest-house-on-rural-land", "Shops, Barns & Guest Houses: What Rural Land Allows"),
+        ("/whats-the-real-cost-to-develop-raw-land-in-colorado", "How Much It Really Costs To Develop Raw Land"),
+        ("/multi-generational-homes-for-sale-in-northern-colorado-find-your-familys-fit", "Multi-Generational & Next Gen Homes in Northern Colorado"),
+        ("/rent-to-own", "Rent To Own in Colorado: An Honest Guide"),
+    ],
+}
+# Every other county gets the brand-wide trio; town-specific extras below.
+LOCAL_GUIDES_DEFAULT = [
+    ("/rent-to-own", "Rent To Own in Colorado: An Honest Guide"),
+    ("/whats-the-real-cost-to-develop-raw-land-in-colorado", "How Much It Really Costs To Develop Raw Land"),
+    ("/multi-generational-homes-for-sale-in-northern-colorado-find-your-familys-fit", "Multi-Generational & Next Gen Homes in Northern Colorado"),
+]
+LOCAL_GUIDES_BY_CITY = {
+    "Loveland": [
+        ("/rent-to-own-in-loveland", "Rent To Own in Loveland: The Local Reality"),
+        ("/day-trips-from-loveland-co", "Things To Do In & Around Loveland"),
+    ],
+    "Fort Collins": [
+        ("/rent-to-own-in-fort-collins", "Rent To Own in Fort Collins: What's Real"),
+    ],
+    "Eaton": [
+        ("/discovering-eaton-colorado-on-the-northern-plains", "Discovering Eaton, Colorado"),
+    ],
+}
+
+
+def _local_guides_block(county_slug, city=None):
+    links = list(LOCAL_GUIDES_BY_CITY.get(city or "", []))
+    seen = {u for u, _ in links}
+    for u, label in LOCAL_GUIDES_BY_COUNTY.get(county_slug, LOCAL_GUIDES_DEFAULT):
+        if u not in seen:
+            links.append((u, label))
+            seen.add(u)
+    if not links:
+        return ""
+    items = "\n      ".join(
+        f'<li><a href="{u}" style="text-decoration:underline">{esc(label)}</a></li>'
+        for u, label in links[:6]
+    )
+    where = esc(city) if city else "this county"
+    return f"""
+<section class="tight">
+  <div class="wrap" style="max-width:820px">
+    <span class="eyebrow">Local Answers</span>
+    <h2 class="section-title" style="font-size:clamp(22px,2.6vw,30px)">Guides {esc(SITE['agent'].split()[0])} Wrote For Buyers Around {where}</h2>
+    <ul style="list-style:none;padding:0;line-height:2.1">
+      {items}
+    </ul>
+  </div>
+</section>"""
+
+
 def build_city_pages():
     """One page per city we have real captured content for (welcome blurb +
     things-to-do highlights, pulled from the live site's own city pages —
@@ -5954,6 +6024,7 @@ def build_city_pages():
             body += _walkability_block(city, f"{city}, CO")
             faq_html, faq_schema = _faq_block(faq_pairs)
             body += faq_html
+            body += _local_guides_block(c["slug"], city)
             # Someone on a city page has narrowed to one town, but plenty are
             # still comparing it against the next town over -- that's exactly
             # what the quiz settles, so it goes here too (Christine, 2026-08-15,
