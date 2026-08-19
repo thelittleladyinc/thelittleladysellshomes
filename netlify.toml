@@ -103,55 +103,20 @@
   status = 200
 
 # ---- Shared MLS backend (2026-08-19) --------------------------------------
-# This site carries NO MLS credentials and NO MLS-touching functions, on
-# purpose. One MLS Grid account serves both of Christine's brands, and its
-# rate budget is only safe with ONE pacer and ONE photo cache -- the ones on
-# the Signature deployment. These 200 rewrites proxy the data endpoints
-# server-side, so the browser sees same-origin URLs (no CORS), relative photo
-# URLs inside responses keep working, and every photo already cached for
-# signaturepropertycollection.com is served to this site for free.
+# This site carries NO MLS credentials, on purpose. One MLS Grid account
+# serves both of Christine's brands, and its rate budget is only safe with
+# ONE pacer and ONE photo cache -- the ones on the Signature deployment.
 #
-# If MLS Grid ever grants a second dedicated key for this brand, replace
-# these proxies with local functions -- until then, adding MLS creds to THIS
-# site's Netlify env would create a second, uncoordinated pacer, which is
-# exactly what caused suspension #3.
-[[redirects]]
-  from = "/.netlify/functions/listings-search"
-  to = "https://signaturepropertycollection.com/.netlify/functions/listings-search"
-  status = 200
-
-[[redirects]]
-  from = "/.netlify/functions/listing-photo"
-  to = "https://signaturepropertycollection.com/.netlify/functions/listing-photo"
-  status = 200
-
-[[redirects]]
-  from = "/.netlify/functions/walkability"
-  to = "https://signaturepropertycollection.com/.netlify/functions/walkability"
-  status = 200
-
-[[redirects]]
-  from = "/.netlify/functions/nearby-places"
-  to = "https://signaturepropertycollection.com/.netlify/functions/nearby-places"
-  status = 200
-
-[[redirects]]
-  from = "/.netlify/functions/local-spots"
-  to = "https://signaturepropertycollection.com/.netlify/functions/local-spots"
-  status = 200
-
-[[redirects]]
-  from = "/.netlify/functions/sold-homes-geocode"
-  to = "https://signaturepropertycollection.com/.netlify/functions/sold-homes-geocode"
-  status = 200
-
-# The health page reports the state of the backend this site actually uses --
-# which is the shared Signature deployment, so its own health function is the
-# honest source here too.
-[[redirects]]
-  from = "/.netlify/functions/site-health"
-  to = "https://signaturepropertycollection.com/.netlify/functions/site-health"
-  status = 200
+# This block used to hold seven 200-rewrites proxying
+# /.netlify/functions/<endpoint> to the Signature deployment. They deployed
+# without errors and NEVER FIRED: Netlify reserves paths beginning with
+# /.netlify and silently ignores redirect rules that shadow them, so every
+# data call on the published site 404ed while all the config looked right.
+# The proxying now happens in netlify/functions/ instead -- one credential-
+# free pass-through per endpoint, same names the front end always called
+# (see netlify/functions/lib/_sig-proxy.js for the full story). The one-pacer
+# rule is unchanged: every MLS-touching request still funnels through the
+# Signature deployment.
 
 # Clean, shareable, indexable URL for one listing -- proxied to the shared
 # backend's listing-page function WITH brand=tllsh, which makes it render in

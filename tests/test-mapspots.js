@@ -139,13 +139,16 @@ for (const rel of ["build/assets/js/map.js", null]) {
 
 // The spots have to still be REACHABLE too — a map that shows them but has
 // nothing behind them is its own failure. This is the function the map fetches.
-// 2026-08-19: local-spots.js no longer lives in THIS repo -- the endpoint is
-// proxied to the shared Signature deployment (netlify.toml). The check's
-// intent survives: the URL the map fetches must resolve, so the proxy rule
-// for it must exist.
-const toml = fs.readFileSync(path.join(ROOT, "netlify.toml"), "utf8");
-check("the local-spots endpoint is proxied to the shared backend",
-  /from = "\/\.netlify\/functions\/local-spots"/.test(toml));
+// 2026-08-19 (again): the netlify.toml proxy rule this checked for was valid
+// TOML that Netlify silently never applied -- redirect rules cannot shadow
+// the reserved /.netlify/* path, and the live map 404ed with this test green.
+// The endpoint is now a real local function passing through to the shared
+// Signature deployment (see netlify/functions/lib/_sig-proxy.js), so the
+// check's intent -- the URL the map fetches must resolve -- points there.
+const spotsFn = fs.readFileSync(
+  path.join(ROOT, "netlify", "functions", "local-spots.js"), "utf8");
+check("the local-spots endpoint passes through to the shared backend",
+  /_sig-proxy/.test(spotsFn) && /makeProxy\("local-spots"\)/.test(spotsFn));
 const mapSrc = fs.readFileSync(path.join(ROOT, "build", "assets", "js", "map.js"), "utf8");
 check(
   "the map still fetches her spots at runtime",
