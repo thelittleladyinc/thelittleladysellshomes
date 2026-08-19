@@ -2,7 +2,7 @@
  * Northern Colorado "Find Your Community" interactive county map.
  * Built with Leaflet + OpenStreetMap-based tiles (both free, no API key)
  * and real US Census county boundary data, styled to the audited brand
- * palette (dusty rose #C96A6A / mauve #DEA5A5 — no red). Click a county to
+ * palette (dusty rose #E57373 / mauve #F08484 — no red). Click a county to
  * go to its page; hover to preview. The three core counties (Larimer, Weld,
  * Boulder) get labeled city markers for extra detail.
  *
@@ -100,8 +100,8 @@
   ];
 
   var BASE_FILL = '#141415';
-  var HOVER_FILL = '#DEA5A5';   /* mauve */
-  var CLICK_FILL = '#C96A6A';   /* dusty rose — no red anywhere */
+  var HOVER_FILL = '#F08484';   /* mauve */
+  var CLICK_FILL = '#E57373';   /* dusty rose — no red anywhere */
   var BORDER = '#F8F6F4';
 
   // Clean white line-art icons (inline SVG, no emoji) matching the look of
@@ -424,7 +424,7 @@
     if (poi.reviewQuote) {
       var q = document.createElement('blockquote');
       q.id = 'poi-review-quote';
-      q.style.cssText = 'margin:0 0 12px;padding:10px 14px;border-left:3px solid #C96A6A;' +
+      q.style.cssText = 'margin:0 0 12px;padding:10px 14px;border-left:3px solid #E57373;' +
         'color:rgba(255,255,255,.9);font-size:14px;font-style:italic';
       q.textContent = '“' + poi.reviewQuote + '”';
       blurbEl.parentNode.insertBefore(q, blurbEl.nextSibling);
@@ -1155,13 +1155,13 @@
     '.town-pin{transform:translate(-7px,-7px);display:flex;align-items:center;gap:7px;' +
     'white-space:nowrap;cursor:pointer}' +
     '.town-pin::before{content:"";width:14px;height:14px;border-radius:50%;' +
-    'background:#C96A6A;border:2px solid #F8F6F4;box-shadow:0 1px 5px rgba(0,0,0,.6);' +
+    'background:#E57373;border:2px solid #F8F6F4;box-shadow:0 1px 5px rgba(0,0,0,.6);' +
     'flex:0 0 auto}' +
     '.town-pin span{font-family:"Poppins",sans-serif;font-weight:600;font-size:12px;' +
     'color:#F8F6F4;text-shadow:0 1px 4px rgba(0,0,0,.9);letter-spacing:.02em}' +
-    '.town-pin:hover::before{background:#F8F6F4;border-color:#C96A6A}' +
+    '.town-pin:hover::before{background:#F8F6F4;border-color:#E57373}' +
     '.county-back{display:block;width:100%;text-align:left;background:none;border:none;' +
-    'color:#DEA5A5;font-family:"Poppins",sans-serif;font-size:12px;letter-spacing:.08em;' +
+    'color:#F08484;font-family:"Poppins",sans-serif;font-size:12px;letter-spacing:.08em;' +
     'text-transform:uppercase;padding:0 0 14px;cursor:pointer}' +
     '.county-back:hover{color:#F8F6F4}' +
     '.county-panel-title{font-family:"Poppins",sans-serif;color:#F8F6F4;font-size:13px;' +
@@ -1169,8 +1169,8 @@
     '.county-wide-btn{display:block;width:100%;text-align:left;margin-top:14px;' +
     'background:none;border:1px solid rgba(249,249,236,.35);color:#F8F6F4;' +
     'font-family:"Poppins",sans-serif;font-size:13px;padding:14px 18px;cursor:pointer}' +
-    '.county-wide-btn:hover{border-color:#DEA5A5;color:#DEA5A5}' +
-    '.county-guide-link{display:block;margin-top:12px;color:#DEA5A5;font-size:12px;' +
+    '.county-wide-btn:hover{border-color:#F08484;color:#F08484}' +
+    '.county-guide-link{display:block;margin-top:12px;color:#F08484;font-size:12px;' +
     'font-family:"Poppins",sans-serif;text-decoration:underline}' +
     '.county-guide-link:hover{color:#F8F6F4}' +
     '.county-label-tooltip{background:transparent;border:none;box-shadow:none;' +
@@ -1180,7 +1180,7 @@
     // The "Search This Area" map control. Dusty rose so it reads as an action,
     // not another zoom widget; uppercase Poppins to match the site's buttons.
     '.search-area-ctrl{border:none!important;box-shadow:0 2px 10px rgba(0,0,0,.45)}' +
-    '.search-area-btn{display:flex;align-items:center;gap:7px;background:#C96A6A;' +
+    '.search-area-btn{display:flex;align-items:center;gap:7px;background:#E57373;' +
     'color:#F8F6F4;border:none;font-family:"Poppins",sans-serif;font-weight:600;' +
     'font-size:12px;letter-spacing:.05em;text-transform:uppercase;padding:10px 14px;' +
     'cursor:pointer;white-space:nowrap}' +
