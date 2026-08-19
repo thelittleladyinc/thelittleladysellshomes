@@ -293,7 +293,7 @@ function alertEmailHtml({ name, email, phone, source, noteText, leadId, stamp })
 <p style="margin:0 0 4px;color:#666">What they said</p>
 <pre style="white-space:pre-wrap;font:inherit;background:#f6f6f6;padding:12px;border-radius:6px;margin:0">${escapeHtml(noteText)}</pre>
 ${leadId ? `<p style="margin:16px 0 0"><a href="https://app.lofty.com/crm/leads/${escapeHtml(leadId)}">Open this lead in Lofty</a></p>` : ""}
-<p style="margin:20px 0 0;font-size:12px;color:#888">Sent by signaturepropertycollection.com the moment the form was submitted. This does not depend on a Lofty Smart Plan — if this arrives, the lead was captured.</p>
+<p style="margin:20px 0 0;font-size:12px;color:#888">Sent by thelittleladysellshomes.com the moment the form was submitted. This does not depend on a Lofty Smart Plan — if this arrives, the lead was captured.</p>
 </div>`;
 }
 
