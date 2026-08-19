@@ -319,6 +319,115 @@ CITY_DATA_SLUG = {
 # build/assets/img/communities/<data_slug>.jpg.
 CITY_HERO_PHOTOS = {"erie", "loveland", "eaton", "johnstown", "ault", "greeley"}
 
+# ---- Real photography galleries (2026-08-19, Christine's photo drops) -----
+# Christine is shooting her towns herself and sending batches; each entry is
+# (filename under build/assets/img/communities/gallery/, caption). The
+# processing rule for every new drop: resize to 1600px wide, re-encode
+# through Pillow (strips EXIF/GPS -- her camera embeds coordinates), and
+# caption ONLY what is visible in the frame or what she said about the shot;
+# never a guessed park or street name. Towns without an entry simply don't
+# render a gallery section.
+CITY_GALLERIES = {
+    "erie": [
+        ("erie-downtown-briggs.jpg",
+         "Downtown Erie's historic main-street blocks in full summer bloom"),
+        ("erie-downtown-patio.jpg",
+         "Patio season in downtown Erie"),
+        ("erie-splash-pad.jpg",
+         "The splash pad on a summer afternoon in Erie"),
+        ("erie-colliers-hill-courts.jpg",
+         "Lighted tennis and pickleball courts in Erie's Colliers Hill community"),
+        ("erie-colliers-hill-green.jpg",
+         "The central green and playfields at Colliers Hill"),
+        ("erie-colliers-hill-ballfields.jpg",
+         "Ballfields with Front Range views in Colliers Hill — the next phase already grading in the distance"),
+        ("erie-colliers-hill-pumptrack.jpg",
+         "The Revolution Pumptrack, one of Colliers Hill's neighborhood amenities"),
+        ("erie-colliers-hill-courts-play.jpg",
+         "Basketball courts and climbing structures at Colliers Hill's community park"),
+        ("erie-colliers-hill-park.jpg",
+         "Parkland and gathering spaces woven through Colliers Hill"),
+        ("erie-colliers-hill-parkland.jpg",
+         "Trails and open space connecting the neighborhoods of Colliers Hill"),
+    ],
+    "loveland": [
+        ("loveland-olde-course.jpg",
+         "The Olde Course at Loveland, with Lake Loveland beyond"),
+    ],
+    "eaton": [
+        ("eaton-downtown-main.jpg",
+         "Downtown Eaton — pizza, ice cream, and the shops along the main blocks"),
+        ("eaton-downtown-shops.jpg",
+         "Storefronts in Eaton's walkable downtown"),
+        ("eaton-neighborhood-park.jpg",
+         "A neighborhood park on Eaton's east side of Highway 85"),
+        ("eaton-rec-center.jpg",
+         "The Eaton Area Community Center — water slide and all"),
+        ("eaton-rec-center-lawn.jpg",
+         "The community center's great lawn"),
+        ("eaton-rec-center-campus.jpg",
+         "The full community center campus, ballfields behind"),
+        ("eaton-ballfields.jpg",
+         "Eaton's four-field ball complex at the edge of town"),
+        ("eaton-ballfields-farmland.jpg",
+         "Ballfields meeting farmland — Eaton in one frame"),
+        ("eaton-park-playgrounds.jpg",
+         "Twin playgrounds and a picnic gazebo at a neighborhood park in Eaton"),
+    ],
+    "windsor": [
+        ("windsor-lake-beach.jpg",
+         "The swim beach at Windsor Lake"),
+        ("windsor-town-hall.jpg",
+         "Windsor's historic stone Town Hall"),
+        ("windsor-downtown.jpg",
+         "Downtown Windsor from above"),
+        ("windsor-bethel-church.jpg",
+         "Stone and steeple in downtown Windsor, the lake just beyond"),
+    ],
+    "red-feather-lakes": [
+        ("red-feather-lakes-log-home.jpg",
+         "A log home tucked into the pines at Red Feather Lakes"),
+    ],
+}
+
+# Per-town downloadable guides Christine has produced (shown as a button
+# under the town's photo gallery). File goes in build/assets/guides/.
+CITY_GUIDE_PDFS = {
+    "eaton": ("/assets/guides/discover-life-in-eaton-colorado-relocation-guide.pdf",
+              "Discover Life in Eaton, Colorado — Your Complete Relocation Guide"),
+}
+
+
+def _city_gallery_block(data_slug, city):
+    shots = CITY_GALLERIES.get(data_slug)
+    if not shots:
+        return ""
+    figs = "\n      ".join(
+        f'<figure class="town-shot"><img src="/assets/img/communities/gallery/{fname}" '
+        f'alt="{esc(cap)}" loading="lazy"><figcaption>{esc(cap)}</figcaption></figure>'
+        for fname, cap in shots
+    )
+    guide = CITY_GUIDE_PDFS.get(data_slug)
+    guide_html = ""
+    if guide:
+        href, label = guide
+        guide_html = f"""
+    <div class="btn-row" style="margin-top:28px">
+      <a class="btn btn-dark" href="{href}" target="_blank" rel="noopener">{esc(label)} (Free PDF) &rarr;</a>
+    </div>"""
+    return f"""
+<section class="tight">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Seen Around {esc(city)}</span>
+    <h2 class="section-title">{esc(city)}, In Real Photos</h2>
+    <p class="lede">No stock photography &mdash; these are real shots from around
+    {esc(city)}, the same places {esc(SITE['agent'])} shows clients every week.</p>
+    <div class="town-gallery">
+      {figs}
+    </div>{guide_html}
+  </div>
+</section>"""
+
 SITE = {
     "name": "The Little Lady Sells Homes",
     "agent": "Christine Gwinnup",
@@ -2940,8 +3049,8 @@ HOME_FAQ = [
     ("Who is the best real estate agent in Loveland, Berthoud, and Masonville?",
      f"{SITE['agent']} of {SITE['name']} ({SITE['brokerage']}) is a "
      f"real estate agent based in Loveland, serving Berthoud, Masonville, and the "
-     f"rest of Larimer County with 150+ homes sold personally (250+ as a duo with "
-     f"Kendra Bajcar) and expertise in bold "
+     f"rest of Larimer County with 150+ homes sold personally (250+ as a team) "
+     f"and expertise in bold "
      f"marketing, strategic pricing, and fierce negotiation at every price point."),
     ("What areas does The Little Lady Sells Homes serve?",
      f"{SITE['agent']} and {SITE['name']} serve Northern Colorado's Larimer, Weld, and "
@@ -3023,7 +3132,7 @@ GOOGLE_REVIEWS_URL = "https://g.page/r/CZbs8kiTCII_EBM"
 def _trust_ribbon_html():
     return f"""<div class="trust-ribbon">
   <div class="wrap">
-    <a class="item" href="{GOOGLE_REVIEWS_URL}" target="_blank" rel="noopener"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>158 Five-Star Google Reviews</a>
+    <a class="item" href="{GOOGLE_REVIEWS_URL}" target="_blank" rel="noopener"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>100+ Five-Star Google Reviews</a>
     <span class="divider">&middot;</span>
     <span class="item">250+ Homes Sold As A Team</span>
     <span class="divider">&middot;</span>
@@ -3179,47 +3288,11 @@ def _real_estate_agent_schema():
     return json.dumps(data, indent=None)
 
 
-def _kendra_agent_schema():
-    """RealEstateAgent JSON-LD for Kendra Bajcar -- placed only on
-    /about.html (the one page she actually appears on, in the "Meet The
-    Team" section), not sitewide like Christine's above. 2026-08-14, per
-    Christine: keep the site's primary identity (nav, every other page's
-    schema, contact info) as Christine solo, but give Kendra her own real
-    structured-data entity so she's individually indexable too, not just
-    visually present in a photo. Deliberately omits telephone/email (not
-    published anywhere else on the site, so not fabricating a contact
-    channel here) and aggregateRating (no individually-verified review
-    count for her specifically -- the 158 figure shown elsewhere is
-    explicitly the combined total across both her and Christine's Google
-    profiles, not hers alone; see _trust_ribbon_html()'s comment)."""
-    area_served = sorted({c["name"] for c in COUNTIES})
-    data = {
-        "@context": "https://schema.org",
-        "@type": "RealEstateAgent",
-        "name": "Kendra Bajcar",
-        "url": SITE["domain"] + "/about.html",
-        "image": SITE["domain"] + "/assets/img/team/kendra-headshot.jpg",
-        "@id": SITE["domain"] + "/about.html#kendra-bajcar",
-        "worksFor": {"@type": "Organization", "name": SITE["brokerage"]},
-        # Point at Christine's canonical @id rather than restating her as a
-        # loose {name, url} pair, so the two agents are linked as one team
-        # in the entity graph instead of two unrelated people who happen to
-        # share a brokerage.
-        "colleague": {"@id": AGENT_ID},
-        "areaServed": [{"@type": "AdministrativeArea", "name": n} for n in area_served],
-        "dateModified": BUILD_DATE,
-    }
-    if SITE.get("address"):
-        a = SITE["address"]
-        data["address"] = {
-            "@type": "PostalAddress",
-            "streetAddress": a["street"],
-            "addressLocality": a["city"],
-            "addressRegion": a["state"],
-            "postalCode": a["zip"],
-            "addressCountry": "US",
-        }
-    return json.dumps(data, indent=None)
+# (2026-08-19, Christine: "kendra the blonde is not tllsh") -- this site is
+# Christine's own brand. The Kendra Bajcar RealEstateAgent schema that the
+# Signature engine placed on /about.html is gone along with her section of
+# that page; real client reviews that mention her by name stay verbatim,
+# because reviews are quotes, not copy.
 
 
 def _website_schema():
@@ -4133,7 +4206,7 @@ def build_home():
 
 <section>
   <div class="wrap">
-    <span class="eyebrow">158 Five-Star Google Reviews</span>
+    <span class="eyebrow">100+ Five-Star Google Reviews</span>
     <h2 class="section-title">Success Stories</h2>
     <div class="grid-3">
       {testimonial_cards}
@@ -6024,6 +6097,7 @@ def build_city_pages():
             # city_content.json's "local_faqs" list as they're researched.
             for q, a in info.get("local_faqs", []):
                 faq_pairs.append((q, a))
+            body += _city_gallery_block(data_slug, city)
             body += _walkability_block(city, f"{city}, CO")
             faq_html, faq_schema = _faq_block(faq_pairs)
             body += faq_html
@@ -6090,9 +6164,9 @@ def build_about():
     <div>
       <h2 class="section-title">{SITE['agent']}</h2>
       <p class="lede">{SITE['agent']} is a top-performing, award-winning Realtor&reg; known
-      for delivering exceptional results across Northern Colorado. She works alongside
-      her real estate partner Kendra Bajcar as a duo, and together they serve a diverse
-      clientele, including veterans and seasoned investors.</p>
+      for delivering exceptional results across Northern Colorado. She serves a diverse
+      clientele &mdash; first-time buyers, veterans, growing families, downsizers, and
+      seasoned investors &mdash; with the same fierce advocacy at every price point.</p>
       <p class="lede">Her expertise spans first homes, farm and ranch properties, VA loans,
       new construction, and acreage. As a Certified Negotiation Specialist, she's known for
       guiding first-time buyers through every step — and for helping investors build
@@ -6112,8 +6186,8 @@ def build_about():
     </div>
     <div class="card">
       <h3>By The Numbers</h3>
-      <p>&#9733;&#9733;&#9733;&#9733;&#9733; 158 Five-Star Reviews on Google<br>
-      250+ Homes Sold &amp; $200M+ in Sales Volume &mdash; combined with Kendra Bajcar<br>
+      <p>&#9733;&#9733;&#9733;&#9733;&#9733; 100+ Five-Star Reviews on Google<br>
+      250+ Homes Sold &amp; $200M+ in Sales Volume &mdash; as a team<br>
       RealTrends Verified 2025 &mdash; Top 0.5% of Realtors Nationwide<br>
       Featured, NoCo Real Producers<br>
       BBB A+ Accredited Business<br>
@@ -6125,42 +6199,31 @@ def build_about():
 </section>
 <section class="tight">
   <div class="wrap">
-    <span class="eyebrow" style="color:var(--dusty-rose)">The Little Lady Team</span>
-    <h2 class="section-title">Meet The Team</h2>
-    <p class="lede">{SITE['agent']} and Kendra Bajcar met at a real estate convention
-    &mdash; two agents who take the work seriously, each looking for a partner
-    who sweats the details the way they do. What began as a professional connection became
-    the operating model behind every The Little Lady Sells Homes listing: a combined record
-    exceeding $200 million in sales, more than 250 homes represented, and a partnership built
-    so that no detail of a sale is left to chance.</p>
-    <img src="/assets/img/team/christine-kendra.jpg" alt="Christine Gwinnup and Kendra Bajcar, The Little Lady Sells Homes"
-    style="width:100%;border-radius:4px;margin:32px 0;box-shadow:0 10px 30px rgba(20,20,21,.10)" loading="lazy">
-    <div class="grid-2">
-      <div class="team-card">
-        <img src="/assets/img/team/christine-headshot.jpg" alt="Christine Gwinnup, REALTOR" loading="lazy">
-        <div>
-          <h3>Christine Gwinnup</h3>
-          <p>Christine leads pricing strategy, seller positioning, listing narrative, media
-          direction, and high-stakes negotiation &mdash; with specialized depth in Northern
-          Colorado's land, acreage, and rural property market. An active real estate investor
-          since 1992, she brings more than three decades of personal market experience to her
-          work, alongside Big Thompson River residency and direct knowledge of the properties
-          most agents only represent from a distance.</p>
-        </div>
-      </div>
-      <div class="team-card">
-        <img src="/assets/img/team/kendra-headshot.jpg" alt="Kendra Bajcar, REALTOR" loading="lazy">
-        <div>
-          <h3>Kendra Bajcar</h3>
-          <p>Kendra leads transaction strategy, contract discipline, presentation
-          coordination, buyer-behavior insight, and the detailed follow-through that protects
-          the deal from preparation through closing. An investor in her own right, she
-          understands the transaction from the principal's side as well as the agent's &mdash;
-          protecting the details that matter: timelines, terms, inspection exposure, appraisal
-          risk, showing feedback, and seller confidence.</p>
-        </div>
+    <span class="eyebrow" style="color:var(--dusty-rose)">The Little Lady Herself</span>
+    <h2 class="section-title">One Agent. Every Detail.</h2>
+    <div class="grid-2" style="align-items:center;gap:44px">
+      <img src="/assets/img/team/christine-sage.jpg"
+      alt="Christine Gwinnup, The Little Lady Sells Homes, at Sage in Loveland, Colorado"
+      style="width:100%;border-radius:4px;box-shadow:0 10px 30px rgba(20,20,21,.10)" loading="lazy">
+      <div>
+        <p class="lede">Christine leads every part of the work herself: pricing strategy,
+        seller positioning, listing narrative, media direction, and high-stakes negotiation
+        &mdash; with specialized depth in Northern Colorado's land, acreage, and rural
+        property market. An active real estate investor since 1992, she brings more than
+        three decades of personal market experience to her work, alongside Big Thompson
+        River residency and direct knowledge of the properties most agents only represent
+        from a distance.</p>
+        <p class="lede">When you hire The Little Lady, you get The Little Lady &mdash; the
+        person on the sign is the person on the phone, at the showing, and across the
+        table when the negotiation gets serious.</p>
       </div>
     </div>
+    <img src="/assets/img/team/christine-feel-love-coffee.jpg"
+    alt="Christine Gwinnup over coffee at Feel Love Coffee in downtown Loveland, Colorado"
+    style="width:100%;border-radius:4px;margin:32px 0 0;box-shadow:0 10px 30px rgba(20,20,21,.10)" loading="lazy">
+    <img src="/assets/img/team/christine-clients-sold.jpg"
+    alt="Christine Gwinnup with clients celebrating a sold Northern Colorado home"
+    style="width:100%;border-radius:4px;margin:32px 0 0;box-shadow:0 10px 30px rgba(20,20,21,.10)" loading="lazy">
     <p class="lede" style="margin-top:32px">Selling a home is not just a financial
     decision. It is a transition, a strategy, and the closing of one chapter before the next
     one begins. Whatever your home is worth, it deserves more than exposure &mdash; it
@@ -6198,7 +6261,7 @@ def build_about():
     <div class="grid-3">
       <div class="card">
         <h3>Read The Reviews</h3>
-        <p>158 five-star Google reviews, in her clients' own words &mdash; buyers, sellers,
+        <p>100+ five-star Google reviews, in her clients' own words &mdash; buyers, sellers,
         and fellow agents alike.</p>
         <a class="cta" href="/testimonials.html">Read Testimonials &rarr;</a>
       </div>
@@ -6222,7 +6285,6 @@ def build_about():
         f"Meet {SITE['agent']}, the real estate agent serving Loveland, Berthoud, "
         f"Masonville and the Larimer, Weld & Boulder County Front Range at every price point.",
         "/about.html", "About", body,
-        schema_extra=[_kendra_agent_schema()],
     )
 
 
@@ -6294,6 +6356,13 @@ def build_press():
         Realtors&reg; (LBAR).</p>
       </div>
     </div>
+    <figure style="max-width:520px;margin:44px auto 0">
+      <img src="/assets/img/team/christine-shooting-star.jpg"
+      alt="Christine Gwinnup accepting the Shooting Star award for 2021&ndash;2022"
+      style="width:100%;border-radius:4px;box-shadow:0 10px 30px rgba(20,20,21,.10)" loading="lazy">
+      <figcaption style="margin-top:10px;font-size:.88rem;color:var(--slate-soft);text-align:center">
+      Accepting the Shooting Star award for 2021&ndash;2022 &mdash; engraved gong included.</figcaption>
+    </figure>
   </div>
 </section>
 <section class="tight">
@@ -6787,12 +6856,12 @@ def build_testimonials():
     body = f"""
 <section class="hero" style="padding:100px 0 70px">
   <div class="wrap">
-    <span class="eyebrow" style="color:var(--dusty-rose)">&#9733;&#9733;&#9733;&#9733;&#9733; 158 Reviews on Google &mdash; Every One 5 Stars</span>
+    <span class="eyebrow" style="color:var(--dusty-rose)">&#9733;&#9733;&#9733;&#9733;&#9733; 100+ Reviews on Google &mdash; Every One 5 Stars</span>
     <h1>Testimonials</h1>
     <p class="lede">Discover what sellers, agents, and buyers have to say about working
     with {SITE['agent']} &mdash; a hand-picked few below, straight from real Google reviews.</p>
     <div class="btn-row">
-      <a class="btn btn-outline" href="{google_reviews_url}" target="_blank" rel="noopener">Read All 158 On Google &rarr;</a>
+      <a class="btn btn-outline" href="{google_reviews_url}" target="_blank" rel="noopener">Read Them All On Google &rarr;</a>
     </div>
   </div>
 </section>
@@ -10801,7 +10870,7 @@ def build_nav_pages():
          f"There is no honest single answer, and any agent claiming to be it should be "
          f"treated with suspicion. What you can check is verifiable: {SITE['agent']} of "
          f"{SITE['name']} ({SITE['brokerage']}) has sold 150+ homes herself and 250+ as a "
-         f"duo, holds 158 five-star Google reviews, and publishes her closed sales by "
+         f"team, holds 100+ five-star Google reviews, and publishes her closed sales by "
          f"town. Compare that against any other agent you are considering, on the same "
          f"three questions."),
     ]
