@@ -1,0 +1,100 @@
+{
+ "path": "/cash-offer",
+ "name": "Want to Sell Fast?",
+ "type": null,
+ "head": {
+  "title": "Sell Your Home for Cash in Northern Colorado | Fast & Hassle-Free",
+  "description": "Need to sell your home quickly for cash in Northern Colorado? Get a competitive, no-obligation offer with no repairs, fees, or stress. Close in as little as 7 days!",
+  "url": "https://www.thelittleladysellshomes.com/cash-offer",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Cash%20Offer.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f563ee988edbf800df51",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300276963",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/cash-offer",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f563ee988edbf800df52",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n<title></title></head><body><p>\r\nSell Your Home for Cash in Northern Colorado | The Little Lady Sells Homes<meta name=\"description\" content=\"Compare multiple cash offers for your home in Loveland, Fort Collins, Greeley, and Estes Park. No showings, no repairs, no commissions.\"><meta property=\"og:title\" content=\"Fast Cash Home Offers | The Little Lady Sells Homes\"><meta property=\"og:description\" content=\"Get top cash offers in Northern Colorado. No fees, no repairs, and you choose your closing date.\"><meta property=\"og:image\" content=\"https://www.thelittleladysellshomes.com/images/cash-offer-social.jpg\"><meta property=\"og:url\" content=\"https://www.thelittleladysellshomes.com/cash-offer\"><meta property=\"og:type\" content=\"website\">\r\n<link href=\"https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&amp;display=swap\" rel=\"stylesheet\">\r\n<style type=\"text/css\">body {\r\n      font-family: 'Poppins', sans-serif;\r\n      margin: 0;\r\n      padding: 0;\r\n      background: #f4f4f4;\r\n      color: #333;\r\n    }\r\n    .hero {\r\n      background: url('https://www.thelittleladysellshomes.com/images/hero-cash-offer.jpg') center/cover no-repeat;\r\n      padding: 80px 20px;\r\n      text-align: center;\r\n      color: white;\r\n    }\r\n    .hero h1 {\r\n      font-size: 48px;\r\n      font-weight: 700;\r\n      margin-bottom: 20px;\r\n    }\r\n    .hero p {\r\n      font-size: 22px;\r\n      max-width: 700px;\r\n      margin: auto;\r\n    }\r\n    .cta-button {\r\n      display: inline-block;\r\n      margin-top: 30px;\r\n      background: #e63946;\r\n      padding: 15px 30px;\r\n      border-radius: 8px;\r\n      font-size: 20px;\r\n      font-weight: bold;\r\n      color: white;\r\n      text-decoration: none;\r\n    }\r\n    .section {\r\n      max-width: 900px;\r\n      margin: auto;\r\n      padding: 40px 20px;\r\n    }\r\n    .section h2 {\r\n      text-align: center;\r\n      color: #e63946;\r\n    }\r\n    iframe {\r\n      width: 100%;\r\n      height: 315px;\r\n      border: none;\r\n      border-radius: 10px;\r\n    }\r\n    .testimonials blockquote {\r\n      font-style: italic;\r\n      margin: 30px 0;\r\n      border-left: 4px solid #e63946;\r\n      padding-left: 15px;\r\n    }\r\n    .testimonials strong {\r\n      display: block;\r\n      margin-top: 10px;\r\n    }\r\n    .trust-grid {\r\n      display: flex;\r\n      flex-wrap: wrap;\r\n      justify-content: center;\r\n      gap: 20px;\r\n      margin-top: 30px;\r\n    }\r\n    .trust-grid div {\r\n      flex: 1 1 200px;\r\n      background: #333;\r\n      padding: 20px;\r\n      border-radius: 10px;\r\n      color: white;\r\n      text-align: center;\r\n    }\r\n    .promo-banner {\r\n      background: #ffe082;\r\n      text-align: center;\r\n      padding: 20px;\r\n    }\r\n    .promo-banner h3 {\r\n      margin: 0;\r\n      color: #e65100;\r\n    }\r\n    .promo-banner p {\r\n      margin: 10px 0 0;\r\n      font-weight: bold;\r\n    }\r\n    .internal-links {\r\n      text-align: center;\r\n      padding: 20px;\r\n    }\r\n    .internal-links a {\r\n      display: inline-block;\r\n      padding: 12px 18px;\r\n      background: #1e90ff;\r\n      color: white;\r\n      border-radius: 5px;\r\n      font-weight: bold;\r\n      text-decoration: none;\r\n      margin: 10px;\r\n    }\r\n</style>\r\n<script type=\"application/ld+json\">\r\n  {\r\n    \"@context\": \"https://schema.org\",\r\n    \"@type\": \"RealEstateAgent\",\r\n    \"name\": \"The Little Lady Sells Homes\",\r\n    \"image\": \"https://www.thelittleladysellshomes.com/images/logo.png\",\r\n    \"url\": \"https://www.thelittleladysellshomes.com/cash-offer\",\r\n    \"telephone\": \"+1-970-555-1234\",\r\n    \"address\": {\r\n      \"@type\": \"PostalAddress\",\r\n      \"streetAddress\": \"123 Main Street\",\r\n      \"addressLocality\": \"Milliken\",\r\n      \"addressRegion\": \"CO\",\r\n      \"postalCode\": \"80543\",\r\n      \"addressCountry\": \"US\"\r\n    },\r\n    \"areaServed\": {\r\n      \"@type\": \"Place\",\r\n      \"name\": [\"Loveland\", \"Fort Collins\", \"Greeley\", \"Estes Park\", \"Milliken\"]\r\n    },\r\n    \"openingHours\": \"Mo-Fr 09:00-17:00\",\r\n    \"sameAs\": [\r\n      \"https://www.facebook.com/thelittleladysellshomes\",\r\n      \"https://www.instagram.com/thelittleladysellshomes\"\r\n    ]\r\n  }\r\n  </script>\r\n</p><div class=\"hero\">\r\n<h1><span style=\"color:#000000;\">Sell for Cash in Northern Colorado</span></h1>\r\n\r\n<p><span style=\"color:#000000;\">No showings. No repairs. No stress. Get a fair cash offer and close in as little as 7 days&mdash;right here in Loveland, Fort Collins, Greeley &amp; Estes Park.</span></p>\r\n<a class=\"cta-button\" href=\"https://www.buymyhouse.com/?ref=be63d3a8-9899-406a-a499-c00cc49a9966\">Get My Free Cash Offer</a></div>\r\n\r\n<div class=\"section\">\r\n<h2>Watch How It Works</h2>\r\n<iframe allowfullscreen=\"\" src=\"https://zoodealio.wistia.com/medias/gb4i1mb3bw\"></iframe></div>\r\n\r\n<div class=\"section testimonials\">\r\n<h2>What Northern Colorado Homeowners Are Saying</h2>\r\n\r\n<blockquote>&ldquo;I&rsquo;m a hard person to impress&mdash;and Christine exceeded every expectation. She got us our dream home *and* sold our old one in a blink. If you want it done right, call her.&rdquo; <strong>&ndash; Allie M., Downtown Loveland</strong></blockquote>\r\n\r\n<blockquote>&ldquo;Christine was terrific from the moment we met. Honest, responsive, and committed&mdash;she made a complicated process feel easy.&rdquo; <strong>&ndash; Christine B., Estes Park</strong></blockquote>\r\n</div>\r\n\r\n<div class=\"section\" style=\"background: #222; color: white\">\r\n<h2>Why Homeowners Choose The Little Lady</h2>\r\n\r\n<div class=\"trust-grid\">\r\n<div>✔ BBB Accredited<br>\r\nTrust and transparency you can count on.</div>\r\n\r\n<div>✔ Local Buyer Guarantee<br>\r\nWe&rsquo;re based right here in Northern Colorado.</div>\r\n\r\n<div>✔ Trailer Included<br>\r\nWe provide a moving trailer for local moves.</div>\r\n\r\n<div>✔ Zero Repairs Needed<br>\r\nSell as-is. Seriously.</div>\r\n</div>\r\n</div>\r\n\r\n<div class=\"promo-banner\">\r\n<h3></h3>\r\n</div></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f563ee988edbf800df53",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-302021481",
+       "label": "Name",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f563ee988edbf800df54",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-302021482",
+       "label": "Phone Number",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f563ee988edbf800df55",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-302021483",
+       "label": "Email Address:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f563ee988edbf800df56",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-302021484",
+       "label": "Home Address:",
+       "value": "",
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "text-302021481": "",
+     "text-302021482": "",
+     "text-302021483": "",
+     "text-302021484": ""
+    },
+    "initialErrors": {
+     "text-302021481": "",
+     "text-302021482": "",
+     "text-302021483": "",
+     "text-302021484": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

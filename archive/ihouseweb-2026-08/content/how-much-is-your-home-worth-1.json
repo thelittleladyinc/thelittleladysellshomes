@@ -1,0 +1,107 @@
+{
+ "path": "/how-much-is-your-home-worth-1",
+ "name": "How Much Is Your Home Worth?",
+ "type": null,
+ "head": {
+  "title": "How Much Is My Home Worth?",
+  "description": "Receive an estimate of your home's value using tools like Zestimate and Attom. ",
+  "url": "https://www.thelittleladysellshomes.com/how-much-is-your-home-worth-1",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Untitled%20design.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f511335f24608f067c78",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300267730",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/how-much-is-your-home-worth-1",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f511335f24608f067c79",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301937644",
+       "label": "Name",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f511335f24608f067c7a",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-301936921",
+       "label": "Address",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f511335f24608f067c7b",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301936922",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f511335f24608f067c7c",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301936923",
+       "label": "Message:",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f511335f24608f067c7d",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984430",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301937644": "",
+     "text-301936921": "",
+     "email-301936922": "",
+     "textarea-301936923": "",
+     "marketing-opt-in-301984430": false
+    },
+    "initialErrors": {
+     "name-301937644": "",
+     "text-301936921": "",
+     "email-301936922": "",
+     "textarea-301936923": "",
+     "marketing-opt-in-301984430": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

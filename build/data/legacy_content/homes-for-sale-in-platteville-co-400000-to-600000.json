@@ -1,0 +1,55 @@
+{
+ "path": "/homes-for-sale-in-platteville-co-400000-to-600000",
+ "name": "Homes for Sale in Platteville, CO $400,000 to $600,000",
+ "type": null,
+ "head": {
+  "title": "Homes for Sale in Platteville, CO $400,000 to $600,000",
+  "description": "Find properties for sale in Platteville, CO from $400,000 to $600,000. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/homes-for-sale-in-platteville-co-400000-to-600000",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/homes-for-sale-in-platteville-co-400000-to-600000"
+ },
+ "blocks": [
+  {
+   "id": "6a84f27816ab85a3d906759e",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f27816ab85a3d906759d",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "price": {
+      "min": "400000",
+      "max": "600000"
+     },
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Platteville, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house",
+      "condo",
+      "multi"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

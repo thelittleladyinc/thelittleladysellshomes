@@ -1,0 +1,59 @@
+{
+ "path": "/homes-for-sale-in-estes-park",
+ "name": "Homes For Sale in Estes Park",
+ "type": null,
+ "head": {
+  "title": "Estes Park Homes for Sale | Luxury & Mountain Properties in Colorado",
+  "description": "Discover Estes Park homes for sale, including luxury mountain retreats, cabins, and short-term rental investments. Explore top listings, local insights, and expert real estate guidance. Contact The Little Lady Sells Homes at 303-709-4262.",
+  "url": "https://www.thelittleladysellshomes.com/homes-for-sale-in-estes-park",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/homes-for-sale-in-estes-park",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Homes%20For%20Sale%20Active%20Listings.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f5770e85cc25aa0af2da",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f5770e85cc25aa0af2db",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Find your dream home in Estes Park, CO. Explore luxury homes, short-term rental opportunities, and properties bordering the national forest. Contact The Little Lady Sells Homes today!\">\r\n<title></title>\r\n<link href=\"styles.css\" rel=\"stylesheet\"><script type=\"application/ld+json\">\r\n    {\r\n      \"@context\": \"https://schema.org\",\r\n      \"@type\": \"RealEstateAgent\",\r\n      \"name\": \"The Little Lady Sells Homes\",\r\n      \"url\": \"https://www.thelittleladysellshomes.com\",\r\n      \"telephone\": \"303-709-4262\",\r\n      \"email\": \"thelittleladyinc@gmail.com\",\r\n      \"address\": {\r\n        \"@type\": \"PostalAddress\",\r\n        \"streetAddress\": \"[Your Office Address]\",\r\n        \"addressLocality\": \"Estes Park\",\r\n        \"addressRegion\": \"CO\",\r\n        \"postalCode\": \"80517\",\r\n        \"addressCountry\": \"US\"\r\n      },\r\n      \"areaServed\": \"Estes Park, CO\",\r\n      \"sameAs\": [\r\n        \"https://www.facebook.com/thelittleladyrealestate\",\r\n        \"https://www.instagram.com/thelittleladyrealestate\"\r\n      ]\r\n    }\r\n    </script>\r\n<style type=\"text/css\">body {\r\n            font-family: Arial, sans-serif;\r\n            margin: 0;\r\n            padding: 0;\r\n            background-color: #f8f9fa;\r\n            color: #333;\r\n        }\r\n        header {\r\n            background: url('header-image.jpg') center/cover no-repeat;\r\n            padding: 80px 20px;\r\n            text-align: center;\r\n            color: white;\r\n        }\r\n        header h1 {\r\n            font-size: 2.8em;\r\n            font-weight: bold;\r\n            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);\r\n        }\r\n        header p {\r\n            font-size: 1.2em;\r\n            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);\r\n        }\r\n        nav ul {\r\n            display: flex;\r\n            justify-content: center;\r\n            list-style: none;\r\n            padding: 10px 0;\r\n            background: #007bff;\r\n            margin: 0;\r\n        }\r\n        nav ul li {\r\n            margin: 0 15px;\r\n        }\r\n        nav ul li a {\r\n            text-decoration: none;\r\n            color: white;\r\n            font-weight: bold;\r\n            font-size: 1.1em;\r\n            padding: 12px;\r\n            display: inline-block;\r\n        }\r\n        .faq {\r\n            background: #fff;\r\n            padding: 20px;\r\n            border-radius: 10px;\r\n            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);\r\n            max-width: 1100px;\r\n            margin: auto;\r\n        }\r\n        .faq h2 {\r\n            color: #007bff;\r\n        }\r\n        .faq p {\r\n            font-size: 1.1em;\r\n        }\r\n        footer {\r\n            text-align: center;\r\n            padding: 30px;\r\n            background: #343a40;\r\n            color: white;\r\n        }\r\n</style>\r\n<header>\r\n<h1>Estes Park Homes for Sale</h1>\r\n\r\n<p>Your trusted partner in finding the perfect mountain retreat.</p>\r\n\r\n<nav>\r\n<ul>\r\n\t<li><a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Estes-Park,CO/1000000+_price/1+_beds\">Luxury Homes</a></li>\r\n\t<li><a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/40.517264103034194,-105.55405092844283;40.52472636441553,-105.42643518215972;40.355021631692836,-105.5386248492217;40.259842730295304,-105.49795609491159;40.155955718970205,-105.53301536586855;40.17203112741808,-105.63538843706263;40.517264103034194,-105.55405092844283_poly\">Homes Bordering National Forest</a></li>\r\n\t<li><a href=\"#short-term-rentals\">Short-Term Rentals</a></li>\r\n\t<li><a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Estes-Park,CO/0-650000_price/1+_beds\">Homes Under $650K</a></li>\r\n\t<li><a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Estes-Park,CO/1+_beds\">All Homes in Estes Park</a></li>\r\n\t<li><a href=\"#faq\">FAQs</a></li>\r\n</ul>\r\n</nav>\r\n</header>\r\n\r\n<section class=\"faq\" id=\"faq\">\r\n<h2>Frequently Asked Questions</h2>\r\n\r\n<p><strong>Q: What is the average home price in Estes Park?</strong><br>\r\nA: Home prices in Estes Park vary, but the median price is typically between $600,000 and $1,200,000.</p>\r\n\r\n<p><strong>Q: Are short-term rentals allowed in Estes Park?</strong><br>\r\nA: Yes! Estes Park is one of the few places in Larimer County where short-term rentals are permitted. However, there is a waitlist for permits.</p>\r\n\r\n<p><strong>Q: What are the best neighborhoods in Estes Park?</strong><br>\r\nA: Some of the most desirable neighborhoods include Windcliff Estates, Carriage Hills, and homes bordering the national forest.</p>\r\n</section>\r\n\r\n<footer>\r\n<h2>Contact The Little Lady Sells Homes</h2>\r\n\r\n<p>Looking for Estes Park homes for sale? Contact us to explore the best real estate opportunities.</p>\r\n\r\n<p><strong>Call or Text:</strong> <a href=\"tel:3037094262\">303-709-4262</a></p>\r\n\r\n<p><strong>Email:</strong> <a href=\"mailto:thelittleladyinc@gmail.com\">thelittleladyinc@gmail.com</a></p>\r\n\r\n<p><strong>Website:</strong> <a href=\"https://www.thelittleladysellshomes.com\">www.thelittleladysellshomes.com</a></p>\r\n</footer>\r\n</head></html>\n"
+  },
+  {
+   "id": "6a84f5770e85cc25aa0af2d9",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "beds": {
+      "min": "1"
+     },
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Estes Park, CO"
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

@@ -1,0 +1,48 @@
+{
+ "path": "/my-commercial-listings",
+ "name": "My Commercial Listings",
+ "type": null,
+ "head": {
+  "title": "My Commercial Listings",
+  "description": "Find commercial listings for sale. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/my-commercial-listings",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/my-commercial-listings"
+ },
+ "blocks": [
+  {
+   "id": "6a84f47f1cad18db3504e089",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f47f1cad18db3504e088",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "listingType": "commercial-for-sale",
+     "sort": "new",
+     "agent": {
+      "type": "listing",
+      "values": [
+       22224161
+      ]
+     }
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": true,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

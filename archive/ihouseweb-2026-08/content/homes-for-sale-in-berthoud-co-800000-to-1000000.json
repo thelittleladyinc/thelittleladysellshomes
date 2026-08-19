@@ -1,0 +1,55 @@
+{
+ "path": "/homes-for-sale-in-berthoud-co-800000-to-1000000",
+ "name": "Homes for Sale in Berthoud, CO $800,000 to $1,000,000",
+ "type": null,
+ "head": {
+  "title": "Homes for Sale in Berthoud, CO $800,000 to $1,000,000",
+  "description": "Find properties for sale in Berthoud, CO from $800,000 to $1,000,000. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/homes-for-sale-in-berthoud-co-800000-to-1000000",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/homes-for-sale-in-berthoud-co-800000-to-1000000"
+ },
+ "blocks": [
+  {
+   "id": "6a84f262047c8522900afb4c",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f262047c8522900afb4b",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "price": {
+      "min": "800000",
+      "max": "1000000"
+     },
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Berthoud, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house",
+      "condo",
+      "multi"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

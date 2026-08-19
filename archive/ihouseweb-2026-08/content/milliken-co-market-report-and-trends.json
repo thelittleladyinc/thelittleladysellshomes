@@ -1,0 +1,51 @@
+{
+ "path": "/milliken-co-market-report-and-trends",
+ "name": "Milliken, CO Market Report and Trends",
+ "type": null,
+ "head": {
+  "title": "Milliken, CO Market Report and Trends | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/milliken-co-market-report-and-trends",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "heading-market-report-block-304232771",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "market-report-block-304232771",
+   "type": "marketReportBlock",
+   "html": null,
+   "options": {
+    "searchParamsComps": {
+     "itemsPerPage": 10,
+     "view": "split",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Milliken, CO"
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "location": {
+     "type": "city",
+     "value": "Milliken, CO",
+     "key": "Milliken,CO",
+     "name": "Milliken"
+    },
+    "locations": [
+     {
+      "type": "city",
+      "value": "Milliken, CO",
+      "key": "Milliken,CO",
+      "name": "Milliken"
+     }
+    ]
+   }
+  }
+ ],
+ "post": null
+}

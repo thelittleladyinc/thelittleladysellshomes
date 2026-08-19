@@ -1,0 +1,102 @@
+{
+ "path": "/-/WebForm/index/300284617",
+ "name": null,
+ "type": null,
+ "head": {
+  "title": "Rent-to-Own Homes in Northern Colorado | 10% Down | Christine Gwinnup",
+  "description": "Discover rent-to-own homes in Fort Collins, Loveland, Greeley & Windsor. Buy with just 10% down—even with less-than-perfect credit. Get expert help from Christine Gwinnup.\r\n",
+  "url": "",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/A%20front%20D%20to%20E%20%282%29.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84fc0c887cc2f8880d8541",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300284617",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/-/WebForm/index/300284617",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84fc0c887cc2f8880d8542",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n<title></title>\r\n<meta name=\"description\" content=\"Get into a home with 10% down&mdash;even if you don&rsquo;t have perfect credit. Learn how Christine Gwinnup helps Northern Colorado buyers own in Fort Collins, Loveland, and more.\">\r\n<link href=\"https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;display=swap\" rel=\"stylesheet\">\r\n<style type=\"text/css\">* { box-sizing: border-box; }\r\n    body { margin: 0; font-family: 'Open Sans', sans-serif; line-height: 1.6; }\r\n    a { color: inherit; text-decoration: none; }\r\n    h1, h2, h3 { color: #2f71c1; }\r\n\r\n    .hero {\r\n      background: url('https://source.unsplash.com/1600x900/?house,homeowner') center/cover no-repeat;\r\n      color: white;\r\n      text-align: center;\r\n      padding: 100px 20px;\r\n    }\r\n    .hero h1 { font-size: 2.5em; margin-bottom: 0.5em; }\r\n    .btn { background: #2f71c1; color: white; padding: 12px 24px; border-radius: 5px; display: inline-block; margin-top: 20px; }\r\n\r\n    section { padding: 60px 20px; max-width: 1100px; margin: auto; }\r\n    .benefits, .timeline, .faq, .testimonials { display: grid; gap: 30px; }\r\n    .benefits { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); text-align: center; }\r\n    .benefits i, .timeline i { font-size: 30px; margin-bottom: 10px; color: #2f71c1; }\r\n\r\n    .timeline { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); text-align: center; }\r\n    .testimonial { background: #f1f1f1; padding: 20px; border-radius: 6px; }\r\n    .testimonial img { width: 60px; border-radius: 50%; margin-bottom: 10px; }\r\n\r\n    .faq-item { border-bottom: 1px solid #ddd; }\r\n    .faq-question { cursor: pointer; padding: 15px; font-weight: bold; }\r\n    .faq-answer { display: none; padding: 0 15px 15px; }\r\n\r\n    footer { background: #2f71c1; color: white; text-align: center; padding: 20px; }\r\n\r\n    .sticky-cta {\r\n      position: fixed;\r\n      bottom: 0;\r\n      width: 100%;\r\n      background: #2f71c1;\r\n      color: white;\r\n      text-align: center;\r\n      padding: 15px;\r\n      display: flex;\r\n      justify-content: space-between;\r\n      align-items: center;\r\n      font-size: 1rem;\r\n      z-index: 999;\r\n    }\r\n    .sticky-cta a { background: white; color: #2f71c1; padding: 10px 20px; border-radius: 5px; }\r\n\r\n    /* Exit Popup */\r\n    #exit-popup {\r\n      display: none; position: fixed; top: 0; left: 0;\r\n      width: 100%; height: 100%;\r\n      background: rgba(0,0,0,0.8); z-index: 1000;\r\n      justify-content: center; align-items: center;\r\n    }\r\n    #exit-popup-inner {\r\n      background: white; padding: 30px; max-width: 400px; text-align: center;\r\n    }\r\n    #exit-popup input { width: 80%; padding: 10px; margin: 10px 0; }\r\n    #exit-popup button { background: #2f71c1; color: white; padding: 10px 20px; border: none; }\r\n</style>\r\n<!-- HERO -->\r\n<section class=\"hero\">\r\n<h1>Own a Home in Northern Colorado &mdash; Even Without Perfect Credit</h1>\r\n\r\n<p>With 10% down, you could move in and buy later. It&rsquo;s the new way to own.</p>\r\n<a class=\"btn\" href=\"#get-started\">See If You Qualify</a></section>\r\n<!-- STORY SECTION -->\r\n\r\n<section>\r\n<h2>Why Rent-to-Own? Just Ask Ashley</h2>\r\n\r\n<p>After 5 years renting in Greeley, Ashley felt stuck. Credit score? Not great. Savings? Limited. But she still dreamed of a place to call her own. That&rsquo;s when she discovered rent-to-own&mdash;and today, she&rsquo;s a homeowner.</p>\r\n\r\n<p><strong>Christine Gwinnup</strong> has helped dozens of Northern Colorado buyers take the same path&mdash;even when traditional lenders said &ldquo;no.&rdquo;</p>\r\n</section>\r\n<!-- BENEFITS -->\r\n\r\n<section class=\"benefits\">\r\n<div><i></i></div></section></head></html>\n"
+      }
+     },
+     {
+      "id": "6a84fc0c887cc2f8880d8543",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-302065444",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84fc0c887cc2f8880d8544",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-302065445",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84fc0c887cc2f8880d8545",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-302065446",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84fc0c887cc2f8880d8546",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-302065447",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-302065444": "",
+     "email-302065445": "",
+     "phone-302065446": "",
+     "textarea-302065447": ""
+    },
+    "initialErrors": {
+     "name-302065444": "",
+     "email-302065445": "",
+     "phone-302065446": "",
+     "textarea-302065447": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

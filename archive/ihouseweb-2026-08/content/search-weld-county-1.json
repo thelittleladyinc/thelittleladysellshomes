@@ -1,0 +1,46 @@
+{
+ "path": "/search-weld-county-1",
+ "name": "Search Weld County",
+ "type": null,
+ "head": {
+  "title": "Search Weld County",
+  "description": "Find properties for sale in Weld County, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/search-weld-county-1",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/search-weld-county-1"
+ },
+ "blocks": [
+  {
+   "id": "6a84f399dab592420e058e39",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f399dab592420e058e38",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "split",
+     "page": 1,
+     "location": {
+      "type": "county",
+      "value": "Weld County, CO"
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "split",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

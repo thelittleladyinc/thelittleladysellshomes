@@ -1,0 +1,62 @@
+{
+ "path": "/price-reduced-1",
+ "name": "Price Reduced!",
+ "type": null,
+ "head": {
+  "title": "Price Reduced!",
+  "description": "Find properties for sale. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/price-reduced-1",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/price-reduced-1"
+ },
+ "blocks": [
+  {
+   "id": "6a84f5154efaf55fd2004ecf",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f5154efaf55fd2004ed0",
+   "type": "customContent",
+   "html": "See the newest price-reduced listings here!"
+  },
+  {
+   "id": "6a84f5154efaf55fd2004ece",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "priceReduced": {
+      "days": "7",
+      "direction": "subtract",
+      "outside": false
+     },
+     "page": 1,
+     "location": {
+      "type": "radius",
+      "value": {
+       "point": [
+        40.360625004603406,
+        -104.93202422631128
+       ],
+       "radius": "41.26"
+      }
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

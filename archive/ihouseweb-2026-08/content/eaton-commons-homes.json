@@ -1,0 +1,28 @@
+{
+ "path": "/eaton-commons-homes",
+ "name": "Eaton Commons Homes",
+ "type": null,
+ "head": {
+  "title": "Eaton Commons Homes | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/eaton-commons-homes",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Eaton%20Commons%20park%203%20%281%29.jpg",
+   "height": 300,
+   "width": 400
+  },
+  "hasOverlay": true
+ },
+ "blocks": [
+  {
+   "id": "featured-location-76348",
+   "type": "featuredLocation",
+   "html": null,
+   "options": {
+    "featuredLocationId": 76348
+   }
+  }
+ ],
+ "post": null
+}

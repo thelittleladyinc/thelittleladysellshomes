@@ -1,0 +1,63 @@
+{
+ "path": "/my-sold-listings",
+ "name": "My Sold Listings",
+ "type": null,
+ "head": {
+  "title": "Top Realtor in Northern Colorado - Trusted, Experienced, and Committed",
+  "description": "Looking for a top realtor in Northern Colorado? Look no further than The Little Lady Sells Homes. We believe that Marketing Matters! With years of experience, a commitment to excellence, and a track record of success, we're the trusted choice for all your real estate needs. Contact The BOLD Collective at 303-709-4262 to learn more.",
+  "url": "https://www.thelittleladysellshomes.com/my-sold-listings",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/my-sold-listings",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/SOLD%20Pictures/Untitled%20design.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f03f2893c978a20d80cf",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f03f2893c978a20d80d0",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Discover why Christine Gwinnup is the trusted real estate expert in Northern Colorado. Read client testimonials and see how she has helped buyers and sellers succeed.\"><meta name=\"keywords\" content=\"Northern Colorado real estate, real estate testimonials, Christine Gwinnup, The Little Lady Sells Homes, real estate expert\"><meta name=\"author\" content=\"Christine Gwinnup\">\r\n<title></title>\r\n<style type=\"text/css\">body {\r\n            font-family: Arial, sans-serif;\r\n            margin: 0;\r\n            padding: 0;\r\n            background-color: #f9f9f9;\r\n            color: #333;\r\n        }\r\n        .container {\r\n            max-width: 1200px;\r\n            margin: 0 auto;\r\n            padding: 20px;\r\n        }\r\n        .header {\r\n            text-align: center;\r\n            margin-bottom: 20px;\r\n        }\r\n        .header img {\r\n            max-width: 100%;\r\n            height: auto;\r\n        }\r\n        .testimonial-section {\r\n            display: flex;\r\n            flex-wrap: wrap;\r\n            justify-content: center;\r\n            gap: 20px;\r\n            margin-top: 20px;\r\n        }\r\n        .testimonial {\r\n            background: #fff;\r\n            padding: 20px;\r\n            border-radius: 8px;\r\n            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\r\n            max-width: 400px;\r\n            text-align: center;\r\n        }\r\n        .testimonial p {\r\n            font-size: 16px;\r\n            line-height: 1.6;\r\n        }\r\n        .testimonial strong {\r\n            font-size: 18px;\r\n            color: #8B0000;\r\n        }\r\n        .links {\r\n            margin-top: 20px;\r\n            text-align: center;\r\n        }\r\n        .links a {\r\n            color: #8B0000;\r\n            text-decoration: none;\r\n            margin: 0 10px;\r\n            font-weight: bold;\r\n        }\r\n        .links a:hover {\r\n            text-decoration: underline;\r\n        }\r\n        @media (max-width: 768px) {\r\n            .testimonial-section {\r\n                flex-direction: column;\r\n                align-items: center;\r\n            }\r\n        }\r\n</style>\r\n</head><body><div class=\"container\">\r\n<div class=\"header\">\r\n<h1>Client Testimonials</h1>\r\n<img alt=\"Christine Gwinnup - The Little Lady Sells Homes\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Untitled%20design%20%2813%29.png\"></div>\r\n\r\n<div class=\"testimonial-section\">\r\n<div class=\"testimonial\">\r\n<p><em>\"If you are looking for a knowledgeable realtor who will go above and beyond, look no further than Christine Gwinnup! My fianc&eacute; and I worked with Christine to buy our first house in a competitive seller&rsquo;s market in 2021 and again to sell our house in a competitive buyer&rsquo;s market the following year. She was patient, kind, and extremely informative. Hands down, she is the best, and we cannot recommend her enough! If we move back to the area, she will undoubtedly be our first phone call.\"</em></p>\r\n<strong>&ndash; Staci Alexander</strong></div>\r\n</div>\r\n\r\n<div class=\"links\"><a href=\"/testimonials\">Read More Reviews</a> <a href=\"https://www.google.com/search?q=The+Little+Lady+Sells+Homes,+with+Realty+ONE+Group+Fourpoints\">5-Star Google Reviews</a> <a href=\"https://www.zillow.com/profile/TheLittleLady\">5-Star Zillow Reviews</a></div>\r\n</div>\r\n</body></html>\n"
+  },
+  {
+   "id": "6a84f03f2893c978a20d80ce",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "soldDate": {
+      "days": "0",
+      "direction": "subtract",
+      "outside": true
+     },
+     "page": 1,
+     "listingType": "homes-sold",
+     "sort": "sdate",
+     "agent": {
+      "type": "either",
+      "values": [
+       22224161
+      ]
+     }
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "sdate",
+    "format": "paginated",
+    "excludeFeatured": true,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

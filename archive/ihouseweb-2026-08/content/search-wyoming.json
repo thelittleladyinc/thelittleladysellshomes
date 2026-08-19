@@ -1,0 +1,33 @@
+{
+ "path": "/search-wyoming",
+ "name": "Search Wyoming Homes For Sale",
+ "type": null,
+ "head": {
+  "title": "Search Wyoming Homes For Sale | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/search-wyoming",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "featured-locations-100008162-heading",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "featured-locations-100008162",
+   "type": "featuredLocations",
+   "html": null,
+   "options": {
+    "format": "tiles",
+    "featuredLocationIds": [
+     ""
+    ],
+    "gap": "1px",
+    "includeLinks": true,
+    "excludeFeaturedLocationContext": false
+   }
+  }
+ ],
+ "post": null
+}

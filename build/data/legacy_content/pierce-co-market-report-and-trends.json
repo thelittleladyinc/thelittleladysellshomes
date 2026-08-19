@@ -1,0 +1,56 @@
+{
+ "path": "/pierce-co-market-report-and-trends",
+ "name": "Pierce, CO Market Report and Trends",
+ "type": null,
+ "head": {
+  "title": "Pierce, CO Market Report and Trends | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/pierce-co-market-report-and-trends",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "heading-market-report-block-303749566",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "content-top-market-report-block-303749566",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><iframe height=\"2000\" src=\"https://altos.re/r/89d71f64-0d6f-41d0-baee-1c6cdd0ae5ac\" width=\"100%\"></iframe></body></html>\n"
+  },
+  {
+   "id": "market-report-block-303749566",
+   "type": "marketReportBlock",
+   "html": null,
+   "options": {
+    "searchParamsComps": {
+     "itemsPerPage": 10,
+     "view": "split",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Pierce, CO"
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "location": {
+     "type": "city",
+     "value": "Pierce, CO",
+     "key": "Pierce,CO",
+     "name": "Pierce"
+    },
+    "locations": [
+     {
+      "type": "city",
+      "value": "Pierce, CO",
+      "key": "Pierce,CO",
+      "name": "Pierce"
+     }
+    ]
+   }
+  }
+ ],
+ "post": null
+}

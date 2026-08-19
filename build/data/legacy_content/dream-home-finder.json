@@ -1,0 +1,148 @@
+{
+ "path": "/dream-home-finder",
+ "name": "Find Your Dream Home With The Little Lady",
+ "type": null,
+ "head": {
+  "title": "Should I Hire a Buyer's Agent in Northern Colorado? | Christine Gwinnup\r\n",
+  "description": "Curious if you need a buyer’s agent in Colorado? Discover who pays, how buyer representation protects you, and how Christine Gwinnup helps buyers across Northern Colorado find the right home.",
+  "url": "https://www.thelittleladysellshomes.com/dream-home-finder",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/loveland-co-local-coffee-shop-realtor.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f02e9ae90323a9031a4e",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300208219",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/dream-home-finder",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f02e9ae90323a9031a4f",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<!-- Dream Home Finder Landing Page (Rebuild) --><html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Thinking of buying a home in Northern Colorado? Discover how buyer representation works, who pays the commission, and how Christine Gwinnup helps you win in today's market.\"><meta name=\"keywords\" content=\"Northern Colorado homes, buyer's agent, Fort Collins realtor, Loveland real estate expert, Christine Gwinnup, should I hire a real estate agent, who pays buyer commission Colorado, buyer representation, real estate tips Colorado, home tours Loveland, Windsor homes, Eaton realtor\"><meta name=\"theme-color\" content=\"#000000\"><meta property=\"og:title\" content=\"Should I Hire a Buyer's Agent in Colorado? | Christine Gwinnup\"><meta property=\"og:description\" content=\"Thinking of buying a home in Northern Colorado? Learn the truth about buyer's agents, who pays for what, and how to tour homes the smart way.\"><meta property=\"og:image\" content=\"https://www.thelittleladysellshomes.com/images/loveland-content-christine-gwinnup-realtor.jpg\"><meta property=\"og:url\" content=\"https://www.thelittleladysellshomes.com/dream-home-finder\">\r\n<link href=\"https://www.thelittleladysellshomes.com/dream-home-finder\" rel=\"canonical\">\r\n<link href=\"https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&amp;family=Inter:wght@400;600&amp;display=swap\" rel=\"stylesheet\">\r\n<style type=\"text/css\">body {\r\n      margin: 0;\r\n      font-family: 'Inter', sans-serif;\r\n      background: #fff;\r\n      color: #333;\r\n      line-height: 1.6;\r\n    }\r\n    header.hero {\r\n      background: url('/images/loveland-banner.jpg') center center / cover no-repeat;\r\n      padding: 120px 20px;\r\n      text-align: center;\r\n      color: white;\r\n      background-color: #000;\r\n    }\r\n    .hero h1 {\r\n      font-family: 'Playfair Display', serif;\r\n      font-size: 2.8rem;\r\n      text-shadow: 2px 2px 6px rgba(0,0,0,0.5);\r\n    }\r\n    .hero p {\r\n      font-size: 1.2rem;\r\n      max-width: 720px;\r\n      margin: 0 auto;\r\n      text-shadow: 1px 1px 4px rgba(0,0,0,0.5);\r\n    }\r\n    section {\r\n      padding: 60px 20px;\r\n      max-width: 1100px;\r\n      margin: auto;\r\n    }\r\n    .cta-btn {\r\n      background: #8B0000;\r\n      color: white;\r\n      padding: 14px 30px;\r\n      border-radius: 8px;\r\n      text-decoration: none;\r\n      display: inline-block;\r\n      margin-top: 25px;\r\n      font-weight: 600;\r\n      transition: 0.3s ease;\r\n    }\r\n    .cta-btn:hover {\r\n      background: #600000;\r\n      transform: scale(1.05);\r\n    }\r\n    .why-work-with-christine {\r\n      background-color: #f9f9f9;\r\n      border-radius: 12px;\r\n      padding: 50px 30px;\r\n      text-align: center;\r\n    }\r\n    .why-work-with-christine h2 {\r\n      font-size: 2rem;\r\n      margin-bottom: 25px;\r\n    }\r\n    .why-work-with-christine ul {\r\n      list-style: none;\r\n      padding: 0;\r\n      max-width: 800px;\r\n      margin: 0 auto;\r\n    }\r\n    .why-work-with-christine li {\r\n      padding: 12px 0;\r\n      font-weight: 500;\r\n      border-bottom: 1px solid #ddd;\r\n    }\r\n    .download-section {\r\n      text-align: center;\r\n      background: #fff0f0;\r\n      border-radius: 12px;\r\n      padding: 50px 30px;\r\n      margin-top: 40px;\r\n    }\r\n    .download-section h2 {\r\n      font-size: 1.8rem;\r\n    }\r\n    .download-section p {\r\n      max-width: 600px;\r\n      margin: 20px auto;\r\n    }\r\n    .county-grid {\r\n      text-align: center;\r\n      margin-top: 60px;\r\n    }\r\n    .county-grid h2 {\r\n      font-size: 1.8rem;\r\n      margin-bottom: 30px;\r\n    }\r\n    .button-grid {\r\n      display: flex;\r\n      flex-wrap: wrap;\r\n      justify-content: center;\r\n      gap: 20px;\r\n    }\r\n    .button-grid a {\r\n      padding: 12px 24px;\r\n      background: #000;\r\n      color: #fff;\r\n      border-radius: 6px;\r\n      text-decoration: none;\r\n      font-weight: 600;\r\n      transition: all 0.3s ease;\r\n    }\r\n    .button-grid a:hover {\r\n      background: #8B0000;\r\n    }\r\n    .faq-section {\r\n      margin-top: 60px;\r\n    }\r\n    .faq-section h2 {\r\n      font-size: 1.8rem;\r\n      text-align: center;\r\n      margin-bottom: 30px;\r\n    }\r\n    .faq-section details {\r\n      margin-bottom: 20px;\r\n      background: #f7f7f7;\r\n      border-radius: 8px;\r\n      padding: 15px 20px;\r\n    }\r\n    .faq-section summary {\r\n      font-weight: 600;\r\n      cursor: pointer;\r\n      font-size: 1.1rem;\r\n    }\r\n    .faq-section p {\r\n      margin-top: 10px;\r\n    }\r\n    .photo-grid {\r\n      display: flex;\r\n      flex-wrap: wrap;\r\n      gap: 20px;\r\n      justify-content: center;\r\n      margin-top: 60px;\r\n    }\r\n    .photo-grid img {\r\n      width: 280px;\r\n      height: auto;\r\n      border-radius: 10px;\r\n      object-fit: cover;\r\n    }\r\n    .links-section {\r\n      margin-top: 60px;\r\n    }\r\n    .links-section h3 {\r\n      text-align: center;\r\n      font-size: 1.5rem;\r\n    }\r\n    .links-section ul {\r\n      list-style: none;\r\n      padding: 0;\r\n      max-width: 700px;\r\n      margin: 0 auto;\r\n      text-align: center;\r\n    }\r\n    .links-section li {\r\n      margin: 10px 0;\r\n    }\r\n    .links-section a {\r\n      text-decoration: none;\r\n      font-weight: 600;\r\n      color: #8B0000;\r\n    }\r\n</style>\r\n<header class=\"hero\">\r\n<h1>Should I Hire a Buyer&rsquo;s Agent?</h1>\r\n\r\n<p>Discover how Christine Gwinnup helps you win in Northern Colorado real estate&mdash;even before you tour your first home.</p>\r\n</header>\r\n\r\n<section class=\"why-work-with-christine\">\r\n<h2>Why Work with Christine?</h2>\r\n\r\n<ul>\r\n\t<li>✔️ Over 90 verified five-star reviews on Google</li>\r\n\t<li>✔️ Expert in off-market homes and early alerts</li>\r\n\t<li>✔️ Powerful negotiator focused on your bottom line</li>\r\n\t<li>✔️ Listing specialist with insider knowledge</li>\r\n\t<li>✔️ Connected to top lenders, inspectors, and pros</li>\r\n\t<li>✔️ Fierce, reliable, and relentlessly client-focused</li>\r\n</ul>\r\n</section>\r\n\r\n<section class=\"download-section\">\r\n<h2>Download the Ultimate Buyer&rsquo;s Guide</h2>\r\n\r\n<p>Christine&rsquo;s exclusive guide includes checklists, lender tips, home tour advice, and a map of Northern Colorado neighborhoods.</p>\r\n<a class=\"cta-btn\" download=\"\" href=\"/files/Ultimate_Loveland_Buyer_Guide.pdf\">Download the Guide</a></section>\r\n\r\n<section class=\"photo-grid\"><img alt=\"Christine Gwinnup at Loveland coffee shop\" loading=\"lazy\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/loveland-colorado-realtor-christine-gwinnup%20%281%29.jpg?width=200&amp;height=250&amp;aspect_ratio=200%3A250\" style=\"height: 250px; width: 200px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/loveland-colorado-realtor-christine-gwinnup%20%281%29.jpg?width=400&amp;height=500&amp;aspect_ratio=200%3A250 2x\"> <img alt=\"Home tour in Northern Colorado\" loading=\"lazy\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/downtown-loveland-colorado-real-estate%20%281%29.jpg?width=200&amp;height=250&amp;aspect_ratio=200%3A250\" style=\"width: 200px; height: 250px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/downtown-loveland-colorado-real-estate%20%281%29.jpg?width=400&amp;height=500&amp;aspect_ratio=200%3A250 2x\"><br>\r\n<br>\r\n<br>\r\n<img alt=\"Happy homebuyer in Northern Colorado\" loading=\"lazy\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/IMG_5896.jpeg?width=200&amp;height=250&amp;aspect_ratio=200%3A250\" style=\"float: left; width: 200px; height: 250px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/IMG_5896.jpeg?width=400&amp;height=500&amp;aspect_ratio=200%3A250 2x\"></section>\r\n\r\n<section class=\"county-grid\">\r\n<h2>Search Homes by County</h2>\r\n\r\n<div class=\"button-grid\"><a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Weld-County,CO_county\">Weld County</a> <a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Larimer-County,CO_county\">Larimer County</a> <a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Boulder,CO\">Boulder County</a></div>\r\n\r\n<h3 style=\"margin-top:40px;\">Or Choose a City</h3>\r\n\r\n<div class=\"button-grid\"><a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Greeley,CO\">Greeley</a> <a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Loveland,CO\">Loveland</a> <a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Fort-Collins,CO\">Fort Collins</a> <a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Windsor,CO\">Windsor</a> <a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Berthoud,CO\">Berthoud</a> <a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Longmont,CO\">Longmont</a> <a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Johnstown,CO\">Johnstown</a> <a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Timnath,CO\">Timnath</a></div>\r\n</section>\r\n\r\n<section class=\"faq-section\">\r\n<h2>Frequently Asked Questions</h2>\r\n\r\n<details><summary>Should I talk to a lender before touring homes?</summary>\r\n\r\n<p>Yes! It helps you understand your budget and strengthens your offer. Christine can connect you to trusted lenders who will walk you through every step.</p>\r\n</details>\r\n\r\n<details><summary>Do I need a buyer&rsquo;s agent if I found the home myself?</summary>\r\n\r\n<p>Absolutely. The listing agent represents the seller. You need someone protecting your interests&mdash;and that&rsquo;s where Christine steps in.</p>\r\n</details>\r\n\r\n<details><summary>Who pays the buyer&rsquo;s agent commission in Colorado?</summary>\r\n\r\n<p>Most often, the seller pays it! Christine can help you review the details of each listing so you&rsquo;re never caught off guard.</p>\r\n</details>\r\n\r\n<details><summary>What if I&rsquo;m not ready to buy yet?</summary>\r\n\r\n<p>That&rsquo;s perfectly okay. Christine will help you stay informed with alerts, market updates, and advice so you&rsquo;re ready when the time is right.</p>\r\n</details>\r\n\r\n<details><summary>Can I preview homes before committing?</summary>\r\n\r\n<p>Yes. Christine can help set up strategic tours or virtual walkthroughs so you can make decisions on your timeline&mdash;without pressure.</p>\r\n</details>\r\n</section>\r\n\r\n<section class=\"links-section\">\r\n<h3>More Buyer Resources</h3>\r\n\r\n<ul>\r\n\t<li><a href=\"/buying-a-home\">How to Buy a Home</a></li>\r\n\t<li><a href=\"/special-buyer-programs\">Special Buyer Programs</a></li>\r\n\t<li><a href=\"/home-sale-calculator\">Home Sale Calculator</a></li>\r\n\t<li><a href=\"/my-sold-listings\">Recently Sold Listings</a></li>\r\n\t<li><a href=\"/marketing-matters\">How I Market Homes</a></li>\r\n\t<li><a href=\"/blog/tag/Tips%20for%20Buyers\">Tips for Buyers Blog</a></li>\r\n</ul>\r\n</section></head></html>\n"
+      }
+     },
+     {
+      "id": "6a84f02e9ae90323a9031a50",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301523724",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f02e9ae90323a9031a51",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301523725",
+       "label": "Phone Number:",
+       "value": "",
+       "required": false,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f02e9ae90323a9031a52",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301523727",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f02e9ae90323a9031a53",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-301523729",
+       "label": "Where are you searching? (City, State, Zip)",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f02e9ae90323a9031a54",
+      "type": "radio",
+      "mode": "default",
+      "options": {
+       "name": "radios-301523738",
+       "label": "How soon are you looking to purchase?",
+       "options": [
+        "Immediately",
+        "Within 2 Months",
+        "Within 6 Months",
+        "Within 1 Year",
+        "Undecided"
+       ],
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f02e9ae90323a9031a55",
+      "type": "radio",
+      "mode": "default",
+      "options": {
+       "name": "radios-301523739",
+       "label": "Will you need to sell your present home?",
+       "options": [
+        "Yes",
+        "No"
+       ],
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f02e9ae90323a9031a56",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984426",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301523724": "",
+     "phone-301523725": "",
+     "email-301523727": "",
+     "text-301523729": "",
+     "marketing-opt-in-301984426": false
+    },
+    "initialErrors": {
+     "name-301523724": "",
+     "phone-301523725": "",
+     "email-301523727": "",
+     "text-301523729": "",
+     "radios-301523738": "",
+     "radios-301523739": "",
+     "marketing-opt-in-301984426": ""
+    },
+    "useCaptcha": true,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

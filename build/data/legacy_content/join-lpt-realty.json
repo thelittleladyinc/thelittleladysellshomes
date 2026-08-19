@@ -1,0 +1,115 @@
+{
+ "path": "/join-lpt-realty",
+ "name": "Join the Revolution in Real Estate with LPT Realty",
+ "type": null,
+ "head": {
+  "title": "Join LPT Realty with the BOLD Collective - Transform Your Real Estate Career",
+  "description": "Ready to elevate your real estate career? Discover why LPT Realty is the fastest-growing brokerage in the U.S. and how the BOLD Collective can help you succeed. Low caps, personalized branding, and more. Schedule a call today! 303-709-4262",
+  "url": "https://www.thelittleladysellshomes.com/join-lpt-realty",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/LPT%20Realty%20.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84fc7a7ac1617b5c088f57",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300253595",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/join-lpt-realty",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84fc7a7ac1617b5c088f58",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><table border=\"0\" cellpadding=\"10\" cellspacing=\"10\" style=\"width:100%;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>&nbsp; &nbsp;&nbsp;</td>\r\n\t\t\t<td style=\"text-align: center;\"></td>\r\n\t\t\t<td style=\"text-align: center;\"><span style=\"font-size:24px;\"><br>\r\n\t\t\t<img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/lptrealty_powerpacks_logos_black_horizontal_primary.png?width=400&amp;height=94&amp;aspect_ratio=400%3A94\" style=\"border-width: 0px; border-style: solid; width: 400px; height: 94px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/lptrealty_powerpacks_logos_black_horizontal_primary.png?width=800&amp;height=188&amp;aspect_ratio=400%3A94 2x\"></span><br>\r\n\t\t\t<br>\r\n\t\t\t<span style=\"font-size:22px;\">Are you tired of the traditional brokerage model<span style=\"font-size:24px;\"></span>s that offer little to no support and take a big chunk of your hard-earned commission?<br>\r\n\t\t\tIs it time for a change?</span><span style=\"font-size:24px;\"></span><br>\r\n\t\t\t<span style=\"font-size:20px;\">Welcome to LPT Realty, the fastest-growing brokerage in the U.S., and for good reason.</span><span style=\"font-size:24px;\"></span><br>\r\n\t\t\t&nbsp;</td>\r\n\t\t\t<td style=\"text-align: center;\"></td>\r\n\t\t\t<td></td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p><span style=\"color:#000000;\"><span style=\"font-size:22px;\"></span></span></p>\r\n\r\n<table border=\"0\" cellpadding=\"20\" cellspacing=\"20\" style=\"width:100%;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td></td>\r\n\t\t\t<td><span style=\"color:#000000;\"><span style=\"font-size:22px;\">Why Choose LPT Realty?</span></span><br>\r\n\t\t\t<span style=\"font-size:18px;\"><span style=\"color:#FF0000;\">Personalized Branding:</span></span> <span style=\"font-size:14px;\">At LPT, we believe in the power of your brand. You're not just another agent; you're a brand. LPT&nbsp;even lets you customize its logo with your brand colors. Plus, the&nbsp;Listing Power Tools will revolutionize how you market your listings.</span><br>\r\n\t\t\t<span style=\"font-size:18px;\"><span style=\"color:#FF0000;\"><br>\r\n\t\t\tAffordable Caps:</span></span> <span style=\"font-size:14px;\">Say goodbye to hefty fees. With LPT, enjoy a cap as low as $5,000 with no monthly fees. And if you're interested in our revenue share model, the cap is just $15,000&mdash;about half of what you might pay at other brokerages.</span><br>\r\n\t\t\t<span style=\"color:#FF0000;\"><span style=\"font-size:18px;\"><br>\r\n\t\t\tRevenue Share &amp; Stock Options:</span> </span><span style=\"font-size:14px;\">Build your wealth and legacy with our revenue share model and stock options. Earn shares on your first, third, 15th, and 35th deals, and even more as you climb the ranks to become a Black Belt agent.</span><br>\r\n\t\t\t<span style=\"font-size:18px;\"><span style=\"color:#FF0000;\"><br>\r\n\t\t\tSpecial Offer for Colorado and Wyoming Residents:</span></span><span style=\"font-size:18px;\"> </span><span style=\"font-size:14px;\">If you're in Colorado or Wyoming, I'd love to meet with you in person to answer any questions you may have.</span><br>\r\n\t\t\t<span style=\"font-size:18px;\"><span style=\"color:#FF0000;\"><br>\r\n\t\t\tReady for a Change? Let's Talk.</span></span><br>\r\n\t\t\t<span style=\"font-size:14px;\">If you're ready to take your real estate career to the next level, fill out the form below to schedule a call with me at 303-709-4262. Let's explore how LPT Realty and the BOLD Collective can help you achieve your dreams.</span></td>\r\n\t\t\t<td></td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84fc7a7ac1617b5c088f59",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301836152",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84fc7a7ac1617b5c088f5a",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301836153",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84fc7a7ac1617b5c088f5b",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301836154",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84fc7a7ac1617b5c088f5c",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301836155",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84fc7a7ac1617b5c088f5d",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984431",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301836152": "",
+     "email-301836153": "",
+     "phone-301836154": "",
+     "textarea-301836155": "",
+     "marketing-opt-in-301984431": false
+    },
+    "initialErrors": {
+     "name-301836152": "",
+     "email-301836153": "",
+     "phone-301836154": "",
+     "textarea-301836155": "",
+     "marketing-opt-in-301984431": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

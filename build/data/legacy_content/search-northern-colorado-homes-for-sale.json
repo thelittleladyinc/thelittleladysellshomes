@@ -1,0 +1,70 @@
+{
+ "path": "/search-northern-colorado-homes-for-sale",
+ "name": "Search Northern Colorado Homes For Sale",
+ "type": null,
+ "head": {
+  "title": "Northern Colorado Homes for Sale | Christine Gwinnup - Top Realtor®",
+  "description": "Search homes for sale in Northern Colorado, including Fort Collins, Loveland, Windsor, Greeley, Eaton & more. Christine Gwinnup offers bold marketing, fierce negotiation, and $500 toward closing costs.",
+  "url": "https://www.thelittleladysellshomes.com/search-northern-colorado-homes-for-sale",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/search-northern-colorado-homes-for-sale",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Approved%20Images/A%20front%201%20twilight%20%284%29.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84fcae07635700ce0328f0",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84fcae07635700ce0328f1",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<!-- Northern Colorado Home Search | Optimized for SEO + Lead Capture --><html><body><section style=\"padding: 60px 20px; background-color: #ffffff; text-align: center;\">\r\n<div style=\"max-width: 960px; margin: 0 auto;\">\r\n<h1 style=\"font-size: 36px; font-weight: 800; color: #111; margin-bottom: 20px;\">Northern Colorado Homes for Sale</h1>\r\n\r\n<p style=\"font-size: 18px; color: #444; margin-bottom: 20px;\">Browse the latest homes for sale in Fort Collins, Loveland, Windsor, Greeley, Eaton, Ault, Pierce, Johnstown, Wellington, Berthoud, and Boulder.</p>\r\n\r\n<p style=\"font-size: 18px; color: #444; margin-bottom: 30px;\">Whether you're looking for a luxury estate, investment property, or your very first home &mdash; you'll find everything Northern Colorado has to offer right here.</p>\r\n\r\n<p style=\"font-size: 18px; color: #444;\">Work with a strategic listing specialist who offers bold marketing, fierce negotiation, and local knowledge you won&rsquo;t find anywhere else.</p>\r\n<!-- Incentive Offer -->\r\n\r\n<div style=\"background-color: #fff4f4; border: 2px dashed #8B0000; padding: 20px; margin: 30px auto; border-radius: 8px; max-width: 700px;\">\r\n<p style=\"font-size: 18px; font-weight: 600; color: #8B0000; margin: 0;\">Get <strong>$500 toward closing costs</strong> when you buy or list your home with Christine Gwinnup.</p>\r\n</div>\r\n<!-- Search Button CTA --><a href=\"/search-northern-colorado\" style=\"display: inline-block; background-color: #8B0000; color: white; font-weight: bold; font-size: 18px; padding: 14px 28px; border-radius: 6px; text-decoration: none; margin-top: 20px;\">Start Your Home Search Below</a><!-- Resource Links -->\r\n\r\n<div style=\"margin-top: 40px; font-size: 16px; color: #333;\">\r\n<p><strong>Helpful Tools:</strong></p>\r\n\r\n<p><a href=\"/why-buyers-choose-christine-gwinnup-northern-colorado-real-estate-local-agent\" style=\"color:#8B0000;\">Why Buyers Choose Christine</a> | <a href=\"/buying-a-home\" style=\"color:#8B0000;\">Steps to Buying a Home</a> | <a href=\"/special-buyer-programs\" style=\"color:#8B0000;\">Special Buyer Programs</a><br>\r\n<a href=\"http://www.TheLittleLadySellsHomes.com/home-sale-calculator\" style=\"color:#8B0000;\">Affordability&nbsp;Calculator</a>&nbsp;| <a href=\"/buyers-or-sellers-market\" style=\"color:#8B0000;\">Buyer's or Seller's Market?</a></p>\r\n</div>\r\n<!-- Local Area Links -->\r\n\r\n<div style=\"margin-top: 30px; font-size: 15px; color: #444;\">\r\n<p><strong>Search Homes by Area:</strong></p>\r\n\r\n<p><a href=\"/homes-for-sale-in-loveland-co\" style=\"color:#8B0000;\">Loveland</a> | <a href=\"/homes-for-sale-in-fort-collins-co\" style=\"color:#8B0000;\">Fort Collins</a> | <a href=\"/homes-for-sale-in-windsor-co\" style=\"color:#8B0000;\">Windsor</a> | <a href=\"/homes-for-sale-in-greeley-co\" style=\"color:#8B0000;\">Greeley</a> | <a href=\"/homes-for-sale-in-eaton-co\" style=\"color:#8B0000;\">Eaton</a> | <a href=\"/homes-for-sale-in-ault-co\" style=\"color:#8B0000;\">Ault</a> | <a href=\"/homes-for-sale-in-pierce-co\" style=\"color:#8B0000;\">Pierce</a> | <a href=\"/homes-for-sale-in-johnstown-co\" style=\"color:#8B0000;\">Johnstown</a> | <a href=\"/homes-for-sale-in-wellington-co\" style=\"color:#8B0000;\">Wellington</a> | <a href=\"/homes-for-sale-in-berthoud-co\" style=\"color:#8B0000;\">Berthoud</a> | <a href=\"/homes-for-sale-in-boulder-co\" style=\"color:#8B0000;\">Boulder</a></p>\r\n</div>\r\n<!-- SEO Hidden Keywords -->\r\n\r\n<div style=\"display: none;\">Northern Colorado homes for sale, Fort Collins real estate, Loveland homes, Windsor listings, Greeley properties, Weld County homes, Larimer County homes, Boulder homes for sale, Colorado real estate, home search in Northern Colorado, homes with land Northern Colorado, luxury homes Fort Collins, first-time buyer homes Northern Colorado</div>\r\n</div>\r\n</section>\r\n<!-- Meta Tags --><meta name=\"title\" content=\"Northern Colorado Homes for Sale | Local Listings &amp; Real Estate Help\"><meta name=\"description\" content=\"Search Northern Colorado homes for sale. Find listings in Fort Collins, Loveland, Greeley, Windsor, Boulder, and more. $500 closing credit with Christine.\"></body></html>\n"
+  },
+  {
+   "id": "6a84fcae07635700ce0328ef",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "beds": {
+      "min": "1"
+     },
+     "page": 1,
+     "location": {
+      "type": "radius",
+      "value": {
+       "point": [
+        40.41710013508401,
+        -104.93535006798034
+       ],
+       "radius": 40
+      }
+     },
+     "listingType": "homes-for-sale-and-pending",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  },
+  {
+   "id": "6a84fcae07635700ce0328f2",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p style=\"text-align: center;\">Contact Christine for showings on all Northern Colorado Property&nbsp;<br>\r\n303-709-4262</p>\r\n</body></html>\n"
+  }
+ ],
+ "post": null
+}

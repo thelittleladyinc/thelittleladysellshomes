@@ -1,0 +1,63 @@
+{
+ "path": "/condos-and-attached-homes-for-sale-in-ault-co",
+ "name": "Condos and Attached Homes For Sale in Ault, CO",
+ "type": null,
+ "head": {
+  "title": "Discover Ault, Colorado: From Delicious Cuisine to Impressive Growth and Top-Ranked Schools Homes under $300,000 in Ault, Colorado",
+  "description": "\"Explore Ault, Colorado – a charming town just a stone's throw from Fort Collins. Discover mouth-watering cuisine, impressive population growth, and top-ranked schools in the Ault-Highland RE-9 School District. But that's not all – with its proximity to Fort Collins, Ault is also a hot spot for real estate. According to recent data, the median home value in Ault is $323,000, and the town has seen ",
+  "url": "https://www.thelittleladysellshomes.com/condos-and-attached-homes-for-sale-in-ault-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/condos-and-attached-homes-for-sale-in-ault-co",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Untitled%20design%20%2814%29.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f13368396053140df2ee",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f13368396053140df2ef",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p>Welcome to Ault, Colorado! This charming town, nestled in the heart of Weld County, has a lot to offer visitors and locals alike. From mouth-watering cuisine (I love the Mexican Restaurant) to impressive statistics on growth and education, Ault is a hidden gem that's definitely worth exploring.</p>\r\n\r\n<p>Ault is home to some great restaurants. If you're looking for a hearty breakfast, check out Gray's Cafe, which is known for its delicious biscuits and gravy. If you're in the mood for Mexican, head over to Casa Margarita's, which serves up some of the tastiest spicy Margaritas&nbsp;this side of the Rocky Mountains.</p>\r\n\r\n<p>But it's not just the food that's impressive in Ault. The town has also seen some impressive growth in recent years, with a population increase of over 20% since 2010. That's right, Ault is a town on the rise, with more and more people flocking to this peaceful corner of Colorado. And with its proximity to both Greeley and Fort Collins, it's no wonder that Ault is quickly becoming a desirable place to call home.</p>\r\n\r\n<p>Of course, one thing that really sets Ault apart is its unique history. Did you know that the town was originally named \"Aultman\" after its founder, Alexander Aultman? And did you know that Ault was once home to the largest sugar beet dump in the world? That's right, back in the early 1900s, Ault was a major player in the sugar beet industry, and the town's legacy can still be seen in the sugar beet sculptures that dot the landscape.</p>\r\n\r\n<p>But Ault isn't just a town with a rich history &ndash; it's also a town with a bright future, thanks in part to its exceptional school system. Ault-Highland RE-9 School District is one of the top-ranked districts in the state, with high graduation rates and impressive test scores. And when it comes to sports, Ault is a force to be reckoned with. The Ault Bulldogs are consistently one of the top teams in the region, with championship titles in football, basketball, and baseball. So whether you're a student, a parent, or just a fan of good sportsmanship, Ault is definitely a town worth rooting for.<br>\r\n<br>\r\nBut that's not all &ndash; with its proximity to Fort Collins, Ault is also a hot spot for real estate. According to recent data, the town has seen a steady increase in property values in recent years. The median home value in Ault is $323,000, and the town has seen steady growth. Come see why Ault is quickly becoming one of Colorado's most desirable places to call home!</p>\r\n\r\n<p>Ault, Colorado may be small, but it's mighty. From its delicious restaurants to its impressive growth and unique history, there's something for everyone in this little town. And with its top-notch schools and sports programs, it's clear that Ault is a town that's going places. So what are you waiting for? Come visit Ault and see for yourself why it's quickly becoming one of Colorado's most beloved towns!</p>\r\n\r\n<p style=\"text-align: center;\"><a class=\"btn btn-primary\" href=\"tel:303-709-4262\">TOUR A PROPERTY</a><br>\r\n<br>\r\n<a class=\"btn btn-primary\" href=\"/buying-a-home\">STEPS TO PURCHASE&nbsp;A HOME</a></p>\r\n</body></html>\n"
+  },
+  {
+   "id": "6a84f13368396053140df2ed",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "keywords": [
+      "Patio"
+     ],
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Ault, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "condo",
+      "house"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

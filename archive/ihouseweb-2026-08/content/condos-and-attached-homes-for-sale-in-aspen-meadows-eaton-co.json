@@ -1,0 +1,52 @@
+{
+ "path": "/condos-and-attached-homes-for-sale-in-aspen-meadows-eaton-co",
+ "name": "Condos and Attached Homes for Sale in Aspen Meadows, Eaton, CO",
+ "type": null,
+ "head": {
+  "title": "Condos and Attached Homes for Sale in Aspen Meadows, Eaton, CO",
+  "description": "Find condos and townhomes for sale in Aspen Meadows, Eaton, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/condos-and-attached-homes-for-sale-in-aspen-meadows-eaton-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/condos-and-attached-homes-for-sale-in-aspen-meadows-eaton-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f4fdb63294569b015b2f",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f4fdb63294569b015b2e",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "propertySubType": [
+      "Attached Dwelling"
+     ],
+     "page": 1,
+     "location": {
+      "type": "neighborhood",
+      "value": "Aspen Meadows, Eaton, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "condo"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

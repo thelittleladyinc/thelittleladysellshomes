@@ -1,0 +1,102 @@
+{
+ "path": "/order-your-free-sellers-guide-and-prepare-your-northern-colorado-home-to-sell",
+ "name": "Order Your Free Seller's Guide and Prepare Your Northern Colorado Home to Sell",
+ "type": null,
+ "head": {
+  "title": "Free Seller's Guide for Colorado Home Sellers | Tips to Sell Fast and Maximize Profit",
+  "description": "Get your free Seller's Guide today and learn how to sell your Northern Colorado home fast and for top dollar. Discover expert staging, pricing, and marketing strategies tailored to Colorado homeowners.",
+  "url": "https://www.thelittleladysellshomes.com/order-your-free-sellers-guide-and-prepare-your-northern-colorado-home-to-sell",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Colorado%20Seller%20Guide.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f57264cd1809f505f118",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300278915",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/order-your-free-sellers-guide-and-prepare-your-northern-colorado-home-to-sell",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f57264cd1809f505f119",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Order your free Seller's Guide and discover the top strategies to prepare your home for sale, maximize your profit, and sell quickly in today's market.\">\r\n<title></title>\r\n<style type=\"text/css\">body {\r\n            font-family: Arial, sans-serif;\r\n            line-height: 1.6;\r\n            margin: 0;\r\n            padding: 0;\r\n            color: #333;\r\n        }\r\n        header {\r\n            background-color: #8B0000;\r\n            color: #fff;\r\n            padding: 2rem;\r\n            text-align: center;\r\n        }\r\n        header h1 {\r\n            margin: 0;\r\n            font-size: 2.5rem;\r\n        }\r\n        header p {\r\n            font-size: 1.2rem;\r\n            margin-top: 0.5rem;\r\n        }\r\n        section {\r\n            padding: 1.5rem;\r\n            margin: 1rem auto;\r\n            max-width: 800px;\r\n            text-align: center;\r\n        }\r\n        form {\r\n            margin-top: 1.5rem;\r\n        }\r\n        form input[type=\"text\"],\r\n        form input[type=\"email\"] {\r\n            width: 90%;\r\n            max-width: 400px;\r\n            padding: 0.75rem;\r\n            margin-bottom: 1rem;\r\n            border: 1px solid #ccc;\r\n            border-radius: 5px;\r\n        }\r\n        form button {\r\n            background-color: #8B0000;\r\n            color: #fff;\r\n            padding: 0.75rem 1.5rem;\r\n            border: none;\r\n            border-radius: 5px;\r\n            cursor: pointer;\r\n            font-size: 1rem;\r\n        }\r\n        form button:hover {\r\n            background-color: #6a0000;\r\n        }\r\n        footer {\r\n            background-color: #333;\r\n            color: #fff;\r\n            text-align: center;\r\n            padding: 1rem 0;\r\n            margin-top: 2rem;\r\n        }\r\n</style>\r\n<header>\r\n<h1>Order Your Free Seller's Guide</h1>\r\n\r\n<p>Learn the top strategies to prepare your home for sale, maximize your profit, and sell quickly.</p>\r\n</header>\r\n\r\n<section>\r\n<h2>Get Your Free Guide Today</h2>\r\n\r\n<p>Are you thinking about selling your home? This comprehensive Seller's Guide is packed with tips to:</p>\r\n\r\n<ul style=\"text-align: left; display: inline-block;\">\r\n\t<li>Stage your home for maximum appeal</li>\r\n\t<li>Avoid common mistakes sellers make</li>\r\n\t<li>Understand pricing strategies that work</li>\r\n\t<li>Attract the right buyers quickly</li>\r\n</ul>\r\n\r\n<p>Fill out the form below, and we'll send you your free Seller's Guide right away!</p>\r\n</section></head></html>\n"
+      }
+     },
+     {
+      "id": "6a84f57264cd1809f505f11a",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-302021477",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f57264cd1809f505f11b",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-302021478",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f57264cd1809f505f11c",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-302021479",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f57264cd1809f505f11d",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-302021480",
+       "label": "Address:",
+       "value": "",
+       "required": false
+      }
+     }
+    ],
+    "initialValues": {
+     "name-302021477": "",
+     "email-302021478": "",
+     "phone-302021479": "",
+     "textarea-302021480": ""
+    },
+    "initialErrors": {
+     "name-302021477": "",
+     "email-302021478": "",
+     "phone-302021479": "",
+     "textarea-302021480": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

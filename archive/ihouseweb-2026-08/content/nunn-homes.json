@@ -1,0 +1,28 @@
+{
+ "path": "/nunn-homes",
+ "name": "Nunn Homes",
+ "type": null,
+ "head": {
+  "title": "Nunn Homes | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/nunn-homes",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/Featured-Community-1800580621.jpg",
+   "height": 300,
+   "width": 400
+  },
+  "hasOverlay": true
+ },
+ "blocks": [
+  {
+   "id": "featured-location-74978",
+   "type": "featuredLocation",
+   "html": null,
+   "options": {
+    "featuredLocationId": 74978
+   }
+  }
+ ],
+ "post": null
+}

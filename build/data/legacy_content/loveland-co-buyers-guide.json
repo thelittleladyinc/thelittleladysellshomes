@@ -1,0 +1,97 @@
+{
+ "path": "/loveland-co-buyers-guide",
+ "name": "Loveland Co Buyer's Guide",
+ "type": null,
+ "head": {
+  "title": "Loveland Co Buyer's Guide | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/loveland-co-buyers-guide",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "6a84f5909f0bb77789066026",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300283886",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/loveland-co-buyers-guide",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f5909f0bb77789066027",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<!-- Loveland Buyer's Guide Landing Page --><html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Download your Loveland, Colorado Home Buyer's Guide &mdash; packed with tips, checklists, and expert insights from Christine Gwinnup, your local real estate pro.\"><meta name=\"keywords\" content=\"Loveland Colorado buyer guide, download real estate checklist, Christine Gwinnup realtor, how to buy a home in Loveland, real estate tips Northern Colorado\"><meta name=\"theme-color\" content=\"#8B0000\">\r\n<link href=\"https://www.thelittleladysellshomes.com/loveland-buyers-guide\" rel=\"canonical\">\r\n<title></title>\r\n<style type=\"text/css\">body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: #fff9f5; color: #2c2c2c; }\r\n  header.hero { background: linear-gradient(to bottom, rgba(0,0,0,.8), rgba(0,0,0,.4)), url('/images/loveland-banner.jpg') center/cover no-repeat; padding: 100px 20px; color: #fff; text-align: center; }\r\n  header.hero h1 { font-size: 3rem; margin-bottom: 20px; font-family: 'Playfair Display', serif; }\r\n  header.hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto; }\r\n  .cta-button { background: #8B0000; color: #fff; padding: 14px 30px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; text-decoration: none; display: inline-block; margin-top: 30px; transition: background .3s ease; }\r\n  .cta-button:hover { background: #600000; }\r\n  section.content { max-width: 900px; margin: 60px auto; padding: 0 20px; text-align: center; }\r\n  iframe.pdf-preview { width: 100%; height: 600px; border: none; border-radius: 10px; margin-top: 40px; }\r\n</style>\r\n<header class=\"hero\">\r\n<h1>Download Your Loveland Buyer&rsquo;s Guide</h1>\r\n\r\n<p>This free guide gives you everything you need to start your home search with confidence &mdash; checklists, tips, timelines, and insider advice from Christine Gwinnup.</p>\r\n</header></head></html>\n"
+      }
+     },
+     {
+      "id": "6a84f5909f0bb77789066028",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-302059921",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f5909f0bb77789066029",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-302059922",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f5909f0bb7778906602a",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-302059923",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f5909f0bb7778906602b",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-302059924",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-302059921": "",
+     "email-302059922": "",
+     "phone-302059923": "",
+     "textarea-302059924": ""
+    },
+    "initialErrors": {
+     "name-302059921": "",
+     "email-302059922": "",
+     "phone-302059923": "",
+     "textarea-302059924": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

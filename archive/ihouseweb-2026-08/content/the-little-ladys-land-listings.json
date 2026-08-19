@@ -1,0 +1,41 @@
+{
+ "path": "/the-little-ladys-land-listings",
+ "name": "The Little Lady's Land Listings",
+ "type": null,
+ "head": {
+  "title": "The Little Lady's Land Listings | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/the-little-ladys-land-listings",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/the-little-ladys-land-listings"
+ },
+ "blocks": [
+  {
+   "id": "heading-featured-listings-search-300129091",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "featured-listings-search-300129091",
+   "type": "featuredListings",
+   "html": null,
+   "options": {
+    "contentBlockType": "featuredListings",
+    "searchParams": {
+     "featuredListingsId": 300129091,
+     "listingType": "homes-for-sale",
+     "page": 1,
+     "itemsPerPage": 20,
+     "view": "cards",
+     "sort": "old"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "old",
+    "format": "paginated",
+    "limit": 20
+   }
+  }
+ ],
+ "post": null
+}

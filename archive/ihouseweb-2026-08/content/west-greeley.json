@@ -1,0 +1,72 @@
+{
+ "path": "/west-greeley",
+ "name": "West Greeley",
+ "type": null,
+ "head": {
+  "title": "West Greeley",
+  "description": "Find properties for sale. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/west-greeley",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/west-greeley"
+ },
+ "blocks": [
+  {
+   "id": "6a84f4417f35a8c2fa0340d7",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f4417f35a8c2fa0340d8",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p>Contact Christine at 303-709-4262 or email her at thelittleladyinc@gmail.com<br>\r\nShe will set you up to receive Instant Notification when a new listing is added.</p>\r\n</body></html>\n"
+  },
+  {
+   "id": "6a84f4417f35a8c2fa0340d6",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "polygon",
+      "value": [
+       [
+        40.440860944687415,
+        -104.73769916473874
+       ],
+       [
+        40.36608913690827,
+        -104.73563922821526
+       ],
+       [
+        40.35667141621215,
+        -104.98214496551995
+       ],
+       [
+        40.44556408429955,
+        -104.99313129364495
+       ],
+       [
+        40.440860944687415,
+        -104.73769916473874
+       ]
+      ]
+     },
+     "listingType": "homes-for-sale-and-pending",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

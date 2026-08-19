@@ -1,0 +1,61 @@
+{
+ "path": "/homes-for-sale-in-ault-co",
+ "name": "Homes for Sale in Ault, CO",
+ "type": null,
+ "head": {
+  "title": "Ault, Colorado Real Estate - Find Your Dream Home Today with The Little Lady Sells Homes",
+  "description": "Discover your perfect home in Ault, Colorado with the help of  The Little Lady Sells Homes. Our comprehensive listings and expert guidance make finding your dream home easy. Contact us at 303-709-4262 today to start your search!",
+  "url": "https://www.thelittleladysellshomes.com/homes-for-sale-in-ault-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/homes-for-sale-in-ault-co",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/Featured-Community-98519411.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f12644d65e23d803e9cc",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f12644d65e23d803e9cd",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><h1 style=\"text-align: center;\">Ault, Colorado: Unveiling a Unique Town &amp; Your Dream Home with Christine Gwinnup, The Little Lady Sells Homes, Real Estate Agent</h1>\r\n\r\n<p style=\"text-align: center;\"><iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen=\"\" frameborder=\"0\" height=\"315\" referrerpolicy=\"strict-origin-when-cross-origin\" src=\"https://www.youtube.com/embed/jRKHaq5p--Y?si=hCffq8VuOIUIi9La\" title=\"YouTube video player\" width=\"560\"></iframe></p>\r\n\r\n<p>Ault, Colorado, is more than just a charming little town. It's a vibrant community with a strong sense of place, offering something for everyone. In this video, we'll explore the unique character of Ault, from Liberty Park to Gray's Cafe's friendly faces.</p>\r\n\r\n<p><strong>Thinking of buying or selling a home in Ault?</strong>&nbsp;As your local real estate agent, I can help you navigate the process and find the perfect property to match your needs.</p>\r\n\r\n<p><strong>Whether you're a first-time homebuyer, a growing family, or looking for a peaceful retirement haven, Ault offers a variety of housing options.</strong></p>\r\n\r\n<p><strong>In this video, you'll discover:</strong></p>\r\n\r\n<ul>\r\n\t<li>The hidden gems and unique charm of Ault</li>\r\n\t<li>A thriving local scene with shops, restaurants, and wineries (next video)</li>\r\n\t<li>The strong sense of community that makes Ault special</li>\r\n</ul>\r\n\r\n<p><strong>Ready to find your dream home in Ault?</strong>&nbsp;Contact me today,&nbsp;Christine Gwinnup, with The Little Lady Sells Homes, your trusted real estate agent in Ault, Colorado.</p>\r\n\r\n<p><strong>303-709-4262<br>\r\n<a heap-ignore=\"true\" href=\"https://www.thelittleladysellshomes.com/\" rel=\"noreferrer\" target=\"_blank\">https://www.TheLittleLadySellsHomes.com</a></strong></p>\r\n\r\n<p><strong>#AultCO #RealEstateAgentAult #HomesForSaleAult #BuyAHomeAult #SellAHomeAult #RealtorAult</strong></p>\r\n</body></html>\n"
+  },
+  {
+   "id": "6a84f12644d65e23d803e9cb",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Ault, CO"
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  },
+  {
+   "id": "6a84f12644d65e23d803e9ce",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p></p>\r\n</body></html>\n"
+  }
+ ],
+ "post": null
+}

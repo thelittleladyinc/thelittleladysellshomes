@@ -1,0 +1,56 @@
+{
+ "path": "/noco-homes-under-400000",
+ "name": "NoCo Homes Under $400,000",
+ "type": null,
+ "head": {
+  "title": "NoCo Homes Under $400,000",
+  "description": "Find properties for sale under $400,000. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/noco-homes-under-400000",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/noco-homes-under-400000"
+ },
+ "blocks": [
+  {
+   "id": "6a84f516539537f2b60f3572",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f516539537f2b60f3571",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "price": {
+      "max": "400000",
+      "min": "0"
+     },
+     "page": 1,
+     "location": {
+      "type": "radius",
+      "value": {
+       "point": [
+        40.43801198315214,
+        -104.87160254895959
+       ],
+       "radius": "27.74"
+      }
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

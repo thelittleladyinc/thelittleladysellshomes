@@ -1,0 +1,61 @@
+{
+ "path": "/eaton-home-value",
+ "name": "How Huch Is My Eaton Home Worth?",
+ "type": null,
+ "head": {
+  "title": "How Huch Is My Eaton Home Worth? | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/eaton-home-value",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "heading-market-report-block-303251608",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "content-top-market-report-block-303251608",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n\t\t\t\t<tbody>\r\n\t\t\t\t</tbody>\r\n\t\t\t</table>\r\n\r\n\t\t\t<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n\t\t\t\t<tbody>\r\n\t\t\t\t\t<tr>\r\n\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n\t\t\t\t\t\t\t<tbody>\r\n\t\t\t\t\t\t\t\t<tr>\r\n\t\t\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t\t<p><span style=\"font-size:18px;\">Working with your&nbsp;Local Realtor is the first step toward knowing your home's true worth.&nbsp;</span></p>\r\n\r\n\t\t\t\t\t\t\t\t\t<p><span style=\"font-size:18px;\">There is nothing that can take the place of a Comprehensive Market Analysis.&nbsp;A CMA takes your home's upgrades into consideration, exact measurements of each room and square footage. </span></p>\r\n\r\n\t\t\t\t\t\t\t\t\t<p><span style=\"font-size:18px;\">Zillow gives you a zestimate based on&nbsp;your neighbors homes,&nbsp;I give you the true value.</span></p>\r\n\r\n\t\t\t\t\t\t\t\t\t<p><span style=\"font-size:18px;\">If you are interested in having a detailed market analysis of what your home will sell for in today's market- Contact me at 303-709-4262 or fill out the form <a href=\"/contact\">here</a></span></p>\r\n\t\t\t\t\t\t\t\t\t</td>\r\n\t\t\t\t\t\t\t\t</tr>\r\n\t\t\t\t\t\t\t</tbody>\r\n\t\t\t\t\t\t</table>\r\n\t\t\t\t\t\t</td>\r\n\t\t\t\t\t</tr>\r\n\t\t\t\t</tbody>\r\n\t\t\t</table>\r\n\t\t\t</td>\r\n\t\t\t<td><img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/839_2%20%281%29.png?width=400&amp;height=563&amp;aspect_ratio=400%3A563\" style=\"width: 400px; height: 563px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/839_2%20%281%29.png?width=800&amp;height=1126&amp;aspect_ratio=400%3A563 2x\"></td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<div id=\"homebot_homeowner\">\r\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td></td>\r\n\t\t\t<td></td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p></p>\r\n</div>\r\n<script> (function (h,b) { var w = window, d = document, s = 'script', x, y; w['__hb_namespace'] = h; w[h] = w[h] || function () { (w[h].q=w[h].q||[]).push(arguments) }; y = d.createElement(s); x = d.getElementsByTagName(s)[0]; y.async = 1; y.src = b; x.parentNode.insertBefore(y,x) })('Homebot','https://embed.homebotapp.com/lgw/v1/widget.js'); Homebot('#homebot_homeowner', 'b8c09b9d1399cffe42ef17ef11bc1200c39f5394ed54b9d0') </script></body></html>\n"
+  },
+  {
+   "id": "market-report-block-303251608",
+   "type": "marketReportBlock",
+   "html": null,
+   "options": {
+    "searchParamsComps": {
+     "itemsPerPage": 10,
+     "view": "split",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Eaton, CO"
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "location": {
+     "type": "city",
+     "value": "Eaton, CO",
+     "key": "Eaton,CO",
+     "name": "Eaton"
+    },
+    "locations": [
+     {
+      "type": "city",
+      "value": "Eaton, CO",
+      "key": "Eaton,CO",
+      "name": "Eaton"
+     }
+    ]
+   }
+  },
+  {
+   "id": "content-bottom-market-report-block-303251608",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n\t\t\t\t<tbody>\r\n\t\t\t\t</tbody>\r\n\t\t\t</table>\r\n\t\t\t</td>\r\n\t\t\t<td></td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n</body></html>\n"
+  }
+ ],
+ "post": null
+}

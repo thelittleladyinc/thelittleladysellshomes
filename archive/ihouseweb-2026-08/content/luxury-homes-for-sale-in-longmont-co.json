@@ -1,0 +1,54 @@
+{
+ "path": "/luxury-homes-for-sale-in-longmont-co",
+ "name": "Luxury Homes for Sale in Longmont, CO",
+ "type": null,
+ "head": {
+  "title": "Luxury Homes for Sale in Longmont, CO",
+  "description": "Find properties for sale in Longmont, CO over $1,000,000. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/luxury-homes-for-sale-in-longmont-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/luxury-homes-for-sale-in-longmont-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f1f78070ae85bf01cdc0",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f1f78070ae85bf01cdbf",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "price": {
+      "min": "1000000"
+     },
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Longmont, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house",
+      "condo",
+      "multi"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

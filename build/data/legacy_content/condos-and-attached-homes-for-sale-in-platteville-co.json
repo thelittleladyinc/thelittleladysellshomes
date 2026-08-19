@@ -1,0 +1,53 @@
+{
+ "path": "/condos-and-attached-homes-for-sale-in-platteville-co",
+ "name": "Condos and Attached Homes For Sale in Platteville, CO",
+ "type": null,
+ "head": {
+  "title": "Condos and Attached Homes For Sale in Platteville, CO",
+  "description": "Find properties for sale in Platteville, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/condos-and-attached-homes-for-sale-in-platteville-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/condos-and-attached-homes-for-sale-in-platteville-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f27fadeccd748d0f5150",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f27fadeccd748d0f514f",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "keywords": [
+      "Patio"
+     ],
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Platteville, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "condo",
+      "house"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

@@ -1,0 +1,54 @@
+{
+ "path": "/equestrian-homes-for-sale-in-carr-co",
+ "name": "Equestrian Homes for Sale in Carr, CO",
+ "type": null,
+ "head": {
+  "title": "Equestrian Homes for Sale in Carr, CO",
+  "description": "Find properties for sale in Carr, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/equestrian-homes-for-sale-in-carr-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/equestrian-homes-for-sale-in-carr-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f3b91b7a5c728d06094c",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f3b91b7a5c728d06094b",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "keywords": [
+      "Horse property"
+     ],
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Carr, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house",
+      "condo",
+      "multi"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

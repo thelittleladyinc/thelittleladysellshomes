@@ -1,0 +1,61 @@
+{
+ "path": "/luxury-homes-in-larimer-and-weld-county",
+ "name": "Luxury Homes in Larimer and Weld County",
+ "type": null,
+ "head": {
+  "title": "Luxury Homes in Larimer and Weld County",
+  "description": "Find 1 bed 1 bath properties for sale near Weld County, CO over $500,000. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/luxury-homes-in-larimer-and-weld-county",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/luxury-homes-in-larimer-and-weld-county"
+ },
+ "blocks": [
+  {
+   "id": "6a84f39ec2d5f635010f2761",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f39ec2d5f635010f2760",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "price": {
+      "min": "500000"
+     },
+     "beds": {
+      "min": "1"
+     },
+     "baths": {
+      "min": "1"
+     },
+     "page": 1,
+     "nearbyLocations": [
+      "Larimer County, CO"
+     ],
+     "location": {
+      "type": "county",
+      "value": "Weld County, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

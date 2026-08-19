@@ -1,0 +1,51 @@
+{
+ "path": "/johnstown-co-market-report-and-trends",
+ "name": "Johnstown, CO Market Report and Trends",
+ "type": null,
+ "head": {
+  "title": "Johnstown, CO Market Report and Trends | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/johnstown-co-market-report-and-trends",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "heading-market-report-block-304232770",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "market-report-block-304232770",
+   "type": "marketReportBlock",
+   "html": null,
+   "options": {
+    "searchParamsComps": {
+     "itemsPerPage": 10,
+     "view": "split",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Johnstown, CO"
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "location": {
+     "type": "city",
+     "value": "Johnstown, CO",
+     "key": "Johnstown,CO",
+     "name": "Johnstown"
+    },
+    "locations": [
+     {
+      "type": "city",
+      "value": "Johnstown, CO",
+      "key": "Johnstown,CO",
+      "name": "Johnstown"
+     }
+    ]
+   }
+  }
+ ],
+ "post": null
+}

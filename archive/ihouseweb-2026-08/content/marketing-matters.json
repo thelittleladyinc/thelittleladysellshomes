@@ -1,0 +1,152 @@
+{
+ "path": "/marketing-matters",
+ "name": "Sell Your Colorado Home Fast: Expert Listing Agent",
+ "type": null,
+ "head": {
+  "title": "Sell Your Northern Colorado Home | Christine Gwinnup",
+  "description": "Top Realtor in Loveland, Greeley & Fort Collins. Get bold marketing, expert pricing, & fierce negotiation. Sell your home faster with Christine Gwinnup.",
+  "url": "https://www.thelittleladysellshomes.com/marketing-matters",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/9C532521-1774-443D-9C2C-2813C926A7FC.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f89bb771ea9f7e02b33c",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300224679",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/marketing-matters",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f89bb771ea9f7e02b33d",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<!-- Section 1: Hero Section --><html><body><section id=\"top\" style=\"padding: 60px 20px; background-color: #ffffff; text-align: center;\">\r\n<div style=\"max-width: 960px; margin: 0 auto;\">\r\n<h1 style=\"font-size: 42px; font-weight: 800; color: #8B0000; margin-bottom: 20px;\">Sell Your Northern Colorado Home with Confidence</h1>\r\n\r\n<p style=\"font-size: 20px; color: #555; margin-bottom: 30px; max-width: 760px; margin-left: auto; margin-right: auto;\">Discover how Christine Gwinnup, a top-performing agent in Loveland, Fort Collins, Berthoud, Greeley, Eaton, and Ault, helps sellers get my client's more money&nbsp;with bold marketing and expert strategy.</p>\r\n</div>\r\n<a data-form-id=\"300208218\" href=\"/contact\" onclick=\"document.getElementById('form-section').scrollIntoView({ behavior: 'smooth' }); return false;\" style=\"display:inline-block; background-color:#8B0000; color:#fff; padding:12px 24px; font-size: 18px; border-radius:5px; font-weight:600; text-decoration:none;\" target=\"modal_form\">Request a Seller Consultation </a></section>\r\n<!-- Quick Navigation Links -->\r\n\r\n<nav aria-label=\"Quick Links\" style=\"text-align: center; margin: 40px 0;\"><a href=\"https://calendly.com/thelittleladysellshomes\" style=\"margin: 0 15px; color:#8B0000; font-weight:bold; text-decoration: none;\">Schedule Consultation</a> | <a href=\"/listings-video-portfolio\" style=\"margin: 0 15px; color:#8B0000; font-weight:bold; text-decoration: none;\">Video Marketing</a> | <a href=\"/my-sold-listings\" style=\"margin: 0 15px; color:#8B0000; font-weight:bold; text-decoration: none;\">Sold Listings</a> | <a href=\"/get-your-seller-guide\" style=\"margin: 0 15px; color:#8B0000; font-weight:bold; text-decoration: none;\">Free Seller Guide</a></nav>\r\n<!-- Scroll to Top Button --><a href=\"#top\" style=\"position: fixed; bottom: 20px; right: 20px; background: #8B0000; color: white; padding: 10px 15px; border-radius: 50%; text-decoration: none; font-size: 20px; z-index: 999\">&uarr;</a> <!-- Open Graph Metadata --> <meta property=\"og:title\" content=\"Sell Your Northern Colorado Home with Confidence | Christine Gwinnup\"> <meta property=\"og:description\" content=\"Thinking about selling your home in Loveland, Fort Collins, or surrounding areas? Christine Gwinnup offers unmatched marketing, negotiation, and personalized service to get you top dollar.\"> <meta property=\"og:image\" content=\"https://www.thelittleladysellshomes.com/images/logo.png\"> <meta property=\"og:url\" content=\"https://www.thelittleladysellshomes.com/marketing-matters\"> <meta property=\"og:type\" content=\"website\"> <!-- Anchor Point for Form -->\r\n\r\n<section id=\"contact-form\"></section>\r\n<!-- Section 2: Why Sellers Trust Christine -->\r\n\r\n<section style=\"padding: 60px 20px; background-color: #f9f9f9; text-align: center;\">\r\n<div style=\"max-width: 960px; margin: 0 auto;\">\r\n<h2 style=\"font-size: 32px; font-weight: 700; color: #222; margin-bottom: 20px;\">Why Sellers Trust Christine Gwinnup</h2>\r\n\r\n<p style=\"font-size: 18px; color: #555; margin-bottom: 30px;\">Trusted by over 100 Northern Colorado sellers to list and sell with strategy, care, and unmatched exposure.</p>\r\n<img alt=\"Homes Sold in Northern Colorado Christine Gwinnup\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Homes%20sold%20in%20Northern%20Colorado%20Christine%20Gwinnup.png?width=400&amp;height=341&amp;aspect_ratio=400%3A341\" style=\"max-width: 100%; height: 341px; width: 400px;\" title=\"Homes Sold in Northern Colorado Christine Gwinnup\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Homes%20sold%20in%20Northern%20Colorado%20Christine%20Gwinnup.png?width=800&amp;height=682&amp;aspect_ratio=400%3A341 2x\"></div>\r\n</section>\r\n<!-- Section 3: How the Process Works -->\r\n\r\n<section style=\"padding: 60px 20px; background-color: #ffffff; text-align: center;\">\r\n<div style=\"max-width: 960px; margin: 0 auto;\">\r\n<h2 style=\"font-size: 32px; font-weight: 700; color: #222; margin-bottom: 20px;\">The Home Selling Process</h2>\r\n\r\n<p style=\"font-size: 18px; color: #555; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto;\">From pricing to negotiations, Christine walks you through every step to maximize your outcome.</p>\r\n\r\n<ul style=\"text-align: left; max-width: 800px; margin: 0 auto; font-size: 17px; color: #555;\">\r\n\t<li><strong>Step 1:</strong> Personalized consultation and pricing strategy</li>\r\n\t<li><strong>Step 2:</strong> Staging and professional photography</li>\r\n\t<li><strong>Step 3:</strong> Launch listing with bold, multi-channel marketing</li>\r\n\t<li><strong>Step 4:</strong> Review offers and negotiate like a pro</li>\r\n\t<li><strong>Step 5:</strong> Close with confidence</li>\r\n</ul>\r\n</div>\r\n</section>\r\n<!-- Section 4: Christine's Approach -->\r\n\r\n<section style=\"padding: 60px 20px; background-color: #f4f4f4; text-align: center;\">\r\n<div style=\"max-width: 960px; margin: 0 auto;\">\r\n<h2 style=\"font-size: 32px; font-weight: 700; color: #222; margin-bottom: 20px;\">Strategic, Professional, Personal</h2>\r\n\r\n<p style=\"font-size: 18px; color: #555; max-width: 800px; margin: 0 auto;\">Christine combines high-level marketing, deep community knowledge, and fierce advocacy for her clients&mdash;ensuring you sell smarter, not harder.</p>\r\n</div>\r\n</section>\r\n<!-- Section 5: Featured Video Tour -->\r\n\r\n<section style=\"padding: 60px 20px; background-color: #ffffff; text-align: center;\">\r\n<div style=\"max-width: 960px; margin: 0 auto;\">\r\n<h2 style=\"font-size: 32px; font-weight: 700; color: #222; margin-bottom: 20px;\">What Bold Marketing Looks Like</h2>\r\n<iframe allowfullscreen=\"\" frameborder=\"0\" height=\"500\" src=\"https://www.youtube.com/embed/nidadH0ZWjU\" title=\"Listing Video\" width=\"100%\"></iframe>\r\n\r\n<p style=\"margin-top: 15px;\"><a href=\"/listings-video-portfolio\" style=\"color: #8B0000; font-weight: bold;\">View More Listing Videos</a></p>\r\n</div>\r\n</section>\r\n<!-- Section 6: Seller Guide Download -->\r\n\r\n<section style=\"padding: 60px 20px; background-color: #f9f9f9; text-align: center;\">\r\n<div style=\"max-width: 960px; margin: 0 auto;\">\r\n<h2 style=\"font-size: 32px; font-weight: 700; color: #222; margin-bottom: 20px;\">Free Seller Guide</h2>\r\n\r\n<p style=\"font-size: 18px; color: #555; max-width: 760px; margin: 0 auto 30px;\">Get expert advice on pricing, staging, and preparing your home for the market. This guide breaks down everything you need to know.</p>\r\n<a href=\"/get-your-seller-guide\" style=\"display:inline-block; background-color:#8B0000; color:white; padding:12px 24px; font-size: 18px; border-radius:5px; font-weight:600; text-decoration:none;\">Download the Guide</a></div>\r\n</section>\r\n<!-- Section 7: Custom Marketing Plan CTA -->\r\n\r\n<section style=\"padding: 60px 20px; background-color: #ffffff; text-align: center;\">\r\n<div style=\"max-width: 960px; margin: 0 auto;\">\r\n<h2 style=\"font-size: 32px; font-weight: 700; color: #222; margin-bottom: 20px;\">Want a Custom Marketing Plan?</h2>\r\n\r\n<p style=\"font-size: 18px; color: #555; max-width: 780px; margin: 0 auto 30px;\">Every home is unique&mdash;so is Christine&rsquo;s plan to market it. Let&rsquo;s create a strategy designed for your property.</p>\r\n<a href=\"#contact-form\" style=\"display:inline-block; background-color:#8B0000; color:white; padding:12px 24px; font-size: 18px; border-radius:5px; font-weight:600; text-decoration:none;\">Start with a Consultation</a></div>\r\n</section>\r\n<!-- Section 8: Pre-Listing Book -->\r\n\r\n<section style=\"padding: 60px 20px; background-color: #f4f4f4; text-align: center;\">\r\n<div style=\"max-width: 960px; margin: 0 auto;\">\r\n<h2 style=\"font-size: 32px; font-weight: 700; color: #222; margin-bottom: 20px;\">What to Expect When You List</h2>\r\n\r\n<p style=\"font-size: 18px; color: #555; max-width: 760px; margin: 0 auto 30px;\">Christine&rsquo;s 8\"x8\" pre-listing book outlines the listing process in detail&mdash;from photography day to final negotiations.</p>\r\n<a href=\"/ready-to-list\" style=\"display:inline-block; background-color:#8B0000; color:white; padding:12px 24px; font-size: 18px; border-radius:5px; font-weight:600; text-decoration:none;\">Preview the Book</a></div>\r\n</section>\r\n<!-- Section 9: Testimonials -->\r\n\r\n<section style=\"padding: 60px 20px; background-color: #f9f9f9; text-align: center;\">\r\n<div style=\"max-width: 900px; margin: 0 auto;\">\r\n<h2 style=\"font-size: 32px; font-weight: 700; color: #222; margin-bottom: 30px;\">What Sellers Are Saying</h2>\r\n\r\n<blockquote style=\"font-size: 18px; color: #555; font-style: italic; max-width: 760px; margin: 0 auto 20px;\">\"Christine was not only very patient and kind, but she was also extremely informative and thorough. Hands down, she is the best and we cannot recommend her enough!\"</blockquote>\r\n\r\n<p><a href=\"https://www.google.com/search?q=The+Little+Lady+Sells+Homes&amp;sca_esv=cc91aa7b516a412e&amp;sxsrf=AHTn8zrN239WdxNMkmqVro1cyKqvlL6TDA%3A1745352541550&amp;ei=XfcHaJa3IZXH0PEPu9LnsAM&amp;ved=0ahUKEwjW2fzxuOyMAxWVIzQIHTvpGTYQ4dUDCBI&amp;uact=5&amp;oq=The+Little+Lady+Sells+Homes&amp;gs_lp=Egxnd3Mtd2l6LXNlcnAiG1RoZSBMaXR0bGUgTGFkeSBTZWxscyBIb21lczIEECMYJzIEECMYJzIEECMYJzIOEC4YgAQYxwEYjgUYrwEyBhAAGBYYHjICECYyCBAAGIAEGKIEMggQABiABBiiBDIFEAAY7wVIhgtQ2wJYzQZwAXgAkAEAmAHuAaAB0gSqAQUwLjEuMrgBA8gBAPgBAZgCA6AC6QSYAwCIBgGSBwUwLjEuMqAH3yWyBwUwLjEuMrgH6QQ&amp;sclient=gws-wiz-serp#mpd=~16585641039540537482/customers/reviews\" style=\"color: #8B0000; font-weight: bold; text-decoration: none;\" target=\"_blank\">Read 90+ Five-Star Google Reviews &rarr;</a></p>\r\n</div>\r\n</section>\r\n\r\n<p style=\"margin-top: 10px;\"><a href=\"https://g.co/kgs/3UKoevg\" style=\"color: #8B0000; font-weight: bold; text-decoration: none;\" target=\"_blank\">Explore More Reviews on Google </a></p>\r\n<!-- Section 10: Connect With Christine -->\r\n\r\n<section id=\"form-section\" style=\"padding: 60px 20px; background-color: #ffffff; text-align: center;\">\r\n<div style=\"max-width: 900px; margin: 0 auto;\">\r\n<h2 style=\"font-size: 32px; font-weight: 700; color: #222; margin-bottom: 20px;\">Let&rsquo;s Get Your Home Sold</h2>\r\n\r\n<p style=\"font-size: 18px; color: #555; margin-bottom: 30px;\">Fill out the form below and I&rsquo;ll reach out personally to talk about how we can sell your home fast&mdash;and for the best price possible.</p>\r\n<!-- Your existing form plugin should appear here --></div>\r\n</section>\r\n<!-- Section 11: National Agent Network -->\r\n\r\n<section style=\"padding: 60px 20px; background-color: #f4f4f4; text-align: center;\">\r\n<div style=\"max-width: 900px; margin: 0 auto;\">\r\n<h2 style=\"font-size: 28px; font-weight: 700; color: #222; margin-bottom: 20px;\">Not in Northern Colorado?</h2>\r\n\r\n<p style=\"font-size: 18px; color: #555; max-width: 780px; margin: 0 auto;\">No problem! I&rsquo;m part of a nationwide network of top-performing agents with LPT Realty. If you're buying or selling outside Colorado, I&rsquo;ll connect you with a trusted expert who can deliver the same bold results.</p>\r\n<a href=\"#form-section\" style=\"display:inline-block; margin-top: 20px; background-color:#8B0000; color:#fff; padding:12px 24px; font-size: 18px; border-radius:5px; font-weight:600; text-decoration:none;\">Let Me Connect You</a></div>\r\n</section>\r\n<!-- Section 12: Home Valuation CTA -->\r\n\r\n<section style=\"padding: 60px 20px; background-color: #ffffff; text-align: center;\">\r\n<div style=\"max-width: 960px; margin: 0 auto;\">\r\n<h2 style=\"font-size: 32px; font-weight: 700; color: #222; margin-bottom: 20px;\">Wondering What Your Home Is Worth?</h2>\r\n\r\n<p style=\"font-size: 18px; color: #555; max-width: 780px; margin: 0 auto 30px;\">Get a free, personalized market analysis and discover your home&rsquo;s true value in today&rsquo;s market.</p>\r\n<a href=\"/how-much-is-my-home-worth\" style=\"display:inline-block; background-color:#8B0000; color:#fff; padding:12px 24px; font-size: 18px; border-radius:5px; font-weight:600; text-decoration:none;\">Request a Free Home Valuation</a></div>\r\n</section>\r\n<!-- Section 13: What I’ve Sold -->\r\n\r\n<section style=\"padding: 60px 20px; background-color: #f9f9f9; text-align: center;\">\r\n<div style=\"max-width: 960px; margin: 0 auto;\">\r\n<h2 style=\"font-size: 32px; font-weight: 700; color: #222; margin-bottom: 20px;\">Recently Sold by Christine</h2>\r\n\r\n<p style=\"font-size: 18px; color: #555; margin-bottom: 30px;\">Take a look at the homes I&rsquo;ve sold throughout Northern Colorado&mdash;trusted by over 100 clients and counting.</p>\r\n<a href=\"/my-sold-listings\" style=\"display:inline-block; background-color:#8B0000; color:#fff; padding:12px 24px; font-size: 18px; border-radius:5px; font-weight:600; text-decoration:none;\">View My Sold Listings</a></div>\r\n</section>\r\n<!-- Section 14: FAQ (Optional if Needed) -->\r\n\r\n<section style=\"padding: 60px 20px; background-color: #ffffff; text-align: center;\">\r\n<div style=\"max-width: 960px; margin: 0 auto;\">\r\n<h2 style=\"font-size: 32px; font-weight: 700; color: #222; margin-bottom: 20px;\">Frequently Asked Questions</h2>\r\n\r\n<p style=\"font-size: 18px; color: #555; margin-bottom: 20px;\">Have questions? Here are answers to the most common ones I get from sellers in Northern Colorado.</p>\r\n\r\n<div style=\"text-align: left; max-width: 800px; margin: 0 auto;\">\r\n<h3 style=\"color: #8B0000;\">How quickly can I sell my home?</h3>\r\n\r\n<p style=\"margin-bottom: 20px;\">With the right strategy and exposure, some homes sell in just days. I&rsquo;ll tailor the timeline based on your needs and market trends.</p>\r\n\r\n<h3 style=\"color: #8B0000;\">Do you offer professional staging and photography?</h3>\r\n\r\n<p style=\"margin-bottom: 20px;\">Yes! Every home gets professional photos, and we offer multiple staging packages, from virtual to full-service.</p>\r\n\r\n<h3 style=\"color: #8B0000;\">Can I sell and buy at the same time?</h3>\r\n\r\n<p style=\"margin-bottom: 20px;\">Absolutely&mdash;and I have systems in place to help coordinate the timing so you aren&rsquo;t left in the lurch.</p>\r\n\r\n<h3 style=\"color: #8B0000;\">Do I need to make repairs before listing?</h3>\r\n\r\n<p style=\"margin-bottom: 20px;\">We&rsquo;ll walk through the home together and I&rsquo;ll give you a prioritized list of what&rsquo;s worth doing&mdash;and what&rsquo;s not.</p>\r\n</div>\r\n</div>\r\n</section>\r\n<!-- Section 15: JSON-LD Structured Data --><script type=\"application/ld+json\">\r\n{\r\n  \"@context\": \"https://schema.org\",\r\n  \"@type\": \"RealEstateAgent\",\r\n  \"name\": \"Christine Gwinnup\",\r\n  \"brand\": \"The Little Lady Sells Homes\",\r\n  \"image\": \"https://www.thelittleladysellshomes.com/images/logo.png\",\r\n  \"url\": \"https://www.thelittleladysellshomes.com\",\r\n  \"address\": {\r\n    \"@type\": \"PostalAddress\",\r\n    \"addressLocality\": \"Loveland\",\r\n    \"addressRegion\": \"CO\",\r\n    \"postalCode\": \"80538\",\r\n    \"addressCountry\": \"US\"\r\n  },\r\n  \"areaServed\": [\r\n    { \"@type\": \"Place\", \"name\": \"Loveland, CO\" },\r\n    { \"@type\": \"Place\", \"name\": \"Fort Collins, CO\" },\r\n    { \"@type\": \"Place\", \"name\": \"Berthoud, CO\" },\r\n    { \"@type\": \"Place\", \"name\": \"Greeley, CO\" },\r\n    { \"@type\": \"Place\", \"name\": \"Eaton, CO\" },\r\n    { \"@type\": \"Place\", \"name\": \"Ault, CO\" }\r\n  ],\r\n  \"telephone\": \"+1-303-709-4262\"\r\n}\r\n</script></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f89bb771ea9f7e02b33e",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301635552",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f89bb771ea9f7e02b33f",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301635553",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f89bb771ea9f7e02b340",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301635554",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f89bb771ea9f7e02b341",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301635555",
+       "label": "Address:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f89bb771ea9f7e02b342",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301635556",
+       "label": "Message:",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f89bb771ea9f7e02b343",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301681859",
+       "label": "Check all boxes that apply:",
+       "value": [],
+       "options": [
+        "Tour A Property",
+        "First Time Homebuyer",
+        "Investor",
+        "Relocating",
+        "Rent To Own",
+        "Teacher",
+        "Veteran",
+        "Client Appreciation",
+        "None of the above"
+       ],
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f89bb771ea9f7e02b344",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984438",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301635552": "",
+     "email-301635553": "",
+     "phone-301635554": "",
+     "textarea-301635555": "",
+     "textarea-301635556": "",
+     "checkboxes-301681859": [],
+     "marketing-opt-in-301984438": false
+    },
+    "initialErrors": {
+     "name-301635552": "",
+     "email-301635553": "",
+     "phone-301635554": "",
+     "textarea-301635555": "",
+     "textarea-301635556": "",
+     "checkboxes-301681859": "",
+     "marketing-opt-in-301984438": ""
+    },
+    "useCaptcha": true,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

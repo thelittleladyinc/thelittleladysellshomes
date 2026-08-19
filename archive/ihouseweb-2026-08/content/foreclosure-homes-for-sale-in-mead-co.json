@@ -1,0 +1,49 @@
+{
+ "path": "/foreclosure-homes-for-sale-in-mead-co",
+ "name": "Foreclosure Homes for Sale in Mead, CO",
+ "type": null,
+ "head": {
+  "title": "Foreclosure Homes for Sale in Mead, CO",
+  "description": "Find properties for sale in Mead, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/foreclosure-homes-for-sale-in-mead-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/foreclosure-homes-for-sale-in-mead-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f3febffed688840ef7f2",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f3febffed688840ef7f1",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "categories": [
+      "foreclosure"
+     ],
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Mead, CO"
+     },
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

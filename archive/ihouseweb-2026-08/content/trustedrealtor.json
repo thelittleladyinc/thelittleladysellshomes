@@ -1,0 +1,121 @@
+{
+ "path": "/trustedrealtor",
+ "name": "Trust",
+ "type": null,
+ "head": {
+  "title": "Trust | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/trustedrealtor",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "6a84f3bfa7aa9a5f4c0bdba9",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300217333",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/trustedrealtor",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f3bfa7aa9a5f4c0bdbaa",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><h4><img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/AdobeStock_257055845.jpeg?width=600&amp;height=300&amp;aspect_ratio=600%3A300\" style=\"float: right; width: 600px; height: 300px; border-width: 5px; border-style: solid; margin-left: 15px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/AdobeStock_257055845.jpeg?width=1200&amp;height=600&amp;aspect_ratio=600%3A300 2x\">Would you like to find out the value of your home in this changing market?</h4>\r\n\r\n<p>1. <strong>FREE TIPS</strong> when listing your home<br>\r\n2. Confused by the Real Estate Process? Get a step by step guide to buying or selling your home.</p>\r\n\r\n<p>Contact Christine with Realty ONE Group with all Real Estate Questions.</p>\r\n\r\n<p>Call <a href=\"tel:303-709-4262\">303-709-4262</a> or fill out the form below and she will reach out to you with&nbsp;patience, not pressure.</p>\r\n\r\n<p><br>\r\n&nbsp;</p></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f3bfa7aa9a5f4c0bdbab",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301584690",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f3bfa7aa9a5f4c0bdbac",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301584691",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f3bfa7aa9a5f4c0bdbad",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301584692",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f3bfa7aa9a5f4c0bdbae",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301681862",
+       "label": "Check all boxes that apply:",
+       "value": [],
+       "options": [
+        "Tour A Property",
+        "First Time Homebuyer",
+        "Investor",
+        "Relocating",
+        "Rent To Own",
+        "Teacher",
+        "Veteran",
+        "Client Appreciation",
+        "None of the above"
+       ],
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f3bfa7aa9a5f4c0bdbaf",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984440",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301584690": "",
+     "email-301584691": "",
+     "phone-301584692": "",
+     "checkboxes-301681862": [],
+     "marketing-opt-in-301984440": false
+    },
+    "initialErrors": {
+     "name-301584690": "",
+     "email-301584691": "",
+     "phone-301584692": "",
+     "checkboxes-301681862": "",
+     "marketing-opt-in-301984440": ""
+    },
+    "useCaptcha": true,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

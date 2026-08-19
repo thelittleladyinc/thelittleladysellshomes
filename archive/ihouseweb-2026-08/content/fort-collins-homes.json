@@ -1,0 +1,28 @@
+{
+ "path": "/fort-collins-homes",
+ "name": "Fort Collins Homes For Sale",
+ "type": null,
+ "head": {
+  "title": "Fort Collins Homes For Sale | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/fort-collins-homes",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/AdobeStock_223903080.jpg",
+   "height": 300,
+   "width": 400
+  },
+  "hasOverlay": true
+ },
+ "blocks": [
+  {
+   "id": "featured-location-74981",
+   "type": "featuredLocation",
+   "html": null,
+   "options": {
+    "featuredLocationId": 74981
+   }
+  }
+ ],
+ "post": null
+}

@@ -1,0 +1,44 @@
+{
+ "path": "/weld-county-foreclosures",
+ "name": "How To Get A List Of Foreclosures in Weld County Colorado",
+ "type": null,
+ "head": {
+  "title": "Discover Bank-Owned Properties and Foreclosed Homes in Weld County, CO with The Little Lady Sells Homes",
+  "description": "Looking for foreclosures in Weld County, Colorado? The Little Lady Sells Homes makes it easy to search for bank-owned properties in the area. Browse our listings now and find your next investment opportunity. Find your next home in Greeley, Eaton, Dacono, Ault, or Pierce today.",
+  "url": "https://www.thelittleladysellshomes.com/weld-county-foreclosures",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/shutterstock_1815348038.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "heading-custom-search-form-303198713",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "content-top-custom-search-form-303198713",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p>Steps to getting&nbsp;a&nbsp;list of homes going into foreclosure in Weld County:</p>\r\n\r\n<ol>\r\n\t<li>\r\n\t<p>Check the public records: Foreclosure proceedings are a matter of public record and can typically be found on the <a href=\"https://www.wcpto.com/AllReports.aspx\">Weld County Clerk and Recorder's website</a>. You can search for upcoming foreclosure auctions or browse lists of properties that have already been foreclosed upon.</p>\r\n\t</li>\r\n\t<li>\r\n\t<p>Use foreclosure listing services: There are several online foreclosure listing services available that can provide you with a list of homes going into foreclosure in Weld County. These services often charge a fee, but can save you time and effort in searching for foreclosure information.</p>\r\n\t</li>\r\n\t<li>Looking for a competitive edge in the real estate market? Look no further than Christine Gwinnup, the real estate agent known as The Little Lady. With over 25 years of real estate experience, Christine has access to exclusive foreclosure listings that may not be available to the public.&nbsp; By partnering with The Little Lady, who specializes in distressed properties, you can get a jump start on finding your dream home at a great price. Christine's expertise in navigating the foreclosure process means she can help guide you through the complexities of purchasing a distressed property. Search Weld County Foreclosures <a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Weld-County,CO_county/foreclosure_is\">HERE</a></li>\r\n</ol>\r\n\r\n<p><br>\r\nKeep in mind that foreclosure listings are time-sensitive and may change frequently. Be sure to update your list regularly to provide accurate and up-to-date information to your website visitors.</p>\r\n</body></html>\n"
+  },
+  {
+   "id": "custom-search-form-303198713",
+   "type": "listingSearchForm",
+   "html": null,
+   "options": {
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "split",
+     "page": 1,
+     "listingType": "homes-for-sale-and-pending",
+     "sort": "new"
+    },
+    "format": "foreclosureSearch"
+   }
+  }
+ ],
+ "post": null
+}

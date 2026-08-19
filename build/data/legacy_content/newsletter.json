@@ -1,0 +1,122 @@
+{
+ "path": "/newsletter",
+ "name": "Newsletter",
+ "type": null,
+ "head": {
+  "title": "Newsletter | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/newsletter",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "6a84f03292b0f814a10686e1",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300208220",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/newsletter",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f03292b0f814a10686e2",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p>Subscribe to The Little Lady Sells Homes&nbsp;newsletter for Up-To-Date Local Northern Colorado Real Estate Information. Do you want tips on How To Get The Most Money For Your Home When Listing? How To Buy a Home With No Money Down? First Time Home Buyer Grants? What Pitfalls To Avoid When Buying a Fixer Upper? Sign Up for a Twice a Month Newsletter Below.</p>\r\n\r\n<p><a href=\"/past-newsletters\">See Past Newsletters.</a></p>\r\n\r\n<p></p></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f03292b0f814a10686e3",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301633184",
+       "label": "Full Name",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f03292b0f814a10686e4",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301523743",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f03292b0f814a10686e5",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301633185",
+       "label": "Phone Number",
+       "value": "",
+       "required": false,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f03292b0f814a10686e6",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301681908",
+       "label": "Check all boxes that apply:",
+       "value": [],
+       "options": [
+        "Sign up for Newsletter",
+        "Tour A Property",
+        "First Time Homebuyer",
+        "Investor",
+        "Relocating",
+        "Rent To Own",
+        "Teacher",
+        "Veteran",
+        "Client Appreciation",
+        "None of the above"
+       ],
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f03292b0f814a10686e7",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984434",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301633184": "",
+     "email-301523743": "",
+     "phone-301633185": "",
+     "checkboxes-301681908": [],
+     "marketing-opt-in-301984434": false
+    },
+    "initialErrors": {
+     "name-301633184": "",
+     "email-301523743": "",
+     "phone-301633185": "",
+     "checkboxes-301681908": "",
+     "marketing-opt-in-301984434": ""
+    },
+    "useCaptcha": true,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

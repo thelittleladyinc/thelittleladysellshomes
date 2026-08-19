@@ -1,0 +1,58 @@
+{
+ "path": "/my-active-listings",
+ "name": "The Little Lady's Active Listings",
+ "type": null,
+ "head": {
+  "title": "Active Listings | Homes for Sale in Northern Colorado by Christine Gwinnup\r\n\r\n",
+  "description": "Explore active homes for sale in Northern Colorado including Loveland, Fort Collins, Windsor, and Greeley. View listings from Christine Gwinnup and get $500 toward closing costs.\r\n\r\n",
+  "url": "https://www.thelittleladysellshomes.com/my-active-listings",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/my-active-listings",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Loveland%20Colorado%20Downsize%20Luxury%20%20%281%29.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f03ec5e8564f8f0429bd",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f03ec5e8564f8f0429be",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<!-- Active Listings Landing Page | Modern Layout + Optimized Content --><html><body><section style=\"padding: 60px 20px; background-color: #ffffff; text-align: center;\">\r\n<div style=\"max-width: 960px; margin: 0 auto;\">\r\n<h1 style=\"font-size: 36px; font-weight: 800; color: #111; margin-bottom: 20px;\">The Little Lady's Northern Colorado Active Listings!</h1>\r\n\r\n<p style=\"font-size: 18px; color: #444; margin-bottom: 30px;\">Welcome to your destination for premier homes across Northern Colorado, including Fort Collins, Loveland, Greeley, Windsor, and Eaton. Whether you're seeking a luxury retreat, starter home, or investment property &mdash; I've curated the best listings for every buyer.</p>\r\n\r\n<h2 style=\"font-size: 24px; font-weight: bold; color: #8B0000; margin-top: 40px;\">Homes for Veterans, First-Time Buyers, and Luxury Seekers</h2>\r\n\r\n<p style=\"font-size: 17px; color: #444; max-width: 800px; margin: 0 auto 30px;\">I proudly serve veterans transitioning to civilian life, first-time buyers, and those exploring luxury or investment properties. My active listings span a variety of styles and price points &mdash; from cozy homes in Eaton to custom estates in Fort Collins.</p>\r\n\r\n<h2 style=\"font-size: 24px; font-weight: bold; color: #8B0000; margin-top: 40px;\">Let&rsquo;s Find Your Dream Home</h2>\r\n\r\n<p style=\"font-size: 17px; color: #444; max-width: 800px; margin: 0 auto 30px;\">Browse available listings below or call <strong>303-709-4262</strong> to discuss your goals. Whether you're buying in Colorado or relocating nearby, I&rsquo;m here to guide you every step of the way.</p>\r\n<!-- IDX Integration Placeholder --><!-- Video Portfolio Section -->\r\n\r\n<div style=\"margin: 60px auto; max-width: 700px;\">\r\n<h2 style=\"font-size: 24px; font-weight: bold; color: #8B0000; margin-bottom: 10px;\">Watch the Videos on My Listings</h2>\r\n\r\n<p style=\"font-size: 17px; color: #444; margin-bottom: 20px;\">See walk-through videos of current and past listings to get a real feel for each property and how I showcase homes with bold marketing.</p>\r\n<iframe allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen=\"\" frameborder=\"0\" height=\"315\" referrerpolicy=\"strict-origin-when-cross-origin\" src=\"https://www.youtube.com/embed/e-_3Qs3liQ0?si=j0X8kwQREmcpgdAi\" title=\"YouTube video player\" width=\"560\"></iframe><br>\r\n<br>\r\n<a href=\"https://www.thelittleladysellshomes.com/listings-video-portfolio\" style=\"display: inline-block; background-color: #8B0000; color: white; font-weight: bold; font-size: 16px; padding: 12px 20px; border-radius: 6px; text-decoration: none;\" target=\"_blank\">View More Listing Videos </a></div>\r\n<!-- Review Link Section -->\r\n\r\n<div style=\"margin: 40px auto; max-width: 700px;\">\r\n<h2 style=\"font-size: 24px; font-weight: bold; color: #8B0000; margin-bottom: 10px;\">Read My 90+ Five-Star Reviews</h2>\r\n\r\n<p style=\"font-size: 17px; color: #444; margin-bottom: 20px;\">Discover what past clients are saying about their experience buying and selling with me.</p>\r\n<a href=\"https://www.thelittleladysellshomes.com/testimonials\" style=\"display: inline-block; background-color: #8B0000; color: white; font-weight: bold; font-size: 16px; padding: 12px 20px; border-radius: 6px; text-decoration: none;\">Read Client Testimonials </a></div>\r\n<!-- Bonus Incentive -->\r\n\r\n<div style=\"background-color: #fff4f4; border: 2px dashed #8B0000; padding: 20px; margin: 30px auto; border-radius: 8px; max-width: 700px;\">\r\n<p style=\"font-size: 18px; font-weight: 600; color: #8B0000; margin: 0;\">Get <strong>$500 toward closing costs</strong> when you buy or list with The Little Lady Sells Homes.</p>\r\n</div>\r\n<!-- Service Area SEO (hidden block) -->\r\n\r\n<div style=\"display: none;\">Fort Collins homes for sale, Loveland CO real estate listings, Greeley active listings, Eaton Colorado homes, Windsor CO real estate, Northern Colorado homes, homes for veterans in Colorado, luxury listings Front Range, top Colorado Realtor, homes for sale in Northern Colorado, buy a home in Fort Collins, investment properties Weld County</div>\r\n</div>\r\n</section>\r\n<!-- Meta Tags --><meta name=\"title\" content=\"Active Listings | Homes for Sale in Northern Colorado by Christine Gwinnup\"><meta name=\"description\" content=\"Explore active homes for sale in Northern Colorado including Loveland, Fort Collins, Windsor, and Greeley. View listings from Christine Gwinnup and get $500 toward closing costs.\"><!-- JSON-LD Structured Data --><script type=\"application/ld+json\">\r\n{\r\n  \"@context\": \"https://schema.org\",\r\n  \"@type\": \"RealEstateAgent\",\r\n  \"name\": \"Christine Gwinnup\",\r\n  \"brand\": \"The Little Lady Sells Homes\",\r\n  \"url\": \"https://www.thelittleladysellshomes.com\",\r\n  \"image\": \"https://www.thelittleladysellshomes.com/images/logo.png\",\r\n  \"telephone\": \"+1-303-709-4262\",\r\n  \"areaServed\": [\r\n    { \"@type\": \"Place\", \"name\": \"Fort Collins, CO\" },\r\n    { \"@type\": \"Place\", \"name\": \"Loveland, CO\" },\r\n    { \"@type\": \"Place\", \"name\": \"Windsor, CO\" },\r\n    { \"@type\": \"Place\", \"name\": \"Greeley, CO\" },\r\n    { \"@type\": \"Place\", \"name\": \"Eaton, CO\" }\r\n  ],\r\n  \"address\": {\r\n    \"@type\": \"PostalAddress\",\r\n    \"addressLocality\": \"Loveland\",\r\n    \"addressRegion\": \"CO\",\r\n    \"postalCode\": \"80538\",\r\n    \"addressCountry\": \"US\"\r\n  }\r\n}\r\n</script></body></html>\n"
+  },
+  {
+   "id": "6a84f03ec5e8564f8f0429bc",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "listingType": "homes-for-sale-and-pending",
+     "sort": "new",
+     "agent": {
+      "type": "listing",
+      "values": [
+       22224161
+      ]
+     }
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": true,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

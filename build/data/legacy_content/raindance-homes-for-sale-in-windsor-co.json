@@ -1,0 +1,56 @@
+{
+ "path": "/raindance-homes-for-sale-in-windsor-co",
+ "name": "RainDance Homes For Sale in Windsor, Co",
+ "type": null,
+ "head": {
+  "title": "Luxury Homes for Sale in RainDance Windsor, CO | Explore Resort-Style Living",
+  "description": "Discover luxury living in RainDance, Windsor, CO with exclusive homes and custom sites in a master-planned community featuring top amenities like a golf course ",
+  "url": "https://www.thelittleladysellshomes.com/raindance-homes-for-sale-in-windsor-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/raindance-homes-for-sale-in-windsor-co",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/featured-community-304728377.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f50f586257c4e20c9db1",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f50f586257c4e20c9db2",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><h1><span style=\"color: inherit; font-family: inherit; font-size: 2.5rem;\">RainDance Homes for Sale in Windsor, Colorado</span></h1>\r\n\r\n<h3>Discover Luxury Living</h3>\r\n\r\n<p>Explore the exquisite <a href=\"https://raindancenational.com/\">RainDance National Resort &amp; Golf Course Community</a> in Windsor, Colorado, a haven offering a spectrum of luxurious homes and custom sites designed to cater to your upscale lifestyle.</p>\r\n\r\n<h2>About the RainDance Community</h2>\r\n\r\n<p>RainDance stands out as a master-planned community, celebrated for its extensive amenities and stunning architectural designs. It's home to the prestigious RainDance National Golf Course&mdash;a top-tier 18-hole course crafted by PGA Tour Champion Fred Funk. This course offers a unique blend of challenging gameplay and breathtaking views, ensuring a premium golfing experience. Adjacent to this is the RainDance River Resort, the largest aquatic park in the region, featuring a resort-style swimming pool and a lazy river, perfect for family fun and relaxation.</p>\r\n\r\n<h4>Community Amenities and Lifestyle</h4>\r\n\r\n<p>RainDance boasts a 13-acre park perfect for family outings and sports, along with a vibrant array of community events and activities that strengthen the neighborhood spirit. Its strategic location near I-25 makes it effortlessly accessible to neighboring cities such as Fort Collins, Greeley, and Loveland, enhancing its appeal for both commuters and those seeking a blend of leisure and convenience.</p>\r\n\r\n<h4>Unique Amenities</h4>\r\n\r\n<p>Experience the multifunctional <a href=\"https://hoedownhill.com/\">Hoe Down Hill</a>, usable year-round, transforming from a sledding hill in winter to a venue for outdoor movies and local festivals in summer. The community pool at RainDance goes beyond the ordinary with its resort-style design that includes a lazy river, catering to all ages and providing ample space for both active fun and relaxation.</p>\r\n\r\n<p>Experience the blend of luxury, community, and nature at RainDance&mdash;where every detail is designed with you in mind.</p>\r\n\r\n<h4>Homes and Custom Homesites</h4>\r\n\r\n<p>At RainDance, choose from a broad range of new home constructions and tailor-made homesites. Property options vary from luxurious homes starting in the upper $600s to premium custom golf course homesites priced in the mid $400s. Each neighborhood within RainDance, like Festival and Sugar Hills, offers full access to all community amenities, ensuring a complete and enriching lifestyle.</p>\r\n\r\n<p>Start Searching for your <a href=\"https://www.thelittleladysellshomes.com/idx/search/homes-for-sale/Raindance,Windsor,CO\">RainDance Windsor, Co home for sale</a></p>\r\n\r\n<h4>Engage with Us</h4>\r\n\r\n<p>For more detailed information or to schedule a visit, reach out to our dedicated contact, Christine Gwinnup, at 303-709-4262. Start your journey to finding your dream home in RainDance, Windsor, CO today.</p>\r\n\r\n<p></p>\r\n</body></html>\n"
+  },
+  {
+   "id": "6a84f50f586257c4e20c9db0",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "neighborhood",
+      "value": "Raindance, Windsor, CO"
+     },
+     "listingType": "homes-for-sale-and-pending",
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}
