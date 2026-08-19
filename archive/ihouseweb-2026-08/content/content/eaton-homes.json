@@ -1,0 +1,28 @@
+{
+ "path": "/eaton-homes",
+ "name": "Eaton Homes For Sale",
+ "type": null,
+ "head": {
+  "title": "Your Dream Home Awaits in Eaton, Colorado - A Charming Small Town with Big Opportunities",
+  "description": "Located in Northern Colorado's scenic plains, Eaton offers the perfect balance of small-town charm and modern amenities. With a thriving local economy, excellent schools, and easy access to outdoor recreation, Eaton is a great place to call home. Discover the town's friendly locals, vibrant downtown, and community events, and find out why Eaton is a top choice for families",
+  "url": "https://www.thelittleladysellshomes.com/eaton-homes",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://library-ihouseprd.b-cdn.net/featured-location-images/Neighborhood-Community-468619256.jpg",
+   "height": 300,
+   "width": 400
+  },
+  "hasOverlay": true
+ },
+ "blocks": [
+  {
+   "id": "featured-location-74977",
+   "type": "featuredLocation",
+   "html": null,
+   "options": {
+    "featuredLocationId": 74977
+   }
+  }
+ ],
+ "post": null
+}

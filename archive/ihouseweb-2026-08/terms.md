@@ -1,8 +1,8 @@
 # thelittleladysellshomes.com — CMS content inventory (crawled 2026-08-18/19)
 
-Pages extracted: 653
+Pages extracted: 659
 
-## core pages & posts (287)
+## core pages & posts (291)
 
 - `/real-estate-glossary` — Real Estate Glossary: Common Terms and Definitions for Homebuyers and Sellers
  (22726w)
@@ -39,6 +39,7 @@ Pages extracted: 653
 - `/get-your-home-fall-ready-tips-for-a-cozy-and-safe-winter-season` — Get Your Home Fall-Ready: Tips for a Cozy and Safe Winter Season (801w)
 - `/why-real-estate-agents-in-colorado-are-switching-to-a-100-commission-model` — Why Switch to a 100% Commission Real Estate Brokerage Colorado (796w)
 - `/weekend-getaways-in-northern-colorado-your-guide-to-adventure-and-relaxation` — Weekend Getaways in Northern Colorado: Your Guide to Adventure and Relaxation (792w)
+- `/a-first-time-homebuyers-guide-for-the-northern-colorado-real-estate-market` — First-Time Homebuyer's Guide to Northern Colorado - Christine Gwinnup, The Little Lady Sells Homes (749w)
 - `/noco-homeownership-plan` — Northern Colorado First-Time Buyer Check | See If You Can Stop Renting (731w)
 - `/understanding-seller-closing-costs-what-every-homeowner-should-know` — Understanding Seller Closing Costs | The Little Lady Sells Homes (724w)
 - `/can-you-buy-a-foreclosure-in-weld-county-in-2025` — Foreclosures in Weld County: 2025 Guide | Northern Colorado Real Estate (720w)
@@ -83,6 +84,7 @@ Pages extracted: 653
 - `/title-insurance-requirements-for-insuring-trusts` — Title Insurance Requirements for Insuring Trusts (555w)
 - `/unlock-the-secrets-to-selling-your-home-expert-strategies-and-tips` — Unlock the Secrets to Selling Your Home: Expert Strategies and Tips (546w)
 - `/how-to-sell-your-home-in-eaton-co-fast-and-for-top-dollar` — Sell Your Home in Eaton, CO | Expert Real Estate Tips & Market Insights (545w)
+- `/title-insurance-when-refinancing-your-loan` — Title Insurance When Refinancing Your Loan (545w)
 - `/how-to-sell-your-home-fast-in-northern-colorado-insider-tips` — How to Sell Your Home Fast in Northern Colorado | Insider Tips from a Listing Specialist (538w)
 - `/the-future-of-real-estate-innovative-tech-trends-for-selling-your-home-in-north` — The Future of Real Estate: Innovative Tech Trends for Northern Colorado (524w)
 - `/the-essential-guide-to-selling-rural-properties-in-larimer-county` — The Essential Guide to Selling Rural Properties in Larimer County, Colorado | The BOLD Collective powered by lpt (522w)
@@ -123,6 +125,7 @@ Pages extracted: 653
 - `/do-you-need-a-legal-easement-for-access` — Do You Need a Legal Easement for Land Access in Colorado? (405w)
 - `/is-the-spring-the-best-time-to-sell` — Should You Sell Your Home Before Spring? Why February & March May Be the Best Time (404w)
 - `/conestoga-subdivision-ault-colorado` — Explore Conestoga Subdivision: Premier Living in Ault, Colorado (402w)
+- `/living-near-agriculture-what-buyers-should-expect` — Living Near Agriculture in Colorado | Odors, Noise & Water Rights (398w)
 - `/outdoor-living-spaces-a-must-have-for-northern-colorado-buyers` — Outdoor Living Spaces in Northern Colorado | Homes with Patios, Fire Pits & Pergolas (392w)
 - `/buying-a-home` — How to Buy a Home in Northern Colorado | Step-by-Step Guide (387w)
 - `/why-fall-might-be-the-smartest-time-to-sell-your-home-in-northern-colorado` — Why Fall Might Be the Smartest Time to Sell in Northern Colorado (384w)
@@ -164,6 +167,7 @@ Pages extracted: 653
 - `/111-2nd-st-ault` — YOUR NEIGHBOR JUST SOLD HER HOME FOR $117,000 MORE THAN SHE BOUGHT IT FOR! | Loveland & NoCo Realtor | Christine Gwinnup (259w)
 - `/christine-gwinnup-realtor-agent-coach-and-mentor` — Christine Gwinnup, Realtor, Agent Coach and Mentor (259w)
 - `/know-why-you-are-selling` — Know Why You are Selling (256w)
+- `/making-a-good-first-impression` — Making a Good First Impression (254w)
 - `/build-a-plan-of-action-and-get-ready` — Build a Plan of Action and Get Ready (253w)
 - `/finding-the-right-seller` — Finding the Right Seller (252w)
 - `/aspen-meadows-eaton` — Aspen Meadows Homes for Sale in Eaton, CO - Find Your Dream Home (251w)
@@ -304,7 +308,7 @@ Pages extracted: 653
 - `/windsor-homes` — Windsor Homes | Loveland & NoCo Realtor | Christine Gwinnup (0w)
 - `/your-ultimate-guide-to-becoming-a-real-estate-agent-in-colorado` — Your Ultimate Guide to Becoming a Real Estate Agent in Colorado | Loveland & NoCo Realtor | Christine Gwinnup (0w)
 
-## city/type search pages (181)
+## city/type search pages (182)
 
 - `/discover-the-charm-of-cherry-hills-village-explore-homes-for-sale-in-this-encha` — Luxury Homes for Sale in Cherry Hills Village, CO | Explore Top Real Estate Listings (605w)
 - `/condos-and-attached-homes-for-sale-in-ault-co` — Discover Ault, Colorado: From Delicious Cuisine to Impressive Growth and Top-Ranked Schools Homes under $300,000 in Ault, Colorado (503w)
@@ -383,6 +387,7 @@ Pages extracted: 653
 - `/farm-and-ranch-for-sale-in-loveland-co-1` — Farm and Ranch For Sale in Loveland, CO (0w)
 - `/farm-and-ranch-for-sale-in-loveland-co` — Farm and Ranch For Sale in Loveland, CO (0w)
 - `/farm-and-ranch-for-sale-in-mead-co` — Farm and Ranch For Sale in Mead, CO (0w)
+- `/farm-and-ranch-for-sale-in-milliken-co` — Farm and Ranch For Sale in Milliken, CO (0w)
 - `/farm-and-ranch-for-sale-in-nunn-co` — Farm and Ranch For Sale in Nunn, CO (0w)
 - `/farm-and-ranch-for-sale-in-pierce-co` — Farm and Ranch For Sale in Pierce, CO (0w)
 - `/farm-and-ranch-for-sale-in-platteville-co` — Farm and Ranch For Sale in Platteville, CO (0w)
@@ -488,7 +493,7 @@ Pages extracted: 653
 - `/single-family-homes-for-sale-in-wellington-co` — Single Family Homes For Sale in Wellington, CO (0w)
 - `/single-family-homes-for-sale-in-windsor-co` — Single Family Homes For Sale in Windsor, CO (0w)
 
-## price-band search pages (136)
+## price-band search pages (137)
 
 - `/affordable-homes-in-northern-colorado-whats-available-under-400k` — Affordable Homes in Northern Colorado Under $400K | Find Your Next Home (310w)
 - `/homes-for-sale-in-carr-co-800000-to-1000000` — Homes for Sale in Carr, CO $800,000 to $1,000,000 (107w)
@@ -537,6 +542,7 @@ Pages extracted: 653
 - `/homes-for-sale-in-cheyenne-wy-250000-to-400000` — Homes for Sale in Cheyenne, WY $250,000 to $400,000 (0w)
 - `/homes-for-sale-in-cheyenne-wy-400000-to-600000` — Homes for Sale in Cheyenne, WY $400,000 to $600,000 (0w)
 - `/homes-for-sale-in-cheyenne-wy-600000-to-800000` — Homes for Sale in Cheyenne, WY $600,000 to $800,000 (0w)
+- `/homes-for-sale-in-cheyenne-wy-800000-to-1000000` — Homes for Sale in Cheyenne, WY $800,000 to $1,000,000 (0w)
 - `/homes-for-sale-in-cheyenne-wy-under-250000` — Homes for Sale in Cheyenne, WY under $250,000 (0w)
 - `/homes-for-sale-in-eaton-co-250000-to-400000-1` — Homes for Sale in Eaton, CO $250,000 to $400,000 (0w)
 - `/homes-for-sale-in-eaton-co-250000-to-400000` — Homes for Sale in Eaton, CO $250,000 to $400,000 (0w)

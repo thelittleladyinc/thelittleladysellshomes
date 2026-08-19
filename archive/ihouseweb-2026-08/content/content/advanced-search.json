@@ -1,0 +1,39 @@
+{
+ "path": "/advanced-search",
+ "name": "Advanced Search",
+ "type": null,
+ "head": {
+  "title": "Advanced Search | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/advanced-search",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "heading-custom-search-form-303198712",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "content-top-custom-search-form-303198712",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p style=\"text-align: center;\"><img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Untitled%20design%20(14).png?width=300&amp;height=300&amp;aspect_ratio=300%3A300\" style=\"width: 300px; height: 300px; float: left;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Untitled%20design%20(14).png?width=600&amp;height=600&amp;aspect_ratio=300%3A300 2x\"></p>\r\n\r\n<p style=\"text-align: center;\"></p>\r\n\r\n<p style=\"text-align: center;\">\"On point, professional, and attentive!<br>\r\nNever had an agent provide the home buying experience she provided, hands down!\"</p>\r\n\r\n<p style=\"text-align: center;\">Jordan Negley</p>\r\n\r\n<p style=\"text-align: center;\"></p>\r\n\r\n<p style=\"text-align: center;\"></p>\r\n\r\n<p style=\"text-align: center;\"></p>\r\n\r\n<p style=\"text-align: center;\"></p>\r\n\r\n<p style=\"text-align: center;\"></p>\r\n</body></html>\n"
+  },
+  {
+   "id": "custom-search-form-303198712",
+   "type": "listingSearchForm",
+   "html": null,
+   "options": {
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "split",
+     "page": 1,
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "format": "advancedSearch"
+   }
+  }
+ ],
+ "post": null
+}

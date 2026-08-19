@@ -1,0 +1,134 @@
+{
+ "path": "/client-appreciation-offer",
+ "name": "Client Appreciation Offer",
+ "type": null,
+ "head": {
+  "title": "Client Appreciation Offer | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/client-appreciation-offer",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "6a84f859dd7c5902bd0f08cd",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300211461",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/client-appreciation-offer",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f859dd7c5902bd0f08ce",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p style=\"text-align: center;\"><span style=\"font-size:20px;\"><img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Done_839.jpg?width=250&amp;height=250&amp;aspect_ratio=250%3A250\" style=\"float: left; width: 250px; height: 250px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Done_839.jpg?width=500&amp;height=500&amp;aspect_ratio=250%3A250 2x\">&nbsp; &nbsp;Welcome to The Little Lady Sells Homes website!<br>\r\nYou have qualified to receive $1000&nbsp;off at closing in 2023 with either the purchase or the sale&nbsp;of your property at time of closing.</span><br>\r\n<br>\r\nFill out the form below or call Christine at 303-709-4262 and mention \"Client Appreciation\"</p>\r\n\r\n<p><br>\r\n&nbsp;</p>\r\n\r\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td style=\"text-align: center;\">\r\n\t\t\t<p><a href=\"/search-by-area\">BUYERS<br>\r\n\t\t\tAre you ready to start searching for your dream home?</a></p>\r\n\t\t\t</td>\r\n\t\t\t<td style=\"text-align: center;\">\r\n\t\t\t<p><a href=\"/marketing-matters\">SELLERS<br>\r\n\t\t\tAre you ready to find out what your home is worth?</a></p>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p style=\"text-align: center;\"><span style=\"font-size:20px;\">I'm looking forward to partnering with you!</span></p>\r\n\r\n<p style=\"text-align: center;\"></p></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f859dd7c5902bd0f08cf",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301545263",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f859dd7c5902bd0f08d0",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301545264",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f859dd7c5902bd0f08d1",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301545265",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f859dd7c5902bd0f08d2",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301545266",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f859dd7c5902bd0f08d3",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301681812",
+       "label": "Check all boxes that apply:",
+       "value": [],
+       "options": [
+        "Tour A Property",
+        "First Time Homebuyer",
+        "Investor",
+        "Relocating",
+        "Rent To Own",
+        "Teacher",
+        "Veteran",
+        "Client Appreciation",
+        "None of the above"
+       ],
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f859dd7c5902bd0f08d4",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984416",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-301545263": "",
+     "email-301545264": "",
+     "phone-301545265": "",
+     "textarea-301545266": "",
+     "checkboxes-301681812": [],
+     "marketing-opt-in-301984416": false
+    },
+    "initialErrors": {
+     "name-301545263": "",
+     "email-301545264": "",
+     "phone-301545265": "",
+     "textarea-301545266": "",
+     "checkboxes-301681812": "",
+     "marketing-opt-in-301984416": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

@@ -1,0 +1,102 @@
+{
+ "path": "/rent-to-own-in-loveland",
+ "name": "Rent To Own in Loveland",
+ "type": null,
+ "head": {
+  "title": "Rent to Own Homes in Loveland CO | Christine Gwinnup Realtor",
+  "description": "Explore rent to own homes in Loveland, Colorado. Get the latest listings and expert guidance from Christine Gwinnup, your trusted Northern CO Realtor.",
+  "url": "https://www.thelittleladysellshomes.com/rent-to-own-in-loveland",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Rent%20To%20Own%20Loveland%20Colorado%20Christine%20Gwinnup%20Realtor%20%281%29.png",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f59dfab8b72fc0020316",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300287185",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/rent-to-own-in-loveland",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f59dfab8b72fc0020317",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Discover rent to own homes in Loveland, Colorado. Explore updated listings, learn how the process works, and get expert help from Christine Gwinnup, your local real estate specialist.\">\r\n<title></title>\r\n<link href=\"/styles.css\" rel=\"stylesheet\"><!-- Optional external CSS -->\r\n<style type=\"text/css\">body {\r\n      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n      color: #333;\r\n      background: #fff;\r\n      margin: 0;\r\n      padding: 0;\r\n    }\r\n    header {\r\n      background-color: #8B0000;\r\n      color: white;\r\n      padding: 1rem;\r\n      text-align: center;\r\n    }\r\n    .container {\r\n      max-width: 1100px;\r\n      margin: 2rem auto;\r\n      padding: 1rem;\r\n    }\r\n    h1, h2 {\r\n      color: #8B0000;\r\n    }\r\n    .cta {\r\n      background: #f8f8f8;\r\n      padding: 2rem;\r\n      text-align: center;\r\n      border: 2px solid #8B0000;\r\n      border-radius: 10px;\r\n    }\r\n    .cta input, .cta button {\r\n      padding: 0.75rem;\r\n      margin: 0.5rem;\r\n      font-size: 1rem;\r\n    }\r\n    .cta button {\r\n      background: #8B0000;\r\n      color: white;\r\n      border: none;\r\n      cursor: pointer;\r\n    }\r\n    .cta button:hover {\r\n      background: #a30000;\r\n    }\r\n    .highlight {\r\n      background: #ffe6e6;\r\n      padding: 1rem;\r\n      border-left: 5px solid #8B0000;\r\n      margin-bottom: 1rem;\r\n    }\r\n    footer {\r\n      text-align: center;\r\n      padding: 1rem;\r\n      background: #eee;\r\n      font-size: 0.9rem;\r\n    }\r\n    a {\r\n      color: #8B0000;\r\n      text-decoration: none;\r\n    }\r\n    a:hover {\r\n      text-decoration: underline;\r\n    }\r\n</style>\r\n<header>\r\n<h1><span style=\"color:#FFFFFF;\">Rent to Own Homes in Loveland, Colorado</span></h1>\r\n\r\n<h1><span style=\"color:#FFFFFF;\">Flexible Paths to Homeownership with Christine Gwinnup, The Little Lady Sells Homes</span></h1>\r\n</header>\r\n\r\n</head><body><div class=\"container\">\r\n<section class=\"highlight\">\r\n<h2>Ready to Buy But Not Quite There Yet?</h2>\r\n\r\n<p>Rent-to-own homes are perfect for buyers working on credit, saving for a down payment, or waiting to qualify for a mortgage. And Loveland is one of the best places to start.</p>\r\n</section>\r\n\r\n<section>\r\n<h2>Why Choose Rent to Own?</h2>\r\n\r\n<ul>\r\n\t<li>✓ Lock in your future home price</li>\r\n\t<li>✓ Build equity while you rent</li>\r\n\t<li>✓ Test out the neighborhood before buying</li>\r\n\t<li>✓ Improve your credit &amp; save for a down payment while living in your dream home</li>\r\n</ul>\r\n</section>\r\n\r\n<section>\r\n<h2>Loveland, CO &ndash; The Perfect Place to Call Home</h2>\r\n\r\n<p>With beautiful mountain views, excellent schools, and a charming downtown, Loveland offers a vibrant lifestyle. Whether you're relocating or a longtime local, rent-to-own opens the door to living where you love.</p>\r\n</section>\r\n\r\n<section>\r\n<h2>How the Rent to Own Process Works</h2>\r\n\r\n<ol>\r\n\t<li>Contact Christine for a free consultation</li>\r\n\t<li>Review available rent-to-own listings</li>\r\n\t<li>Get connected with a lender to build a purchase plan</li>\r\n\t<li>Move in and start building your future today</li>\r\n</ol>\r\n</section>\r\n\r\n<section class=\"cta\">\r\n<h2>Get the Current Loveland Rent to Own List</h2>\r\n\r\n<p>Fill out the form below and Christine will send you updated listings and insider tips:<br>\r\nOr text Christine at <a href=\"tel:3037094262\">303-709-4262</a> to get started now.</p>\r\n</section>\r\n\r\n<section>\r\n<h2><br>\r\nWhy Work with Christine Gwinnup?</h2>\r\n\r\n<ul>\r\n\t<li><strong>Local Expert:</strong> Based in Loveland with years of experience in Northern Colorado real estate</li>\r\n\t<li><strong>Proven Track Record:</strong> Over 30 homes closed this year alone</li>\r\n\t<li><strong>Creative Solutions:</strong> Rent-to-own, lease options, and custom buyer strategies</li>\r\n</ul>\r\n</section>\r\n</div>\r\n\r\n<footer>\r\n<p>&copy; 2025 Christine Gwinnup &ndash; The Little Lady Sells Homes | Powered by LPT Realty</p>\r\n\r\n<p><a href=\"https://www.thelittleladysellshomes.com\">www.thelittleladysellshomes.com</a></p>\r\n</footer></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f59dfab8b72fc0020318",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-302085473",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f59dfab8b72fc0020319",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-302085474",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f59dfab8b72fc002031a",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-302085475",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f59dfab8b72fc002031b",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-302085476",
+       "label": "Message:",
+       "value": "",
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "name-302085473": "",
+     "email-302085474": "",
+     "phone-302085475": "",
+     "textarea-302085476": ""
+    },
+    "initialErrors": {
+     "name-302085473": "",
+     "email-302085474": "",
+     "phone-302085475": "",
+     "textarea-302085476": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

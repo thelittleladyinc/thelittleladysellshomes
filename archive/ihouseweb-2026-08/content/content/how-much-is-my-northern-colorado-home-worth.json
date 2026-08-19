@@ -1,0 +1,115 @@
+{
+ "path": "/how-much-is-my-northern-colorado-home-worth",
+ "name": "Get the Best Price for Your Home Today!",
+ "type": null,
+ "head": {
+  "title": "What’s My Northern Colorado Home Worth? | Christine Gwinnup",
+  "description": "Zillow and AI tools give estimates, but local real estate agent, Christine Gwinnup gives real numbers. Get your free, custom Northern Colorado home valuation today.",
+  "url": "https://www.thelittleladysellshomes.com/how-much-is-my-northern-colorado-home-worth",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/windsor%20mcneil%201.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f8da0aa35246bc068ab1",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300276960",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/how-much-is-my-northern-colorado-home-worth",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f8da0aa35246bc068ab2",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><script type=\"application/ld+json\"> { \"@context\": \"https://schema.org\", \"@type\": \"LocalBusiness\", \"name\": \"Christine Gwinnup - The Little Lady Sells Homes\", \"url\": \"https://www.thelittleladysellshomes.com\", \"logo\": \"https://www.thelittleladysellshomes.com/images/logo.png\", \"image\": \"https://www.thelittleladysellshomes.com/images/christine-loveland.jpg\", \"description\": \"Get personalized, local home valuation reports from Northern Colorado real estate expert Christine Gwinnup. More accurate than Zestimate or AI tools.\", \"address\": { \"@type\": \"PostalAddress\", \"addressRegion\": \"CO\", \"addressCountry\": \"US\" }, \"areaServed\": [\"Loveland\", \"Fort Collins\", \"Greeley\", \"Eaton\", \"Ault\"], \"contactPoint\": { \"@type\": \"ContactPoint\", \"contactType\": \"Customer Service\", \"email\": \"thelittleladyinc@gmail.com\", \"telephone\": \"+1-303-709-4262\" } } </script>\r\n\r\n<meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Find out how much your home is worth in Northern Colorado with local real estate expert Christine Gwinnup. Accurate, personalized valuations for Loveland, Fort Collins, Greeley, Eaton, and Ault.\"><meta name=\"keywords\" content=\"Northern Colorado home value, Loveland home worth, Fort Collins house value, Greeley real estate market, Eaton home estimate, Ault housing prices, Zestimate, Zillow valuation, local real estate expert\"><meta property=\"og:title\" content=\"What&rsquo;s My Northern Colorado Home Worth?\"><meta property=\"og:description\" content=\"Zillow and AI tools offer estimates, but they don&rsquo;t know your neighborhood like Christine does. Get a custom, local home value report.\"><meta property=\"og:image\" content=\"https://www.thelittleladysellshomes.com/images/christine-loveland.jpg\"><meta property=\"og:url\" content=\"https://www.thelittleladysellshomes.com/how-much-is-my-northern-colorado-home-worth\">\r\n<title></title>\r\n<script type=\"application/ld+json\">\r\n  {\r\n    \"@context\": \"https://schema.org\",\r\n    \"@type\": \"LocalBusiness\",\r\n    \"name\": \"Christine Gwinnup - The Little Lady Sells Homes\",\r\n    \"url\": \"https://www.thelittleladysellshomes.com\",\r\n    \"logo\": \"https://www.thelittleladysellshomes.com/images/logo.png\",\r\n    \"image\": \"https://www.thelittleladysellshomes.com/images/christine-loveland.jpg\",\r\n    \"description\": \"Local expert Christine Gwinnup provides custom home valuations for Northern Colorado homeowners. More accurate than Zestimate or AI tools.\",\r\n    \"address\": {\r\n      \"@type\": \"PostalAddress\",\r\n      \"addressRegion\": \"CO\",\r\n      \"addressCountry\": \"US\"\r\n    },\r\n    \"areaServed\": [\"Loveland\", \"Fort Collins\", \"Greeley\", \"Eaton\", \"Ault\"]\r\n  }\r\n  </script>\r\n<style type=\"text/css\">body {\r\n      font-family: 'Arial', sans-serif;\r\n      line-height: 1.6;\r\n      margin: 0;\r\n      padding: 0;\r\n      background-color: #f4f4f4;\r\n      color: #333;\r\n    }\r\n    .container {\r\n      max-width: 800px;\r\n      margin: 20px auto;\r\n      padding: 20px;\r\n      background-color: white;\r\n      border-radius: 8px;\r\n      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\r\n    }\r\n    h1, h2 {\r\n      text-align: center;\r\n      color: #8B0000;\r\n    }\r\n    p {\r\n      text-align: center;\r\n      font-size: 1.1em;\r\n    }\r\n    .cta-button {\r\n      display: inline-block;\r\n      margin: 25px auto;\r\n      padding: 15px 30px;\r\n      background-color: #8B0000;\r\n      color: white;\r\n      font-size: 1.2em;\r\n      border-radius: 5px;\r\n      text-decoration: none;\r\n      transition: background-color 0.3s;\r\n      cursor: pointer;\r\n      box-shadow: 0 4px 6px rgba(0,0,0,0.1);\r\n    }\r\n    .cta-button:hover {\r\n      background-color: #5d0000;\r\n    }\r\n    .image-container {\r\n      text-align: center;\r\n      margin: 25px 0;\r\n    }\r\n    .image-container img {\r\n      width: 100%;\r\n      max-width: 600px;\r\n      border-radius: 10px;\r\n    }\r\n    .info-section {\r\n      margin: 20px 0;\r\n      padding: 15px;\r\n      background-color: #f9f9f9;\r\n      border-left: 5px solid #8B0000;\r\n    }\r\n    .info-section h3 {\r\n      color: #8B0000;\r\n    }\r\n    a {\r\n      color: #8B0000;\r\n      font-weight: bold;\r\n    }\r\n</style>\r\n</head><body><div class=\"container\">\r\n<h1>What&rsquo;s My Northern Colorado Home Worth?</h1>\r\n\r\n<div class=\"image-container\"><img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Christine%20Gwinnup%20Loveland%20Top%20Real%20Estate%20Agent.jpg\" style=\"border-width: 0px; border-style: solid;\"></div>\r\n\r\n<p>Hi, I&rsquo;m <strong>Christine Gwinnup</strong>, your local Listing Specialist serving Loveland, Fort Collins, Greeley, Eaton, Ault, and nearby communities in Northern Colorado.</p>\r\n\r\n<div class=\"info-section\">\r\n<h3>AI Tools &amp; Zillow Are Good&hellip; But I&rsquo;m Better</h3>\r\n\r\n<p>Online tools like Zillow's Zestimate or other AI-based valuations are fast&mdash;but not always accurate. They can't see inside your home, understand your upgrades, or know your street like I do. I bring real market knowledge, neighborhood nuance, and boots-on-the-ground experience to give you a report that actually reflects what your home could sell for today.</p>\r\n</div>\r\n\r\n<div class=\"info-section\">\r\n<h3>Is It a Buyer&rsquo;s or Seller&rsquo;s Market Right Now?</h3>\r\n\r\n<p>Great question&mdash;and one I answer all the time! The answer changes monthly based on inventory, rates, and trends. <a href=\"https://www.thelittleladysellshomes.com/buyers-or-sellers-market\" target=\"_blank\">Click here to see the latest on whether it&rsquo;s a buyer&rsquo;s or seller&rsquo;s market in Northern Colorado &rarr;</a></p>\r\n</div>\r\n\r\n<p>Receive your <strong>free monthly home valuation</strong>, stay informed on market shifts, and compare automated estimates to expert, local insights.</p>\r\n\r\n<div style=\"text-align: center;\"><a class=\"cta-button\" href=\"https://christinegwinnup.realscout.com/homesearch/home-reports?hva_public=true\" target=\"_blank\">Get My Home&rsquo;s True Value ➤ </a></div>\r\n\r\n<p>Want to explore more homes or listings? Visit my main site:<br>\r\n<a href=\"https://www.thelittleladysellshomes.com\" target=\"_blank\">www.thelittleladysellshomes.com</a></p>\r\n\r\n<p><em>Fill out the form above and I&rsquo;ll personally follow up with your custom report.</em></p>\r\n</div></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f8da0aa35246bc068ab3",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-302006073",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f8da0aa35246bc068ab4",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-302006074",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f8da0aa35246bc068ab5",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-302006075",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f8da0aa35246bc068ab6",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-302006076",
+       "label": "Address",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f8da0aa35246bc068ab7",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-302006077",
+       "label": "Message:",
+       "value": "",
+       "required": false
+      }
+     }
+    ],
+    "initialValues": {
+     "name-302006073": "",
+     "email-302006074": "",
+     "phone-302006075": "",
+     "text-302006076": "",
+     "textarea-302006077": ""
+    },
+    "initialErrors": {
+     "name-302006073": "",
+     "email-302006074": "",
+     "phone-302006075": "",
+     "text-302006076": "",
+     "textarea-302006077": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

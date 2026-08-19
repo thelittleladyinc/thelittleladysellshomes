@@ -1,0 +1,39 @@
+{
+ "path": "/northern-colorado-home-search",
+ "name": "Northern Colorado Home Search",
+ "type": null,
+ "head": {
+  "title": "Northern Colorado Home Search | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/northern-colorado-home-search",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "heading-custom-search-form-304632578",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "content-top-custom-search-form-304632578",
+   "type": "customContent",
+   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<!-- Northern Colorado Home Search | Optimized for SEO + Lead Capture --><html><body><section style=\"padding: 60px 20px; background-color: #ffffff; text-align: center;\">\r\n<div style=\"max-width: 960px; margin: 0 auto;\">\r\n<h1 style=\"font-size: 36px; font-weight: 800; color: #111; margin-bottom: 20px;\">Northern Colorado Homes for Sale</h1>\r\n\r\n<p style=\"font-size: 18px; color: #444; margin-bottom: 20px;\">Browse the latest homes for sale in Fort Collins, Loveland, Windsor, Greeley, Eaton, Ault, Pierce, Johnstown, Wellington, Berthoud, and Boulder.</p>\r\n\r\n<p style=\"font-size: 18px; color: #444; margin-bottom: 30px;\">Whether you're looking for a luxury estate, investment property, or your very first home &mdash; you'll find everything Northern Colorado has to offer right here.</p>\r\n\r\n<p style=\"font-size: 18px; color: #444;\">Work with a strategic listing specialist who offers bold marketing, fierce negotiation, and local knowledge you won&rsquo;t find anywhere else.</p>\r\n<!-- Incentive Offer -->\r\n\r\n<div style=\"background-color: #fff4f4; border: 2px dashed #8B0000; padding: 20px; margin: 30px auto; border-radius: 8px; max-width: 700px;\">\r\n<p style=\"font-size: 18px; font-weight: 600; color: #8B0000; margin: 0;\">Get <strong>$500 toward closing costs</strong> when you buy or list your home with Christine Gwinnup.</p>\r\n</div>\r\n<!-- Resource Links -->\r\n\r\n<div style=\"margin-top: 40px; font-size: 16px; color: #333;\">\r\n<p><strong>Helpful Tools:</strong></p>\r\n\r\n<p><a href=\"/why-buyers-choose-christine-gwinnup-northern-colorado-real-estate-local-agent\" style=\"color:#8B0000;\">Why Buyers Choose Christine</a> | <a href=\"/buying-a-home\" style=\"color:#8B0000;\">Steps to Buying a Home</a> | <a href=\"/special-buyer-programs\" style=\"color:#8B0000;\">Special Buyer Programs</a><br>\r\n<a href=\"/mortgage-calculator\" style=\"color:#8B0000;\">Mortgage Calculator</a> | <a href=\"/affordability-calculator\" style=\"color:#8B0000;\">Affordability Calculator</a> | <a href=\"/buyers-or-sellers-market\" style=\"color:#8B0000;\">Buyer's or Seller's Market?</a></p>\r\n</div>\r\n<!-- Local Area Links -->\r\n\r\n<div style=\"margin-top: 30px; font-size: 15px; color: #444;\"><!-- Search Homes by Area with Hover and County Headers -->\r\n<div style=\"margin-top: 30px; font-size: 18px; color: #444; line-height: 1.8;\">\r\n<p style=\"text-align: center;\"><strong>Search Homes by Area:</strong></p>\r\n\r\n<p style=\"text-align: center;\"><a href=\"#\" style=\"color:#8B0000; font-weight:bold; text-decoration: none;\">Larimer County</a><br>\r\n<a href=\"/loveland-homes\" style=\"color:#8B0000; text-decoration: none;\">Loveland</a> | <a href=\"/homes-for-sale-in-fort-collins-co\" style=\"color:#8B0000; text-decoration: none;\">Fort Collins</a> | <a href=\"/homes-for-sale-in-berthoud-co\" style=\"color:#8B0000; text-decoration: none;\">Berthoud</a> | <a href=\"/homes-for-sale-in-wellington-co\" style=\"color:#8B0000; text-decoration: none;\">Wellington</a> | <a href=\"/homes-for-sale-in-windsor-co\" style=\"color:#8B0000; text-decoration: none;\">Windsor</a></p>\r\n\r\n<p style=\"text-align: center;\"><a href=\"#\" style=\"color:#8B0000; font-weight:bold; text-decoration: none;\">Weld County</a><br>\r\n<a href=\"/homes-for-sale-in-greeley-co\" style=\"color:#8B0000; text-decoration: none;\">Greeley</a> | <a href=\"/homes-for-sale-in-eaton-co\" style=\"color:#8B0000; text-decoration: none;\">Eaton</a> | <a href=\"/homes-for-sale-in-ault-co\" style=\"color:#8B0000; text-decoration: none;\">Ault</a> | <a href=\"/homes-for-sale-in-pierce-co\" style=\"color:#8B0000; text-decoration: none;\">Pierce</a> | <a href=\"/homes-for-sale-in-nunn-co\" style=\"color:#8B0000; text-decoration: none;\">Nunn</a> | <a href=\"/homes-for-sale-in-carr-co\" style=\"color:#8B0000; text-decoration: none;\">Carr</a> | <a href=\"/homes-for-sale-in-severance-co\" style=\"color:#8B0000; text-decoration: none;\">Severance</a> | <a href=\"/homes-for-sale-in-mead-co\" style=\"color:#8B0000; text-decoration: none;\">Mead</a></p>\r\n\r\n<p style=\"text-align: center;\"><a href=\"#\" style=\"color:#8B0000; font-weight:bold; text-decoration: none;\">Boulder County</a><br>\r\n<a href=\"/homes-for-sale-in-boulder-co\" style=\"color:#8B0000; text-decoration: none;\">Boulder</a> | <a href=\"/homes-for-sale-in-longmont-co\" style=\"color:#8B0000; text-decoration: none;\">Longmont</a> | <a href=\"/homes-for-sale-in-erie-co\" style=\"color:#8B0000; text-decoration: none;\">Erie</a></p>\r\n</div>\r\n<style type=\"text/css\">a:hover {\r\n    text-decoration: underline;\r\n    color: #a40000;\r\n  }\r\n</style>\r\n</div>\r\n</div>\r\n</section>\r\n<!-- Meta Tags --><meta name=\"title\" content=\"Northern Colorado Homes for Sale | Local Listings &amp; Real Estate Help\"><meta name=\"description\" content=\"Search Northern Colorado homes for sale. Find listings in Fort Collins, Loveland, Greeley, Windsor, Boulder, and more. $500 closing credit with Christine.\"></body></html>\n"
+  },
+  {
+   "id": "custom-search-form-304632578",
+   "type": "listingSearchForm",
+   "html": null,
+   "options": {
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "split",
+     "page": 1,
+     "listingType": "homes-for-sale",
+     "sort": "new"
+    },
+    "format": "advancedSearch"
+   }
+  }
+ ],
+ "post": null
+}

@@ -1,0 +1,71 @@
+{
+ "path": "/unsubscribe",
+ "name": "Unsubscribe",
+ "type": null,
+ "head": {
+  "title": "Unsubscribe | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/unsubscribe",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes"
+ },
+ "blocks": [
+  {
+   "id": "6a84f565443bc83f790217d6",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300277059",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/unsubscribe",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f565443bc83f790217d7",
+      "type": "customContent",
+      "options": {
+       "html": "Please click the box below to unsubscribe"
+      }
+     },
+     {
+      "id": "6a84f565443bc83f790217d8",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-302006873",
+       "label": "Email Address:",
+       "value": "",
+       "required": false,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f565443bc83f790217d9",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-302006874",
+       "label": "Phone Number:",
+       "value": "",
+       "required": false,
+       "validate": "phone"
+      }
+     }
+    ],
+    "initialValues": {
+     "email-302006873": "",
+     "phone-302006874": ""
+    },
+    "initialErrors": {
+     "email-302006873": "",
+     "phone-302006874": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

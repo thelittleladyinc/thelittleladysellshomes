@@ -1,0 +1,146 @@
+{
+ "path": "/ready-to-list",
+ "name": "Considering Selling?",
+ "type": null,
+ "head": {
+  "title": "Top Northern Colorado Realtor - List Your Home with Christine Gwinnup",
+  "description": "Looking to sell your home in Northern Colorado? Christine Gwinnup, an award-winning real estate listing agent with excellent communication, negotiation, and marketing skills, can help you get the best value for your property. With a strong online presence and data-driven marketing strategies, Christine ensures your home gets maximum exposure to potential buyers. Contact Christine Gwinnup today",
+  "url": "https://www.thelittleladysellshomes.com/ready-to-list",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Done_839.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f895c06b3d5f130b12bf",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300224556",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/ready-to-list",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f895c06b3d5f130b12c0",
+      "type": "selectMultiple",
+      "mode": "default",
+      "options": {
+       "name": "checkboxes-301681866",
+       "label": "Check all boxes that apply:",
+       "value": [],
+       "options": [
+        "Seller's Guide",
+        "Home Value Request",
+        "Homebot",
+        "Seller Webinar",
+        "Tour A Property",
+        "Investor",
+        "Relocating",
+        "Teacher",
+        "Veteran",
+        "None of the above"
+       ],
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f895c06b3d5f130b12c1",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "name-301634711",
+       "label": "Name:",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f895c06b3d5f130b12c2",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-301634712",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f895c06b3d5f130b12c3",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "phone-301634713",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true,
+       "validate": "phone"
+      }
+     },
+     {
+      "id": "6a84f895c06b3d5f130b12c4",
+      "type": "textArea",
+      "mode": "default",
+      "options": {
+       "name": "textarea-301634714",
+       "label": "Address:",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f895c06b3d5f130b12c5",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-301748501",
+       "label": "If your mailing address is not the same, please type it below",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f895c06b3d5f130b12c6",
+      "type": "checkbox",
+      "mode": "default",
+      "options": {
+       "name": "marketing-opt-in-301984423",
+       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+       "value": false,
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "checkboxes-301681866": [],
+     "name-301634711": "",
+     "email-301634712": "",
+     "phone-301634713": "",
+     "textarea-301634714": "",
+     "text-301748501": "",
+     "marketing-opt-in-301984423": false
+    },
+    "initialErrors": {
+     "checkboxes-301681866": "",
+     "name-301634711": "",
+     "email-301634712": "",
+     "phone-301634713": "",
+     "textarea-301634714": "",
+     "text-301748501": "",
+     "marketing-opt-in-301984423": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

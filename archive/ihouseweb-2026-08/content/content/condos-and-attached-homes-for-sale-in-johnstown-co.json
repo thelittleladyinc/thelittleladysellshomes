@@ -1,0 +1,53 @@
+{
+ "path": "/condos-and-attached-homes-for-sale-in-johnstown-co",
+ "name": "Condos and Attached Homes For Sale in Johnstown, CO",
+ "type": null,
+ "head": {
+  "title": "Condos and Attached Homes For Sale in Johnstown, CO",
+  "description": "Find properties for sale in Johnstown, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/condos-and-attached-homes-for-sale-in-johnstown-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/condos-and-attached-homes-for-sale-in-johnstown-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f35269e6623dc901b64d",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f35269e6623dc901b64c",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "keywords": [
+      "Patio"
+     ],
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Johnstown, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "condo",
+      "house"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

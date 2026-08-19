@@ -1,0 +1,40 @@
+{
+ "path": "/lead-poisoning",
+ "name": null,
+ "type": "blogPost",
+ "head": {
+  "title": "Lead Poisoning",
+  "description": "Lead poisoning is a serious problem that can lead to adverse health problems. In children, high levels of lead can cause damage to the brain and nervous system, behavioral and learning problems, slow growth, and hearing problems. In adults, lead poisoning",
+  "url": "https://www.thelittleladysellshomes.com/lead-poisoning",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/lead-poisoning",
+  "image": {
+   "src": "https://library-ihouseprd.b-cdn.net/blog/lead-paint.jpg"
+  }
+ },
+ "blocks": [],
+ "post": {
+  "title": "Lead Poisoning",
+  "metaTitle": "Lead Poisoning",
+  "metaDescription": "Lead poisoning is a serious problem that can lead to adverse health problems. In children, high levels of lead can cause damage to the brain and nervous system, behavioral and learning problems, slow growth, and hearing problems. In adults, lead poisoning",
+  "snippet": "Lead poisoning is a serious problem that can lead to adverse health problems. In children, high levels of lead can cause damage to the brain and nervous system, behavioral and learning problems, slow growth, and hearing problems. In adults, lead poisoning",
+  "author": "Christine Gwinnup",
+  "postId": 301751744,
+  "countComments": 0,
+  "allowComments": true,
+  "published": true,
+  "publishDate": "2023-01-31 06:06:31",
+  "okToShow": true,
+  "tags": [
+   "Resources",
+   "Homeowner Information"
+  ],
+  "featuredImage": "https://library-ihouseprd.b-cdn.net/blog/lead-paint.jpg",
+  "firstImage": "",
+  "body": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p>Lead poisoning is a serious problem that can lead to adverse health problems. In children, high levels of lead can cause damage to the brain and nervous system, behavioral and learning problems, slow growth, and hearing problems. In adults, lead poisoning can cause reproductive problems, high blood pressure, digestive problems, nerve disorder, memory and concentration problems, and muscle and joint pain.</p>\n\n<p>Lead poisoning is especially a problem in cities with older buildings. Typically, lead is present in the paint from older buildings, in the water supply, and in the environment from cars and buses. Preventing lead poisoning in large cities, where there is such widespread possibility for exposure is both difficult and expensive. Federal programs have attempted to address this problem.</p>\n\n<p>Lead poisoning is also an issue that buyers and sellers need to consider. Houses that were built before 1978 probably have paint that contains lead. Federal law requires that sellers disclose known information on lead-based paint hazards before selling a house. Sales contracts must include a federal form about lead-based paint in the building. Buyers will have up to 10 days to check for lead hazards and are likely to stipulate corrections.</p>\n</body></html>\n",
+  "passwordRequired": false,
+  "loggedIn": false,
+  "useCaptcha": true,
+  "showFeaturedImage": true,
+  "featuredImageAsMasthead": false
+ }
+}

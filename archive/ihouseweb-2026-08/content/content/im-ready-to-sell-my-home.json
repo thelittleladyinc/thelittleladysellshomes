@@ -1,0 +1,101 @@
+{
+ "path": "/im-ready-to-sell-my-home",
+ "name": "Sell Your Home for More with The Little Lady",
+ "type": null,
+ "head": {
+  "title": "Sell Your Home for More in Northern Colorado | Free Home Estimate from Christine Gwinnup",
+  "description": "Ready to sell your home for top dollar? Get a free, no-obligation home estimate with Christine Gwinnup. Maximize exposure with expert marketing and fierce negotiations. Serving Northern Colorado's sellers in Loveland, Fort Collins, Greeley, Eaton, and beyond",
+  "url": "https://www.thelittleladysellshomes.com/im-ready-to-sell-my-home",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/67j%20dusk%20perfect.jpg",
+   "height": 300,
+   "width": 400
+  }
+ },
+ "blocks": [
+  {
+   "id": "6a84f562eb378f8d970e482f",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "custom-form-300276962",
+   "type": "form",
+   "html": null,
+   "options": {
+    "action": "/im-ready-to-sell-my-home",
+    "layout": "single",
+    "formBlocks": [
+     {
+      "id": "6a84f562eb378f8d970e4830",
+      "type": "customContent",
+      "options": {
+       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Sell your home for top dollar with The Little Lady Sells Homes. Proven results and expert marketing in Northern Colorado. Contact us for a free home value estimate!\"><meta name=\"keywords\" content=\"Sell your home for more, Home value estimate Eaton CO, Real estate team Greeley CO, Sell fast Loveland CO, Best real estate agent Fort Collins CO, Home selling experts Northern Colorado\">\r\n<title></title>\r\n<style type=\"text/css\">body {\r\n            font-family: 'Arial', sans-serif;\r\n            color: #333;\r\n            background-color: #f9f9f9;\r\n            margin: 0;\r\n            padding: 0;\r\n        }\r\n        header {\r\n            background-color: #000000;\r\n            color: #fff;\r\n            padding: 40px 20px;\r\n            text-align: center;\r\n        }\r\n        header h1 {\r\n            margin: 0;\r\n            font-size: 40px;\r\n        }\r\n        .container {\r\n            width: 85%;\r\n            margin: 0 auto;\r\n            padding: 20px;\r\n        }\r\n        .cta {\r\n            background-color: #000000;\r\n            color: #fff;\r\n            text-align: center;\r\n            padding: 20px;\r\n            margin: 30px 0;\r\n            font-size: 24px;\r\n            font-weight: bold;\r\n            border-radius: 5px;\r\n        }\r\n        h2 {\r\n            color: #8B0000;\r\n            margin-top: 30px;\r\n            font-size: 30px;\r\n        }\r\n        .section {\r\n            margin-bottom: 50px;\r\n        }\r\n        .why-choose, .how-we-help {\r\n            display: flex;\r\n            flex-wrap: wrap;\r\n            justify-content: space-between;\r\n        }\r\n        .box {\r\n            background-color: #fff;\r\n            padding: 20px;\r\n            margin: 10px;\r\n            flex: 1;\r\n            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);\r\n            border-radius: 8px;\r\n            min-width: 250px;\r\n        }\r\n        .form-container {\r\n            background-color: #fff;\r\n            padding: 30px;\r\n            border-radius: 8px;\r\n            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);\r\n        }\r\n        .form-container input, .form-container textarea {\r\n            width: 100%;\r\n            padding: 12px;\r\n            margin: 15px 0;\r\n            border: 1px solid #ccc;\r\n            border-radius: 5px;\r\n        }\r\n        .form-container button {\r\n            background-color: #8B0000;\r\n            color: white;\r\n            padding: 14px 25px;\r\n            border: none;\r\n            border-radius: 5px;\r\n            cursor: pointer;\r\n            font-size: 18px;\r\n        }\r\n        .form-container button:hover {\r\n            background-color: #660000;\r\n        }\r\n        footer {\r\n            background-color: #333;\r\n            color: #fff;\r\n            text-align: center;\r\n            padding: 15px;\r\n            margin-top: 50px;\r\n        }\r\n        .testimonials {\r\n            background-color: #f9f9f9;\r\n            padding: 30px;\r\n            border-radius: 8px;\r\n            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);\r\n        }\r\n        .testimonial {\r\n            margin-bottom: 20px;\r\n        }\r\n        .testimonial p {\r\n            font-style: italic;\r\n        }\r\n        .testimonial .name {\r\n            font-weight: bold;\r\n            color: #8B0000;\r\n        }\r\n        .testimonial .location {\r\n            color: #666;\r\n        }\r\n</style>\r\n<header>\r\n<h1>Ready to Sell Your<br>\r\nNorthern Colorado Home<br>\r\nfor the Most Profit?<br>\r\nStart With a Free Home Valuation!</h1>\r\n</header>\r\n\r\n</head><body><div class=\"container\">\r\n<div class=\"cta\">Get a personalized home valuation and discover the best strategies to sell your Northern Colorado home fast and for the best price.</div>\r\n\r\n<section class=\"section\">\r\n<h2 style=\"text-align: center;\"><strong>Why List Your Home with<br>\r\nThe Little Lady?</strong></h2>\r\n\r\n<div class=\"why-choose\">\r\n<div class=\"box\">\r\n<h3><strong>Proven Results</strong></h3>\r\n\r\n<p>We have a proven track record of helping homeowners in Northern Colorado sell for more. Our clients regularly receive full-price offers and close faster than the market average.</p>\r\n</div>\r\n\r\n<div class=\"box\">\r\n<h3><strong>Local Expertise</strong></h3>\r\n\r\n<p>We specialize in selling homes across Northern Colorado. From Loveland to Fort Collins, Eaton to Greeley&mdash;we know the neighborhoods, buyers, and trends that will get your home sold quickly and at the highest price.</p>\r\n</div>\r\n\r\n<div class=\"box\">\r\n<h3><strong>Effective Marketing</strong></h3>\r\n\r\n<p>Our innovative marketing strategies, including professional photography, 3D virtual tours, social media ads, and luxury billboards, ensure that your home gets maximum exposure to the right buyers.</p>\r\n</div>\r\n\r\n<div class=\"box\">\r\n<h3><strong>Expert Negotiations</strong></h3>\r\n\r\n<p>Christine is fierce in negotiations. She&rsquo;ll work tirelessly to ensure you get the best terms and the highest possible price for your home.</p>\r\n</div>\r\n</div>\r\n</section>\r\n\r\n<section class=\"section\">\r\n<h2 style=\"margin-left: 40px; text-align: center;\"><strong>How We Help You Sell Fast<br>\r\nand for Top Dollar</strong></h2>\r\n\r\n<div class=\"how-we-help\">\r\n<div class=\"box\">\r\n<h3><strong>Free Home Estimate</strong></h3>\r\n\r\n<p>Start with a <strong>free, no-obligation home value estimate</strong> to understand your home&rsquo;s worth in today&rsquo;s market. We use real-time data to give you an accurate valuation that helps you make informed decisions.<br>\r\n<br>\r\n<strong><a data-form-id=\"300208218\" href=\"/contact\" target=\"modal_form\">Get Your Free Estimate!</a></strong></p>\r\n</div>\r\n\r\n<div class=\"box\">\r\n<p><strong>Maximized Exposure</strong><br>\r\nWe don&rsquo;t just list your home&mdash;we market it. Our extensive marketing strategies include <strong>social media ads, Google ads, Zillow, Realtor.com</strong>, and more. We ensure your home is seen by the right buyers, wherever they are.<br>\r\n<br>\r\n<strong><a href=\"/quick-search\">See Our Marketing Strategy in Action</a></strong></p>\r\n</div>\r\n\r\n<div class=\"box\">\r\n<h3><strong>Marketing Strategy</strong></h3>\r\n\r\n<p>We go above and beyond with <strong>high-quality photography, video tours</strong>, and even <strong>luxury billboards</strong> to showcase your home. Our strategies ensure your home stands out and attracts more potential buyers quickly.<br>\r\n<br>\r\n<strong>Discover How We Market Homes for Maximum Impact</strong></p>\r\n</div>\r\n\r\n<div class=\"box\">\r\n<h3><strong>Expert Negotiations</strong></h3>\r\n\r\n<p>Once offers come in, Christine leads the charge in negotiations. She fights to get you the <strong>best deal</strong> while protecting your interests every step of the way. You can trust her to close the deal with the highest possible return for you.<br>\r\n<br>\r\n<strong>Let&rsquo;s Start Negotiating Your Best Deal</strong></p>\r\n</div>\r\n</div>\r\n</section>\r\n\r\n<div class=\"cta\">Free Home Estimate&nbsp;or <a href=\"https://www.buymyhouse.com/?ref=be63d3a8-9899-406a-a499-c00cc49a9966\" target=\"lightbox_iframe\">Cash Offer</a>&nbsp;&mdash; Contact us at 303-709-4262 today!</div>\r\n\r\n<section class=\"form-container\">\r\n<section class=\"testimonials\">\r\n<h2 style=\"text-align: center;\"><strong>What Our Sellers<br>\r\nHave to Say</strong></h2>\r\n\r\n<div class=\"testimonial\"><span class=\"name\">- Cassidi&nbsp;G.</span>&nbsp;Johnstown<span class=\"location\">, CO</span></div>\r\n\r\n<div class=\"testimonial\">\r\n<p style=\"text-align: center;\">\"Christine helped us sell our home for <strong>more than we expected</strong>, and her marketing strategies were key in getting so much attention. Highly recommend!&rdquo;<br>\r\n<br>\r\n<a class=\"btn btn-primary\" href=\"http://www.buymyhouse.com?ref=be63d3a8-9899-406a-a499-c00cc49a9966\">Request a Cash Offer&nbsp;</a><br>\r\n<br>\r\nComplete the form below to get a <strong>free, no-obligation home estimate</strong> and start the process of selling your home for top dollar. Let&rsquo;s get your home sold quickly and for the best price!</p>\r\n</div>\r\n</section>\r\n</section>\r\n</div>\r\n\r\n<div class=\"cta\">Ready To Sell Your Home?<br>\r\nFill out the form below</div></body></html>\n"
+      }
+     },
+     {
+      "id": "6a84f562eb378f8d970e4831",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-302006646",
+       "label": "Name:",
+       "value": "",
+       "required": false
+      }
+     },
+     {
+      "id": "6a84f562eb378f8d970e4832",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-302006085",
+       "label": "Address",
+       "value": "",
+       "required": true
+      }
+     },
+     {
+      "id": "6a84f562eb378f8d970e4833",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "email-302006083",
+       "label": "Email Address:",
+       "value": "",
+       "required": true,
+       "validate": "email"
+      }
+     },
+     {
+      "id": "6a84f562eb378f8d970e4834",
+      "type": "textInput",
+      "mode": "default",
+      "options": {
+       "name": "text-302006647",
+       "label": "Phone Number:",
+       "value": "",
+       "required": true
+      }
+     }
+    ],
+    "initialValues": {
+     "text-302006646": "",
+     "text-302006085": "",
+     "email-302006083": "",
+     "text-302006647": ""
+    },
+    "initialErrors": {
+     "text-302006646": "",
+     "text-302006085": "",
+     "email-302006083": "",
+     "text-302006647": ""
+    },
+    "useCaptcha": false,
+    "context": "page"
+   }
+  }
+ ],
+ "post": null
+}

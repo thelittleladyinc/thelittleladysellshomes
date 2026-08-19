@@ -1,0 +1,52 @@
+{
+ "path": "/single-family-homes-for-sale-in-carr-co",
+ "name": "Single Family Homes for Sale in Carr, CO",
+ "type": null,
+ "head": {
+  "title": "Single Family Homes for Sale in Carr, CO",
+  "description": "Find properties for sale in Carr, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/single-family-homes-for-sale-in-carr-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/single-family-homes-for-sale-in-carr-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f3b75990e6948b067a19",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f3b75990e6948b067a18",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "displayPropertyType": [
+      "Single Family Home"
+     ],
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Carr, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

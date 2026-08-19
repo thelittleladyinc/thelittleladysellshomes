@@ -5558,6 +5558,7 @@ def _moving_to_block(city, county_name, school_district, commute, relocate_extra
 # answers they were statistically likely to search next anyway.
 LOCAL_GUIDES_BY_COUNTY = {
     "larimer": [
+        ("/blog/moving-to-northern-colorado-which-town-actually-fits.html", "Moving To Northern Colorado: Which Town Fits You?"),
         ("/understanding-open-zoning-in-larimer-county", "What 'Open Zoning' Means in Larimer County"),
         ("/what-is-an-ilc-and-when-should-you-get-a-full-survey", "ILC vs. Full Survey: What Buyers Actually Need"),
         ("/buying-land-larimer-co", "Buying Land in Larimer County: Septic Transfers, Wells & Zoning"),
@@ -5565,6 +5566,7 @@ LOCAL_GUIDES_BY_COUNTY = {
         ("/rent-to-own", "Rent To Own in Colorado: An Honest Guide"),
     ],
     "weld": [
+        ("/blog/moving-to-northern-colorado-which-town-actually-fits.html", "Moving To Northern Colorado: Which Town Fits You?"),
         ("/buying-land-weld-co", "Buying Land in Weld County: Water, Minerals & USDA Paths"),
         ("/can-you-build-a-shop-barn-or-guest-house-on-rural-land", "Shops, Barns & Guest Houses: What Rural Land Allows"),
         ("/whats-the-real-cost-to-develop-raw-land-in-colorado", "How Much It Really Costs To Develop Raw Land"),
@@ -5574,6 +5576,7 @@ LOCAL_GUIDES_BY_COUNTY = {
 }
 # Every other county gets the brand-wide trio; town-specific extras below.
 LOCAL_GUIDES_DEFAULT = [
+    ("/blog/moving-to-northern-colorado-which-town-actually-fits.html", "Moving To Northern Colorado: Which Town Actually Fits You?"),
     ("/rent-to-own", "Rent To Own in Colorado: An Honest Guide"),
     ("/whats-the-real-cost-to-develop-raw-land-in-colorado", "How Much It Really Costs To Develop Raw Land"),
     ("/multi-generational-homes-for-sale-in-northern-colorado-find-your-familys-fit", "Multi-Generational & Next Gen Homes in Northern Colorado"),

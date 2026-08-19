@@ -1,0 +1,49 @@
+{
+ "path": "/farm-and-ranch-for-sale-in-mead-co",
+ "name": "Farm and Ranch For Sale in Mead, CO",
+ "type": null,
+ "head": {
+  "title": "Farm and Ranch For Sale in Mead, CO",
+  "description": "Find farms and ranches for sale in Mead, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/farm-and-ranch-for-sale-in-mead-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/farm-and-ranch-for-sale-in-mead-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84f2e46f5d6034660f6791",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f2e46f5d6034660f6790",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Mead, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "farm"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

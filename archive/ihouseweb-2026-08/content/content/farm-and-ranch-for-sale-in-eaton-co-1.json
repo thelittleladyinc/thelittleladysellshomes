@@ -1,0 +1,49 @@
+{
+ "path": "/farm-and-ranch-for-sale-in-eaton-co-1",
+ "name": "Farm and Ranch for Sale in Eaton, CO",
+ "type": null,
+ "head": {
+  "title": "Farm and Ranch for Sale in Eaton, CO",
+  "description": "Find farms and ranches for sale in Eaton, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/farm-and-ranch-for-sale-in-eaton-co-1",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/farm-and-ranch-for-sale-in-eaton-co-1"
+ },
+ "blocks": [
+  {
+   "id": "6a84f4cd586257c4e20c9851",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84f4cd586257c4e20c9850",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Eaton, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "farm"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}

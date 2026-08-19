@@ -1,0 +1,28 @@
+{
+ "path": "/windsor-homes",
+ "name": "Windsor Homes",
+ "type": null,
+ "head": {
+  "title": "Windsor Homes | Loveland & NoCo Realtor | Christine Gwinnup",
+  "description": "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. Bold marketing, strategic pricing, fierce negotiation.",
+  "url": "https://www.thelittleladysellshomes.com/windsor-homes",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "image": {
+   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/Featured-Community-1444150004.jpg",
+   "height": 300,
+   "width": 400
+  },
+  "hasOverlay": true
+ },
+ "blocks": [
+  {
+   "id": "featured-location-74994",
+   "type": "featuredLocation",
+   "html": null,
+   "options": {
+    "featuredLocationId": 74994
+   }
+  }
+ ],
+ "post": null
+}

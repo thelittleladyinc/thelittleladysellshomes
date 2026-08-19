@@ -1,0 +1,51 @@
+{
+ "path": "/homes-for-sale-in-windsor-co",
+ "name": "Homes for Sale in Windsor, CO",
+ "type": null,
+ "head": {
+  "title": "Homes for Sale in Windsor, CO",
+  "description": "Find properties for sale in Windsor, CO. View listing details, property photos, and even sign up to receive email alerts when new listings hit the market!",
+  "url": "https://www.thelittleladysellshomes.com/homes-for-sale-in-windsor-co",
+  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+  "ampUrl": "https://www.thelittleladysellshomes.com/amp/homes-for-sale-in-windsor-co"
+ },
+ "blocks": [
+  {
+   "id": "6a84fc625d03858b460c61c7",
+   "type": "pageHeading",
+   "html": null
+  },
+  {
+   "id": "6a84fc625d03858b460c61c6",
+   "type": "savedSearch",
+   "html": null,
+   "options": {
+    "contentBlockType": "savedSearch",
+    "searchParams": {
+     "itemsPerPage": 20,
+     "view": "cards",
+     "page": 1,
+     "location": {
+      "type": "city",
+      "value": "Windsor, CO"
+     },
+     "listingType": "homes-for-sale",
+     "propertyType": [
+      "house",
+      "condo",
+      "multi"
+     ],
+     "sort": "new"
+    },
+    "useQueryString": true,
+    "defaultView": "cards",
+    "defaultSort": "new",
+    "format": "paginated",
+    "excludeFeatured": false,
+    "limit": 20,
+    "showAdditionalBlock": true
+   }
+  }
+ ],
+ "post": null
+}
