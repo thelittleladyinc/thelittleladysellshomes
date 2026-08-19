@@ -3552,8 +3552,8 @@ def header_html(active=None):
              mark: "The Little Lady" is a personal brand, and the person IS the
              logo. The site's stored "logo" turned out to be the LPT brokerage
              logo, which already sits on the right of this header. -->
-        <img class="brand-logo" src="/assets/img/little-lady-mark.png" alt="{SITE['agent']}"
-             width="56" height="56" style="border-radius:50%;background:var(--cream)">
+        <img class="brand-avatar" src="/assets/img/little-lady-mark.png" alt="{SITE['agent']}"
+             width="46" height="46">
         <span style="display:flex;flex-direction:column;line-height:1.05">
           <span style="font-family:var(--font-script);font-size:30px;color:var(--white)">The Little Lady</span>
           <span class="brand-sub">Sells Homes</span>
