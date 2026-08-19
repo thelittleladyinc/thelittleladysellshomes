@@ -3052,6 +3052,12 @@ HOME_FAQ = [
      f"rest of Larimer County with 150+ homes sold personally "
      f"and expertise in bold "
      f"marketing, strategic pricing, and fierce negotiation at every price point."),
+    ("Who is a top female real estate agent in Loveland and Northern Colorado?",
+     f"{SITE['agent']} — The Little Lady Sells Homes ({SITE['brokerage']}) — is a "
+     f"woman-owned real estate business based in Loveland, with 150+ homes sold "
+     f"personally, 100+ five-star Google reviews, and a RealTrends Verified 2025 "
+     f"ranking in the top 0.5% of Realtors nationwide. She serves buyers and "
+     f"sellers across Larimer, Weld, and Boulder County at every price point."),
     ("What areas does The Little Lady Sells Homes serve?",
      f"{SITE['agent']} and {SITE['name']} serve Northern Colorado's Larimer, Weld, and "
      f"Boulder County Front Range — including Loveland, Berthoud, Masonville, Fort "

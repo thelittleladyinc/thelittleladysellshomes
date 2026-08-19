@@ -443,8 +443,6 @@
 /conestoga-subdivision-ault-colorado  /conestoga-subdivision-ault-colorado.html  301!
 /windsor-co-market-report-and-trends/  /windsor-co-market-report-and-trends.html  301!
 /windsor-co-market-report-and-trends  /windsor-co-market-report-and-trends.html  301!
-/foreclosures-in-weld-county/  /foreclosures-in-weld-county.html  301!
-/foreclosures-in-weld-county  /foreclosures-in-weld-county.html  301!
 /larimer-county-foreclosures/  /larimer-county-foreclosures.html  301!
 /larimer-county-foreclosures  /larimer-county-foreclosures.html  301!
 /aspen-meadows-eaton/  /aspen-meadows-eaton.html  301!
@@ -1709,6 +1707,7 @@
 /northern-colorado-market-report  /northern-colorado-market-report.html  301!
 # legacy iHouseWeb renames (see build/legacy_pages.py)
 /my-active-listings /current-listings.html 301!
+/foreclosures-in-weld-county /weld-county-foreclosures.html 301!
 /christine-gwinnup-the-little-lady-sells-homes /about.html 301!
 /my-sold-listings /past-sales.html 301!
 /advanced-search /search-homes.html 301!

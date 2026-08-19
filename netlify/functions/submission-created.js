@@ -107,6 +107,12 @@ const SOURCE_LABELS = {
   // lead start very different conversations, so each gets its own label.
   "veteran-home-purchase": "The Little Lady Sells Homes - Veteran / VA Home Purchase",
   "first-time-homebuyer": "The Little Lady Sells Homes - First-Time Homebuyer Guide",
+  // 2026-08-19 (round two of rebuilt lead pages -- the foreclosure cluster,
+  // open houses, and the cash-offer page):
+  "foreclosure-list-larimer": "The Little Lady Sells Homes - Larimer Foreclosure List Request",
+  "foreclosure-list-weld": "The Little Lady Sells Homes - Weld Foreclosure List Request",
+  "open-house-list": "The Little Lady Sells Homes - Weekend Open House List",
+  "cash-offer": "The Little Lady Sells Homes - Cash Offer Request (seller lead)",
   // 2026-08-16: found by cross-checking every form-name rendered into site/ against
   // the keys here, while adding the thank-you redirect. These three forms exist and
   // have existed, and were falling through to the raw-slug fallback below -- so a

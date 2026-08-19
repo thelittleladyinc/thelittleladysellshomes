@@ -28,6 +28,12 @@ LEGACY_SITEMAP_PATHS = []
 # A 301 keeps the old equity flowing to the successor. Everything NOT in this
 # map and not matched by an engine page gets rebuilt at its own URL instead.
 RENAMED = {
+    # 2026-08-19: the old site had TWO Weld foreclosure pages splitting one
+    # query family ("weld county foreclosure search" ranked ~9 while the pages
+    # sat at positions 21 and 31 with 4,000 and 5,800 impressions each --
+    # they were competing with each other). The cleaner slug survives and
+    # gets the deep rebuild; this one 301s into it so the signals combine.
+    "/foreclosures-in-weld-county": "/weld-county-foreclosures.html",
     "/my-active-listings": "/current-listings.html",
     "/my-sold-listings": "/past-sales.html",
     "/listings-video-portfolio": "/listing-video-portfolio.html",
@@ -260,7 +266,7 @@ def build_legacy_pages(B):
     <span class="eyebrow" style="color:var(--dusty-rose)">{B.esc(lf.get("kicker", "No Pressure, Real Answers"))}</span>
     <h2 class="section-title">{B.esc(lf["heading"])}</h2>
     <p class="lede">{B.esc(lf.get("lede", ""))}</p>
-    {B._tool_lead_form(lf["name"], lf.get("button", "Send"))}
+    {B._tool_lead_form(lf["name"], lf.get("button", "Send"), lf.get("extraFields", ""))}
   </div>
 </section>""")
 
