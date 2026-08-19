@@ -87,6 +87,21 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# ---- iHouseWeb IDX URL rescue (2026-08-19) --------------------------------
+# The old platform's /idx/* listing and search pages are indexed and earning;
+# idx-redirect.js translates each to its closest living page and answers 301
+# so the standing transfers instead of 404ing at cutover. The function touches
+# no data -- pure URL translation.
+[[redirects]]
+  from = "/idx/*"
+  to = "/.netlify/functions/idx-redirect"
+  status = 200
+
+[[redirects]]
+  from = "/-/*"
+  to = "/.netlify/functions/idx-redirect"
+  status = 200
+
 # ---- Shared MLS backend (2026-08-19) --------------------------------------
 # This site carries NO MLS credentials and NO MLS-touching functions, on
 # purpose. One MLS Grid account serves both of Christine's brands, and its
