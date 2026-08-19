@@ -3523,6 +3523,7 @@ def _fit_description(desc):
 NOINDEX_PATHS = {"/thank-you.html"}
 
 
+
 def head(title, description, path="/", canonical_extra="", schema_extra="",
          canonical_path=None):
     title = _fit_title(title)
