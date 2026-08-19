@@ -135,6 +135,18 @@ def build_legacy_pages(B):
     # content records for authored blocks live alongside the terms file
     content_dir = os.path.join(os.path.dirname(__file__), "data", "legacy_content")
 
+    # The demand-driven upgrade layer (2026-08-19, Christine: "most traffic
+    # pages even better and more detailed based on what people are
+    # searching"): per-URL title/meta rewrites, added question-answer
+    # sections, and FAQ blocks with FAQPage schema, written against the
+    # page's real Search Console queries. Merged OVER the migrated content,
+    # never replacing it -- keep-what-ranks applies to body copy too.
+    enhancements = {}
+    enh_path = os.path.join(os.path.dirname(__file__), "data", "enhanced_pages.json")
+    if os.path.exists(enh_path):
+        with open(enh_path) as f:
+            enhancements = json.load(f)
+
     # site/ persists between builds, so "does the file exist" would see THIS
     # module's own output from the previous run and conclude the engine owns
     # every page. The marker file records what this module wrote last time;
@@ -168,6 +180,13 @@ def build_legacy_pages(B):
         title = t.get("title") or t.get("name") or rel.replace("-", " ").title()
         meta = t.get("metaDescription") or ""
         h1 = t.get("name") or title.split(" | ")[0]
+        enh = enhancements.get(url) or {}
+        if enh.get("title"):
+            title = enh["title"]
+        if enh.get("metaDescription"):
+            meta = enh["metaDescription"]
+        if enh.get("h1"):
+            h1 = enh["h1"]
 
         content_rec = {}
         rec_path = os.path.join(content_dir, rel.replace("/", "__") + ".json")
@@ -209,6 +228,22 @@ def build_legacy_pages(B):
     <div class="blog-article">{authored}</div>
   </div>
 </section>""")
+
+        # ---- demand-driven upgrades (see enhanced_pages.json) ------------
+        enh_schema = ""
+        for sec in enh.get("sections") or []:
+            paras = "\n    ".join(
+                f"<p>{B._blog_para_html(par)}</p>" for par in sec.get("paragraphs", []))
+            body_parts.append(f"""
+<section class="tight">
+  <div class="wrap" style="max-width:820px">
+    <h2 class="section-title" style="font-size:clamp(22px,2.6vw,30px)">{B.esc(sec.get("h2", ""))}</h2>
+    {paras}
+  </div>
+</section>""")
+        if enh.get("faq"):
+            faq_html, enh_schema = B._faq_block([(q, a) for q, a in enh["faq"]])
+            body_parts.append(faq_html)
 
         search = t.get("search")
         if search:
@@ -252,7 +287,8 @@ def build_legacy_pages(B):
 
         B.page(title, meta or _first_words(_authored_html(content_rec.get("blocks")), 24) or
                f"{h1} — {B.SITE['name']}.",
-               url + ".html", None, "\n".join(body_parts))
+               url + ".html", None, "\n".join(body_parts),
+               schema_extra=[enh_schema] if enh_schema else "")
         # canonical must match the legacy URL exactly (extensionless).
         out_file = os.path.join(B.OUT, rel + ".html")
         if os.path.exists(out_file):
