@@ -139,12 +139,13 @@
   status = 200
 
 # Clean, shareable, indexable URL for one listing -- proxied to the shared
-# backend's listing-page function. Phase-1 tradeoff, stated honestly: the
-# rendered detail page carries the Signature shell (it is built into that
-# deployment). Same agent, same phone, working page. Phase 2 can brand it
-# per-site by teaching listing-page.js to pick a shell by Host header.
+# backend's listing-page function WITH brand=tllsh, which makes it render in
+# THIS site's shell (listing-page.js keeps a checked-in copy of our generated
+# lib/_listing-page-shell.html; refresh that copy after a redesign here).
+# Canonical stays on the Signature domain so the two sites never compete for
+# the same listing URL in search.
 [[redirects]]
   from = "/listing/:id"
-  to = "https://signaturepropertycollection.com/.netlify/functions/listing-page?id=:id"
+  to = "https://signaturepropertycollection.com/.netlify/functions/listing-page?id=:id&brand=tllsh"
   status = 200
   force = false
