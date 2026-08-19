@@ -245,6 +245,25 @@ def build_legacy_pages(B):
             faq_html, enh_schema = B._faq_block([(q, a) for q, a in enh["faq"]])
             body_parts.append(faq_html)
 
+        # A lead page without a lead form is a brochure. The old iHouseWeb
+        # versions of these pages WERE forms (custom-form blocks) -- that's
+        # where the veteran and first-time-buyer leads actually came from --
+        # so an enhancement can declare one and get the site's standard
+        # Netlify-wired form (honeypot, consent line, submission-created ->
+        # Lofty + notification, /thank-you.html redirect). Netlify registers
+        # new form names automatically on deploy.
+        lf = enh.get("leadForm")
+        if lf:
+            body_parts.append(f"""
+<section class="tight">
+  <div class="wrap" style="max-width:640px">
+    <span class="eyebrow" style="color:var(--dusty-rose)">{B.esc(lf.get("kicker", "No Pressure, Real Answers"))}</span>
+    <h2 class="section-title">{B.esc(lf["heading"])}</h2>
+    <p class="lede">{B.esc(lf.get("lede", ""))}</p>
+    {B._tool_lead_form(lf["name"], lf.get("button", "Send"))}
+  </div>
+</section>""")
+
         search = t.get("search")
         if search:
             qs = _search_qs(search)

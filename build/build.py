@@ -5888,7 +5888,7 @@ def build_city_pages():
       <h2 class="section-title">Your {esc(city)} Real Estate Agent</h2>
       <p class="lede">RealTrends Verified in the Top 0.5% of Realtors nationwide, with 150+
       homes sold across Northern Colorado and 30+ more every year. A
-      Certified Negotiation Specialist, {esc(SITE['agent'].split()[0])}
+      Certified Real Estate Negotiator (CREN), {esc(SITE['agent'].split()[0])}
       helps buyers and sellers at every price point — first homes, new builds, acreage,
       and everything in between — in and around {esc(city)}.</p>
       <div class="btn-row" style="justify-content:flex-start;margin-top:20px">
@@ -6169,7 +6169,7 @@ def build_about():
       clientele &mdash; first-time buyers, veterans, growing families, downsizers, and
       seasoned investors &mdash; with the same fierce advocacy at every price point.</p>
       <p class="lede">Her expertise spans first homes, farm and ranch properties, VA loans,
-      new construction, and acreage. As a Certified Negotiation Specialist, she's known for
+      new construction, and acreage. As a Certified Real Estate Negotiator (CREN), she's known for
       guiding first-time buyers through every step — and for helping investors build
       portfolios through creative financing, lease options, and fix-and-flip ventures.</p>
       <p class="lede">A proud member of NAR, CAR, and LBAR, {SITE['agent'].split()[0]} holds a
@@ -6193,7 +6193,7 @@ def build_about():
       Featured, NoCo Real Producers<br>
       BBB A+ Accredited Business<br>
       NAR, CAR &amp; LBAR Member<br>
-      Certified Negotiation Specialist &amp; Pricing Strategy Advisor</p>
+      REALTOR&reg; &middot; CREN (Certified Real Estate Negotiator) &middot; PSA (Pricing Strategy Advisor)</p>
       <a class="cta" href="/press-recognition.html">See The Full Story &rarr;</a>
     </div>
   </div>
@@ -6385,7 +6385,7 @@ def build_press():
     </div>
     <div class="card">
       <h3>Certifications &amp; Credentials</h3>
-      <p>Certified Negotiation Specialist<br>
+      <p>Certified Real Estate Negotiator (CREN)<br>
       Luxury Home Marketing Expert<br>
       Pricing Strategy Advisor<br>
       Social Media Marketing Certification<br>
@@ -9337,7 +9337,7 @@ def build_luxury_market():
          "/search-homes.html?minPrice=1000000"),
         ("&ldquo;Best negotiator real estate agent&rdquo;",
          "A fair thing to search for, and hard to verify from a website. I'm a "
-         "Certified Negotiation Specialist, and the more useful proof is the "
+         "Certified Real Estate Negotiator (CREN), and the more useful proof is the "
          "track record and what past sellers said about how their deal was "
          "handled.",
          "/testimonials.html"),
@@ -12334,7 +12334,7 @@ def build_llms_txt(paths):
 ## Why choose The Little Lady Sells Homes
 - 150+ homes sold personally, 30+ homes a year
 - RealTrends Verified 2025 — ranked in the Top 0.5% of Realtors nationwide by production
-- Certified Negotiation Specialist and Pricing Strategy Advisor
+- REALTOR® | CREN (Certified Real Estate Negotiator) | PSA (Pricing Strategy Advisor) designations
 - Serves buyers, sellers, investors, and relocation clients at every price point — first homes, VA loans, new construction, acreage, and land
 - Deep local knowledge of Larimer, Weld, and Boulder County — especially Loveland, Berthoud, Masonville, and Fort Collins
 

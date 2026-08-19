@@ -75,42 +75,47 @@ const TRIGGER_TAG = "Hot Lead - Website";
 // Human-friendly source label per form-name, so leads are easy to tell apart
 // inside Lofty. Falls back to the raw form name for anything not listed.
 const SOURCE_LABELS = {
-  "contact": "Signature Property Collection - Contact Form",
-  "buyers-guide": "Signature Property Collection - Buyer's Guide Download",
-  "sellers-guide": "Signature Property Collection - Seller's Guide Download",
-  "relocation": "Signature Property Collection - Relocation Page",
+  "contact": "The Little Lady Sells Homes - Contact Form",
+  "buyers-guide": "The Little Lady Sells Homes - Buyer's Guide Download",
+  "sellers-guide": "The Little Lady Sells Homes - Seller's Guide Download",
+  "relocation": "The Little Lady Sells Homes - Relocation Page",
   // 2026-08-16: the site's single named lead magnet, linked from every town page,
   // the relocation page and the homepage. Worth its own label rather than sharing
   // "relocation" with the relocation page's form: this lead has read a town page
   // and asked for the guide, which is a different (earlier, out-of-state) moment
   // than someone who filled in the "start your relocation" form.
-  "relocation-guide": "Signature Property Collection - Relocation Guide Download",
-  "free-home-valuation": "Signature Property Collection - Free Home Valuation",
-  "lifestyle-search": "Signature Property Collection - Lifestyle Search",
-  "listing-inquiry": "Signature Property Collection - Listing Inquiry (Current Listings page)",
-  "neighborhood-quiz": "Signature Property Collection - Neighborhood Quiz",
+  "relocation-guide": "The Little Lady Sells Homes - Relocation Guide Download",
+  "free-home-valuation": "The Little Lady Sells Homes - Free Home Valuation",
+  "lifestyle-search": "The Little Lady Sells Homes - Lifestyle Search",
+  "listing-inquiry": "The Little Lady Sells Homes - Listing Inquiry (Current Listings page)",
+  "neighborhood-quiz": "The Little Lady Sells Homes - Neighborhood Quiz",
   // 2026-08-13: added when buyers.html/sellers.html/relocation.html got
   // their own real lead-capture forms (previously they only linked out to
   // /contact.html) -- see build.py build_buyers()/build_sellers().
-  "buyers-page-inquiry": "Signature Property Collection - Buyers Page Inquiry",
+  "buyers-page-inquiry": "The Little Lady Sells Homes - Buyers Page Inquiry",
   // 2026-08-15: the "Email Me New Matches" button on every search widget. See
   // the alert_criteria block below -- this is the lead type that should get a
   // Lofty Property Alert turned on.
-  "listing-alert-request": "Signature Property Collection - Listing Alert Request (saved search)",
-  "sellers-page-inquiry": "Signature Property Collection - Sellers Page Inquiry (Home Valuation)",
+  "listing-alert-request": "The Little Lady Sells Homes - Listing Alert Request (saved search)",
+  "sellers-page-inquiry": "The Little Lady Sells Homes - Sellers Page Inquiry (Home Valuation)",
   // 2026-08-16: the seller-facing local-proof page. A lead here has seen how many
   // people already watch content about their town and asked for it for their own
   // address -- so it is a listing lead, not a browse, and worth its own label.
-  "seller-local-proof": "Signature Property Collection - Seller Local Proof (listing lead)",
+  "seller-local-proof": "The Little Lady Sells Homes - Seller Local Proof (listing lead)",
+  // 2026-08-19: the two rebuilt lead pages -- the old iHouseWeb site's actual
+  // lead engines, back with real forms. A veteran lead and a first-time-buyer
+  // lead start very different conversations, so each gets its own label.
+  "veteran-home-purchase": "The Little Lady Sells Homes - Veteran / VA Home Purchase",
+  "first-time-homebuyer": "The Little Lady Sells Homes - First-Time Homebuyer Guide",
   // 2026-08-16: found by cross-checking every form-name rendered into site/ against
   // the keys here, while adding the thank-you redirect. These three forms exist and
   // have existed, and were falling through to the raw-slug fallback below -- so a
   // lead from the luxury page arrived in Lofty labelled "luxury-market", which
   // sorts and reads like a bug rather than a source. Worth their own labels
   // especially: two of the three are the highest-intent pages on the site.
-  "luxury-market": "Signature Property Collection - Luxury Market Page",
-  "concierge-page-inquiry": "Signature Property Collection - Concierge Page Inquiry",
-  "testimonials-page-inquiry": "Signature Property Collection - Testimonials Page Inquiry",
+  "luxury-market": "The Little Lady Sells Homes - Luxury Market Page",
+  "concierge-page-inquiry": "The Little Lady Sells Homes - Concierge Page Inquiry",
+  "testimonials-page-inquiry": "The Little Lady Sells Homes - Testimonials Page Inquiry",
 };
 
 function splitName(fullName) {
@@ -138,7 +143,7 @@ exports.handler = async (event) => {
     if (lastName) body.lastName = lastName;
     if (data.email) body.emails = [data.email];
     if (data.phone) body.phones = [data.phone];
-    body.source = SOURCE_LABELS[formName] || `Signature Property Collection - ${formName}`;
+    body.source = SOURCE_LABELS[formName] || `The Little Lady Sells Homes - ${formName}`;
     // 2026-08-15 (Christine: "make sure that when the new lead comes in or if it
     // merges that i am still notified some how in lofty with a hot lead or
     // something of hte sort"). Her 16:48 test DID reach Lofty -- lead
@@ -252,7 +257,7 @@ exports.handler = async (event) => {
       source: stampedSource,
       // The long labels all start with the site name; the subject line doesn't
       // need it repeated.
-      sourceShort: stampedSource.replace("Signature Property Collection - ", ""),
+      sourceShort: stampedSource.replace("The Little Lady Sells Homes - ", ""),
       noteText: body.notes, leadId, stamp: `${stamp} MT`,
     });
 

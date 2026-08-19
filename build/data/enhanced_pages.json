@@ -527,7 +527,14 @@
     "Does Christine really contribute $500 toward closing costs for veterans?",
     "Yes — it's her thank-you for your service, applied at closing on your purchase with her. Call (303) 709-4262 and ask; there's no catch to check for."
    ]
-  ]
+  ],
+  "leadForm": {
+   "name": "veteran-home-purchase",
+   "kicker": "For Those Who Served",
+   "heading": "Start Your VA Home Purchase",
+   "lede": "Tell Christine where you are in the process — just looking, PCSing in, or ready to write. She answers personally, and her $500 closing-cost thank-you applies when you buy with her.",
+   "button": "Talk To A Veteran-Family Realtor"
+  }
  },
  "/first-time-homebuyer": {
   "title": "First-Time Home Buyer Programs in Northern Colorado | Loveland, Greeley, Fort Collins",
@@ -585,6 +592,13 @@
     "Do I need a Realtor as a first-time buyer, and what does it cost me?",
     "You need one more than any other kind of buyer — first purchases are where expensive mistakes hide. Agent compensation is negotiated in the transaction; in many Northern Colorado deals the seller's side contributes to it. Christine explains exactly how it works in your deal before you sign anything."
    ]
-  ]
+  ],
+  "leadForm": {
+   "name": "first-time-homebuyer",
+   "kicker": "Free Guide & Seminars",
+   "heading": "Get The Free First-Time Homebuyer Guide",
+   "lede": "The step-by-step guide plus the next seminar date, straight from Christine — and an honest read on whether now is your moment or your build-up year.",
+   "button": "Send Me The Guide"
+  }
  }
 }
