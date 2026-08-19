@@ -488,8 +488,8 @@ window.__ytPlay = function (b) {
     <h3>More From The Blog</h3>
     <ul style="line-height:2">
       <li><a href="/blog/why-its-important-to-work-with-a-realtor.html">Why It's Important To Work With A Realtor</a></li>
+      <li><a href="/blog/duplexes-for-sale-in-northern-colorado-why-theyre-scarce-and-how-to-buy-one.html">Duplexes For Sale In Northern Colorado: Why They're Scarce And How To Actually Buy One</a></li>
       <li><a href="/blog/mortgage-rates-northern-colorado-what-actually-determines-yours.html">Mortgage Rates in Northern Colorado: What Actually Determines Yours (And How To Get a Better One)</a></li>
-      <li><a href="/blog/investing-in-northern-colorado-real-estate-without-becoming-a-landlord.html">Investing in Northern Colorado Real Estate — Without Becoming a Landlord</a></li>
     </ul>
   </div>
 </section>
@@ -586,7 +586,23 @@ window.__ytPlay = function (b) {
   }, { passive: true });
 })();
 </script>
-
+<div class="lb-overlay" id="qr-overlay" role="dialog" aria-modal="true" aria-labelledby="qr-heading"
+  onclick="if (event.target === this) this.classList.remove('open')">
+  <div class="lb-box" style="text-align:center;max-width:340px">
+    <button type="button" id="qr-close-btn" class="lb-close" aria-label="Close"
+      onclick="document.getElementById('qr-overlay').classList.remove('open')">&times;</button>
+    <h2 class="widget-title" id="qr-heading">Share This Page</h2>
+    <p class="search-status" style="margin-top:0">Scan with a phone camera to open this exact
+    page &mdash; handy for yard signs, flyers, and business cards.</p>
+    <img id="qr-img" data-src="/assets/qr/blog-10-top-renos-that-will-up-the-sale-price-of-your-home.svg" alt="QR code linking to https://www.thelittleladysellshomes.com/blog/10-top-renos-that-will-up-the-sale-price-of-your-home.html" width="220" height="220" style="margin:12px auto;display:block">
+    <p style="word-break:break-all;font-size:13px;color:var(--gray)">https://www.thelittleladysellshomes.com/blog/10-top-renos-that-will-up-the-sale-price-of-your-home.html</p>
+  </div>
+</div>
+<script>
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') { document.getElementById('qr-overlay').classList.remove('open'); }
+});
+</script>
 <script>
 (function () {
   if (!('IntersectionObserver' in window)) return;
