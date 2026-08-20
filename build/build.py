@@ -63,7 +63,6 @@ BLOG = _load_json("blog.json")  # 60 posts migrated from the live site's blog
 # optional here — see the _README inside the file, and the SOLD MAP section
 # further down, for why that's the whole point of this file existing.
 SOLD_HOMES_DATA = _load_json("sold_homes.json")
-MARKET_REPORT = _load_json("market_report.json")
 LOCAL_SPOTS_DATA = _load_json("local_spots.json")
 
 # Old AgentFire/WordPress URL -> new site path, for anything printed,
@@ -3845,7 +3844,7 @@ def footer_html():
           <li><a href="/expired-listings.html">Expired Listings</a></li>
           <li><a href="/how-to-choose-a-real-estate-agent.html">How To Choose An Agent</a></li>
           <li><a href="/downsizing-in-northern-colorado.html">Downsizing</a></li>
-          <li><a href="/northern-colorado-market-report.html">Monthly Market Report</a></li>
+          <li><a href="/northern-colorado-market-report.html">Market Report</a></li>
           <li><a href="/site-directory.html">Site Directory</a></li>
         </ul>
       </div>
@@ -5509,6 +5508,106 @@ def _town_market_stats(city):
     return {**stats, "generated_at": generated, "age_days": age}
 
 
+# ---- Live regional snapshot (2026-08-20) ---------------------------------
+# The market report page used to be hand-typed from sold figures once a month
+# (build/data/market_report.json), which meant it was two months stale the
+# moment a month got skipped -- and it could not be automated, because this
+# site's MLS feed deliberately never replicates Sold/Closed listings (see
+# REPLICATED_STATUSES in the shared backend: "the strictest possible version
+# of no sold/closed data").
+#
+# So the page now reports what the feed DOES carry, live: active inventory.
+# Asking prices answer a different question than sale prices and the page says
+# so in as many words -- but this version refreshes itself with every build off
+# town_market.json, and can never quietly rot. Same 21-day staleness rule and
+# same degrade-to-qualitative path as the town pages (_town_market_stats).
+def _live_market_snapshot():
+    """Region-wide active-inventory stats, or None when we shouldn't quote numbers.
+
+    Scoped to the priority counties -- Larimer, Weld, Boulder -- because that is
+    the market this page claims to report on. Towns the generator withheld for
+    being too thin to aggregate are absent from town_market.json and so drop out
+    here too, which is the intended behaviour rather than a gap.
+    """
+    towns = TOWN_MARKET.get("towns") or {}
+    if not towns:
+        return None
+    generated = TOWN_MARKET.get("generated_at")
+    try:
+        age = (datetime.date.fromisoformat(BUILD_DATE)
+               - datetime.date.fromisoformat(generated)).days
+    except (TypeError, ValueError):
+        return None
+    if age > TOWN_MARKET_STALE_DAYS:
+        return None
+
+    # Explicitly the three counties this site calls Northern Colorado (same
+    # trio as the schema and llms.txt: "Larimer, Weld, and Boulder County
+    # Front Range"). NOT COUNTIES["priority"], which also flags Denver,
+    # Jefferson, Arapahoe and Adams -- averaging Denver metro into a page
+    # titled "Northern Colorado" would be a different market wearing this
+    # page's name.
+    NOCO = {"larimer", "weld", "boulder"}
+    wanted = []                                  # (city, county_slug), first county wins
+    for county in COUNTIES:
+        if county["slug"] in NOCO:
+            wanted.extend((c, county["slug"]) for c in county["cities"])
+    seen, rows = set(), []
+    for city, county_slug in wanted:             # de-dupe (Windsor spans two counties)
+        if city in seen:
+            continue
+        seen.add(city)
+        st = towns.get(city)
+        if st and st.get("median_list") and st.get("active"):
+            rows.append({"city": city, "url": _city_url(county_slug, city), **st})
+    if len(rows) < 5:                            # too thin to call a regional read
+        return None
+
+    def _weighted_median(key):
+        pairs = sorted(((r[key], r["active"]) for r in rows if r.get(key)),
+                       key=lambda p: p[0])
+        total = sum(w for _, w in pairs)
+        if not total:
+            return None
+        half, run = total / 2.0, 0
+        for value, weight in pairs:
+            run += weight
+            if run >= half:
+                return value
+        return pairs[-1][0]
+
+    return {
+        "generated_at": generated,
+        "age_days": age,
+        "towns": rows,
+        "town_count": len(rows),
+        "active_total": sum(r["active"] for r in rows),
+        "median_list": _weighted_median("median_list"),
+        "median_ppsf": _weighted_median("median_price_per_sqft"),
+        # Busiest markets first -- the towns a reader is most likely to be
+        # searching, and the ones whose figures rest on the most listings.
+        "by_volume": sorted(rows, key=lambda r: -r["active"]),
+        # Top of the market, restricted to towns with enough inventory that the
+        # median is a market read rather than one expensive house wearing a hat.
+        # The floor is 50, not 10: at 10, Kersey -- a farm town -- topped the
+        # list at a $1.95M median off eleven listings, two of which were ranches.
+        "by_price": sorted([r for r in rows if r["active"] >= 50],
+                           key=lambda r: -r["median_list"]),
+    }
+
+
+def _live_market_asof(snap):
+    """The dated 'as of' line -- now a freshness claim rather than an apology."""
+    when = datetime.date.fromisoformat(snap["generated_at"]).strftime("%B %-d, %Y")
+    age = snap["age_days"]
+    freshness = ("today" if age == 0 else
+                 "yesterday" if age == 1 else f"{age} days ago")
+    return (f'<p class="mr-asof">Live from <strong>IRES MLS</strong>, last refreshed '
+            f'{freshness} ({esc(when)}) across {snap["town_count"]} Northern Colorado '
+            f'towns. These are <strong>asking</strong> prices on homes for sale right '
+            f'now &mdash; what sellers are asking, not what buyers finally paid.</p>')
+
+
 def _usd(n):
     return f"${n:,.0f}"
 
@@ -5649,7 +5748,7 @@ def _moving_to_block(city, county_name, school_district, commute, relocate_extra
     </div>
     <div class="btn-row" style="justify-content:flex-start;margin-top:32px">
       <a class="btn btn-primary" href="{RELOCATION_GUIDE_PATH}">Get The Free Northern Colorado Relocation Guide</a>
-      <a class="btn btn-outline" style="border-color:#141415;color:#141415" href="/northern-colorado-market-report.html">This Month's Market Report &rarr;</a>
+      <a class="btn btn-outline" style="border-color:#141415;color:#141415" href="/northern-colorado-market-report.html">The Market Right Now &rarr;</a>
     </div>
   </div>
 </section>"""
@@ -8153,46 +8252,6 @@ LOCATION_PHOTO_BY_PATH.update({
 })
 
 
-# 2026-08-16. The failure mode of a monthly hub page is not that it breaks -- it is that
-# it keeps working while quietly going stale. A page headed "Northern Colorado Market
-# Report" still showing June figures in November is worse than no page, because the one
-# thing it exists to prove is that she is on top of the market.
-#
-# So staleness is surfaced twice, and neither is silent. The build prints a warning past
-# MARKET_REPORT_STALE_DAYS. And the page itself tells the reader how old the figures are,
-# because a visitor discovering that for themselves is the outcome worth avoiding.
-MARKET_REPORT_STALE_DAYS = 45
-
-
-def _market_report_age_days(mr):
-    """Days since the reported month ended, or None if the month can't be parsed."""
-    raw = (mr or {}).get("month") or ""
-    try:
-        y, m = (int(x) for x in raw.split("-")[:2])
-        # End of the reported month: the figures cover that month, so age is measured
-        # from its last day rather than its first.
-        nxt = datetime.date(y + (m == 12), (m % 12) + 1, 1)
-        return (datetime.date.today() - nxt).days
-    except Exception:
-        return None
-
-
-def _market_report_age_note(mr):
-    """A dated 'as of' line, which becomes an explicit staleness note once old."""
-    label = esc((mr or {}).get("month_label") or "")
-    src = esc((mr or {}).get("source") or "IRES MLS")
-    win = esc((mr or {}).get("window") or "")
-    age = _market_report_age_days(mr)
-    base = (f'Figures cover <strong>{label}</strong>, from {src}'
-            + (f' ({win})' if win else "") + ".")
-    if age is not None and age > MARKET_REPORT_STALE_DAYS:
-        months = max(1, round(age / 30))
-        base += (f' These are the most recent figures published here and they are about '
-                 f'{months} month{"s" if months != 1 else ""} old &mdash; ask for the '
-                 f'current month and you will get it the same day.')
-    return f'<p class="mr-asof">{base}</p>'
-
-
 def _subdivision_photo(sub):
     """Optional hero photo for a subdivision page.
 
@@ -10487,13 +10546,20 @@ def build_nav_pages():
     # The dated versions still matter, so they stay as blog posts and this page links them
     # as the archive. That is also the honest proof she has done this consistently.
     #
-    # The whole page is generated from build/data/market_report.json -- one file to edit
-    # each month. And it states its own age (see _market_report_age_note): a hub silently
-    # showing June figures in November is worse than no hub, because it advertises neglect
-    # on the one page that exists to prove she is on top of the market. The build warns
-    # loudly past 45 days; the page tells the reader past 45 days. Neither pretends.
-    mr = MARKET_REPORT
-    reg, lux = mr.get("region") or {}, mr.get("luxury") or {}
+    # 2026-08-20: this page used to be generated from build/data/market_report.json --
+    # sold figures hand-typed once a month. That is exactly the page that rots: skip a
+    # month and a page headed "Northern Colorado Market Report" is quietly serving June
+    # figures in November, advertising neglect on the one page meant to prove the
+    # opposite. It could not be automated either, because this site's feed deliberately
+    # never replicates Sold/Closed listings.
+    #
+    # So it now reports what the feed does carry, live: active inventory, rebuilt from
+    # town_market.json on every build (_live_market_snapshot). Asking prices answer a
+    # different question than sale prices -- the page says so plainly, twice, and points
+    # anyone who needs sold comparables at the contact form. In exchange it can never go
+    # stale, and past TOWN_MARKET_STALE_DAYS it degrades to the qualitative version
+    # rather than publishing numbers that have gone off.
+    snap = _live_market_snapshot()
 
     def _stat(value, label, note=None):
         if value is None:
@@ -10503,105 +10569,131 @@ def build_nav_pages():
                 + (f'<span class="mr-note">{esc(note)}</span>' if note else "")
                 + "</div>")
 
-    region_stats = "".join([
-        _stat(f"${reg['weighted_median_price']:,}" if reg.get("weighted_median_price") else None,
-              "Weighted median sale price", reg.get("weighted_median_note")),
-        _stat(f"{reg['avg_days_on_market']} days" if reg.get("avg_days_on_market") else None,
-              "Average days on market"),
-        _stat(f"{reg['avg_sale_to_list_pct']}%" if reg.get("avg_sale_to_list_pct") else None,
-              "Average sale-to-list ratio",
-              "Sellers still landing close to ask."),
-    ])
-    lux_stats = "".join([
-        _stat(f"{lux['closings']}" if lux.get("closings") else None, "Homes closed at $1M+"),
-        _stat(f"${lux['median_price']:,}" if lux.get("median_price") else None, "Median $1M+ price"),
-        _stat(f"{lux['median_days_on_market']} days" if lux.get("median_days_on_market") else None,
-              "Median days on market"),
-        _stat(f"{lux['avg_pct_of_list']}%" if lux.get("avg_pct_of_list") else None, "Of list price"),
-    ])
-    top_sale = ""
-    if lux.get("top_sale_price"):
-        bits = [f"${lux['top_sale_price']:,}"]
-        if lux.get("top_sale_town"):
-            bits.append(f"in {lux['top_sale_town']}")
-        detail = ", ".join(x for x in [
-            f"{lux['top_sale_beds']} bd" if lux.get("top_sale_beds") else None,
-            f"{lux['top_sale_sqft']:,} sq ft" if lux.get("top_sale_sqft") else None] if x)
-        top_sale = (f"""<p class="lede" style="margin-top:26px"><strong>The month's highest close
-    reached {esc(' '.join(bits))}</strong>{esc(f' ({detail})' if detail else '')} &mdash; address held
-    privately, in respect of the sellers. Full transaction context is available to
-    qualified buyers and sellers on request.</p>""")
-
     # Dated archive: every market-report post already in the blog, newest first.
     archive = [b for b in BLOG if "market-report" in b["slug"] or "market report" in b["title"].lower()]
     archive_html = ""
     if archive:
-        rows = "\n      ".join(
+        rows_html = "\n      ".join(
             f'<li><a href="/blog/{esc(b["slug"])}.html">{esc(b["title"])}</a></li>'
             for b in archive)
         archive_html = f"""<section class="tight">
   <div class="wrap" style="max-width:820px">
     <span class="eyebrow" style="color:var(--dusty-rose)">The Archive</span>
-    <h2 class="section-title">Previous Months</h2>
-    <p class="lede">Each month is kept rather than overwritten, so you can see which
-    direction the market has actually been moving.</p>
+    <h2 class="section-title">Written Market Updates</h2>
+    <p class="lede">The figures above move on their own. These are the months I sat down and
+    wrote about what was actually happening underneath them.</p>
     <ul class="sold-list" style="margin-top:18px">
-      {rows}
+      {rows_html}
     </ul>
   </div>
 </section>"""
 
-    mr_faqs = [
-        (f"What is the Northern Colorado real estate market doing right now?",
-         f"As of {mr['month_label']}, the weighted median sale price across Northern "
-         f"Colorado is ${reg.get('weighted_median_price', 0):,}, homes are averaging "
-         f"{reg.get('avg_days_on_market')} days on market, and sellers are averaging "
-         f"{reg.get('avg_sale_to_list_pct')}% of list. {mr.get('takeaway', '')} "
-         f"Figures from {mr.get('source')}, {mr.get('window')}."),
-        ("Is it a good time to sell a home in Northern Colorado?",
-         f"On the current numbers, a well-priced home is still selling close to ask — the "
-         f"average sale-to-list ratio is {reg.get('avg_sale_to_list_pct')}%. The word doing "
-         f"the work there is well-priced. Homes that come out over the market sit, go stale, "
-         f"and then sell for less than they would have. That is why pricing is the first of "
-         f"the three questions worth asking any agent."),
-        ("How is the luxury market different from the median market here?",
-         f"Days on market run longer at the top — {lux.get('median_days_on_market')} days "
-         f"median for the {lux.get('closings')} homes that closed above $1M — and that is "
-         f"deliberation rather than weakness. Sale-to-list tightens because both sides "
-         f"arrive prepared. Averages across the whole market will not tell you anything "
-         f"useful about a $1.5M property; you need the figures for your actual segment."),
-        ("Where do these numbers come from?",
-         f"{mr.get('source')} — the same multiple listing service used to price every "
-         f"listing, over the {mr.get('window')}. Not a Zestimate and not a national "
-         f"aggregator's model. Aggregate statistics only; individual addresses are held "
-         f"privately."),
-    ]
-    mr_faq_html, mr_faq_schema = _faq_block(mr_faqs)
-    mr_body = f"""
+    if snap:
+        region_stats = "".join([
+            _stat(f"{snap['active_total']:,}", "Homes for sale right now",
+                  f"Across {snap['town_count']} Northern Colorado towns."),
+            _stat(f"${snap['median_list']:,}", "Median asking price",
+                  "Weighted by how many homes each town actually has listed."),
+            _stat(f"${snap['median_ppsf']}", "Median price per square foot",
+                  "The number that compares a 1,400 sq ft ranch to a 3,000 sq ft two-story."),
+        ])
+
+        table_rows = []
+        for r in snap["by_volume"][:12]:
+            name = (f'<a href="{esc(r["url"])}">{esc(r["city"])}</a>'
+                    if r.get("url") else esc(r["city"]))
+            ppsf = f"${r['median_price_per_sqft']}" if r.get("median_price_per_sqft") else "&mdash;"
+            table_rows.append(
+                f"<tr><th scope=\"row\">{name}</th>"
+                f"<td>{r['active']:,}</td>"
+                f"<td>${r['median_list']:,}</td>"
+                f"<td>{ppsf}</td></tr>")
+        town_table = f"""<div class="town-table-wrap">
+      <table class="town-table">
+        <thead><tr><th scope="col">Town</th><th scope="col">Homes For Sale</th>
+        <th scope="col">Median Asking Price</th><th scope="col">Per Sq Ft</th></tr></thead>
+        <tbody>
+        {"".join(table_rows)}
+        </tbody>
+      </table>
+    </div>"""
+
+        top = snap["by_price"][:4]
+        top_stats = "".join(
+            _stat(f"${r['median_list']:,}", r["city"], f"{r['active']:,} homes for sale")
+            for r in top)
+        busiest = snap["by_volume"][0]
+
+        mr_faqs = [
+            ("What is the Northern Colorado real estate market doing right now?",
+             f"Right now there are {snap['active_total']:,} homes for sale across "
+             f"{snap['town_count']} Northern Colorado towns in Larimer, Weld and Boulder "
+             f"County. The median asking price is ${snap['median_list']:,}, or about "
+             f"${snap['median_ppsf']} per square foot. These are live IRES MLS figures, "
+             f"refreshed {snap['age_days']} day{'s' if snap['age_days'] != 1 else ''} ago."),
+            ("Are these sold prices or asking prices?",
+             "Asking prices — what sellers are asking for homes that are on the market "
+             "today. That is deliberate: it is the live picture, and it is the number that "
+             "tells you what you are competing with as a buyer or against as a seller. What "
+             "homes finally sold for is a different question, one that runs a month or two "
+             "behind by definition. Ask me for the sold figures for your town and price "
+             "band and you will get them the same day."),
+            ("How many homes are for sale in Northern Colorado?",
+             f"{snap['active_total']:,} across the {snap['town_count']} towns tracked here. "
+             f"{busiest['city']} carries the most at {busiest['active']:,}. Inventory is the "
+             f"number most worth watching: when it climbs, buyers get room to negotiate; "
+             f"when it falls, well-priced homes start moving fast again."),
+            ("Where do these numbers come from?",
+             "IRES MLS — the same multiple listing service used to price every listing in "
+             "this market, read directly rather than through a national aggregator's model. "
+             "Aggregate statistics only: medians and counts, never individual addresses. The "
+             "page rebuilds itself from the live feed, so it does not go stale between "
+             "monthly write-ups."),
+        ]
+        mr_faq_html, mr_faq_schema = _faq_block(mr_faqs)
+
+        mr_body = f"""
 <section class="hero" style="padding:100px 0 60px">
   <div class="wrap">
-    <span class="eyebrow" style="color:var(--dusty-rose)">Updated Monthly &middot; {esc(mr['month_label'])}</span>
+    <span class="eyebrow" style="color:var(--dusty-rose)">Live From IRES MLS</span>
     <h1>Northern Colorado Market Report</h1>
-    <p class="lede">What the market actually did last month, from {esc(mr.get('source'))} —
-    the same data used to price every listing. No Zestimates, no national-aggregator
-    guesses.</p>
-    {_market_report_age_note(mr)}
+    <p class="lede">What is actually for sale across Larimer, Weld and Boulder County right
+    now &mdash; read straight from the same multiple listing service used to price every
+    listing in this market. No Zestimates, no national-aggregator guesses, and no waiting
+    for a monthly write-up.</p>
+    {_live_market_asof(snap)}
   </div>
 </section>
 <section class="tight">
   <div class="wrap">
     <span class="eyebrow" style="color:var(--dusty-rose)">The Whole Market</span>
-    <h2 class="section-title">{esc(mr['month_label'])} At A Glance</h2>
+    <h2 class="section-title">Northern Colorado Right Now</h2>
     <div class="mr-stats">{region_stats}</div>
-    <p class="lede" style="max-width:75ch;margin-top:28px">{esc(mr.get('takeaway') or '')}</p>
+    <p class="lede" style="max-width:75ch;margin-top:28px">A median is a middle, not a
+    verdict. It moves when the mix of what is listed changes, not only when values change
+    &mdash; a quiet month in Boulder and a busy one in Greeley will pull this number in
+    opposite directions. Use it to see the shape of the market, then ask for the figures
+    that actually describe your house.</p>
+  </div>
+</section>
+<section class="tight">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Town By Town</span>
+    <h2 class="section-title">Where The Inventory Is</h2>
+    <p class="lede">The busiest markets first &mdash; these are also the towns whose medians
+    rest on the most listings, which makes them the most reliable to read.</p>
+    {town_table}
+    <p class="mr-asof" style="margin-top:20px">Towns with too few listings to aggregate
+    honestly are left out rather than guessed at.</p>
   </div>
 </section>
 <section class="tight section-dark">
   <div class="wrap">
-    <span class="eyebrow">The $1M+ Tier</span>
-    <h2 class="section-title" style="color:#fff">Northern Colorado Luxury, {esc(mr['month_label'])}</h2>
-    <div class="mr-stats mr-stats-dark">{lux_stats}</div>
-    {top_sale}
+    <span class="eyebrow">The Top Of The Market</span>
+    <h2 class="section-title" style="color:#fff">Where Asking Prices Run Highest</h2>
+    <p class="lede">Among Northern Colorado towns with real inventory behind the number
+    &mdash; at least fifty homes for sale, so a couple of ranches cannot tip the median.</p>
+    <div class="mr-stats mr-stats-dark">{top_stats}</div>
     <div class="btn-row" style="justify-content:flex-start;margin-top:30px">
       <a class="btn btn-outline" href="https://signaturepropertycollection.com/" rel="noopener">Luxury? See Signature Property Collection &rarr;</a>
       <a class="btn btn-outline" href="/free-home-valuation.html">What's Mine Worth? &rarr;</a>
@@ -10616,27 +10708,66 @@ def build_nav_pages():
       <span class="eyebrow" style="color:var(--dusty-rose)">Your Segment, Not The Average</span>
       <h2 class="section-title">These Are Averages. Your House Isn't.</h2>
       <p class="lede">A regional median tells you almost nothing about a specific house on a
-      specific street. If you want the figures for your town, your price band and your kind
-      of property, ask — that read is free and takes about fifteen minutes.</p>
+      specific street &mdash; and it cannot tell you what homes like yours actually sold for.
+      If you want the figures for your town, your price band and your kind of property,
+      including the sold comparables, ask. That read is free and takes about fifteen minutes.</p>
       <div class="btn-row" style="justify-content:flex-start;margin-top:24px">
         <a class="btn btn-dark" href="/contact.html">Get My Segment's Numbers</a>
       </div>
     </div>
     <div class="card">
-      <h3>Want this monthly?</h3>
-      <p>This page updates every month. If you would rather it came to you, say so and it
-      will &mdash; along with the county-by-county detail that sits underneath these
-      headline figures.</p>
+      <h3>Want the sold numbers?</h3>
+      <p>This page tracks what is on the market. What homes actually closed for &mdash; in
+      your neighbourhood, at your size, this quarter &mdash; is the other half of the
+      picture, and I will pull it for you on request.</p>
     </div>
   </div>
 </section>
 """
+        mr_title = "Northern Colorado Market Report — Live IRES MLS Figures"
+        mr_desc = (f"Live Northern Colorado real estate market report: "
+                   f"{snap['active_total']:,} homes for sale across Larimer, Weld and "
+                   f"Boulder County, ${snap['median_list']:,} median asking price, "
+                   f"town-by-town inventory. Straight from IRES MLS.")
+    else:
+        # Degraded path, same rule as the town pages: when the live file is
+        # missing or past TOWN_MARKET_STALE_DAYS, publish the qualitative page
+        # rather than numbers that have quietly gone off.
+        mr_faqs = [
+            ("What is the Northern Colorado real estate market doing right now?",
+             "It varies more by town and price band than any regional headline can capture. "
+             "Ask for the current figures on your town and your kind of property and you "
+             "will get them the same day, straight from IRES MLS."),
+            ("Where do these numbers come from?",
+             "IRES MLS — the same multiple listing service used to price every listing in "
+             "this market. Aggregate statistics only; individual addresses stay private."),
+        ]
+        mr_faq_html, mr_faq_schema = _faq_block(mr_faqs)
+        mr_body = f"""
+<section class="hero" style="padding:100px 0 60px">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Northern Colorado</span>
+    <h1>Northern Colorado Market Report</h1>
+    <p class="lede">The market here moves by town and by price band, not by headline. Ask
+    for the read on your specific segment &mdash; your town, your price range, your kind of
+    property &mdash; and you will get it the same day, from IRES MLS rather than a national
+    aggregator's estimate.</p>
+    <div class="btn-row" style="justify-content:flex-start;margin-top:24px">
+      <a class="btn btn-dark" href="/contact.html">Get My Segment's Numbers</a>
+    </div>
+  </div>
+</section>
+{mr_faq_html}
+{archive_html}
+"""
+        mr_title = "Northern Colorado Market Report"
+        mr_desc = ("Northern Colorado real estate market figures from IRES MLS — by town, "
+                   "by price band, for buyers and sellers in Larimer, Weld and Boulder County.")
+
     mr_breadcrumbs = _breadcrumb_schema([
         ("Home", "/index.html"), ("Northern Colorado Market Report", None)])
     page(
-        f"Northern Colorado Market Report — {mr['month_label']}",
-        f"Northern Colorado real estate market report for {mr['month_label']}: median "
-        f"price, days on market and sale-to-list from IRES MLS, plus the $1M+ tier.",
+        mr_title, mr_desc,
         "/northern-colorado-market-report.html", None, mr_body,
         schema_extra=[mr_breadcrumbs, mr_faq_schema],
     )
@@ -12083,15 +12214,6 @@ def build_redirects_and_meta(extra_paths=None):
         + "</url>"
         for p in paths if p not in NOINDEX_PATHS
     )
-    _age = _market_report_age_days(MARKET_REPORT)
-    if _age is None:
-        print("  ! market_report.json: `month` is missing or unparseable — the market "
-              "report page cannot tell how old it is")
-    elif _age > MARKET_REPORT_STALE_DAYS:
-        print(f"  ! MARKET REPORT IS {_age} DAYS OLD "
-              f"({MARKET_REPORT.get('month_label')}). /northern-colorado-market-report.html "
-              f"is telling visitors so. Update build/data/market_report.json.")
-
     # 2026-08-16: the town-level figures degrade silently by design — a stale file
     # just stops rendering numbers, which is the right behaviour for a visitor and
     # the wrong one for whoever maintains this, because the pages quietly lose the
