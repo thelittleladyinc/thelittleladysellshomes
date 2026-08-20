@@ -561,6 +561,7 @@ def _same_as_urls():
 NAV = [
     ("Communities", "/communities/index.html"),
     ("Search Homes", "/search-homes.html"),
+    ("Explore", "/explore.html"),
     ("Current Listings", "/current-listings.html"),
     ("About", "/about.html"),
     ("Buy", "/buyers.html"),
@@ -3808,6 +3809,7 @@ def footer_html():
         <h2 class="footer-col-title">Resources</h2>
         <ul>
           <li><a href="/search-homes.html">Search Homes</a></li>
+          <li><a href="/explore.html">Explore the Map</a></li>
           <li><a href="/current-listings.html">Current Listings</a></li>
           <li><a href="/blog/index.html">Blog</a></li>
           <li><a href="/guides/buyers-guide.html">Buyer's Guide</a></li>
@@ -4179,6 +4181,7 @@ def build_home():
     <div class="communities-panel">
       <span class="eyebrow">Click To Explore</span>
       <h2 class="section-title" style="color:#fff">Find Your Community</h2>
+      <a href="/explore.html" class="btn" style="display:inline-block;background:#E57373;color:#141415;margin:0 0 18px;font-weight:600;letter-spacing:.06em">&#10024; Try the New 3D Map &rsaquo;</a>
       <div class="county-list">
         {county_btns}
       </div>
@@ -4188,7 +4191,7 @@ def build_home():
            carries no counts (2026-08-17, her call). -->
       <div id="spot-filters" class="spot-filters" hidden></div>
     </div>
-    <div id="county-map"></div>
+    {_explore_map_embed('72vh', '480px')}
   </div>
 </section>
 
@@ -4426,6 +4429,7 @@ def build_communities_index():
   <div class="wrap">
     <span class="eyebrow">Click To Explore</span>
     <h1 class="section-title" style="color:#fff">Find Your Community</h1>
+      <a href="/explore.html" class="btn" style="display:inline-block;background:#E57373;color:#141415;margin:0 0 18px;font-weight:600;letter-spacing:.06em">&#10024; Try the New 3D Map &rsaquo;</a>
     <p class="lede" style="color:rgba(255,255,255,.8)">Explore Northern Colorado county by
     county — {_county_name_list()}.</p>
   </div>
@@ -4456,7 +4460,7 @@ def build_communities_index():
            carries no counts (2026-08-17, her call). -->
       <div id="spot-filters" class="spot-filters" hidden></div>
     </div>
-    <div id="county-map"></div>
+    {_explore_map_embed('72vh', '480px')}
   </div>
 </section>
 """
@@ -11629,6 +11633,69 @@ def build_current_listings():
     )
 
 
+
+def _explore_map_embed(height="min(82vh,860px)", min_h="520px"):
+    """The Mapbox map mount + its data scripts. One helper because the map now
+    lives in three places (the /explore page, the homepage's Find Your
+    Community section, and the communities index) and the market blob must be
+    identical in all of them. Same 21-day staleness rule as the town pages via
+    _town_market_stats()."""
+    market = {}
+    for name in (TOWN_MARKET.get("towns") or {}):
+        s = _town_market_stats(name)
+        if s:
+            market[name] = {"medianList": s["median_list"], "activeCount": s.get("active")}
+    return (
+        f'<div id="spc-explore" style="height:{height};min-height:{min_h}"></div>\n'
+        f'  <script>window.SPC_EXPLORE_MARKET = {json.dumps(market, separators=(",", ":"))};</script>\n'
+        '  <script src="/assets/js/explore-map.js" defer></script>'
+    )
+
+
+# ------------------------------------------------------------- EXPLORE ----
+def build_explore():
+    """/explore.html — the Mapbox map of the whole business on one page:
+    Christine's listings as price bubbles, the towns with live median asking
+    prices, her spot videos and Google reviews, sold homes, 3D terrain,
+    draw-an-area search, drive-time isochrones, and the Ask-the-Map bar.
+
+    2026-08-20, ported from signature-property-collection the same day
+    Christine approved it there ("i need my other site the little lady sells
+    homes to have the same thing but in its own theme"). The rendering lives
+    in assets/js/explore-map.js, re-themed to THIS brand (elegant red /
+    slate, Yellowtail + Playfair Display + Open Sans); the data endpoints it
+    calls are this site's own function names, which are credential-free
+    pass-throughs to the shared Signature backend per lib/_sig-proxy.js --
+    including the new my-listings-geo and mapbox-token proxies, so the
+    one-pacer rule holds and the Mapbox token is configured exactly once,
+    on the Signature deployment.
+
+    Per-town market medians are baked at build time through
+    _town_market_stats(), same 21-day staleness rule as the town pages.
+    Deliberately NOT in the main nav yet -- Christine sees it live first."""
+    body = f"""
+  <section class="section" style="padding-bottom:28px">
+    <div class="container">
+      <span class="eyebrow">One Map, The Whole Story</span>
+      <h1>Explore Northern Colorado</h1>
+      <p class="lede" style="max-width:720px">Every town I serve with its live median asking
+      price, the restaurants and trails I actually go to — with my own videos playing right
+      on the map — the homes I have for sale now, and the homes I've already sold. Draw a
+      shape to search inside it, ask the map a question out loud, or turn on 3D and fly the
+      Front Range.</p>
+    </div>
+  </section>
+  {_explore_map_embed()}
+"""
+    page(
+        "Explore Northern Colorado | Interactive Map of Towns, Prices & Local Life | The Little Lady Sells Homes",
+        "One interactive map of Northern Colorado: live median prices for the towns "
+        f"{SITE['agent']} serves, her current listings and sold homes, her filmed local "
+        "spots, 3D terrain, drive-time search and more.",
+        "/explore.html", "Explore", body,
+    )
+
+
 # ---------------------------------------------------------------- 404 -----
 def build_404():
     """A branded 404 instead of Netlify's default blank one — cheap, and
@@ -11919,7 +11986,7 @@ def build_redirects_and_meta(extra_paths=None):
     paths += ["/relocation.html", "/expired-listings.html", "/free-home-valuation.html",
               "/lifestyle-search.html", "/listing-video-portfolio.html",
               "/past-sales.html", "/mortgage-calculator.html",
-              "/search-homes.html", "/current-listings.html",
+              "/search-homes.html", "/current-listings.html", "/explore.html",
               "/sold-homes-map.html",
               "/press-recognition.html",
               "/how-to-choose-a-real-estate-agent.html",
@@ -12290,6 +12357,8 @@ def build_llms_txt(paths):
     blog_lines = "\n".join(_blog_line(p) for p in BLOG)
     tool_lines = "\n".join([
         "- [Search Homes — Live IRES MLS Listings](/search-homes.html)",
+        f"- [Explore Northern Colorado — {SITE['agent']}'s Interactive Map: Her Listings, "
+        "Local Spots With Videos, Sold Homes, 3D Terrain](/explore.html)",
         f"- [Current Listings — {SITE['agent']}'s Own Active Inventory With Video Tours](/current-listings.html)",
         "- [Relocation Services](/relocation.html)",
         "- [Free Home Valuation](/free-home-valuation.html)",
@@ -12635,12 +12704,16 @@ def write_map_county_data():
             if lat is None or lng is None:
                 continue
             seen.add(data_slug)
-            towns.append({
+            town_row = {
                 "name": city,
                 "url": _city_url(county["slug"], city),
                 "lat": lat,
                 "lng": lng,
-            })
+            }
+            sd = (CITY_CONTENT.get(data_slug) or {}).get("school_district")
+            if sd:
+                town_row["schoolDistrict"] = sd
+            towns.append(town_row)
         return sorted(towns, key=lambda t: t["name"])
 
     payload = {
@@ -12696,6 +12769,7 @@ if __name__ == "__main__":
     build_nav_pages()
     build_search_homes()
     build_current_listings()
+    build_explore()
     build_legal()
     build_404()
     # Legacy iHouseWeb URL coverage (see build/legacy_pages.py): every URL the
