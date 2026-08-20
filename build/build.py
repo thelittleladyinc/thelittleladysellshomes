@@ -561,6 +561,7 @@ def _same_as_urls():
 NAV = [
     ("Communities", "/communities/index.html"),
     ("Search Homes", "/search-homes.html"),
+    ("Explore", "/explore.html"),
     ("Current Listings", "/current-listings.html"),
     ("About", "/about.html"),
     ("Buy", "/buyers.html"),
@@ -4177,6 +4178,7 @@ def build_home():
     <div class="communities-panel">
       <span class="eyebrow">Click To Explore</span>
       <h2 class="section-title" style="color:#fff">Find Your Community</h2>
+      <a href="/explore.html" class="btn" style="display:inline-block;background:#E57373;color:#141415;margin:0 0 18px;font-weight:600;letter-spacing:.06em">&#10024; Try the New 3D Map &rsaquo;</a>
       <div class="county-list">
         {county_btns}
       </div>
@@ -4186,7 +4188,7 @@ def build_home():
            carries no counts (2026-08-17, her call). -->
       <div id="spot-filters" class="spot-filters" hidden></div>
     </div>
-    <div id="county-map"></div>
+    {_explore_map_embed('72vh', '480px')}
   </div>
 </section>
 
@@ -4424,6 +4426,7 @@ def build_communities_index():
   <div class="wrap">
     <span class="eyebrow">Click To Explore</span>
     <h1 class="section-title" style="color:#fff">Find Your Community</h1>
+      <a href="/explore.html" class="btn" style="display:inline-block;background:#E57373;color:#141415;margin:0 0 18px;font-weight:600;letter-spacing:.06em">&#10024; Try the New 3D Map &rsaquo;</a>
     <p class="lede" style="color:rgba(255,255,255,.8)">Explore Northern Colorado county by
     county — {_county_name_list()}.</p>
   </div>
@@ -4454,7 +4457,7 @@ def build_communities_index():
            carries no counts (2026-08-17, her call). -->
       <div id="spot-filters" class="spot-filters" hidden></div>
     </div>
-    <div id="county-map"></div>
+    {_explore_map_embed('72vh', '480px')}
   </div>
 </section>
 """
@@ -11627,6 +11630,25 @@ def build_current_listings():
     )
 
 
+
+def _explore_map_embed(height="min(82vh,860px)", min_h="520px"):
+    """The Mapbox map mount + its data scripts. One helper because the map now
+    lives in three places (the /explore page, the homepage's Find Your
+    Community section, and the communities index) and the market blob must be
+    identical in all of them. Same 21-day staleness rule as the town pages via
+    _town_market_stats()."""
+    market = {}
+    for name in (TOWN_MARKET.get("towns") or {}):
+        s = _town_market_stats(name)
+        if s:
+            market[name] = {"medianList": s["median_list"], "activeCount": s.get("active")}
+    return (
+        f'<div id="spc-explore" style="height:{height};min-height:{min_h}"></div>\n'
+        f'  <script>window.SPC_EXPLORE_MARKET = {json.dumps(market, separators=(",", ":"))};</script>\n'
+        '  <script src="/assets/js/explore-map.js" defer></script>'
+    )
+
+
 # ------------------------------------------------------------- EXPLORE ----
 def build_explore():
     """/explore.html — the Mapbox map of the whole business on one page:
@@ -11648,12 +11670,6 @@ def build_explore():
     Per-town market medians are baked at build time through
     _town_market_stats(), same 21-day staleness rule as the town pages.
     Deliberately NOT in the main nav yet -- Christine sees it live first."""
-    market = {}
-    for name in (TOWN_MARKET.get("towns") or {}):
-        s = _town_market_stats(name)
-        if s:
-            market[name] = {"medianList": s["median_list"], "activeCount": s.get("active")}
-
     body = f"""
   <section class="section" style="padding-bottom:28px">
     <div class="container">
@@ -11666,9 +11682,7 @@ def build_explore():
       Front Range.</p>
     </div>
   </section>
-  <div id="spc-explore" style="height:min(82vh,860px);min-height:520px"></div>
-  <script>window.SPC_EXPLORE_MARKET = {json.dumps(market, separators=(",", ":"))};</script>
-  <script src="/assets/js/explore-map.js" defer></script>
+  {_explore_map_embed()}
 """
     page(
         "Explore Northern Colorado | Interactive Map of Towns, Prices & Local Life | The Little Lady Sells Homes",
@@ -12687,12 +12701,16 @@ def write_map_county_data():
             if lat is None or lng is None:
                 continue
             seen.add(data_slug)
-            towns.append({
+            town_row = {
                 "name": city,
                 "url": _city_url(county["slug"], city),
                 "lat": lat,
                 "lng": lng,
-            })
+            }
+            sd = (CITY_CONTENT.get(data_slug) or {}).get("school_district")
+            if sd:
+                town_row["schoolDistrict"] = sd
+            towns.append(town_row)
         return sorted(towns, key=lambda t: t["name"])
 
     payload = {
