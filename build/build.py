@@ -3525,6 +3525,24 @@ NOINDEX_PATHS = {"/thank-you.html"}
 
 
 
+# 2026-08-20 (mobile PSI 87, "render-blocking requests, est. 680 ms"): after
+# the font self-hosting the stylesheet is the ONLY render-blocking request
+# left -- 9KB gzipped, one full slow-4G round trip before the phone can
+# paint. Small enough to ship INSIDE every page: first paint then needs only
+# the first response. The external /assets/css/style.css keeps being
+# published and fingerprinted -- the listing-page shell still links it and
+# tests read the source -- only the static pages' delivery changes. Same
+# change, same day, same reasoning as signature-property-collection.
+_INLINE_CSS = None
+
+def _inline_css():
+    global _INLINE_CSS
+    if _INLINE_CSS is None:
+        p = os.path.join(os.path.dirname(__file__), "assets", "css", "style.css")
+        _INLINE_CSS = open(p, encoding="utf-8").read()
+    return _INLINE_CSS
+
+
 def head(title, description, path="/", canonical_extra="", schema_extra="",
          canonical_path=None):
     title = _fit_title(title)
@@ -3570,7 +3588,7 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
      the file twice. The @font-face rules live at the top of style.css. -->
 <link rel="preload" href="/assets/fonts/abril-fatface-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/open-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/style.css">
+<style>{_inline_css()}</style>
 {'<meta name="robots" content="noindex, follow">' if path in NOINDEX_PATHS else ''}
 <script type="application/ld+json">{_real_estate_agent_schema()}</script>
 {_schema_scripts(schema_extra)}
