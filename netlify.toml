@@ -55,6 +55,14 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Self-hosted woff2 files (2026-08-19, see the header in build/assets/css/
+# style.css). Not content-hashed, so immutable is safe ONLY under the rule
+# that a changed font gets a new filename.
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 [[headers]]
   for = "/assets/qr/*"
   [headers.values]
