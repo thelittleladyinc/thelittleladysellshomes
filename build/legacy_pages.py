@@ -152,12 +152,22 @@ def _localize_media(html_text):
 
 def _strip_doc_wrapper(body_html):
     """Post bodies were stored as full HTML documents. Keep only the body's
-    inner content, drop scripts and document-level tags."""
+    inner content, drop scripts, styles, and document-level tags.
+
+    2026-08-21: some legacy custom-form pages (loveland-co-buyers-guide,
+    newsletter) stored malformed HTML with NO <body> tag at all -- the whole
+    hero + <style> block sit inside <head>. The <body> regex below correctly
+    falls through to using the whole string on those, but until now nothing
+    stripped the <style> block, so its raw CSS text leaked into the page as
+    visible copy. Comments never render, but stripping them too keeps the
+    fallback path clean regardless of how a future record is shaped."""
     s = body_html or ""
     m = re.search(r"<body[^>]*>([\s\S]*?)</body>", s, re.I)
     if m:
         s = m.group(1)
+    s = re.sub(r"<!--[\s\S]*?-->", "", s)
     s = re.sub(r"<script[\s\S]*?</script>", "", s, flags=re.I)
+    s = re.sub(r"<style[\s\S]*?</style>", "", s, flags=re.I)
     s = re.sub(r"<!DOCTYPE[^>]*>|</?html[^>]*>|</?head[^>]*>|<meta[^>]*>|<title[\s\S]*?</title>|<link[^>]*>", "", s, flags=re.I)
     # legacy copy writes tel:303-709-4262; iOS accepts it but the site-wide
     # convention (pinned by test-contact) is digits only.
@@ -266,6 +276,239 @@ def _search_qs(search):
         p["subdivision"] = search["subdivision"].replace("-", " ").title()
     p["noFloor"] = "true"
     return "&".join(f"{k}={v.replace(' ', '%20')}" for k, v in p.items())
+
+
+def _net_proceeds_calculator_body(B):
+    """Real, working, client-side net-proceeds estimator for /home-sale-calculator.
+    Modeled on build.py's mortgage-calculator.html widget (same .mc-input /
+    .card / .grid-2 pattern) so it matches the rest of the site."""
+    calc_script = """<script>
+(function () {
+  function fmt(n) {
+    return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  }
+  function calc() {
+    var price = parseFloat(document.getElementById('npc-price').value) || 0;
+    var payoff = parseFloat(document.getElementById('npc-payoff').value) || 0;
+    var commPct = parseFloat(document.getElementById('npc-comm').value) || 0;
+    var closePct = parseFloat(document.getElementById('npc-close').value) || 0;
+    var concessions = parseFloat(document.getElementById('npc-concessions').value) || 0;
+
+    var commission = price * (commPct / 100);
+    var closing = price * (closePct / 100);
+    var totalCosts = commission + closing + concessions + payoff;
+    var net = price - totalCosts;
+
+    document.getElementById('npc-comm-out').textContent = fmt(commission);
+    document.getElementById('npc-close-out').textContent = fmt(closing);
+    document.getElementById('npc-concessions-out').textContent = fmt(concessions);
+    document.getElementById('npc-payoff-out').textContent = fmt(payoff);
+    document.getElementById('npc-total-out').textContent = fmt(totalCosts);
+    document.getElementById('npc-net').textContent = fmt(net);
+  }
+  document.querySelectorAll('.npc-input').forEach(function (el) {
+    el.addEventListener('input', calc);
+  });
+  calc();
+})();
+</script>"""
+    return f"""
+<section class="hero" style="padding:100px 0 60px">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Know Your Number Before You List</span>
+    <h1>Home Sale Net Proceeds Calculator</h1>
+    <p class="lede">Estimate what you'll actually walk away with after commission, closing costs, and
+    your mortgage payoff — updates instantly as you type. Estimate only; every deal has details
+    a real conversation catches that a calculator can't.</p>
+  </div>
+</section>
+<section>
+  <div class="wrap grid-2">
+    <div class="card">
+      <h2 class="widget-title">Your Numbers</h2>
+      <div style="display:grid;gap:14px;margin-top:16px">
+        <label class="consent">Estimated Sale Price
+          <input class="npc-input" id="npc-price" type="number" value="500000" step="1000"
+            style="display:block;width:100%;margin-top:6px;padding:10px;border:1px solid var(--gray)">
+        </label>
+        <label class="consent">Mortgage Payoff Balance
+          <input class="npc-input" id="npc-payoff" type="number" value="0" step="1000"
+            style="display:block;width:100%;margin-top:6px;padding:10px;border:1px solid var(--gray)">
+        </label>
+        <label class="consent">Commission Rate (% of price)
+          <input class="npc-input" id="npc-comm" type="number" value="6" step="0.5"
+            style="display:block;width:100%;margin-top:6px;padding:10px;border:1px solid var(--gray)">
+        </label>
+        <label class="consent">Closing Costs / Title &amp; Escrow (% of price)
+          <input class="npc-input" id="npc-close" type="number" value="1.5" step="0.1"
+            style="display:block;width:100%;margin-top:6px;padding:10px;border:1px solid var(--gray)">
+        </label>
+        <label class="consent">Repairs / Buyer Concessions ($)
+          <input class="npc-input" id="npc-concessions" type="number" value="0" step="500"
+            style="display:block;width:100%;margin-top:6px;padding:10px;border:1px solid var(--gray)">
+        </label>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Estimated Net Proceeds</h3>
+      <p style="font-size:34px;font-family:var(--font-serif);margin:8px 0 20px" id="npc-net">$0</p>
+      <table style="width:100%;font-size:14px;color:#4a4a4c;border-collapse:collapse">
+        <tr><td style="padding:6px 0">Commission</td><td style="text-align:right" id="npc-comm-out">$0</td></tr>
+        <tr><td style="padding:6px 0">Closing Costs</td><td style="text-align:right" id="npc-close-out">$0</td></tr>
+        <tr><td style="padding:6px 0">Repairs / Concessions</td><td style="text-align:right" id="npc-concessions-out">$0</td></tr>
+        <tr><td style="padding:6px 0">Mortgage Payoff</td><td style="text-align:right" id="npc-payoff-out">$0</td></tr>
+        <tr style="border-top:1px solid #e4e4d8"><td style="padding:10px 0 0;font-weight:700">Total Costs</td><td style="text-align:right;font-weight:700;padding-top:10px" id="npc-total-out">$0</td></tr>
+      </table>
+      <div class="btn-row" style="justify-content:flex-start;margin-top:24px">
+        <a class="btn btn-dark" href="/free-home-valuation.html">Get A Real Valuation For My Home</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="tight">
+  <div class="wrap" style="max-width:820px">
+    <p class="lede">This is an estimate, not a net sheet — your actual commission rate, closing costs, and
+    any negotiated repairs or concessions will be spelled out in writing before you ever sign
+    anything. {B.esc(B.SITE['agent'])} builds a real net sheet for every listing using your
+    actual mortgage payoff and the specific terms on the table.</p>
+  </div>
+</section>
+{calc_script}
+"""
+
+
+def _max_home_price_calculator_body(B):
+    """Real, working, client-side affordability estimator for /affordability-calculator.
+    Solves for max home price algebraically from a standard 28/36 debt-to-income
+    guideline, mirroring the mortgage-calculator.html pattern in build.py."""
+    calc_script = """<script>
+(function () {
+  function fmt(n) {
+    return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  }
+  function calc() {
+    var income = parseFloat(document.getElementById('mhp-income').value) || 0;
+    var debts = parseFloat(document.getElementById('mhp-debts').value) || 0;
+    var down = parseFloat(document.getElementById('mhp-down').value) || 0;
+    var rate = parseFloat(document.getElementById('mhp-rate').value) || 0;
+    var years = parseFloat(document.getElementById('mhp-term').value) || 30;
+    var taxRate = parseFloat(document.getElementById('mhp-tax').value) || 0;
+    var ins = parseFloat(document.getElementById('mhp-ins').value) || 0;
+    var hoa = parseFloat(document.getElementById('mhp-hoa').value) || 0;
+
+    var frontMax = income * 0.28;
+    var backMax = income * 0.36 - debts;
+    var budget = Math.max(0, Math.min(frontMax, backMax));
+    var c = Math.max(0, budget - ins - hoa);
+
+    var r = (rate / 100) / 12;
+    var n = years * 12;
+    var factor;
+    if (r > 0) {
+      factor = r / (1 - Math.pow(1 + r, -n));
+    } else {
+      factor = n > 0 ? (1 / n) : 0;
+    }
+    var taxFactor = (taxRate / 100) / 12;
+    var denom = factor + taxFactor;
+    var price = denom > 0 ? (c + down * factor) / denom : down;
+    price = Math.max(price, 0);
+    var loan = Math.max(price - down, 0);
+    var piMonthly = loan * factor;
+    var taxMonthly = price * taxFactor;
+
+    document.getElementById('mhp-price').textContent = fmt(price);
+    document.getElementById('mhp-loan-out').textContent = fmt(loan);
+    document.getElementById('mhp-pi-out').textContent = fmt(piMonthly);
+    document.getElementById('mhp-tax-out').textContent = fmt(taxMonthly);
+    document.getElementById('mhp-ins-out').textContent = fmt(ins);
+    document.getElementById('mhp-hoa-out').textContent = fmt(hoa);
+    document.getElementById('mhp-budget-out').textContent = fmt(budget);
+  }
+  document.querySelectorAll('.mhp-input').forEach(function (el) {
+    el.addEventListener('input', calc);
+  });
+  calc();
+})();
+</script>"""
+    return f"""
+<section class="hero" style="padding:100px 0 60px">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Know What You Can Afford First</span>
+    <h1>Home Affordability Calculator</h1>
+    <p class="lede">See roughly how much home you can afford based on your income, debts, and down
+    payment — using the standard 28/36 lending guideline. Estimate only; a lender's actual
+    pre-approval depends on your full credit and financial picture.</p>
+  </div>
+</section>
+<section>
+  <div class="wrap grid-2">
+    <div class="card">
+      <h2 class="widget-title">Your Numbers</h2>
+      <div style="display:grid;gap:14px;margin-top:16px">
+        <label class="consent">Gross Monthly Income (before taxes)
+          <input class="mhp-input" id="mhp-income" type="number" value="8000" step="100"
+            style="display:block;width:100%;margin-top:6px;padding:10px;border:1px solid var(--gray)">
+        </label>
+        <label class="consent">Other Monthly Debts (car, cards, student loans)
+          <input class="mhp-input" id="mhp-debts" type="number" value="500" step="50"
+            style="display:block;width:100%;margin-top:6px;padding:10px;border:1px solid var(--gray)">
+        </label>
+        <label class="consent">Down Payment ($)
+          <input class="mhp-input" id="mhp-down" type="number" value="40000" step="1000"
+            style="display:block;width:100%;margin-top:6px;padding:10px;border:1px solid var(--gray)">
+        </label>
+        <label class="consent">Interest Rate (%)
+          <input class="mhp-input" id="mhp-rate" type="number" value="6.65" step="0.05"
+            style="display:block;width:100%;margin-top:6px;padding:10px;border:1px solid var(--gray)">
+        </label>
+        <label class="consent">Loan Term (years)
+          <input class="mhp-input" id="mhp-term" type="number" value="30" step="5"
+            style="display:block;width:100%;margin-top:6px;padding:10px;border:1px solid var(--gray)">
+        </label>
+        <label class="consent">Property Tax Rate (% of price / yr)
+          <input class="mhp-input" id="mhp-tax" type="number" value="0.6" step="0.05"
+            style="display:block;width:100%;margin-top:6px;padding:10px;border:1px solid var(--gray)">
+        </label>
+        <label class="consent">Homeowners Insurance ($ / month)
+          <input class="mhp-input" id="mhp-ins" type="number" value="120" step="5"
+            style="display:block;width:100%;margin-top:6px;padding:10px;border:1px solid var(--gray)">
+        </label>
+        <label class="consent">HOA Dues ($ / month)
+          <input class="mhp-input" id="mhp-hoa" type="number" value="0" step="5"
+            style="display:block;width:100%;margin-top:6px;padding:10px;border:1px solid var(--gray)">
+        </label>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Estimated Max Home Price</h3>
+      <p style="font-size:34px;font-family:var(--font-serif);margin:8px 0 20px" id="mhp-price">$0</p>
+      <table style="width:100%;font-size:14px;color:#4a4a4c;border-collapse:collapse">
+        <tr><td style="padding:6px 0">Loan Amount</td><td style="text-align:right" id="mhp-loan-out">$0</td></tr>
+        <tr><td style="padding:6px 0">Principal &amp; Interest / mo</td><td style="text-align:right" id="mhp-pi-out">$0</td></tr>
+        <tr><td style="padding:6px 0">Property Tax / mo</td><td style="text-align:right" id="mhp-tax-out">$0</td></tr>
+        <tr><td style="padding:6px 0">Insurance / mo</td><td style="text-align:right" id="mhp-ins-out">$0</td></tr>
+        <tr><td style="padding:6px 0">HOA / mo</td><td style="text-align:right" id="mhp-hoa-out">$0</td></tr>
+        <tr style="border-top:1px solid #e4e4d8"><td style="padding:10px 0 0;font-weight:700">Total Monthly Budget</td><td style="text-align:right;font-weight:700;padding-top:10px" id="mhp-budget-out">$0</td></tr>
+      </table>
+      <div class="btn-row" style="justify-content:flex-start;margin-top:24px">
+        <a class="btn btn-dark" href="/search-homes.html">Search Homes In This Range</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="tight">
+  <div class="wrap" style="max-width:820px">
+    <p class="lede">This uses the 28/36 rule — a common lending guideline capping housing costs at 28%
+    of gross monthly income and total debt at 36% — not a guaranteed approval amount. The default
+    interest rate above reflects Freddie Mac's 30-year fixed average as of August 20, 2026
+    (<a href="https://www.freddiemac.com/pmms" style="text-decoration:underline">freddiemac.com/pmms</a>);
+    your actual rate depends on your lender, credit, and loan program. {B.esc(B.SITE['agent'])} works
+    with local lenders who can turn this estimate into a real pre-approval.</p>
+  </div>
+</section>
+{calc_script}
+"""
 
 
 def build_legacy_pages(B):
@@ -414,6 +657,34 @@ def build_legacy_pages(B):
             market_reports += 1
             continue
 
+        if url in ("/home-sale-calculator", "/affordability-calculator"):
+            if url == "/home-sale-calculator":
+                calc_title = "Home Sale Net Proceeds Calculator | " + B.SITE["agent"] + " | Northern Colorado"
+                calc_meta = ("Estimate your net proceeds from selling your Northern Colorado home. "
+                             "Free calculator factors in commission, closing costs, repairs, and your "
+                             "mortgage payoff — instant results.")
+                calc_body = _net_proceeds_calculator_body(B)
+            else:
+                calc_title = "Home Affordability Calculator | " + B.SITE["agent"] + " | Northern Colorado"
+                calc_meta = ("Find out how much home you can afford in Northern Colorado. Free "
+                             "affordability calculator uses income, debts, and down payment to estimate "
+                             "your max home price.")
+                calc_body = _max_home_price_calculator_body(B)
+            B.page(calc_title, calc_meta, url + ".html", None, calc_body)
+            out_file = os.path.join(B.OUT, rel + ".html")
+            if os.path.exists(out_file):
+                with open(out_file) as f:
+                    page_html = f.read()
+                page_html = page_html.replace(
+                    f'rel="canonical" href="{B.SITE["domain"]}{url}.html"',
+                    f'rel="canonical" href="{B.SITE["domain"]}{url}"')
+                with open(out_file, "w") as f:
+                    f.write(page_html)
+            LEGACY_SITEMAP_PATHS.append(url + ".html")
+            ours.append(url + ".html")
+            built += 1
+            continue
+
         body_parts = [f"""
 <section class="hero" style="padding:80px 0 40px">
   <div class="wrap">
@@ -444,8 +715,10 @@ def build_legacy_pages(B):
             # legacy_terms' "words" was counted from the top-level block html,
             # which is None on a form block -- so every page whose copy was
             # nested inside a custom-form recorded words: 0 and got refused
-            # here even once _authored_html could see it. Measure what we
-            # actually recovered instead of trusting the precomputed count.
+            # here even once _authored_html could see it (this covers
+            # /newsletter and /loveland-co-buyers-guide, 2026-08-21). Measure
+            # what we actually recovered instead of trusting the precomputed
+            # count.
             # /dream-home-finder's recovered copy carries its own "Frequently
             # Asked Questions" h2, and the enhancement adds a second FAQ block
             # under the same heading. The two question sets are different and

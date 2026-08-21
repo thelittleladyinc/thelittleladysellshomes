@@ -147,6 +147,13 @@ const SOURCE_LABELS = {
   "luxury-market": "The Little Lady Sells Homes - Luxury Market Page",
   "concierge-page-inquiry": "The Little Lady Sells Homes - Concierge Page Inquiry",
   "testimonials-page-inquiry": "The Little Lady Sells Homes - Testimonials Page Inquiry",
+  // 2026-08-21: five more thin/no-content pages built out with real copy and their
+  // own lead forms (market conditions, West Greeley, Ault, newsletter, Loveland guide).
+  "market-conditions-inquiry": "The Little Lady Sells Homes - Market Conditions Inquiry (Buyers or Sellers Market page)",
+  "west-greeley-inquiry": "The Little Lady Sells Homes - West Greeley Inquiry",
+  "ault-area-inquiry": "The Little Lady Sells Homes - Ault Area Inquiry",
+  "newsletter-signup": "The Little Lady Sells Homes - Newsletter Signup",
+  "loveland-buyers-guide": "The Little Lady Sells Homes - Loveland Buyer's Guide Download",
 };
 
 function splitName(fullName) {
