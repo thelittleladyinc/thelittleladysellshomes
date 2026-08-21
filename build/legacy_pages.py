@@ -34,6 +34,18 @@ RENAMED = {
     # they were competing with each other). The cleaner slug survives and
     # gets the deep rebuild; this one 301s into it so the signals combine.
     "/foreclosures-in-weld-county": "/weld-county-foreclosures.html",
+    # 2026-08-21: /expiredlisting already has a hand-curated redirect in
+    # build.py's LEGACY_URL_REDIRECTS (for a printed magazine QR code that
+    # points at the old WordPress URL), but that only covers the bare
+    # extensionless path -- it does nothing about THIS engine independently
+    # building a full /expiredlisting.html shell from the old capture. That
+    # capture is not missing content worth recovering: it's an entire
+    # earlier draft of the exact same expired-listing pitch, in the old
+    # AgentFire voice and service-tier structure, superseded by the current
+    # /expired-listings.html (different framing, different CTA, actually
+    # maintained). Recovering it would have restored a stale duplicate
+    # competing with the real page. Redirect the shell instead.
+    "/expiredlisting": "/expired-listings.html",
     "/my-active-listings": "/current-listings.html",
     "/my-sold-listings": "/past-sales.html",
     "/listings-video-portfolio": "/listing-video-portfolio.html",
@@ -243,15 +255,35 @@ def build_legacy_pages(B):
         if url == "/" or url.startswith("/-/"):
             continue
         rel = url.lstrip("/")
+        # RENAMED is hand-curated -- every key in it is a slug someone
+        # already confirmed is a legacy shell that must 301, never a real
+        # engine page (see the per-entry comments above: two competing Weld
+        # foreclosure pages, an old iHouseWeb form URL now built as a
+        # community page, etc). Check it before engine_owned rather than
+        # after: engine_owned's own judgment call ("not in previously_ours
+        # AND a file already exists -> must be the engine's own page") can
+        # be fooled by exactly the case RENAMED exists to fix -- a page this
+        # module built once, in a run before it was added to RENAMED, whose
+        # output is still sitting in site/ (which nothing here ever prunes)
+        # but is no longer listed in this run's marker snapshot. That file
+        # would otherwise be misread as "the engine owns this" and left on
+        # disk forever, still deployed, still crawlable, never touched again
+        # by any code path -- which is exactly how /expiredlisting.html
+        # survived being added to RENAMED. A RENAMED hit means the answer is
+        # known regardless of what engine_owned would have concluded.
+        if url in RENAMED:
+            redirects.append(f"{url} {RENAMED[url]} 301!")
+            for _stale in (os.path.join(B.OUT, rel + ".html"),
+                           os.path.join(B.OUT, rel, "index.html")):
+                if os.path.exists(_stale):
+                    os.remove(_stale)
+            continue
         # engine already serves this path (same name) -> engine page wins
         engine_owned = (url + ".html") not in previously_ours and (
             os.path.exists(os.path.join(B.OUT, rel + ".html")) or
             os.path.exists(os.path.join(B.OUT, rel, "index.html")))
         if engine_owned:
             skipped_existing += 1
-            continue
-        if url in RENAMED:
-            redirects.append(f"{url} {RENAMED[url]} 301!")
             continue
 
         title = t.get("title") or t.get("name") or rel.replace("-", " ").title()
