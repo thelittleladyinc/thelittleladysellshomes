@@ -34,6 +34,18 @@ RENAMED = {
     # they were competing with each other). The cleaner slug survives and
     # gets the deep rebuild; this one 301s into it so the signals combine.
     "/foreclosures-in-weld-county": "/weld-county-foreclosures.html",
+    # 2026-08-21: /expiredlisting already has a hand-curated redirect in
+    # build.py's LEGACY_URL_REDIRECTS (for a printed magazine QR code that
+    # points at the old WordPress URL), but that only covers the bare
+    # extensionless path -- it does nothing about THIS engine independently
+    # building a full /expiredlisting.html shell from the old capture. That
+    # capture is not missing content worth recovering: it's an entire
+    # earlier draft of the exact same expired-listing pitch, in the old
+    # AgentFire voice and service-tier structure, superseded by the current
+    # /expired-listings.html (different framing, different CTA, actually
+    # maintained). Recovering it would have restored a stale duplicate
+    # competing with the real page. Redirect the shell instead.
+    "/expiredlisting": "/expired-listings.html",
     "/my-active-listings": "/current-listings.html",
     "/my-sold-listings": "/past-sales.html",
     "/listings-video-portfolio": "/listing-video-portfolio.html",
@@ -96,12 +108,83 @@ def _strip_doc_wrapper(body_html):
     return _localize_media(s.strip())
 
 
+def _form_nested_html(b):
+    """iHouseWeb "custom-form" blocks carried real page copy in a nested
+    customContent block, sitting alongside the actual inputs -- headline,
+    body, and on several pages named client testimonials.
+
+    A form block's own top-level "html" is always None, so _authored_html
+    skipped these entirely and the copy never reached the built page. That
+    silently dropped ~13,700 words across 26 pages in the original migration,
+    including two named testimonials on /cash-offer (Allie M., Downtown
+    Loveland and Christine B., Estes Park) that appear nowhere else on the
+    site. The inputs themselves are correctly NOT recovered -- those are
+    replaced by the site's own Netlify-wired lead form (see leadForm below).
+    """
+    out = []
+    for fb in ((b.get("options") or {}).get("formBlocks") or []):
+        if fb.get("type") != "customContent":
+            continue
+        raw = (fb.get("options") or {}).get("html")
+        if not raw:
+            continue
+        s = _strip_doc_wrapper(raw)
+        # CKEditor left bookmark comments and runs of literal "{C}" in this
+        # copy. They are invisible in a browser but they wreck tag matching --
+        # the comment contains ">", so an <img> whose srcset runs through the
+        # garbage no longer parses as a single tag and survived the CDN strip
+        # below (caught on /colorado-investment-property). Clean first.
+        s = re.sub(r"<!--\s*cke_bookmark[\s\S]*?-->", "", s, flags=re.I)
+        s = re.sub(r"(?:\{C\}|%7BC%7D)+", "", s, flags=re.I)
+        # The old page's own heading becomes a second <h1> under the site hero's
+        # H1. Two H1s on a page is exactly the kind of thing that makes Google
+        # pick its own title, so demote the recovered one to a section heading.
+        s = re.sub(r"<h1\b[^>]*>", "<h2>", s, flags=re.I)
+        s = re.sub(r"</h1>", "</h2>", s, flags=re.I)
+        # The recovered markup ends with the old form's submit button and,
+        # on some pages, an anchor to an iHouseWeb endpoint that no longer
+        # exists. The page already has a real form; a second dead "Get My
+        # Free Cash Offer" button below it is worse than no button.
+        s = re.sub(r"<(?:button|input)\b[^>]*>(?:[\s\S]*?</button>)?", "", s, flags=re.I)
+        s = re.sub(r"</?form\b[^>]*>", "", s, flags=re.I)
+        # The recovered CTA on /cash-offer and /im-ready-to-sell-my-home points
+        # at buymyhouse.com with a referral id. That looked at first like a
+        # third-party leak worth stripping -- but nine pages already live on
+        # this site (/cash-for-my-home, /fast-cash-offer, /cash-offer-now and
+        # the cash-offer blog cluster) carry the same referral link, so the
+        # relationship is active and these two pages were the inconsistent
+        # ones. Kept as-is; removing it here would have quietly broken a
+        # revenue path on her two highest-intent seller pages.
+        # _strip_doc_wrapper already ran _localize_media, so anything still
+        # pointing at the iHouseWeb CDN could not be rehosted: one URL is a
+        # corrupt CKEditor artifact ({C}{C}{C}... plus a cke_bookmark comment)
+        # and one is a licensed AdobeStock file that returns 403. The account
+        # is retired and the CDN dies with it, so these would become broken
+        # images on a live page -- and test-legacypages rightly fails the build
+        # for hotlinking it. Drop the element, keep the surrounding copy.
+        s = re.sub(r"<img\b[^>]*ihouseprd[^>]*>", "", s, flags=re.I)
+        s = re.sub(r'<a\b[^>]*href="[^"]*ihouseprd[^"]*"[^>]*>([\s\S]*?)</a>',
+                   r"\1", s, flags=re.I)
+        # An <img> was often the only child of a <p> or <figure>; leaving the
+        # empty wrapper behind prints a stray gap in the article.
+        s = re.sub(r"<(p|figure)\b[^>]*>\s*(?:<br\s*/?>|&nbsp;|\s)*</\1>", "", s, flags=re.I)
+        if s.strip():
+            out.append(s.strip())
+    return out
+
+
 def _authored_html(term_blocks):
     parts = []
     for b in term_blocks or []:
         if b.get("html"):
             parts.append(_strip_doc_wrapper(b["html"]))
+        elif b.get("type") == "form":
+            parts.extend(_form_nested_html(b))
     return "\n".join(p for p in parts if p)
+
+
+def _visible_words(html_text):
+    return len(re.sub(r"<[^>]+>", " ", html_text or "").split())
 
 
 def _first_words(html_text, n=40):
@@ -172,15 +255,35 @@ def build_legacy_pages(B):
         if url == "/" or url.startswith("/-/"):
             continue
         rel = url.lstrip("/")
+        # RENAMED is hand-curated -- every key in it is a slug someone
+        # already confirmed is a legacy shell that must 301, never a real
+        # engine page (see the per-entry comments above: two competing Weld
+        # foreclosure pages, an old iHouseWeb form URL now built as a
+        # community page, etc). Check it before engine_owned rather than
+        # after: engine_owned's own judgment call ("not in previously_ours
+        # AND a file already exists -> must be the engine's own page") can
+        # be fooled by exactly the case RENAMED exists to fix -- a page this
+        # module built once, in a run before it was added to RENAMED, whose
+        # output is still sitting in site/ (which nothing here ever prunes)
+        # but is no longer listed in this run's marker snapshot. That file
+        # would otherwise be misread as "the engine owns this" and left on
+        # disk forever, still deployed, still crawlable, never touched again
+        # by any code path -- which is exactly how /expiredlisting.html
+        # survived being added to RENAMED. A RENAMED hit means the answer is
+        # known regardless of what engine_owned would have concluded.
+        if url in RENAMED:
+            redirects.append(f"{url} {RENAMED[url]} 301!")
+            for _stale in (os.path.join(B.OUT, rel + ".html"),
+                           os.path.join(B.OUT, rel, "index.html")):
+                if os.path.exists(_stale):
+                    os.remove(_stale)
+            continue
         # engine already serves this path (same name) -> engine page wins
         engine_owned = (url + ".html") not in previously_ours and (
             os.path.exists(os.path.join(B.OUT, rel + ".html")) or
             os.path.exists(os.path.join(B.OUT, rel, "index.html")))
         if engine_owned:
             skipped_existing += 1
-            continue
-        if url in RENAMED:
-            redirects.append(f"{url} {RENAMED[url]} 301!")
             continue
 
         title = t.get("title") or t.get("name") or rel.replace("-", " ").title()
@@ -280,7 +383,23 @@ def build_legacy_pages(B):
 </section>""")
         else:
             authored = _authored_html(content_rec.get("blocks"))
-            if authored and t.get("words", 0) > 30:
+            # legacy_terms' "words" was counted from the top-level block html,
+            # which is None on a form block -- so every page whose copy was
+            # nested inside a custom-form recorded words: 0 and got refused
+            # here even once _authored_html could see it. Measure what we
+            # actually recovered instead of trusting the precomputed count.
+            # /dream-home-finder's recovered copy carries its own "Frequently
+            # Asked Questions" h2, and the enhancement adds a second FAQ block
+            # under the same heading. The two question sets are different and
+            # both worth keeping (general buyer questions vs. questions about
+            # this specific tool), so retitle the recovered one rather than
+            # dropping either. Only fires when the enhancement really does add
+            # a competing FAQ heading.
+            if authored and enh.get("faq"):
+                authored = re.sub(
+                    r"(<h2\b[^>]*>)\s*Frequently Asked Questions\s*(</h2>)",
+                    r"\1Questions We Hear A Lot\2", authored, flags=re.I)
+            if authored and max(t.get("words", 0), _visible_words(authored)) > 30:
                 body_parts.append(f"""
 <section class="tight">
   <div class="wrap" style="max-width:820px">
