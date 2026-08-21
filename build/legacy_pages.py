@@ -58,6 +58,64 @@ RENAMED = {
     "/search-by-area": "/communities/index.html",
     "/christine-gwinnup-the-little-lady-sells-homes": "/about.html",
     "/how-much-is-my-northern-colorado-home-worth": "/free-home-valuation.html",
+    # 2026-08-21: batch of 32 "-N" suffixed legacy shells found while working
+    # the /expiredlisting case above. Same root cause -- the old AgentFire/
+    # iHouseWeb site kept re-saving a page under a numbered slug (a re-publish,
+    # an A/B copy test, or a broken duplicate-title collision) instead of
+    # editing the original in place, so the crawl captured both. Checked every
+    # one's actual prose against its base-slug counterpart before adding it
+    # here: same topic, same or near-identical copy, same title in most cases,
+    # and the base-slug page is the one that's live and actually maintained
+    # (fuller content, current stats, or the modern voice/CTA). Two look-alikes
+    # were investigated and deliberately left OUT of this list because they
+    # turned out to be genuinely different posts that only share the
+    # WordPress-default "my-post" slug pattern, not real duplicates:
+    # /my-post-1 (a Rent-to-Own guide) and /my-post-2 (a downsizing guide),
+    # both distinct from /my-post (a first-time-buyer guide).
+    # 2026-08-21: excluded from the redirect batch below -- the legacy-copy
+    # recovery (9e688d6) restored distinct, substantial original text into
+    # this page (only ~83% overlap with the base slug now, vs. a thin
+    # near-duplicate before), so it's no longer a duplicate and stays live.
+    # "/111-2nd-st-ault-1": "/111-2nd-st-ault.html",
+    "/condos-and-attached-homes-for-sale-in-eaton-co-1": "/condos-and-attached-homes-for-sale-in-eaton-co.html",
+    "/condos-and-attached-homes-for-sale-in-loveland-co-1": "/condos-and-attached-homes-for-sale-in-loveland-co.html",
+    "/equestrian-homes-for-sale-in-loveland-co-1": "/equestrian-homes-for-sale-in-loveland-co.html",
+    "/farm-and-ranch-for-sale-in-eaton-co-1": "/farm-and-ranch-for-sale-in-eaton-co.html",
+    "/farm-and-ranch-for-sale-in-loveland-co-1": "/farm-and-ranch-for-sale-in-loveland-co.html",
+    "/homes-for-sale-in-eaton-co-1": "/homes-for-sale-in-eaton-co.html",
+    "/homes-for-sale-in-eaton-co-250000-to-400000-1": "/homes-for-sale-in-eaton-co-250000-to-400000.html",
+    "/homes-for-sale-in-eaton-co-400000-to-600000-1": "/homes-for-sale-in-eaton-co-400000-to-600000.html",
+    "/homes-for-sale-in-eaton-co-600000-to-800000-1": "/homes-for-sale-in-eaton-co-600000-to-800000.html",
+    "/homes-for-sale-in-eaton-co-800000-to-1000000-1": "/homes-for-sale-in-eaton-co-800000-to-1000000.html",
+    "/homes-for-sale-in-eaton-co-under-250000-1": "/homes-for-sale-in-eaton-co-under-250000.html",
+    "/homes-for-sale-in-loveland-co-1": "/homes-for-sale-in-loveland-co.html",
+    "/homes-for-sale-in-loveland-co-250000-to-400000-1": "/homes-for-sale-in-loveland-co-250000-to-400000.html",
+    "/homes-for-sale-in-loveland-co-400000-to-600000-1": "/homes-for-sale-in-loveland-co-400000-to-600000.html",
+    "/homes-for-sale-in-loveland-co-600000-to-800000-1": "/homes-for-sale-in-loveland-co-600000-to-800000.html",
+    "/homes-for-sale-in-loveland-co-800000-to-1000000-1": "/homes-for-sale-in-loveland-co-800000-to-1000000.html",
+    "/homes-for-sale-in-loveland-co-under-250000-1": "/homes-for-sale-in-loveland-co-under-250000.html",
+    "/homes-for-sale-in-pierce-colorado-1": "/homes-for-sale-in-pierce-colorado.html",
+    "/homes-for-sale-in-pierce-colorado-2": "/homes-for-sale-in-pierce-colorado.html",
+    "/larimer-county-foreclosures-1": "/larimer-county-foreclosures.html",
+    "/luxury-homes-for-sale-in-eaton-co-1": "/luxury-homes-for-sale-in-eaton-co.html",
+    "/luxury-homes-for-sale-in-loveland-co-1": "/luxury-homes-for-sale-in-loveland-co.html",
+    "/mortgage-calculator-2": "/mortgage-calculator.html",
+    # 2026-08-21: same reasoning as /111-2nd-st-ault-1 above -- content
+    # recovery gave this page its own distinct original copy, so it no
+    # longer duplicates /relocation and stays live.
+    # "/relocation-1": "/relocation.html",
+    "/search-weld-county-1": "/search-weld-county.html",
+    "/selling-during-the-holiday-season-pros-and-cons-1-1": "/selling-during-the-holiday-season-pros-and-cons-1.html",
+    "/single-family-homes-for-sale-in-eaton-co-1": "/single-family-homes-for-sale-in-eaton-co.html",
+    "/single-family-homes-for-sale-in-loveland-co-1": "/single-family-homes-for-sale-in-loveland-co.html",
+    "/trustedrealtor-1": "/trustedrealtor.html",
+    # These two don't share a base slug with each other or with a "-1"
+    # counterpart -- both are thin ("Ask Christine" boilerplate) stubs on the
+    # same home-valuation topic that already has a real, maintained lead-gen
+    # page under a different name (see the /how-much-is-my-northern-colorado-
+    # home-worth entry above, which redirects here for the same reason).
+    "/how-much-is-my-home-worth-1": "/free-home-valuation.html",
+    "/how-much-is-your-home-worth-1": "/free-home-valuation.html",
 }
 
 
