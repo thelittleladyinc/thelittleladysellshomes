@@ -74,6 +74,10 @@ const TRIGGER_TAG = "Hot Lead - Website";
 
 // Human-friendly source label per form-name, so leads are easy to tell apart
 // inside Lofty. Falls back to the raw form name for anything not listed.
+const RECRUITING_FORMS = new Set([
+  "co-license-guide", "lpt-join", "lpt-join-co", "agent-coaching",
+]);
+
 const SOURCE_LABELS = {
   "contact": "The Little Lady Sells Homes - Contact Form",
   "buyers-guide": "The Little Lady Sells Homes - Buyer's Guide Download",
@@ -121,6 +125,19 @@ const SOURCE_LABELS = {
   // form asks -- the `looking_to` field arrives in the notes, so triage happens
   // on intake instead of on the first call.
   "home-lead": "The Little Lady Sells Homes - Homepage Lead (intent stated on form)",
+  // 2026-08-20: ten pages that rank in Search Console but had no body copy and
+  // no form. Four of these are RECRUITING pages, not client pages -- see the
+  // "Recruiting" tag below for why that distinction has to survive intake.
+  "windsor-commute": "The Little Lady Sells Homes - Windsor Commute / Relocation",
+  "eaton-relocation": "The Little Lady Sells Homes - Eaton Relocation",
+  "eaton-dining": "The Little Lady Sells Homes - Eaton Lifestyle / Things To Do",
+  "teacher-homebuying": "The Little Lady Sells Homes - Teacher Homebuying Assistance",
+  "dream-home-finder": "The Little Lady Sells Homes - Dream Home Finder (buyer lead)",
+  "noco-retirement": "The Little Lady Sells Homes - Retirement Relocation (NoCo)",
+  "co-license-guide": "The Little Lady Sells Homes - CO License Guide (recruiting)",
+  "lpt-join": "The Little Lady Sells Homes - Join LPT Realty (recruiting)",
+  "lpt-join-co": "The Little Lady Sells Homes - Join LPT Realty Colorado (recruiting)",
+  "agent-coaching": "The Little Lady Sells Homes - Agent Coaching (recruiting)",
   // 2026-08-16: found by cross-checking every form-name rendered into site/ against
   // the keys here, while adding the thank-you redirect. These three forms exist and
   // have existed, and were falling through to the raw-slug fallback below -- so a
@@ -250,6 +267,18 @@ exports.handler = async (event) => {
       body.notes = `${banner}\nNeighborhood Quiz match: ${data.quiz_match}` +
         (data.quiz_answers ? ` — ${data.quiz_answers}` : "");
       body.tags.push("Neighborhood Quiz");
+    }
+
+    // 2026-08-20: four of the newly-populated pages are agent recruiting and
+    // coaching pages -- /join-lpt-realty, /join-lpt-realty-colorado,
+    // /coaching-for-real-estate-agents and the Colorado licensing guide. They
+    // convert on the same Netlify -> Lofty path as every client form, which
+    // means without this they land in the same pool as buyers and sellers and
+    // pick up the buyer/seller Smart Plans. A licensed agent asking about a
+    // commission split does not want a first-time-homebuyer drip. Tagging them
+    // at intake is the only point where the distinction is still cheap.
+    if (RECRUITING_FORMS.has(formName)) {
+      body.tags.push("Recruiting", "Agent Prospect");
     }
 
     // A form with nothing but a name and email (the guide downloads) matches none

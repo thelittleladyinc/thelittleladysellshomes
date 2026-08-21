@@ -288,6 +288,28 @@ def build_legacy_pages(B):
   </div>
 </section>""")
 
+        # An "intro" renders ABOVE the migrated body. Appending is the right
+        # default -- it never destroys authored copy -- but it is the wrong
+        # shape for a page whose whole query is a direct question. Someone
+        # searching "how far is Windsor from Denver" wants the number, and
+        # burying it under 330 words of dining copy is why that page sits at
+        # position 8 with a 0.09% CTR. Intro puts the answer first; the
+        # original post keeps every word it had, one scroll down.
+        intro = enh.get("intro") or []
+        if intro:
+            intro_html = "\n    ".join(
+                f"<p>{B._blog_para_html(par)}</p>" for par in intro)
+            # body_parts[0] is always the hero, so index 1 is directly under
+            # the H1 and above the migrated article.
+            body_parts.insert(1, f"""
+<section class="tight">
+  <div class="wrap" style="max-width:820px">
+    <div class="blog-article">
+    {intro_html}
+    </div>
+  </div>
+</section>""")
+
         # ---- demand-driven upgrades (see enhanced_pages.json) ------------
         enh_schema = ""
         for sec in enh.get("sections") or []:
