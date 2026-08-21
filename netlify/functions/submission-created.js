@@ -113,6 +113,14 @@ const SOURCE_LABELS = {
   "foreclosure-list-weld": "The Little Lady Sells Homes - Weld Foreclosure List Request",
   "open-house-list": "The Little Lady Sells Homes - Weekend Open House List",
   "cash-offer": "The Little Lady Sells Homes - Cash Offer Request (seller lead)",
+  // 2026-08-20: the homepage had no form at all. GA4 (trailing 12 months,
+  // filtered to this hostname) shows 1,736 homepage sessions at 213s average
+  // engagement -- the highest-intent traffic on the site, with nowhere to
+  // convert. Given its own label rather than folding into "contact": a homepage
+  // lead has not self-selected into buying or selling, which is exactly why the
+  // form asks -- the `looking_to` field arrives in the notes, so triage happens
+  // on intake instead of on the first call.
+  "home-lead": "The Little Lady Sells Homes - Homepage Lead (intent stated on form)",
   // 2026-08-16: found by cross-checking every form-name rendered into site/ against
   // the keys here, while adding the thank-you redirect. These three forms exist and
   // have existed, and were falling through to the raw-slug fallback below -- so a
@@ -212,6 +220,25 @@ exports.handler = async (event) => {
         // opening line for the call back.
         (data.local_proof_town ? `\nSaw the local-proof numbers for: ${data.local_proof_town}` : "");
       if (formName === "seller-local-proof") body.tags.push("Seller Lead", "Local Proof");
+    } else if (data.looking_to) {
+      // 2026-08-20, the homepage form. `looking_to` is the whole point of it: a
+      // homepage lead has not self-selected into a buyer or seller funnel the
+      // way someone landing on /sellers.html has, so the form asks outright and
+      // the answer is what makes the lead actionable on arrival. Tagged as well
+      // as noted, so Lofty can route on it rather than relying on someone
+      // reading the note.
+      const INTENT = {
+        buy: "Wants to BUY a home",
+        sell: "Wants to SELL a home",
+        both: "Wants to SELL and BUY",
+        value: "Wants to know what their home is worth",
+        invest: "Investment / land & acreage",
+      };
+      body.notes = `${banner}\n${INTENT[data.looking_to] || `Intent: ${data.looking_to}`}` +
+        (data.message ? `\nAlso said: "${data.message}"` : "");
+      if (["sell", "both", "value"].includes(data.looking_to)) body.tags.push("Seller Lead");
+      if (["buy", "both"].includes(data.looking_to)) body.tags.push("Buyer Lead");
+      if (data.looking_to === "invest") body.tags.push("Land & Acreage");
     } else if (data.message) {
       // From the Buyers page's form (build_buyers() in build.py).
       body.notes = `${banner}\n${data.message}`;

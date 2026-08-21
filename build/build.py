@@ -219,6 +219,20 @@ LEGACY_URL_REDIRECTS = {
     "/475-homestead-ln-johnstown-co-80534/": "/communities/weld/johnstown.html",
     "/475-homestead-ln-johnstown-co-80534": "/communities/weld/johnstown.html",
     #
+    # 2026-08-20. /greeleymarket-report-and-trends is missing the hyphen after
+    # "greeley" -- an iHouseWeb typo every sibling town avoided. The instinct is
+    # to rename it, but that URL holds 2,850 impressions at position 13.5 over
+    # the trailing year, so it is the one asset in this family with real ranking
+    # equity. Renaming spends that equity to fix cosmetics.
+    #
+    # So the redirect runs the other way: the correct-looking slug points INTO
+    # the ranking URL. Anyone who types or links the clean form lands in the
+    # right place, nothing already earned is put at risk, and if the typo slug
+    # ever does need retiring it can be done later from a position of strength.
+    "/greeley-co-market-report-and-trends/": "/greeleymarket-report-and-trends.html",
+    "/greeley-co-market-report-and-trends": "/greeleymarket-report-and-trends.html",
+    "/greeley-co-market-report-and-trends.html": "/greeleymarket-report-and-trends.html",
+    #
     # The other three 404s are deliberately NOT redirected, because 404 is the
     # correct answer for all three and inventing a destination would be worse:
     #   /wp-json/agentfire/v1/core/cron/1781382236  -- WordPress REST cron endpoint
@@ -4160,6 +4174,114 @@ def build_home():
     #
     # Kept as a Python comment, not an HTML one: HTML comments ship, and build notes
     # quoting Christine's own words do not belong in a page a client can View Source on.
+    # ---- Homepage lead capture (2026-08-20) -------------------------------
+    #
+    # GA4, trailing 12 months, filtered to this hostname: the homepage took
+    # 1,736 sessions at 213s average engagement -- people arrive and they stay
+    # three and a half minutes -- and the page contained zero <form> elements
+    # and no clickable phone number above the footer. Every path off the hero
+    # was a link to another page that then had to earn the contact all over
+    # again. The highest-intent traffic on the site had nowhere to convert.
+    #
+    # Three additions, in the order a visitor actually needs them:
+    #
+    #   1. A real search, in the hero. Not a link to search -- a working town +
+    #      budget form. It is a plain GET form pointed at /search-homes.html,
+    #      which already reads `cities`, `maxPrice` and `beds` as deep-link
+    #      params (see the supportDeepLinks block in _fancy_search_widget), so
+    #      submitting lands on pre-filtered results with the pickers checked and
+    #      editable. No JavaScript, so it works before hydration and if a script
+    #      fails.
+    #   2. The phone number, visible and tappable, next to the search. Most of
+    #      her business arrives by phone; making a caller hunt the footer for
+    #      the number is a self-inflicted wound.
+    #   3. One lead form on the page, for the visitor who is not ready to browse
+    #      and does not want to call.
+    home_search_counties = [c for c in COUNTIES if _live_search(c)]
+    # Grouped, not one flat alphabetical list. She can search 78 towns from
+    # Larimer down to Denver metro and out to Morgan, and sorting all 78
+    # alphabetically puts ARVADA at the top -- so the first thing a Loveland
+    # visitor reads in her hero is a Denver suburb, and her own market is
+    # buried past Boulder and Brighton. Larimer and Weld are the towns she
+    # actually works, so they lead; everything else is real and searchable and
+    # stays available, one group down.
+    _home_core = {"larimer", "weld"}
+    home_core_cities = sorted({
+        city for county in home_search_counties
+        if county["slug"] in _home_core for city in county["cities"]})
+    home_other_cities = sorted({
+        city for county in home_search_counties
+        if county["slug"] not in _home_core for city in county["cities"]
+    } - set(home_core_cities))
+    def _home_opts(cities):
+        return "\n          ".join(
+            f'<option value="{esc(c)}">{esc(c)}</option>' for c in cities)
+    home_city_options = (
+        f'<optgroup label="Northern Colorado">\n          '
+        f'{_home_opts(home_core_cities)}\n        </optgroup>\n        '
+        f'<optgroup label="Also searchable">\n          '
+        f'{_home_opts(home_other_cities)}\n        </optgroup>')
+    # Budget brackets, not a free-text box: a typed number invites "$300k" and
+    # "300000" and "300,000" and only one of those is a query the MLS
+    # understands. These brackets straddle the medians in town_market.json --
+    # Greeley sits at $419,000, Loveland $499,500, Fort Collins $497,000 --
+    # so every bracket returns real inventory somewhere in the footprint
+    # instead of an empty result that reads as "she has nothing".
+    home_price_options = "\n        ".join(
+        f'<option value="{v}">{label}</option>'
+        for v, label in [
+            ("400000", "Up to $400k"),
+            ("500000", "Up to $500k"),
+            ("650000", "Up to $650k"),
+            ("850000", "Up to $850k"),
+            ("1500000", "Up to $1.5M"),
+        ])
+    home_hero_search = f"""
+    <form class="hero-search" method="GET" action="/search-homes.html"
+          role="search" aria-label="Search Northern Colorado homes for sale">
+      <div class="hero-search-field">
+        <label for="home-hero-city">Town</label>
+        <select id="home-hero-city" name="cities">
+          <option value="">Anywhere I search</option>
+        {home_city_options}
+        </select>
+      </div>
+      <div class="hero-search-field">
+        <label for="home-hero-price">Budget</label>
+        <select id="home-hero-price" name="maxPrice">
+          <option value="">Any price</option>
+        {home_price_options}
+        </select>
+      </div>
+      <div class="hero-search-field">
+        <label for="home-hero-beds">Beds</label>
+        <select id="home-hero-beds" name="beds">
+          <option value="">Any</option>
+          <option value="2">2+</option>
+          <option value="3">3+</option>
+          <option value="4">4+</option>
+          <option value="5">5+</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" type="submit">See Homes</button>
+    </form>
+    <p class="hero-call">Would rather just talk it through?
+      <a href="tel:{SITE['phone'].replace('-', '')}">Call or text {SITE['phone']}</a>
+      &mdash; that is {SITE['agent']}'s own line, not an office queue.</p>"""
+
+    home_lead_form = _tool_lead_form(
+        "home-lead",
+        "Send It Over",
+        extra_fields="""<select name="looking_to" required>
+        <option value="">I'm looking to&hellip;</option>
+        <option value="buy">Buy a home</option>
+        <option value="sell">Sell a home</option>
+        <option value="both">Both &mdash; sell and buy</option>
+        <option value="value">Just find out what my home is worth</option>
+        <option value="invest">Invest / land &amp; acreage</option>
+      </select>
+      <textarea name="message" rows="3" placeholder="Anything useful: town, timeline, price range, questions"></textarea>""")
+
     body = f"""
 <section class="hero">
   <div class="wrap">
@@ -4176,6 +4298,7 @@ def build_home():
       <a class="btn btn-primary" href="/search-homes.html">Find Homes For Sale</a>
       <a class="btn btn-outline" href="/sellers.html">Sell Your Home Fast</a>
     </div>
+    {home_hero_search}
   </div>
 </section>
 
@@ -4250,6 +4373,36 @@ def build_home():
 </section>
 """
     body += _instagram_feed_section()
+    # Placed after the reviews and the Instagram feed, before the FAQ: the ask
+    # comes once the page has already made its case, and it sits above the FAQ
+    # so a visitor whose question was just answered has somewhere to go without
+    # scrolling back up. This is the homepage's only form -- one clear ask beats
+    # three competing ones.
+    body += f"""
+<section class="section-dark">
+  <div class="wrap">
+    <span class="eyebrow">No Pressure, Real Answers</span>
+    <h2 class="section-title">Tell Me What You're Trying To Do</h2>
+    <p class="lede">You do not need to be ready to list, ready to buy, or ready
+    for anything. If you are three years out and just want to know what that
+    looks like, that is a normal thing to ask. {SITE['agent']} answers these
+    herself &mdash; usually the same day.</p>
+    <div class="grid-2" style="margin-top:36px;align-items:start">
+      {home_lead_form}
+      <div class="card">
+        <h2 class="card-title">Faster Ways To Reach Me</h2>
+        <p><strong>Call or text:</strong>
+          <a href="tel:{SITE['phone'].replace('-', '')}" style="text-decoration:underline">{SITE['phone']}</a></p>
+        <p><strong>Email:</strong>
+          <a href="mailto:{SITE['email']}" style="text-decoration:underline">{SITE['email']}</a></p>
+        <p><strong>Pick a time that works:</strong>
+          <a href="{SITE["schedule_url"]}" style="text-decoration:underline">book a 30-minute call</a>
+          &mdash; buyer consult, seller walk-through, or just questions.</p>
+        <p class="mr-note">{SITE['brokerage']} &middot; {SITE['license']}</p>
+      </div>
+    </div>
+  </div>
+</section>"""
     faq_html, faq_schema = _faq_block(HOME_FAQ)
     body += faq_html
     extra = _leaflet_lazy_loader_extra()
@@ -5610,6 +5763,321 @@ def _live_market_asof(snap):
 
 def _usd(n):
     return f"${n:,.0f}"
+
+
+# ---- Per-town market report pages (2026-08-20) ---------------------------
+# The 16 legacy "/{town}-co-market-report-and-trends" URLs are the single
+# largest measured gap on this site. Search Console, trailing 12 months:
+# 19,923 impressions and 38 clicks across the five that register at all --
+# a 0.19% CTR at average positions 10 to 13. They already rank. They earn
+# nothing, because every one of them renders 54 words.
+#
+# The reason is archaeological, not editorial. On iHouseWeb these pages were
+# an Altos Research <iframe> plus a dynamic "marketReportBlock" widget, so the
+# migration crawl recorded words=0 for all sixteen, and legacy_pages.py
+# correctly refuses to publish authored content below 30 words. The shell --
+# an H1 and the closing CTA -- is all that survived. Nothing was written and
+# then lost; there was never any body text to migrate.
+#
+# So these are generated the way the regional report now is: from
+# town_market.json, live, per town, with the identical 21-day staleness rule
+# and the identical degrade-to-qualitative path. A town with no fresh figures
+# (Cheyenne, which is Wyoming and outside the IRES footprint) gets the
+# qualitative page rather than invented numbers.
+def _town_market_asof(city, stats):
+    """Town-scoped 'as of' line. Mirrors _live_market_asof's honesty about
+    asking vs sold, which is the whole trade these pages make."""
+    when = datetime.date.fromisoformat(stats["generated_at"]).strftime("%B %-d, %Y")
+    age = stats["age_days"]
+    freshness = ("today" if age == 0 else
+                 "yesterday" if age == 1 else f"{age} days ago")
+    return (f'<p class="mr-asof">Live from <strong>IRES MLS</strong> for '
+            f'{esc(city)}, last refreshed {freshness} ({esc(when)}). These are '
+            f'<strong>asking</strong> prices on homes for sale right now &mdash; what '
+            f'sellers are asking, not what buyers finally paid.</p>')
+
+
+def _market_report_peers(city, limit=10):
+    """This town plus the busiest NoCo towns, for context and internal links.
+
+    A single town's median means little without something to hold it against;
+    this is the comparison a reader is actually making. The subject town is
+    always included even when its inventory would not put it in the top N,
+    because a page about Pierce that omits Pierce from its own table is absurd.
+    """
+    snap = _live_market_snapshot()
+    if not snap:
+        return []
+    rows = snap["by_volume"]
+    peers = list(rows[:limit])
+    if not any(r["city"] == city for r in peers):
+        mine = next((r for r in rows if r["city"] == city), None)
+        if mine:
+            peers = peers[:limit - 1] + [mine]
+    return sorted(peers, key=lambda r: -r["active"])
+
+
+def town_market_report_body(city, state, page_url):
+    """Returns (body_html, title, meta_description, schema_json) for one town.
+
+    Called from legacy_pages.py for any legacy record carrying a
+    marketReportBlock, so the town list is driven by the migrated data rather
+    than a hardcoded slug list here.
+    """
+    stats = _town_market_stats(city)
+    place = f"{city}, {state}"
+
+    def _stat(value, label, note=None):
+        if value is None:
+            return ""
+        return (f'<div class="mr-stat"><span class="mr-figure">{esc(value)}</span>'
+                f'<span class="mr-label">{esc(label)}</span>'
+                + (f'<span class="mr-note">{esc(note)}</span>' if note else "")
+                + "</div>")
+
+    feed = _live_feed_widget(
+        "mr_" + re.sub(r"[^a-z0-9]+", "_", city.lower()), {"city": city})
+    search_link = "/search-homes.html?cities=" + city.replace(" ", "%20") + "&noFloor=true"
+
+    # ---- degraded path: no fresh figures for this town --------------------
+    # Cheyenne is the standing case (Wyoming, outside the IRES footprint), but
+    # this is also what every town falls back to if town_market.json goes stale.
+    if not stats:
+        faqs = [
+            (f"What is the {place} real estate market doing right now?",
+             f"It moves by neighbourhood and price band rather than by headline. I read "
+             f"{city} off the multiple listing service directly rather than a national "
+             f"aggregator's estimate &mdash; ask for the current figures on your price band "
+             f"and kind of property and you will get them the same day."),
+            (f"Can you help me buy or sell in {place}?",
+             "Yes. Tell me the street or the price band you are working in and I will send "
+             "what is actually available, what it is competing with, and what it should be "
+             "priced at. That read costs nothing."),
+            ("Where do your numbers come from?",
+             "IRES MLS &mdash; the same multiple listing service used to price listings in "
+             "this market. Aggregate statistics only: medians and counts, never individual "
+             "addresses."),
+        ]
+        faq_html, faq_schema = _faq_block(faqs)
+        body = f"""
+<section class="hero" style="padding:100px 0 60px">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">{esc(place)}</span>
+    <h1>{esc(place)} Market Report &amp; Trends</h1>
+    <p class="lede">The market in {esc(city)} moves by neighbourhood and price band, not by
+    headline. Rather than publish a figure that has quietly gone off, this page will tell you
+    plainly: ask for the read on your specific segment and you will get it the same day, from
+    the multiple listing service rather than an aggregator's estimate.</p>
+    <div class="btn-row" style="justify-content:flex-start;margin-top:24px">
+      <a class="btn btn-dark" href="/contact.html">Get {esc(city)} Numbers</a>
+      <a class="btn btn-outline" style="border-color:#141415;color:#141415" href="{esc(search_link)}">Search {esc(city)} Homes</a>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <h2 class="section-title">Homes For Sale In {esc(city)}</h2>
+    {feed}
+    <div class="btn-row" style="margin-top:26px">
+      <a class="btn btn-dark" href="{esc(search_link)}">See Every {esc(city)} Match &amp; Filter Further &rarr;</a>
+    </div>
+  </div>
+</section>
+{faq_html}
+"""
+        title = f"{place} Market Report & Trends | Christine Gwinnup"
+        meta = (f"{place} real estate market report and trends. Current homes for sale, a "
+                f"local pricing read, and same-day figures on your price band from a "
+                f"Northern Colorado REALTOR.")
+        return body, title, meta, faq_schema
+
+    # ---- live path -------------------------------------------------------
+    active = stats["active"]
+    median = stats["median_list"]
+    ppsf = stats.get("median_price_per_sqft")
+
+    peers = _market_report_peers(city)
+    peer_section = ""
+    if len(peers) >= 4:
+        rows_html = []
+        for r in peers:
+            is_me = r["city"] == city
+            name = esc(r["city"])
+            if r.get("url") and not is_me:
+                name = '<a href="' + esc(r["url"]) + '">' + name + "</a>"
+            if is_me:
+                name = "<strong>" + name + "</strong>"
+            r_ppsf = f"${r['median_price_per_sqft']}" if r.get("median_price_per_sqft") else "&mdash;"
+            tr_open = '<tr class="is-subject">' if is_me else "<tr>"
+            rows_html.append(
+                tr_open
+                + f'<th scope="row">{name}</th>'
+                + f"<td>{r['active']:,}</td>"
+                + f"<td>${r['median_list']:,}</td>"
+                + f"<td>{r_ppsf}</td></tr>")
+        peer_table = ('<div class="town-table-wrap">\n      <table class="town-table">\n'
+                      '        <thead><tr><th scope="col">Town</th>'
+                      '<th scope="col">Homes For Sale</th>\n'
+                      '        <th scope="col">Median Asking Price</th>'
+                      '<th scope="col">Per Sq Ft</th></tr></thead>\n'
+                      '        <tbody>\n        ' + "".join(rows_html)
+                      + "\n        </tbody>\n      </table>\n    </div>")
+        peer_section = f"""
+<section class="tight">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">In Context</span>
+    <h2 class="section-title">{esc(city)} Against Its Neighbours</h2>
+    <p class="lede">One town's median means little on its own. This is the comparison you are
+    actually making &mdash; the busiest nearby markets, which are also the ones whose figures
+    rest on enough listings to be worth reading.</p>
+    {peer_table}
+    <p class="mr-asof" style="margin-top:20px">Towns with too few listings to aggregate
+    honestly are left out rather than guessed at.</p>
+  </div>
+</section>"""
+
+    # Where this town sits against its neighbours, stated rather than implied.
+    comparison = ""
+    priced = [r for r in peers if r.get("median_list") and r["city"] != city]
+    if priced:
+        cheaper = [r for r in priced if r["median_list"] < median]
+        dearer = [r for r in priced if r["median_list"] > median]
+        if dearer and cheaper:
+            comparison = (
+                f"That puts {city} above {len(cheaper)} and below {len(dearer)} of the nearby "
+                f"towns tracked here \u2014 mid-market for Northern Colorado, which is usually "
+                f"where the most competition for well-priced homes is.")
+        elif dearer:
+            comparison = (
+                f"That makes {city} the most affordable of the nearby towns tracked here, "
+                f"which is exactly why buyers priced out elsewhere keep looking at it.")
+        elif cheaper:
+            comparison = (
+                f"That makes {city} the highest-priced of the nearby towns tracked here. "
+                f"Pricing accuracy matters more in a market like this, because there are "
+                f"fewer buyers at the top and they are patient.")
+
+    ppsf_line = ""
+    if ppsf:
+        ppsf_line = (f" That works out to about {_usd(ppsf)} per square foot \u2014 the figure "
+                     f"that lets you compare a 1,400 square foot ranch to a 3,000 square foot "
+                     f"two-story without fooling yourself.")
+
+    stat_cards = "".join([
+        _stat(f"{active:,}", f"Homes for sale in {city}",
+              "Active listings on the MLS right now."),
+        _stat(f"${median:,}", "Median asking price",
+              "The middle of what is currently listed."),
+        _stat(f"${ppsf}" if ppsf else None, "Median price per square foot",
+              "How to compare homes of different sizes."),
+    ])
+
+    age_word = "day" if stats["age_days"] == 1 else "days"
+    faqs = [
+        (f"What is the average home price in {place}?",
+         f"The median asking price in {city} is ${median:,} across {active:,} homes currently "
+         f"for sale."
+         + (f" That is about ${ppsf} per square foot." if ppsf else "")
+         + f" These are live IRES MLS figures, refreshed {stats['age_days']} {age_word} ago. A "
+           f"median is the middle of what is listed, not a valuation of any particular house."),
+        (f"How many homes are for sale in {place}?",
+         f"{active:,} right now. Inventory is the number most worth watching: when it climbs, "
+         f"buyers get room to negotiate and ask for concessions; when it falls, well-priced "
+         f"homes start moving quickly again. You can see every current {city} listing further "
+         f"down this page."),
+        ("Are these sold prices or asking prices?",
+         "Asking prices &mdash; what sellers want for homes on the market today. That is "
+         "deliberate: it is the live picture, and it is what you compete with as a buyer or "
+         "against as a seller. What homes actually closed for is a different question that "
+         "runs a month or two behind by definition. Ask me for the sold comparables in your "
+         f"part of {city} and you will get them the same day."),
+        (f"Is it a buyer's or seller's market in {city} right now?",
+         f"With {active:,} homes listed, {city} has more standing inventory than it did through "
+         f"2021 and 2022, which has shifted negotiating room back toward buyers &mdash; "
+         f"concessions, rate buy-downs and repair credits are being agreed to again. It is not "
+         f"uniform though: well-priced, well-presented homes still move fast while overpriced "
+         f"ones sit. Which side of that line your house lands on is a pricing and preparation "
+         f"decision, and it is the one worth talking through before you list."),
+        (f"What should I list my {city} home for?",
+         f"Not the median. The median is the middle of every property type, size and condition "
+         f"on the market at once. Your number comes from what genuinely comparable homes near "
+         f"you are asking, what they actually closed for, and how long each took \u2014 then "
+         f"adjusted for condition and timing. That read is free and takes about fifteen "
+         f"minutes."),
+        ("Where do these numbers come from?",
+         "IRES MLS, read directly rather than through a national aggregator's model, and "
+         "rebuilt on every deploy of this site. Aggregate statistics only: medians and counts, "
+         "never individual addresses. If the feed goes more than three weeks stale this page "
+         "removes its own figures rather than showing you numbers that have gone off."),
+    ]
+    faq_html, faq_schema = _faq_block(faqs)
+
+    body = f"""
+<section class="hero" style="padding:100px 0 60px">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Live From IRES MLS</span>
+    <h1>{esc(place)} Market Report &amp; Trends</h1>
+    <p class="lede">What is actually for sale in {esc(city)} right now &mdash; read straight
+    from the same multiple listing service used to price every listing in this market. No
+    Zestimates, no national-aggregator guesses, and no waiting on a monthly write-up.</p>
+    {_town_market_asof(city, stats)}
+  </div>
+</section>
+<section class="tight">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">{esc(city)} Right Now</span>
+    <h2 class="section-title">What Homes Cost In {esc(city)}</h2>
+    <div class="mr-stats">{stat_cards}</div>
+    <p class="lede" style="max-width:75ch;margin-top:28px">There are {active:,} homes for sale
+    in {esc(city)} at a median asking price of ${median:,}.{esc(ppsf_line)} {esc(comparison)}</p>
+  </div>
+</section>{peer_section}
+<section class="tight">
+  <div class="wrap grid-2">
+    <div>
+      <span class="eyebrow" style="color:var(--dusty-rose)">If You're Buying</span>
+      <h2 class="section-title">What {active:,} Listings Means For You</h2>
+      <p class="lede">Standing inventory is leverage. With this many homes on the market in
+      {esc(city)}, sellers are agreeing to things they would not have in 2021 &mdash; rate
+      buy-downs, closing-cost credits, repairs after inspection. The homes that sit are the
+      overpriced ones, and knowing which is which before you write an offer is most of the
+      job.</p>
+      <div class="btn-row" style="justify-content:flex-start;margin-top:24px">
+        <a class="btn btn-dark" href="{esc(search_link)}">Search {esc(city)} Homes</a>
+      </div>
+    </div>
+    <div>
+      <span class="eyebrow" style="color:var(--dusty-rose)">If You're Selling</span>
+      <h2 class="section-title">Your House Isn't The Median</h2>
+      <p class="lede">${median:,} is the middle of every size, type and condition in
+      {esc(city)} at once. It is not your number. Yours comes from genuinely comparable homes
+      near you &mdash; what they asked, what they closed for, and how long each one took
+      &mdash; adjusted for condition and timing. I will pull that, including the sold
+      comparables this page deliberately does not publish.</p>
+      <div class="btn-row" style="justify-content:flex-start;margin-top:24px">
+        <a class="btn btn-primary" href="/free-home-valuation.html">What's My {esc(city)} Home Worth?</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <h2 class="section-title">Homes For Sale In {esc(city)}</h2>
+    <p class="lede">Every current {esc(city)} listing on the MLS, updated with the feed.</p>
+    {feed}
+    <div class="btn-row" style="margin-top:26px">
+      <a class="btn btn-dark" href="{esc(search_link)}">See Every {esc(city)} Match &amp; Filter Further &rarr;</a>
+    </div>
+  </div>
+</section>
+{faq_html}
+"""
+    title = f"{place} Market Report: ${median:,} Median, {active:,} Homes For Sale"
+    meta = (f"Live {place} real estate market report: {active:,} homes for sale, "
+            f"${median:,} median asking price"
+            + (f", ${ppsf} per square foot" if ppsf else "")
+            + ". Straight from IRES MLS, updated continuously.")
+    return body, title, meta, faq_schema
 
 
 def _town_place_schema(city, county_name, url_path, welcome, data_slug=None):
@@ -8956,13 +9424,28 @@ def _blog_body_html(paragraphs):
 _BLOG_LINK_RE = re.compile(r"\[([^\]]+)\]\((/[^)\s]*|https://[^)\s]+|tel:[0-9+-]+)\)")
 
 
+# Authored prose in blog.json / enhanced_pages.json is written in a small
+# Markdown subset. Links were handled; **bold** was not, so it reached the page
+# as literal asterisks -- visible on /cash-offer, /larimer-county-foreclosures
+# and /weld-county-foreclosures (8 spans across 3 pages, found 2026-08-20).
+# Fixed in the renderer rather than by flattening the source copy, so writing
+# **bold** keeps working and cannot regress into public text again.
+_BLOG_BOLD_RE = re.compile(r"\*\*(?=\S)(.+?)(?<=\S)\*\*", re.S)
+
+
+def _blog_bold_html(escaped):
+    """Applied AFTER escaping, so the replacement's own tags are the only
+    markup that survives and no author text can inject HTML."""
+    return _BLOG_BOLD_RE.sub(lambda m: f"<strong>{m.group(1)}</strong>", escaped)
+
+
 def _blog_para_html(p):
     out, last = [], 0
     for m in _BLOG_LINK_RE.finditer(p):
-        out.append(esc(p[last:m.start()]))
+        out.append(_blog_bold_html(esc(p[last:m.start()])))
         out.append(f'<a href="{esc(m.group(2))}" style="text-decoration:underline">{esc(m.group(1))}</a>')
         last = m.end()
-    out.append(esc(p[last:]))
+    out.append(_blog_bold_html(esc(p[last:])))
     return "".join(out)
 
 

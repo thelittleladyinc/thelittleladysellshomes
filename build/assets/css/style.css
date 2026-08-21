@@ -660,11 +660,54 @@ h2.section-title {
 
 /* ---------- Forms ---------- */
 form.lead-form { display: grid; gap: 16px; max-width: 560px; }
-form.lead-form input, form.lead-form textarea {
+/* `select` was missing here, so the moment a form gained a dropdown it rendered
+   as an unstyled OS control next to styled inputs. Added 2026-08-20 with the
+   homepage lead form. */
+form.lead-form input, form.lead-form textarea, form.lead-form select {
   padding: 14px 16px; border: 1px solid var(--hairline-strong); background: var(--white);
   font-family: var(--font-sans); font-size: 14px;
+  border-radius: 0; color: var(--charcoal, #141415);
 }
+form.lead-form textarea { resize: vertical; }
 form.lead-form label.consent { font-size: 12px; color: var(--slate-mist); display: flex; gap: 8px; align-items: flex-start; }
+/* On a dark section the consent line inherited a mid-grey meant for white
+   backgrounds and dropped to roughly 2:1 against the near-black -- legally
+   required text that could not be read. Lightened only inside .section-dark. */
+.section-dark form.lead-form label.consent { color: rgba(255,255,255,.72); }
+
+/* ---------- Homepage hero search ----------
+   The hero had two links and no form. This is a plain GET form whose field
+   names are the deep-link params /search-homes.html already parses, so it needs
+   no JavaScript to work. Laid out as a single row on desktop that stacks on
+   narrow screens -- most of this site's traffic is mobile, and a search that
+   overflows sideways is a search nobody completes. */
+.hero-search {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end;
+  margin-top: 34px; max-width: 780px;
+}
+.hero-search-field { display: flex; flex-direction: column; gap: 6px; flex: 1 1 170px; min-width: 150px; }
+.hero-search-field label {
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--dusty-rose); font-weight: 600;
+}
+.hero-search select {
+  width: 100%; padding: 13px 14px; border: 1px solid rgba(255,255,255,.28);
+  background: rgba(255,255,255,.06); color: #fff;
+  font-family: var(--font-sans); font-size: 14px; border-radius: 0;
+}
+/* The options list is drawn by the OS, which does not inherit the translucent
+   white-on-dark treatment above -- without this the menu is white text on a
+   white popup in several browsers. */
+.hero-search select option { color: var(--charcoal, #141415); background: #fff; }
+.hero-search select:focus-visible { outline: 2px solid var(--dusty-rose); outline-offset: 2px; }
+.hero-search .btn { flex: 0 0 auto; }
+.hero-call { margin-top: 18px; font-size: 15px; color: rgba(255,255,255,.78); }
+.hero-call a { color: #fff; font-weight: 600; text-decoration: underline; }
+@media (max-width: 640px) {
+  .hero-search { gap: 12px; }
+  .hero-search-field { flex: 1 1 100%; }
+  .hero-search .btn { width: 100%; text-align: center; }
+}
 
 /* ---------- Footer ---------- */
 .site-footer {
@@ -1458,6 +1501,13 @@ h2.widget-title {
 .town-table tbody th a { font-weight: 600; }
 .town-table tbody tr:last-child th, .town-table tbody tr:last-child td { border-bottom: 0; }
 .town-table tbody tr:hover td, .town-table tbody tr:hover th { background: rgba(179,0,0,.04); }
+/* On a town's own market report the comparison table includes that town. It has
+   to be findable at a glance or the table is just a list -- the reader came here
+   for one row and wants to see it against the others. */
+.town-table tbody tr.is-subject td, .town-table tbody tr.is-subject th {
+  background: rgba(179,0,0,.06);
+  box-shadow: inset 3px 0 0 var(--dusty-rose, #b30000);
+}
 
 
 /* ---------- Captioned, geotagged location photos ----------
@@ -1516,3 +1566,8 @@ h2.widget-title {
 .town-gallery img { width: 100%; border-radius: 4px; box-shadow: 0 10px 30px rgba(20,20,21,.10); display: block; }
 .town-gallery figcaption { margin-top: 9px; font-size: .85rem; line-height: 1.5; color: var(--slate-soft); }
 @media (max-width: 760px) { .town-gallery { grid-template-columns: 1fr; gap: 20px; } }
+
+/* The hero town list is grouped into "Northern Colorado" and "Also
+   searchable". Native optgroup labels inherit the select's white text, which is
+   invisible on the white OS popup -- same trap as the options themselves. */
+.hero-search select optgroup { color: var(--charcoal, #141415); background: #fff; font-weight: 700; }
