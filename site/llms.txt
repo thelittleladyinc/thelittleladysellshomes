@@ -37,6 +37,9 @@
 - [Wellington, Larimer County](/communities/larimer/wellington.html)
 - [Laporte, Larimer County](/communities/larimer/laporte.html)
 - [Red Feather Lakes, Larimer County](/communities/larimer/red-feather-lakes.html)
+- [Campion, Larimer County](/communities/larimer/campion.html)
+- [Drake, Larimer County](/communities/larimer/drake.html)
+- [Glen Haven, Larimer County](/communities/larimer/glen-haven.html)
 - [Greeley, Weld County](/communities/weld/greeley.html)
 - [Windsor, Weld County](/communities/weld/windsor.html)
 - [Severance, Weld County](/communities/weld/severance.html)
@@ -88,6 +91,7 @@
 - [Namaqua Hills: Established Foothills Real Estate Near Mariana Butte](/communities/loveland/namaqua-hills-loveland.html)
 - [Kinston At Centerra: New Construction & The Trilogy 55+ Community](/communities/loveland/kinston-centerra-loveland.html)
 - [Pyrenees: North Loveland's French Country Neighborhood](/communities/loveland/pyrenees-french-country-loveland.html)
+- [Big Thompson Canyon Real Estate: Drake, Glen Haven & The US-34 Corridor](/communities/loveland/big-thompson-canyon-real-estate.html)
 
 ## Blog (61 articles)
 - [Duplexes For Sale In Northern Colorado: Why They're Scarce And How To Actually Buy One](/blog/duplexes-for-sale-in-northern-colorado-why-theyre-scarce-and-how-to-buy-one.html) — 2026-08-19

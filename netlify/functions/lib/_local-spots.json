@@ -552,6 +552,10 @@
       "href": "/communities/morgan/brush.html"
     },
     {
+      "city": "Campion",
+      "href": "/communities/larimer/campion.html"
+    },
+    {
       "city": "Carr",
       "href": "/communities/weld/carr.html"
     },
@@ -562,6 +566,10 @@
     {
       "city": "Denver",
       "href": "/communities/denver/denver.html"
+    },
+    {
+      "city": "Drake",
+      "href": "/communities/larimer/drake.html"
     },
     {
       "city": "Eaton",
@@ -594,6 +602,10 @@
     {
       "city": "Frederick",
       "href": "/communities/weld/frederick.html"
+    },
+    {
+      "city": "Glen Haven",
+      "href": "/communities/larimer/glen-haven.html"
     },
     {
       "city": "Greeley",
