@@ -8,7 +8,7 @@
     "",
     "build.py reads it and adds a `geo` block to the Place schema on each",
     "town page. If this file is missing, Place is emitted without geo and",
-    "nothing breaks \u2014 that is the designed fallback, not an error.",
+    "nothing breaks — that is the designed fallback, not an error.",
     "",
     "Town coordinates do not change, so this is NOT a scheduled job. Run it",
     "when a town is added to the site. Re-running only fetches towns that",
@@ -202,6 +202,16 @@
       "lng": -105.08971,
       "resolved": "Lafayette, CO, USA",
       "town": "Lafayette",
+      "types": [
+        "locality"
+      ]
+    },
+    "laporte": {
+      "county": "Larimer County",
+      "lat": 40.63851,
+      "lng": -105.14434,
+      "resolved": "Laporte, CO 80535, USA",
+      "town": "Laporte",
       "types": [
         "locality"
       ]

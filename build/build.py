@@ -305,6 +305,13 @@ CITY_DATA_SLUG = {
     "Pierce": "pierce",
     "Carr": "carr",
     "Masonville": "masonville", "Windsor": "windsor", "Timnath": "timnath",
+    # 2026-08-20 (Christine: "i like to do masonville and berthoud laporte too").
+    # Masonville and Berthoud already had full sub-pages; Laporte was the only
+    # town in the Larimer cities list with no page of its own -- it appeared as
+    # a plain pill on the county page and in the Search Homes dropdown, then
+    # dead-ended. It has real IRES inventory (16 active, $437,000 median), so
+    # the gate above is satisfied with researched content, not a placeholder.
+    "Laporte": "laporte",
     "Wellington": "wellington", "Red Feather Lakes": "red-feather-lakes",
     "Greeley": "greeley", "Severance": "severance", "Eaton": "eaton",
     "Ault": "ault", "Johnstown": "johnstown", "Milliken": "milliken",
@@ -9665,6 +9672,13 @@ QUIZ_CITIES = [
      "lifestyle": ["small-town", "hiking-mountain"],
      "blurb": "Berthoud is small-town Colorado done right — quiet, acreage-friendly, "
               "and still a short drive to Loveland and Longmont."},
+    {"name": "Laporte", "url": "/communities/larimer/laporte.html",
+     "views": ["mountain", "farmland"], "commute": "close",
+     "priorities": ["acreage", "schools"],
+     "lifestyle": ["small-town", "hiking-mountain"],
+     "blurb": "Laporte puts you on the Poudre River five minutes from Fort Collins "
+              "without being in it — county rules, mixed lot sizes, and the canyon "
+              "right up the road."},
     {"name": "Masonville", "url": "/communities/larimer/masonville.html",
      "views": ["mountain", "farmland"], "commute": "far",
      "priorities": ["acreage"],
