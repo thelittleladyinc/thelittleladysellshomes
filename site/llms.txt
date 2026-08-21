@@ -35,6 +35,7 @@
 - [Windsor, Larimer County](/communities/larimer/windsor.html)
 - [Timnath, Larimer County](/communities/larimer/timnath.html)
 - [Wellington, Larimer County](/communities/larimer/wellington.html)
+- [Laporte, Larimer County](/communities/larimer/laporte.html)
 - [Red Feather Lakes, Larimer County](/communities/larimer/red-feather-lakes.html)
 - [Greeley, Weld County](/communities/weld/greeley.html)
 - [Windsor, Weld County](/communities/weld/windsor.html)

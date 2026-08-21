@@ -39,6 +39,13 @@
           "schoolDistrict": "Poudre School District R-1"
         },
         {
+          "name": "Laporte",
+          "url": "/communities/larimer/laporte.html",
+          "lat": 40.63851,
+          "lng": -105.14434,
+          "schoolDistrict": "Poudre School District R-1"
+        },
+        {
           "name": "Loveland",
           "url": "/communities/larimer/loveland.html",
           "lat": 40.39545,
