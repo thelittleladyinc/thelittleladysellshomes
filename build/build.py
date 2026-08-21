@@ -12503,7 +12503,12 @@ def build_legal():
     "buyers-page-inquiry": "{esc(first)} will get back to you about buying \\u2014 usually within a couple of hours during the day.",
     "lifestyle-search": "{esc(first)} will match what you described against what is actually on the market, including homes that do not show up in a normal search.",
     "contact": "{esc(first)} will personally read this and get back to you \\u2014 usually within a couple of hours during the day, and always the same day.",
-    "testimonials-page-inquiry": "{esc(first)} will get back to you the same day \\u2014 and if you would like to speak to a past client directly before you decide anything, just ask."
+    "testimonials-page-inquiry": "{esc(first)} will get back to you the same day \\u2014 and if you would like to speak to a past client directly before you decide anything, just ask.",
+    "market-conditions-inquiry": "{esc(first)} will look at what is actually happening on your street, not just the county-wide numbers, and get back to you the same day.",
+    "west-greeley-inquiry": "{esc(first)} will send over what is actually available in West Greeley right now, including anything new construction that has not hit the big portals yet.",
+    "ault-area-inquiry": "{esc(first)} knows the small towns around Ault well and will get back to you the same day with what is actually on the market out there.",
+    "newsletter-signup": "You are on the list \\u2014 look for your first Little Lady newsletter in your inbox soon.",
+    "loveland-buyers-guide": "Your Loveland Buyer\\u0027s Guide is on the way. {esc(first)} will also check in once \\u2014 no pressure, just in case you have a question the guide does not answer."
   }};
   try {{
     var from = new URLSearchParams(window.location.search).get("from");
