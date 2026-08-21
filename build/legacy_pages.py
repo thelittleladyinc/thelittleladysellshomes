@@ -165,7 +165,7 @@ def build_legacy_pages(B):
 
     redirects = []
     ours = []
-    built = skipped_existing = 0
+    built = skipped_existing = market_reports = 0
 
     for t in terms:
         url = t["url"]
@@ -200,6 +200,59 @@ def build_legacy_pages(B):
             with open(rec_path) as f:
                 content_rec = json.load(f)
 
+        # ---- market report pages own their whole body ---------------------
+        # 16 legacy URLs carried a dynamic marketReportBlock (an Altos iframe
+        # plus iHouseWeb's own widget). Neither survives a static build, and
+        # because the widget WAS the content the migration crawl recorded
+        # words=0 for every one -- so the >30-word guard below correctly
+        # dropped what little was there and published a 54-word shell. Those
+        # shells hold 19,923 Search Console impressions at a 0.19% CTR.
+        #
+        # The block declares its own town, so read the town from the data
+        # rather than parsing slugs, and hand the page to the live generator
+        # in build.py. It renders its own hero, so skip the default one.
+        # Guarded on words<=30 -- the same threshold the authored-content check
+        # below uses. /eaton-home-value also carries a marketReportBlock but has
+        # 133 real words and is a valuation page, not a market report; taking it
+        # over would have destroyed migrated copy and answered a question the
+        # visitor did not ask. Only pages that would otherwise render an empty
+        # shell are eligible.
+        mr_city = mr_state = None
+        if t.get("words", 0) <= 30:
+            for blk in content_rec.get("blocks") or []:
+                if blk.get("type") == "marketReportBlock":
+                    value = ((blk.get("options") or {}).get("location") or {}).get("value") or ""
+                    if "," in value:
+                        mr_city, mr_state = [s.strip() for s in value.split(",", 1)]
+                    break
+
+        if mr_city:
+            mr_body, mr_title, mr_meta, mr_schema = B.town_market_report_body(
+                mr_city, mr_state, url)
+            body_parts = [mr_body]
+            # An explicit enhancement still wins; otherwise the generated
+            # title/meta carry the live figures, which is the point.
+            if not enh.get("title"):
+                title = mr_title
+            if not enh.get("metaDescription"):
+                meta = mr_meta
+            B.page(title, meta, url + ".html", None, "\n".join(body_parts),
+                   schema_extra=[mr_schema] if mr_schema else "")
+            out_file = os.path.join(B.OUT, rel + ".html")
+            if os.path.exists(out_file):
+                with open(out_file) as f:
+                    page_html = f.read()
+                page_html = page_html.replace(
+                    f'rel="canonical" href="{B.SITE["domain"]}{url}.html"',
+                    f'rel="canonical" href="{B.SITE["domain"]}{url}"')
+                with open(out_file, "w") as f:
+                    f.write(page_html)
+            LEGACY_SITEMAP_PATHS.append(url + ".html")
+            ours.append(url + ".html")
+            built += 1
+            market_reports += 1
+            continue
+
         body_parts = [f"""
 <section class="hero" style="padding:80px 0 40px">
   <div class="wrap">
@@ -232,6 +285,28 @@ def build_legacy_pages(B):
 <section class="tight">
   <div class="wrap" style="max-width:820px">
     <div class="blog-article">{authored}</div>
+  </div>
+</section>""")
+
+        # An "intro" renders ABOVE the migrated body. Appending is the right
+        # default -- it never destroys authored copy -- but it is the wrong
+        # shape for a page whose whole query is a direct question. Someone
+        # searching "how far is Windsor from Denver" wants the number, and
+        # burying it under 330 words of dining copy is why that page sits at
+        # position 8 with a 0.09% CTR. Intro puts the answer first; the
+        # original post keeps every word it had, one scroll down.
+        intro = enh.get("intro") or []
+        if intro:
+            intro_html = "\n    ".join(
+                f"<p>{B._blog_para_html(par)}</p>" for par in intro)
+            # body_parts[0] is always the hero, so index 1 is directly under
+            # the H1 and above the migrated article.
+            body_parts.insert(1, f"""
+<section class="tight">
+  <div class="wrap" style="max-width:820px">
+    <div class="blog-article">
+    {intro_html}
+    </div>
   </div>
 </section>""")
 
@@ -391,3 +466,5 @@ def build_legacy_pages(B):
 
     print(f"  legacy pages: {built} rebuilt at exact URLs, {len(redirects)} renamed->301, "
           f"{skipped_existing} already served by engine pages")
+    print(f"  legacy pages: {market_reports} town market reports generated from live "
+          f"IRES inventory")

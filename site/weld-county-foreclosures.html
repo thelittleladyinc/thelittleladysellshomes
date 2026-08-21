@@ -11,11 +11,11 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.thelittleladysellshomes.com/weld-county-foreclosures.html">
 <meta property="og:image" content="https://www.thelittleladysellshomes.com/assets/img/og-card.png">
-<meta property="og:updated_time" content="2026-08-20">
+<meta property="og:updated_time" content="2026-08-21">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Weld County Foreclosure Search: Free List &amp; Buyer's Guide | Greeley &amp; Beyond">
 <meta name="twitter:description" content="The free Weld County foreclosure list — Public Trustee filings plus bank-owned homes on the MLS in Greeley, Evans, Eaton &amp; Johnstown">
-<meta name="last-modified" content="2026-08-20">
+<meta name="last-modified" content="2026-08-21">
 <link rel="icon" href="/assets/img/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
@@ -691,11 +691,54 @@ h2.section-title {
 
 /* ---------- Forms ---------- */
 form.lead-form { display: grid; gap: 16px; max-width: 560px; }
-form.lead-form input, form.lead-form textarea {
+/* `select` was missing here, so the moment a form gained a dropdown it rendered
+   as an unstyled OS control next to styled inputs. Added 2026-08-20 with the
+   homepage lead form. */
+form.lead-form input, form.lead-form textarea, form.lead-form select {
   padding: 14px 16px; border: 1px solid var(--hairline-strong); background: var(--white);
   font-family: var(--font-sans); font-size: 14px;
+  border-radius: 0; color: var(--charcoal, #141415);
 }
+form.lead-form textarea { resize: vertical; }
 form.lead-form label.consent { font-size: 12px; color: var(--slate-mist); display: flex; gap: 8px; align-items: flex-start; }
+/* On a dark section the consent line inherited a mid-grey meant for white
+   backgrounds and dropped to roughly 2:1 against the near-black -- legally
+   required text that could not be read. Lightened only inside .section-dark. */
+.section-dark form.lead-form label.consent { color: rgba(255,255,255,.72); }
+
+/* ---------- Homepage hero search ----------
+   The hero had two links and no form. This is a plain GET form whose field
+   names are the deep-link params /search-homes.html already parses, so it needs
+   no JavaScript to work. Laid out as a single row on desktop that stacks on
+   narrow screens -- most of this site's traffic is mobile, and a search that
+   overflows sideways is a search nobody completes. */
+.hero-search {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end;
+  margin-top: 34px; max-width: 780px;
+}
+.hero-search-field { display: flex; flex-direction: column; gap: 6px; flex: 1 1 170px; min-width: 150px; }
+.hero-search-field label {
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--dusty-rose); font-weight: 600;
+}
+.hero-search select {
+  width: 100%; padding: 13px 14px; border: 1px solid rgba(255,255,255,.28);
+  background: rgba(255,255,255,.06); color: #fff;
+  font-family: var(--font-sans); font-size: 14px; border-radius: 0;
+}
+/* The options list is drawn by the OS, which does not inherit the translucent
+   white-on-dark treatment above -- without this the menu is white text on a
+   white popup in several browsers. */
+.hero-search select option { color: var(--charcoal, #141415); background: #fff; }
+.hero-search select:focus-visible { outline: 2px solid var(--dusty-rose); outline-offset: 2px; }
+.hero-search .btn { flex: 0 0 auto; }
+.hero-call { margin-top: 18px; font-size: 15px; color: rgba(255,255,255,.78); }
+.hero-call a { color: #fff; font-weight: 600; text-decoration: underline; }
+@media (max-width: 640px) {
+  .hero-search { gap: 12px; }
+  .hero-search-field { flex: 1 1 100%; }
+  .hero-search .btn { width: 100%; text-align: center; }
+}
 
 /* ---------- Footer ---------- */
 .site-footer {
@@ -1489,6 +1532,13 @@ h2.widget-title {
 .town-table tbody th a { font-weight: 600; }
 .town-table tbody tr:last-child th, .town-table tbody tr:last-child td { border-bottom: 0; }
 .town-table tbody tr:hover td, .town-table tbody tr:hover th { background: rgba(179,0,0,.04); }
+/* On a town's own market report the comparison table includes that town. It has
+   to be findable at a glance or the table is just a list -- the reader came here
+   for one row and wants to see it against the others. */
+.town-table tbody tr.is-subject td, .town-table tbody tr.is-subject th {
+  background: rgba(179,0,0,.06);
+  box-shadow: inset 3px 0 0 var(--dusty-rose, #b30000);
+}
 
 
 /* ---------- Captioned, geotagged location photos ----------
@@ -1547,9 +1597,14 @@ h2.widget-title {
 .town-gallery img { width: 100%; border-radius: 4px; box-shadow: 0 10px 30px rgba(20,20,21,.10); display: block; }
 .town-gallery figcaption { margin-top: 9px; font-size: .85rem; line-height: 1.5; color: var(--slate-soft); }
 @media (max-width: 760px) { .town-gallery { grid-template-columns: 1fr; gap: 20px; } }
+
+/* The hero town list is grouped into "Northern Colorado" and "Also
+   searchable". Native optgroup labels inherit the select's white text, which is
+   invisible on the white OS popup -- same trap as the options themselves. */
+.hero-search select optgroup { color: var(--charcoal, #141415); background: #fff; font-weight: 700; }
 </style>
 
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "RealEstateAgent", "@id": "https://www.thelittleladysellshomes.com/#christine-gwinnup", "name": "Christine Gwinnup", "url": "https://www.thelittleladysellshomes.com/", "image": "https://www.thelittleladysellshomes.com/assets/img/logo-full.png", "telephone": "303-709-4262", "email": "thelittleladyinc@gmail.com", "priceRange": "$$ - $$$$", "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "08:00", "closes": "20:00"}], "worksFor": {"@type": "Organization", "name": "LPT Realty"}, "areaServed": [{"@type": "AdministrativeArea", "name": "Adams County"}, {"@type": "AdministrativeArea", "name": "Arapahoe County"}, {"@type": "AdministrativeArea", "name": "Boulder County"}, {"@type": "AdministrativeArea", "name": "Broomfield County"}, {"@type": "AdministrativeArea", "name": "Denver County"}, {"@type": "AdministrativeArea", "name": "Jefferson County"}, {"@type": "AdministrativeArea", "name": "Larimer County"}, {"@type": "AdministrativeArea", "name": "Morgan County"}, {"@type": "AdministrativeArea", "name": "Weld County"}], "sameAs": ["https://www.facebook.com/thelittleladysellshomes/", "https://www.instagram.com/thelittleladysellshomes/", "https://www.linkedin.com/in/thelittleladysellshomes/", "https://www.youtube.com/@thelittleladysellshomes", "https://www.tiktok.com/@thelittleladysellshomes", "https://www.pinterest.com/THELITTLELADYSELLSHOMES/", "https://www.zillow.com/profile/TheLittleLady", "https://www.bbb.org/us/co/loveland/profile/real-estate-agent/christine-gwinnup-the-little-lady-sells-homes-0805-46149390", "https://www.yelp.com/biz/christine-gwinnup-the-little-lady-sells-homes-loveland-2", "https://christinegwinnup.lpt.com/", "https://signaturepropertycollection.com/"], "knowsAbout": ["Residential real estate", "First-time home buyers", "VA loans and military relocation", "Relocation to Northern Colorado", "Acreage and horse property", "Downsizing", "New construction", "Land development", "Multi-generational homes", "Retirement relocation", "Expired listings", "Home valuation", "Real estate negotiation"], "dateModified": "2026-08-20", "geo": {"@type": "GeoCoordinates", "latitude": 40.3978, "longitude": -105.075}, "address": {"@type": "PostalAddress", "streetAddress": "2411 Glade Rd", "addressLocality": "Loveland", "addressRegion": "CO", "postalCode": "80538", "addressCountry": "US"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "RealEstateAgent", "@id": "https://www.thelittleladysellshomes.com/#christine-gwinnup", "name": "Christine Gwinnup", "url": "https://www.thelittleladysellshomes.com/", "image": "https://www.thelittleladysellshomes.com/assets/img/logo-full.png", "telephone": "303-709-4262", "email": "thelittleladyinc@gmail.com", "priceRange": "$$ - $$$$", "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "08:00", "closes": "20:00"}], "worksFor": {"@type": "Organization", "name": "LPT Realty"}, "areaServed": [{"@type": "AdministrativeArea", "name": "Adams County"}, {"@type": "AdministrativeArea", "name": "Arapahoe County"}, {"@type": "AdministrativeArea", "name": "Boulder County"}, {"@type": "AdministrativeArea", "name": "Broomfield County"}, {"@type": "AdministrativeArea", "name": "Denver County"}, {"@type": "AdministrativeArea", "name": "Jefferson County"}, {"@type": "AdministrativeArea", "name": "Larimer County"}, {"@type": "AdministrativeArea", "name": "Morgan County"}, {"@type": "AdministrativeArea", "name": "Weld County"}], "sameAs": ["https://www.facebook.com/thelittleladysellshomes/", "https://www.instagram.com/thelittleladysellshomes/", "https://www.linkedin.com/in/thelittleladysellshomes/", "https://www.youtube.com/@thelittleladysellshomes", "https://www.tiktok.com/@thelittleladysellshomes", "https://www.pinterest.com/THELITTLELADYSELLSHOMES/", "https://www.zillow.com/profile/TheLittleLady", "https://www.bbb.org/us/co/loveland/profile/real-estate-agent/christine-gwinnup-the-little-lady-sells-homes-0805-46149390", "https://www.yelp.com/biz/christine-gwinnup-the-little-lady-sells-homes-loveland-2", "https://christinegwinnup.lpt.com/", "https://signaturepropertycollection.com/"], "knowsAbout": ["Residential real estate", "First-time home buyers", "VA loans and military relocation", "Relocation to Northern Colorado", "Acreage and horse property", "Downsizing", "New construction", "Land development", "Multi-generational homes", "Retirement relocation", "Expired listings", "Home valuation", "Real estate negotiation"], "dateModified": "2026-08-21", "geo": {"@type": "GeoCoordinates", "latitude": 40.3978, "longitude": -105.075}, "address": {"@type": "PostalAddress", "streetAddress": "2411 Glade Rd", "addressLocality": "Loveland", "addressRegion": "CO", "postalCode": "80538", "addressCountry": "US"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Where can I see Weld County foreclosures for free?", "acceptedAnswer": {"@type": "Answer", "text": "The Weld County Public Trustee publishes the official foreclosure sale list, and bank-owned homes relist publicly on the IRES MLS \u2014 the feed behind this site's search. Both are free. Christine also sends a matched list on request, including filings the portals haven't caught up to."}}, {"@type": "Question", "name": "Are there foreclosures in Greeley right now?", "acceptedAnswer": {"@type": "Answer", "text": "Inventory changes weekly \u2014 filings cure, auctions complete, banks relist. Rather than trust a static page, ask for the current list or run the live search; the MLS feed here updates every 15 minutes. Christine can also set an automatic alert for bank-owned and price-reduced homes in Greeley, Evans, and Eaton."}}, {"@type": "Question", "name": "Do foreclosed homes in Weld County come with mineral rights?", "acceptedAnswer": {"@type": "Answer", "text": "Not necessarily \u2014 mineral rights in Weld County are often severed from the surface long before any foreclosure, and a bank sale doesn't restore them. It's a title-work question on every Weld purchase, foreclosure or not. Christine's guide to buying land in Weld County covers how to check."}}, {"@type": "Question", "name": "Is buying at the Public Trustee auction a good idea?", "acceptedAnswer": {"@type": "Answer", "text": "Only with cash, an attorney, and experience: no inspections, certified funds, and junior-lien redemption rights that survive the sale. For almost everyone, bank-owned MLS listings deliver most of the discount with a fraction of the risk."}}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.thelittleladysellshomes.com/index.html"}, {"@type": "ListItem", "position": 2, "name": "Weld County Foreclosure Search: Free List & Buyer's Guide"}]}</script>
 
@@ -1669,7 +1724,7 @@ Keep in mind that foreclosure listings are time-sensitive and may change frequen
 <section class="tight">
   <div class="wrap" style="max-width:820px">
     <h2 class="section-title" style="font-size:clamp(22px,2.6vw,30px)">Skip the paid foreclosure sites — here's the free Weld County list</h2>
-    <p>Every "Weld County foreclosure search" subscription site is reselling two free sources: the **Weld County Public Trustee's** published foreclosure sale list, and the IRES MLS where bank-owned homes relist for sale in Greeley, Evans, Eaton, Johnstown, and across the county. Colorado's Public Trustee system is nearly one of a kind — foreclosures here don't hide in court records the way they do in most states. The list is public; the skill is knowing which entries are actually buyable.</p>
+    <p>Every "Weld County foreclosure search" subscription site is reselling two free sources: the <strong>Weld County Public Trustee's</strong> published foreclosure sale list, and the IRES MLS where bank-owned homes relist for sale in Greeley, Evans, Eaton, Johnstown, and across the county. Colorado's Public Trustee system is nearly one of a kind — foreclosures here don't hide in court records the way they do in most states. The list is public; the skill is knowing which entries are actually buyable.</p>
     <p>That's the part Christine does daily. A Public Trustee filing isn't a for-sale sign — many cure or get withdrawn before sale. Bank-owned MLS listings are the buyable inventory, and they move through <a href="/search-homes.html?cities=Greeley&amp;noFloor=true" style="text-decoration:underline">the same live search this site runs</a>. Tell her your budget and towns and she'll separate the real opportunities from the noise — free, which is cheaper than the subscription sites charging for stale copies.</p>
   </div>
 </section>
@@ -1677,7 +1732,7 @@ Keep in mind that foreclosure listings are time-sensitive and may change frequen
 <section class="tight">
   <div class="wrap" style="max-width:820px">
     <h2 class="section-title" style="font-size:clamp(22px,2.6vw,30px)">Buying a foreclosure in Greeley and Weld County — the honest playbook</h2>
-    <p>The auction path (weekly Public Trustee sales, certified funds, no inspections, surviving-lien risk) belongs to experienced cash buyers with attorney support. The path for most people is **bank-owned (REO)**: inspected, financeable, titled clean, priced to move. In Weld County that inventory skews toward exactly what investors and first-time buyers hunt — and it comes with Weld's particular homework: <a href="/buying-land-weld-co" style="text-decoration:underline">who owns the minerals under the lot</a>, what the well and septic situation is outside city limits, and what the HOA picked up while the home sat vacant.</p>
+    <p>The auction path (weekly Public Trustee sales, certified funds, no inspections, surviving-lien risk) belongs to experienced cash buyers with attorney support. The path for most people is <strong>bank-owned (REO)</strong>: inspected, financeable, titled clean, priced to move. In Weld County that inventory skews toward exactly what investors and first-time buyers hunt — and it comes with Weld's particular homework: <a href="/buying-land-weld-co" style="text-decoration:underline">who owns the minerals under the lot</a>, what the well and septic situation is outside city limits, and what the HOA picked up while the home sat vacant.</p>
     <p>Condition is the price of the discount. Renovation financing like FHA 203(k) turns a rough REO into a financeable project — ask us to verify what today's lenders offer — and the <a href="/first-time-homebuyer" style="text-decoration:underline">first-time buyer program stack</a> applies to bank-owned purchases the same as any other. If you're weighing a foreclosure against simply buying a solid home, read <a href="/can-you-buy-a-foreclosure-in-weld-county-in-2025" style="text-decoration:underline">Can you buy a foreclosure in Weld County?</a> for the year-in-the-life version.</p>
     <p>On the other side of the table: if you own a Weld County home and the foreclosure clock has started, you likely still have equity worth protecting. A fast, honest sale — <a href="/cash-offer" style="text-decoration:underline">sometimes a cash offer</a> — often beats the auction outcome by a wide margin. Christine will tell you the real number both ways.</p>
   </div>
@@ -2007,7 +2062,7 @@ Keep in mind that foreclosure listings are time-sensitive and may change frequen
           <li><a href="/expired-listings.html">Expired Listings</a></li>
           <li><a href="/how-to-choose-a-real-estate-agent.html">How To Choose An Agent</a></li>
           <li><a href="/downsizing-in-northern-colorado.html">Downsizing</a></li>
-          <li><a href="/northern-colorado-market-report.html">Monthly Market Report</a></li>
+          <li><a href="/northern-colorado-market-report.html">Market Report</a></li>
           <li><a href="/site-directory.html">Site Directory</a></li>
         </ul>
       </div>
