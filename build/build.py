@@ -312,6 +312,14 @@ CITY_DATA_SLUG = {
     # dead-ended. It has real IRES inventory (16 active, $437,000 median), so
     # the gate above is satisfied with researched content, not a placeholder.
     "Laporte": "laporte",
+    # 2026-08-21 (Christine: "lets add the Campion, Drake and Glen Haven ... and
+    # the big thompson canyon"). Zero presence on the site before this -- flagged
+    # during the GBP review. Campion is unincorporated Larimer, between Loveland
+    # and Berthoud on US-287. Drake and Glen Haven are the two named unincorporated
+    # communities inside Big Thompson Canyon on US-34, sharing Estes Park School
+    # District R-3. Big Thompson Canyon itself is the corridor, not a town -- it
+    # gets its own SUBDIVISION_PAGES entry instead of a COUNTIES/CITY_CONTENT slot.
+    "Campion": "campion", "Drake": "drake", "Glen Haven": "glen-haven",
     "Wellington": "wellington", "Red Feather Lakes": "red-feather-lakes",
     "Greeley": "greeley", "Severance": "severance", "Eaton": "eaton",
     "Ault": "ault", "Johnstown": "johnstown", "Milliken": "milliken",
@@ -609,7 +617,8 @@ COUNTIES = [
         "slug": "larimer", "name": "Larimer County",
         "priority": True,
         "cities": ["Fort Collins", "Loveland", "Estes Park", "Berthoud", "Masonville",
-                   "Windsor", "Timnath", "Wellington", "Laporte", "Red Feather Lakes"],
+                   "Windsor", "Timnath", "Wellington", "Laporte", "Red Feather Lakes",
+                   "Campion", "Drake", "Glen Haven"],
         "blurb": "Larimer County is home base — Loveland, Berthoud, Estes Park and "
                  "Fort Collins, from foothill acreage to Old Town lofts and everything "
                  "along the Cache la Poudre River.",
@@ -8610,6 +8619,109 @@ SUBDIVISION_PAGES = [
         "feed_empty_note": "This is a very small, 38-home neighborhood, so it's common "
                             "to see long stretches with no active listings at all.",
     },
+    {
+        # 2026-08-21 (Christine: "lets add ... the big thompson canyon"). The
+        # canyon is a 25-mile geographic corridor along US-34, not a town, so it
+        # gets a SUBDIVISION_PAGES entry rather than a COUNTIES/CITY_CONTENT slot
+        # -- same reasoning as Buckhorn and West Loveland Riverfront above. Drake
+        # and Glen Haven, the two named communities inside the canyon, each get
+        # their own dedicated town page (see CITY_DATA_SLUG); this page covers the
+        # corridor as a whole -- Cedar Cove, Waltonia, Glen Comfort, and the
+        # unnamed stretches in between -- and links to those town pages rather
+        # than duplicating their content.
+        "slug": "big-thompson-canyon-real-estate",
+        "eyebrow": "Canyon & River Corridor",
+        "title": "Big Thompson Canyon Real Estate: Drake, Glen Haven & The US-34 Corridor",
+        "meta": "Real estate along Big Thompson Canyon's 25-mile US-34 corridor between "
+                "Loveland and Estes Park -- Drake, Glen Haven, and the river communities "
+                "in between, plus what canyon ownership actually involves.",
+        "intro": "Big Thompson Canyon isn't a town — it's the roughly 25-mile stretch of "
+                  "US Highway 34 between Loveland and Estes Park, carved by the Big "
+                  "Thompson River, and it's home to a string of small unincorporated "
+                  "communities rather than one place with a name and a zip code. Drake "
+                  "and Glen Haven are the two you'll hear most about — each has its own "
+                  "dedicated town guide on this site — but Cedar Cove, Waltonia, Glen "
+                  "Comfort, and the historic "
+                  "Sylvan Dale Guest Ranch area are all part of the same corridor. Here's "
+                  "an honest look at what canyon living and canyon buying actually mean.",
+        "paragraphs": [
+            "A 25-Mile Corridor, Not One Town",
+            "US-34 runs from \u201cThe Dam Store\u201d west of Loveland through the canyon to "
+            "Lake Estes, passing through The Narrows — a stretch eight miles out where "
+            "the road narrows to two lanes with the river running alongside — before "
+            "opening up at Estes Park. Drake sits roughly at the midpoint; Glen Haven "
+            "branches off separately via County Road 43. Homes along the way are a mix "
+            "of full-time residences, vacation cabins, and a few working guest ranches, "
+            "almost all on well and septic, almost all on multi-acre or riverfront "
+            "parcels rather than platted subdivision lots.",
+            "Drake And Glen Haven Have Their Own Guides",
+            "If you already know you want Drake or Glen Haven specifically, search this "
+            "site by town name or reach out directly — each has its own dedicated page "
+            "covering schools, commute, and local character. This page is for the "
+            "broader canyon question: what's the corridor like overall, and what do "
+            "you need to know before buying anywhere along it.",
+            "Flood And Fire History Is Part Of The Due Diligence, Not A Reason To Avoid It",
+            "The canyon has flooded twice in living memory — 1976 and 2013 — and was "
+            "under evacuation for the 2020 Cameron Peak Fire, Colorado's largest "
+            "wildfire on record at 208,913 acres. US-34 itself has been rebuilt more "
+            "than once, most recently in a $280 million post-2013 resiliency project "
+            "completed in 2018 that added a dedicated emergency-access lane. None of "
+            "that makes the canyon a bad place to buy — people have rebuilt here "
+            "through every one of those events — but it does mean floodplain status, "
+            "defensible space, and wildfire insurance availability deserve a real "
+            "conversation on any specific property, not an assumption either way.",
+            "Well, Septic, And County Roads",
+            "There's no municipal water or sewer utility anywhere in the canyon — well "
+            "and septic systems are the standard setup, and Larimer County, not a city, "
+            "handles zoning and road maintenance. Wildfire insurance has gotten harder "
+            "to place here: several major national carriers have issued non-renewals "
+            "across Larimer County's mountain zones in recent years, and Colorado's "
+            "FAIR Plan has accepted applications as an insurer of last resort since "
+            "April 2025. On the upside, Larimer County was awarded a $9.856 million "
+            "federal wildfire-defense grant in late 2025 specifically for this corridor, "
+            "funding defensible-space work on up to 900 parcels.",
+            "Recreation Is The Payoff",
+            "Larimer County maintains four free day-use parks strung along the canyon — "
+            "Sleepy Hollow, Forks, Narrows, and Glade Park — all with river access for "
+            "fishing and picnicking, acquired after the 1976 flood specifically to keep "
+            "public river access intact. Bighorn sheep are a common sight along US-34, "
+            "and Rocky Mountain National Park's Fall River entrance is roughly 20 to 25 "
+            "minutes west of Drake. This is the trade you're making: real canyon due "
+            "diligence in exchange for river frontage and mountain quiet that a "
+            "standard Loveland subdivision simply can't offer.",
+        ],
+        "faq": [
+            ("Is Big Thompson Canyon a town?",
+             "No — it's a roughly 25-mile geographic corridor along US Highway 34 "
+             "between Loveland and Estes Park, in unincorporated Larimer County. It "
+             "contains several small named communities, including Drake and Glen "
+             "Haven, each of which has its own guide on this site."),
+            ("Are homes in Big Thompson Canyon on well and septic?",
+             "There's no municipal water or sewer utility serving the canyon, so well "
+             "and septic systems are the standard infrastructure for canyon "
+             "properties. Treat this as general practice to confirm on any specific "
+             "address, not a fixed statistic."),
+            ("Has Big Thompson Canyon flooded before?",
+             "Yes, twice in living memory — the 1976 Big Thompson flood and the 2013 "
+             "Colorado floods both caused major damage to the canyon and to US-34 "
+             "itself, which has since been rebuilt with flood-resiliency upgrades "
+             "including a dedicated emergency-access lane."),
+            ("Is wildfire insurance hard to get in Big Thompson Canyon?",
+             "It has gotten harder — several major national carriers have issued "
+             "non-renewals across Larimer County's mountain zones in recent years. "
+             "Colorado's FAIR Plan has accepted applications as an insurer of last "
+             "resort since April 2025, and Larimer County received a federal "
+             "wildfire-defense grant in late 2025 to fund mitigation work along this "
+             "corridor."),
+        ],
+        "feed_heading": "Current Listings In The Big Thompson Canyon Area",
+        "feed_params": {"city": "Drake"},
+        "feed_empty_note": "Canyon inventory is thin and turns over slowly -- it's normal "
+                            "to see stretches with nothing active. Glen Haven has its own "
+                            "page with a separate live feed, and it's worth checking "
+                            "Loveland and Estes Park listings too if you're open to "
+                            "either end of the corridor.",
+    },
 ]
 
 
@@ -9711,6 +9823,27 @@ QUIZ_CITIES = [
      "lifestyle": ["small-town"],
      "blurb": "Wellington offers small-town, wide-open-sky living just north of Fort "
               "Collins, with some of the region's most attainable new-build pricing."},
+    {"name": "Campion", "url": "/communities/larimer/campion.html",
+     "views": ["farmland", "mountain"], "commute": "close",
+     "priorities": ["acreage", "schools"],
+     "lifestyle": ["small-town"],
+     "blurb": "Campion is unincorporated acreage and farmland on US-287, wedged "
+              "between Loveland and Berthoud — quiet, close to both, and home to "
+              "Campion Academy."},
+    {"name": "Drake", "url": "/communities/larimer/drake.html",
+     "views": ["mountain"], "commute": "far",
+     "priorities": ["acreage", "schools"],
+     "lifestyle": ["hiking-mountain", "small-town"],
+     "blurb": "Drake puts you on the Big Thompson River deep in the canyon, roughly "
+              "20 minutes from Estes Park — river frontage, real acreage, and a "
+              "community that has rebuilt through flood and fire more than once."},
+    {"name": "Glen Haven", "url": "/communities/larimer/glen-haven.html",
+     "views": ["mountain"], "commute": "far",
+     "priorities": ["acreage"],
+     "lifestyle": ["hiking-mountain", "small-town"],
+     "blurb": "Glen Haven is Roosevelt National Forest at your doorstep — a small, "
+              "single-road mountain community 7 miles from Estes Park with a "
+              "historic General Store as its social center."},
     {"name": "Erie", "url": "/communities/weld/erie.html", "photo": "erie",
      "views": ["farmland", "downtown"], "commute": "close",
      "priorities": ["schools", "acreage"],
