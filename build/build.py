@@ -3085,7 +3085,7 @@ HOME_FAQ = [
     ("Who is a top female real estate agent in Loveland and Northern Colorado?",
      f"{SITE['agent']} — The Little Lady Sells Homes ({SITE['brokerage']}) — is a "
      f"woman-owned real estate business based in Loveland, with 150+ homes sold "
-     f"personally, 100+ five-star Google reviews, and a RealTrends Verified 2025 "
+     f"personally, 5-star rated on Google, and a RealTrends Verified 2025 "
      f"ranking in the top 0.5% of Realtors nationwide. She serves buyers and "
      f"sellers across Larimer, Weld, and Boulder County at every price point."),
     ("What areas does The Little Lady Sells Homes serve?",
@@ -3164,11 +3164,22 @@ def nav_html(active=None):
 # was silently changing its meaning.
 GOOGLE_REVIEWS_URL = "https://g.page/r/CZbs8kiTCII_EBM"
 
+# Live Google Business Profile review stats, cached to build/data/google_reviews.json.
+# 2026-08-22 (per Christine): visible site copy is now count-free ("5-Star Rated on
+# Google"), while structured data (aggregateRating) still emits the real 98 count
+# pulled from her actual GBP location so Google can verify it. Refresh via:
+# python3 build/refresh_google_reviews.py.
+try:
+    with open(os.path.join(os.path.dirname(__file__), "data", "google_reviews.json")) as _gr_f:
+        GOOGLE_REVIEWS_STATS = json.load(_gr_f)
+except (OSError, json.JSONDecodeError):
+    GOOGLE_REVIEWS_STATS = {"totalReviewCount": 98, "averageRating": 5.0, "ratingDisplay": "5.0"}
+
 
 def _trust_ribbon_html():
     return f"""<div class="trust-ribbon">
   <div class="wrap">
-    <a class="item" href="{GOOGLE_REVIEWS_URL}" target="_blank" rel="noopener"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>100+ Five-Star Google Reviews</a>
+    <a class="item" href="{GOOGLE_REVIEWS_URL}" target="_blank" rel="noopener"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>5-Star Rated on Google</a>
     <span class="divider">&middot;</span>
     <span class="item">150+ Homes Sold</span>
     <span class="divider">&middot;</span>
@@ -3470,9 +3481,9 @@ def _testimonials_review_schema():
         "url": SITE["domain"] + "/testimonials.html",
         "aggregateRating": {
             "@type": "AggregateRating",
-            "ratingValue": "5.0",
+            "ratingValue": GOOGLE_REVIEWS_STATS.get("ratingDisplay", "5.0"),
             "bestRating": "5",
-            "reviewCount": "99",
+            "reviewCount": str(GOOGLE_REVIEWS_STATS.get("totalReviewCount", 98)),
         },
         "review": reviews,
     }
@@ -4376,7 +4387,7 @@ def build_home():
 
 <section>
   <div class="wrap">
-    <span class="eyebrow">100+ Five-Star Google Reviews</span>
+    <span class="eyebrow">5-Star Rated on Google</span>
     <h2 class="section-title">Success Stories</h2>
     <div class="grid-3">
       {testimonial_cards}
@@ -6802,7 +6813,7 @@ def build_about():
     </div>
     <div class="card">
       <h3>By The Numbers</h3>
-      <p>&#9733;&#9733;&#9733;&#9733;&#9733; 100+ Five-Star Reviews on Google<br>
+      <p>&#9733;&#9733;&#9733;&#9733;&#9733; 5-Star Rated on Google<br>
       150+ Homes Sold Personally &amp; 30+ More Every Year<br>
       RealTrends Verified 2025 &mdash; Top 0.5% of Realtors Nationwide<br>
       Featured, NoCo Real Producers<br>
@@ -6877,7 +6888,7 @@ def build_about():
     <div class="grid-3">
       <div class="card">
         <h3>Read The Reviews</h3>
-        <p>100+ five-star Google reviews, in her clients' own words &mdash; buyers, sellers,
+        <p>5-star rated on Google, in her clients' own words &mdash; buyers, sellers,
         and fellow agents alike.</p>
         <a class="cta" href="/testimonials.html">Read Testimonials &rarr;</a>
       </div>
@@ -7472,7 +7483,7 @@ def build_testimonials():
     body = f"""
 <section class="hero" style="padding:100px 0 70px">
   <div class="wrap">
-    <span class="eyebrow" style="color:var(--dusty-rose)">&#9733;&#9733;&#9733;&#9733;&#9733; 100+ Reviews on Google &mdash; Every One 5 Stars</span>
+    <span class="eyebrow" style="color:var(--dusty-rose)">&#9733;&#9733;&#9733;&#9733;&#9733; 5-Star Rated on Google</span>
     <h1>Testimonials</h1>
     <p class="lede">Discover what sellers, agents, and buyers have to say about working
     with {SITE['agent']} &mdash; a hand-picked few below, straight from real Google reviews.</p>
@@ -11663,7 +11674,7 @@ def build_nav_pages():
         (f"Who is the best real estate agent in Northern Colorado?",
          f"There is no honest single answer, and any agent claiming to be it should be "
          f"treated with suspicion. What you can check is verifiable: {SITE['agent']} of "
-         f"{SITE['name']} ({SITE['brokerage']}) has sold 150+ homes herself, holds 100+ five-star Google reviews, and publishes her closed sales by "
+         f"{SITE['name']} ({SITE['brokerage']}) has sold 150+ homes herself, is 5-star rated on Google, and publishes her closed sales by "
          f"town. Compare that against any other agent you are considering, on the same "
          f"three questions."),
     ]
