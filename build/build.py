@@ -3381,6 +3381,80 @@ def _website_schema():
     }, indent=None)
 
 
+# Wave 5 P1 #1 (2026-08-23): YouTube channel entity linkage. See the mirror
+# comment in signature-property-collection/build/build.py for the full
+# reasoning. This is the general-market brand that OWNS the channel handle
+# (@thelittleladysellshomes), so the linkage here is the primary one; the
+# Signature copy links back to the same channel via creator/sourceOrganization
+# so knowledge-graph builders resolve both brands to the same creator.
+#
+# Live values from YouTube Data API on the build date:
+#   subscribers: 1,980   views: 161,145   videos: 224   created: 2020-04-25
+YOUTUBE_CHANNEL_ID = "UCYX73zdxv-MlS-Wb9Rv5f9A"
+YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@thelittleladysellshomes"
+YOUTUBE_CHANNEL_STATS = {
+    "subscribers": 1980,
+    "views": 161145,
+    "videos": 224,
+    "created": "2020-04-25",
+    "asOf": "2026-08-23",
+}
+
+
+def _youtube_channel_schema():
+    """CreativeWorkSeries node describing Christine's YouTube channel, linked
+    to her AGENT_ID via `creator` and to the sitewide Organization via
+    `sourceOrganization`. Emitted once on /about.html.
+
+    The handle @thelittleladysellshomes matches this brand exactly, so this
+    site is the primary entity home for the channel. Signature also emits
+    this schema on its About page, using the SAME channel @id, so both
+    brands resolve to one creator in the knowledge graph.
+    """
+    stats = YOUTUBE_CHANNEL_STATS
+    return json.dumps({
+        "@context": "https://schema.org",
+        "@type": "CreativeWorkSeries",
+        "@id": YOUTUBE_CHANNEL_URL + "#channel",
+        "name": "The Little Lady Sells Homes \u2014 Christine Gwinnup on YouTube",
+        "alternateName": "The Little Lady Sells Homes",
+        "url": YOUTUBE_CHANNEL_URL,
+        "identifier": YOUTUBE_CHANNEL_ID,
+        "inLanguage": "en-US",
+        "dateCreated": stats["created"],
+        "dateModified": stats["asOf"],
+        "creator": {"@id": AGENT_ID},
+        "sourceOrganization": {"@id": ORG_ID},
+        "about": [
+            "Northern Colorado real estate",
+            "Loveland Colorado real estate",
+            "Land and acreage in Larimer County and Weld County",
+            "Relocation to Northern Colorado",
+            "Community tours",
+            "VA loans and military PCS",
+            "Rent to own homes in Loveland",
+        ],
+        "numberOfEpisodes": stats["videos"],
+        "interactionStatistic": [
+            {
+                "@type": "InteractionCounter",
+                "interactionType": {"@type": "SubscribeAction"},
+                "userInteractionCount": stats["subscribers"],
+            },
+            {
+                "@type": "InteractionCounter",
+                "interactionType": {"@type": "WatchAction"},
+                "userInteractionCount": stats["views"],
+            },
+            {
+                "@type": "InteractionCounter",
+                "interactionType": {"@type": "CreateAction"},
+                "userInteractionCount": stats["videos"],
+            },
+        ],
+    }, indent=None)
+
+
 def _organization_schema():
     """The business entity, linked to Christine's person entity.
 
@@ -7085,6 +7159,7 @@ def build_about():
         f"Meet {SITE['agent']}, the real estate agent serving Loveland, Berthoud, "
         f"Masonville and the Larimer, Weld & Boulder County Front Range at every price point.",
         "/about.html", "About", body,
+        schema_extra=[_youtube_channel_schema()],
     )
 
 
