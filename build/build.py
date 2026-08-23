@@ -3628,6 +3628,31 @@ def _inline_css():
     return _INLINE_CSS
 
 
+# 2026-08-23. Second-wave two-brand consolidation. The 11 Loveland luxury
+# subdivision pages (Mariana Butte, Waterfront at Boyd Lake, Pyrenees, etc.)
+# exist on both TLLSH and Signature at IDENTICAL URLs with 91-96% text overlap.
+# Signature is the luxury flagship and the correct home for premium-subdivision
+# content, so TLLSH's copies canonicalise to Signature. TLLSH keeps the URL
+# working (the internal card grid on /communities/larimer/loveland.html links
+# to them, and expired ad links still resolve) but Google consolidates ranking
+# signals onto Signature's copy. These paths are also excluded from TLLSH's
+# sitemap -- see build_sitemap() below.
+_SIGNATURE_URL = "https://signaturepropertycollection.com"
+CROSS_BRAND_CANONICAL_TO_SIGNATURE = frozenset([
+    "/communities/loveland/boyd-lake-north-loveland.html",
+    "/communities/loveland/buckhorn-subdivisions-loveland.html",
+    "/communities/loveland/downtown-loveland-real-estate.html",
+    "/communities/loveland/kinston-centerra-loveland.html",
+    "/communities/loveland/lakes-at-centerra-loveland.html",
+    "/communities/loveland/mariana-butte-loveland.html",
+    "/communities/loveland/namaqua-hills-loveland.html",
+    "/communities/loveland/pyrenees-french-country-loveland.html",
+    "/communities/loveland/thompson-valley-loveland.html",
+    "/communities/loveland/waterfront-at-boyd-lake-loveland.html",
+    "/communities/loveland/west-loveland-riverfront-homes.html",
+])
+
+
 def head(title, description, path="/", canonical_extra="", schema_extra="",
          canonical_path=None):
     title = _fit_title(title)
@@ -3636,6 +3661,10 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
     # version of itself -- used for towns that straddle two counties and so
     # legitimately have two URLs built from the same source facts.
     canonical = SITE["domain"] + (canonical_path or path)
+    # 2026-08-23: 11 Loveland luxury-subdivision pages canonicalise to Signature
+    # (see CROSS_BRAND_CANONICAL_TO_SIGNATURE at module scope).
+    if canonical_path is None and path in CROSS_BRAND_CANONICAL_TO_SIGNATURE:
+        canonical = _SIGNATURE_URL + path
     # 2026-08-18: was logo-full.png — a 1400x523 wide logo on TRANSPARENT
     # ground, which share platforms crop unpredictably and render on whatever
     # background they like (black in iMessage dark mode). og-card.png is a
