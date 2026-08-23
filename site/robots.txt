@@ -37,3 +37,4 @@ Allow: /
 Disallow: /.netlify/functions/
 
 Sitemap: https://www.thelittleladysellshomes.com/sitemap.xml
+Sitemap: https://www.thelittleladysellshomes.com/sitemap-videos.xml

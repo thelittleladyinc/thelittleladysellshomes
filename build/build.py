@@ -12980,6 +12980,106 @@ def build_rss_feed():
     print("wrote /feed.xml")
 
 
+def build_video_sitemap():
+    """Emit /sitemap-videos.xml — Google video sitemap for every YouTube video
+    embedded in a built page. Wave 5 P0.3. See Signature engine for the full
+    rationale — same logic here.
+    """
+    import glob as _glob
+    videos = {}
+    html_files = sorted(_glob.glob(os.path.join(OUT, "**", "*.html"), recursive=True))
+    for fp in html_files:
+        rel = "/" + os.path.relpath(fp, OUT).replace(os.sep, "/")
+        if rel == "/404.html":
+            continue
+        try:
+            with open(fp, "r", encoding="utf-8") as f:
+                content = f.read()
+        except OSError:
+            continue
+        ids_on_page = list(dict.fromkeys(
+            re.findall(r'data-yt="([A-Za-z0-9_-]{6,})"', content)
+            + re.findall(r"youtube-nocookie\.com/embed/([A-Za-z0-9_-]{6,})", content)
+        ))
+        if not ids_on_page:
+            continue
+        titles = {}
+        for m in re.finditer(
+            r'<script type="application/ld\+json">(\{[^<]*?"VideoObject"[^<]*?\})</script>',
+            content,
+        ):
+            blob = m.group(1)
+            vid_m = (re.search(r'"contentUrl"\s*:\s*"[^"]*?v=([A-Za-z0-9_-]{6,})"', blob)
+                     or re.search(r'"embedUrl"\s*:\s*"[^"]*?/embed/([A-Za-z0-9_-]{6,})"', blob))
+            name_m = re.search(r'"name"\s*:\s*"((?:[^"\\]|\\.)*)"', blob)
+            desc_m = re.search(r'"description"\s*:\s*"((?:[^"\\]|\\.)*)"', blob)
+            if vid_m and name_m:
+                def _u(s):
+                    try:
+                        return json.loads('"' + s + '"')
+                    except Exception:
+                        return s
+                titles[vid_m.group(1)] = (_u(name_m.group(1)),
+                                          _u(desc_m.group(1)) if desc_m else "")
+        page_title_m = re.search(r"<title>([^<]+)</title>", content)
+        page_title = page_title_m.group(1).strip() if page_title_m else ""
+        for vid in ids_on_page:
+            title, desc = titles.get(vid, (None, ""))
+            if not title:
+                continue
+            entry = videos.setdefault(vid, {"title": title, "desc": desc, "pages": []})
+            entry["pages"].append((rel, page_title))
+
+    by_page = {}
+    for vid, entry in videos.items():
+        for rel, ptitle in entry["pages"]:
+            by_page.setdefault(rel, []).append((vid, entry["title"], entry["desc"], ptitle))
+
+    def _xml(s):
+        return (s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+                 .replace('"', "&quot;").replace("'", "&apos;"))
+
+    url_blocks = []
+    for rel in sorted(by_page):
+        vids = by_page[rel]
+        page_loc = f"{SITE['domain']}{rel}"
+        blocks = []
+        for vid, title, desc, ptitle in vids:
+            description = desc or (f"{title} — featured on {ptitle}." if ptitle else title)
+            description = description[:2040]
+            thumb = f"https://i.ytimg.com/vi/{vid}/maxresdefault.jpg"
+            player = f"https://www.youtube-nocookie.com/embed/{vid}"
+            content_url = f"https://www.youtube.com/watch?v={vid}"
+            blocks.append(
+                "    <video:video>\n"
+                f"      <video:thumbnail_loc>{_xml(thumb)}</video:thumbnail_loc>\n"
+                f"      <video:title>{_xml(title[:100])}</video:title>\n"
+                f"      <video:description>{_xml(description)}</video:description>\n"
+                f"      <video:content_loc>{_xml(content_url)}</video:content_loc>\n"
+                f"      <video:player_loc>{_xml(player)}</video:player_loc>\n"
+                "      <video:family_friendly>yes</video:family_friendly>\n"
+                "      <video:live>no</video:live>\n"
+                "    </video:video>"
+            )
+        url_blocks.append(
+            "  <url>\n"
+            f"    <loc>{_xml(page_loc)}</loc>\n"
+            + "\n".join(blocks) + "\n"
+            "  </url>"
+        )
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
+        '        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n'
+        + "\n".join(url_blocks) + "\n"
+        "</urlset>\n"
+    )
+    with open(os.path.join(OUT, "sitemap-videos.xml"), "w", encoding="utf-8") as f:
+        f.write(xml)
+    print(f"  video sitemap: {sum(len(v) for v in by_page.values())} video entries "
+          f"across {len(by_page)} pages ({len(videos)} unique videos)")
+
+
 def build_redirects_and_meta(extra_paths=None):
     # sitemap
     paths = ["/index.html", "/communities/index.html", "/about.html", "/buyers.html",
@@ -13189,6 +13289,9 @@ def build_redirects_and_meta(extra_paths=None):
         "Disallow: /.netlify/functions/\n"
         f"\n{ai_bot_rules}\n\n"
         f"Sitemap: {SITE['domain']}/sitemap.xml\n"
+        # Wave 5 P0.3: video sitemap complements the main sitemap so Google
+        # Video / Search Console can discover embedded tours across the site.
+        f"Sitemap: {SITE['domain']}/sitemap-videos.xml\n"
     )
     with open(os.path.join(OUT, "robots.txt"), "w") as f:
         f.write(robots)
@@ -13789,6 +13892,10 @@ if __name__ == "__main__":
     # defer to them; runs before the sitemap step so its pages are listed.
     import legacy_pages as _legacy
     _legacy.build_legacy_pages(sys.modules[__name__])
+    # Wave 5 P0.3: emit /sitemap-videos.xml AFTER all pages (engine + legacy)
+    # are on disk so the scanner sees everything, and BEFORE
+    # build_redirects_and_meta so its robots.txt reference is truthful.
+    build_video_sitemap()
     build_redirects_and_meta(extra_paths=_legacy.LEGACY_SITEMAP_PATHS)
     fingerprint_assets()   # LAST: rewrites references in everything above
     print("\nDone. Output in", OUT)
