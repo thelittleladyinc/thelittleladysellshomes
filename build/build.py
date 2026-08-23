@@ -3756,6 +3756,15 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
      the file twice. The @font-face rules live at the top of style.css. -->
 <link rel="preload" href="/assets/fonts/abril-fatface-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/open-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<!-- Wave 5 P0.5: preconnect hints. Every content-heavy page here embeds
+     YouTube tours via the youtube-nocookie facade + i.ytimg thumbnails,
+     and GTM ships from googletagmanager.com. Opening those TCP/TLS
+     connections early trims ~100-300ms off the first thumbnail paint
+     on mobile without loading any of the actual assets. -->
+<link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
+<link rel="preconnect" href="https://i.ytimg.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+<link rel="dns-prefetch" href="https://www.youtube.com">
 <style>{_inline_css()}</style>
 {'<meta name="robots" content="noindex, follow">' if path in NOINDEX_PATHS else ''}
 <script type="application/ld+json">{_real_estate_agent_schema()}</script>
