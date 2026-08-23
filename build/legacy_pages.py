@@ -642,15 +642,14 @@ def build_legacy_pages(B):
                 meta = mr_meta
             B.page(title, meta, url + ".html", None, "\n".join(body_parts),
                    schema_extra=[mr_schema] if mr_schema else "")
-            out_file = os.path.join(B.OUT, rel + ".html")
-            if os.path.exists(out_file):
-                with open(out_file) as f:
-                    page_html = f.read()
-                page_html = page_html.replace(
-                    f'rel="canonical" href="{B.SITE["domain"]}{url}.html"',
-                    f'rel="canonical" href="{B.SITE["domain"]}{url}"')
-                with open(out_file, "w") as f:
-                    f.write(page_html)
+            # 2026-08-23 (Wave 4): the post-hoc canonical rewrite that used
+            # to run here converted the .html canonical to the extensionless
+            # legacy iHouseWeb form. Netlify 301-redirects extensionless →
+            # .html in production, so the declared canonical was itself a
+            # redirect target — the state Google treats as "canonical URL
+            # not reachable, choose our own". Removed. The default .html
+            # canonical emitted by head() is what serves 200 and what the
+            # sitemap now lists.
             LEGACY_SITEMAP_PATHS.append(url + ".html")
             ours.append(url + ".html")
             built += 1
@@ -671,15 +670,8 @@ def build_legacy_pages(B):
                              "your max home price.")
                 calc_body = _max_home_price_calculator_body(B)
             B.page(calc_title, calc_meta, url + ".html", None, calc_body)
-            out_file = os.path.join(B.OUT, rel + ".html")
-            if os.path.exists(out_file):
-                with open(out_file) as f:
-                    page_html = f.read()
-                page_html = page_html.replace(
-                    f'rel="canonical" href="{B.SITE["domain"]}{url}.html"',
-                    f'rel="canonical" href="{B.SITE["domain"]}{url}"')
-                with open(out_file, "w") as f:
-                    f.write(page_html)
+            # 2026-08-23 (Wave 4): extensionless-canonical rewrite removed.
+            # See the note on the market-report branch above.
             LEGACY_SITEMAP_PATHS.append(url + ".html")
             ours.append(url + ".html")
             built += 1
@@ -839,16 +831,16 @@ def build_legacy_pages(B):
                f"{h1} — {B.SITE['name']}.",
                url + ".html", None, "\n".join(body_parts),
                schema_extra=[enh_schema] if enh_schema else "")
-        # canonical must match the legacy URL exactly (extensionless).
-        out_file = os.path.join(B.OUT, rel + ".html")
-        if os.path.exists(out_file):
-            with open(out_file) as f:
-                page_html = f.read()
-            page_html = page_html.replace(
-                f'rel="canonical" href="{B.SITE["domain"]}{url}.html"',
-                f'rel="canonical" href="{B.SITE["domain"]}{url}"')
-            with open(out_file, "w") as f:
-                f.write(page_html)
+        # 2026-08-23 (Wave 4): the previous behaviour rewrote the .html
+        # canonical to the extensionless legacy iHouseWeb URL so "canonical
+        # must match the legacy URL exactly (extensionless)" — but in
+        # production Netlify 301-redirects extensionless → .html, so the
+        # declared canonical redirected. Google's rule: canonical URLs must
+        # be reachable as 200, or Google picks its own. That put ~610 pages
+        # in exactly the "Duplicate, Google chose a different canonical"
+        # state Wave 2 was supposed to eliminate. Removed. The default .html
+        # canonical from head() is what serves 200 and what the sitemap
+        # emits, so declared canonical + sitemap + served URL now agree.
         LEGACY_SITEMAP_PATHS.append(url + ".html")
         ours.append(url + ".html")
         built += 1

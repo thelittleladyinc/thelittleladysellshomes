@@ -12904,11 +12904,15 @@ def build_redirects_and_meta(extra_paths=None):
                            open(_f, encoding="utf-8").read())
             _canon = _m.group(1) if _m else None
         if _canon and _canon != f"{SITE['domain']}{_p}":
-            # Legacy iHouseWeb pages canonicalise to their EXTENSIONLESS
-            # address on purpose (keep-what-ranks: the old site's URLs had no
-            # .html, and Netlify serves /foo from foo.html without a
-            # redirect). That's the same page, not a different canonical --
-            # list it in the sitemap under its canonical form.
+            # 2026-08-23 (Wave 4): this branch used to keep the sitemap in
+            # sync with the extensionless-canonical rewrite in legacy_pages.py.
+            # That rewrite has been removed (Netlify 301s extensionless -> .html
+            # in production, so declaring the extensionless URL as canonical
+            # gave Google a redirected-canonical signal on ~610 pages). This
+            # branch is now a no-op guard: legacy_pages.py emits .html canonicals
+            # matching the .html path, so the condition below never fires. Kept
+            # in place as documentation and as a safety net if a future page
+            # emits a differing self-canonical intentionally.
             if _p.endswith(".html") and _canon == f"{SITE['domain']}{_p[:-5]}":
                 _loc_override[_p] = _canon
                 _self_canonical.append(_p)
