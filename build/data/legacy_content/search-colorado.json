@@ -1,24 +1,24 @@
 {
- "path": "/search-colorado",
- "name": "Search Colorado Homes For Sale",
- "type": null,
- "head": {
-  "title": "Find Your Dream Home in Colorado - Extensive Listings Available Now!",
-  "description": "Looking for your dream home in Colorado? Our extensive listings feature a wide range of properties throughout the state, including Denver, Loveland, Eaton, Wellington, and Fort Collins, as well as Farm and Ranch properties. From charming bungalows in small towns to modern luxury homes in the city, we have something for everyone. Our easy-to-use search tools and personalized service make finding yo",
-  "url": "https://www.thelittleladysellshomes.com/search-colorado",
-  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
-  "image": {
-   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/GET%20EXCLUSINVEL%20%282%29.png",
-   "height": 300,
-   "width": 400
-  }
- },
- "blocks": [
-  {
-   "id": "653af161f180a773390220dc",
-   "type": "pageContent",
-   "html": null
-  }
- ],
- "post": null
+  "path": "/search-colorado",
+  "name": "Search Colorado Homes For Sale",
+  "type": null,
+  "head": {
+    "title": "Find Your Dream Home in Colorado - Extensive Listings Available Now!",
+    "description": "Looking for your dream home in Colorado? Our extensive listings feature several properties throughout the state, including Denver, Loveland, Eaton, Wellington, and Fort Collins, as well as Farm and Ranch properties. From charming bungalows in small towns to modern luxury homes in the city, we have something for everyone. Our easy-to-use search tools and personalized service make finding yo",
+    "url": "https://www.thelittleladysellshomes.com/search-colorado",
+    "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+    "image": {
+      "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/GET%20EXCLUSINVEL%20%282%29.png",
+      "height": 300,
+      "width": 400
+    }
+  },
+  "blocks": [
+    {
+      "id": "653af161f180a773390220dc",
+      "type": "pageContent",
+      "html": null
+    }
+  ],
+  "post": null
 }

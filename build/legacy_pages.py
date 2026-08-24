@@ -116,6 +116,31 @@ RENAMED = {
     # home-worth entry above, which redirects here for the same reason).
     "/how-much-is-my-home-worth-1": "/free-home-valuation.html",
     "/how-much-is-your-home-worth-1": "/free-home-valuation.html",
+    # 2026-08-23: Christine sells Northern Colorado, not Wyoming. These 17
+    # Wyoming-focused pages were carried over from an old AgentFire capture
+    # that indiscriminately generated city+state landing pages for the
+    # entire IDX feed radius. They're all off-topic for the brand: Christine
+    # is a NoCo agent (Loveland, Fort Collins, Greeley, Windsor, Estes Park,
+    # ...), not a Cheyenne/Burns WY agent. 301 all of them to the NoCo
+    # communities index so any accumulated equity funnels into the market
+    # she actually serves.
+    "/cheyenne-wy-market-report-and-trends": "/communities/index.html",
+    "/greeley-wyoming-stats": "/communities/index.html",
+    "/search-wyoming": "/search-homes.html",
+    "/homes-for-sale-in-burns-wy": "/communities/index.html",
+    "/homes-for-sale-in-burns-wy-under-250000": "/communities/index.html",
+    "/homes-for-sale-in-burns-wy-250000-to-400000": "/communities/index.html",
+    "/homes-for-sale-in-burns-wy-400000-to-600000": "/communities/index.html",
+    "/homes-for-sale-in-burns-wy-600000-to-800000": "/communities/index.html",
+    "/homes-for-sale-in-burns-wy-800000-to-1000000": "/communities/index.html",
+    "/homes-for-sale-in-cheyenne-wy": "/communities/index.html",
+    "/homes-for-sale-in-cheyenne-wy-under-250000": "/communities/index.html",
+    "/homes-for-sale-in-cheyenne-wy-250000-to-400000": "/communities/index.html",
+    "/homes-for-sale-in-cheyenne-wy-400000-to-600000": "/communities/index.html",
+    "/homes-for-sale-in-cheyenne-wy-600000-to-800000": "/communities/index.html",
+    "/homes-for-sale-in-cheyenne-wy-800000-to-1000000": "/communities/index.html",
+    "/luxury-homes-for-sale-in-burns-wy": "/communities/index.html",
+    "/luxury-homes-for-sale-in-cheyenne-wy": "/communities/index.html",
 }
 
 

@@ -1,65 +1,65 @@
 {
- "path": "/search-by-area",
- "name": "Search by Area",
- "type": null,
- "head": {
-  "title": "Find Your Dream Home in Colorado - Extensive Listings Available Now!",
-  "description": "Looking for your dream home in Colorado? Our extensive listings feature a wide range of properties throughout the state, including Denver, Loveland, Eaton, Wellington, and Fort Collins, as well as Farm and Ranch properties. From charming bungalows in small towns to modern luxury homes in the city, we have something for everyone. Our easy-to-use search tools and personalized service make finding yo",
-  "url": "https://www.thelittleladysellshomes.com/search-by-area",
-  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
-  "image": {
-   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/GET%20EXCLUSINVEL%20%282%29.png",
-   "height": 300,
-   "width": 400
-  }
- },
- "blocks": [
-  {
-   "id": "featured-locations-100007836-heading",
-   "type": "pageHeading",
-   "html": null
+  "path": "/search-by-area",
+  "name": "Search by Area",
+  "type": null,
+  "head": {
+    "title": "Find Your Dream Home in Colorado - Extensive Listings Available Now!",
+    "description": "Looking for your dream home in Colorado? Our extensive listings feature several properties throughout the state, including Denver, Loveland, Eaton, Wellington, and Fort Collins, as well as Farm and Ranch properties. From charming bungalows in small towns to modern luxury homes in the city, we have something for everyone. Our easy-to-use search tools and personalized service make finding yo",
+    "url": "https://www.thelittleladysellshomes.com/search-by-area",
+    "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+    "image": {
+      "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/GET%20EXCLUSINVEL%20%282%29.png",
+      "height": 300,
+      "width": 400
+    }
   },
-  {
-   "id": "featured-locations-100007836",
-   "type": "featuredLocations",
-   "html": null,
-   "options": {
-    "format": "tiles",
-    "featuredLocationIds": [
-     "74982",
-     "74991",
-     "74997",
-     "79234",
-     "74977",
-     "74996",
-     "74990",
-     "74981",
-     "74979",
-     "74998",
-     "74988",
-     "74967",
-     "74995",
-     "74993",
-     "74978",
-     "74983",
-     "74992",
-     "74999",
-     "74985",
-     "74989",
-     "74984",
-     "74994",
-     ""
-    ],
-    "gap": "1px",
-    "includeLinks": true,
-    "excludeFeaturedLocationContext": false
-   }
-  },
-  {
-   "id": "content-bottom-featured-locations-100007836",
-   "type": "customContent",
-   "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p style=\"text-align: center;\">Contact Christine at 303-709-4262 for all Colorado</p>\r\n</body></html>\n"
-  }
- ],
- "post": null
+  "blocks": [
+    {
+      "id": "featured-locations-100007836-heading",
+      "type": "pageHeading",
+      "html": null
+    },
+    {
+      "id": "featured-locations-100007836",
+      "type": "featuredLocations",
+      "html": null,
+      "options": {
+        "format": "tiles",
+        "featuredLocationIds": [
+          "74982",
+          "74991",
+          "74997",
+          "79234",
+          "74977",
+          "74996",
+          "74990",
+          "74981",
+          "74979",
+          "74998",
+          "74988",
+          "74967",
+          "74995",
+          "74993",
+          "74978",
+          "74983",
+          "74992",
+          "74999",
+          "74985",
+          "74989",
+          "74984",
+          "74994",
+          ""
+        ],
+        "gap": "1px",
+        "includeLinks": true,
+        "excludeFeaturedLocationContext": false
+      }
+    },
+    {
+      "id": "content-bottom-featured-locations-100007836",
+      "type": "customContent",
+      "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p style=\"text-align: center;\">Contact Christine at 303-709-4262 for all Colorado</p>\r\n</body></html>\n"
+    }
+  ],
+  "post": null
 }

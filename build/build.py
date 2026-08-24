@@ -7871,6 +7871,100 @@ def _guide_body_html(paragraphs):
     return "\n      ".join(parts)
 
 
+def _tllsh_buyers_guide_sections():
+    return [
+        {"h2": "Step 1 \u2014 Get Pre-Approved (Not Pre-Qualified)", "paragraphs": [
+            "Pre-qualification is a soft credit pull and a self-reported income snapshot. Pre-approval is a full underwriting-lite pass \u2014 verified income, verified assets, credit pulled, and a specific loan amount you can actually close on. In Northern Colorado in 2026, no listing agent takes a pre-qualification seriously. Get pre-approved before you tour houses, not after you find one.",
+            "Talk to two or three lenders, not one. Local NoCo credit unions and mortgage brokers routinely beat the big-bank pricing by a quarter point on rate and hundreds on fees. Ask each one for a Loan Estimate on the same loan amount, same day, and compare the APR line and the section-A origination charges. That's the real number.",
+            "If your budget puts you into jumbo territory (roughly above $766,550 for a single-family in Larimer/Weld as of 2026), start earlier. Jumbo pre-approvals take longer, and the reserve requirements are stiffer. A one-week delay at contract is not the moment to find that out.",
+        ]},
+        {"h2": "Step 2 \u2014 Get Your Alerts Set Up Right", "paragraphs": [
+            "The public portals (Zillow, Realtor.com, Redfin) are 24\u201348 hours behind the local IRES MLS. In a normal week that's noise. In a tight week for a hot price point, that's the difference between touring first and touring after four offers are in.",
+            "What I set up for buyer clients: an IRES saved-search alert that fires the moment a matching listing hits, with the specific filters we build together \u2014 price range, bed/bath, min lot size, town or subdivision, and the specific dealbreakers (no HOA over $300, no metro district over 50 mills, no north-facing driveway if snow-melt matters to you). Alerts arrive by email or text and beat the public sites by a full business day.",
+            "On \u201cprivate\u201d and \u201coff-market\u201d claims: 90% of what agents call off-market is either a coming-soon listing that will be on the MLS within days, or an expired listing an agent is fishing on. Real pocket inventory is rare and almost always relationship-driven. If it matters to you, ask me directly what I'm actually seeing.",
+        ]},
+        {"h2": "Step 3 \u2014 Tour Smart", "paragraphs": [
+            "Four to six houses in a day, maximum. After the sixth house judgment degrades \u2014 people start saying \u201cthis one is fine\u201d about houses they'd have said no to at breakfast.",
+            "Bring a notebook, take one photo from the same angle at every house (front elevation, primary entry), and write down one specific concern per house before you leave the driveway. Traffic noise, sun exposure, floorplan flow, condition of the mechanicals, HOA restrictions. It has to be specific.",
+            "The neighborhood test: drive the block on a Tuesday morning and again on a Saturday night before you write. What the street feels like when the agent isn't there is what you'll actually live with.",
+        ]},
+        {"h2": "Step 4 \u2014 Writing The Offer", "paragraphs": [
+            "Price is the loudest term but rarely the deciding one when the market is close. In a multiple-offer scenario in NoCo, the terms that move a seller are: earnest money above 1% of price, close date within 30\u201335 days, financing type (conventional beats FHA/VA on tie-breakers, cash beats everything), inspection objection window shortened from 10 to 5\u20137 days, and appraisal gap language if the price is a stretch to comp.",
+            "What a good offer letter does: names the seller correctly, states the specific reason this house fits your family, and stays under one page. What it does not do: guilt, story-tell, or reference the seller's personal circumstances. Colorado Fair Housing law makes some kinds of personal-story letters risky for the seller to consider \u2014 keep it factual.",
+            "On the first offer being the best offer: in a balanced market, yes. Sellers get the most attention in the first 10\u201314 days on market. If you love it in that window, write a strong number. If it has been sitting 30+ days, there is room \u2014 write what you'd actually pay and be prepared to walk.",
+        ]},
+        {"h2": "Step 5 \u2014 Concessions, Closing Costs, And What The Seller Might Cover", "paragraphs": [
+            "Closing costs on a Northern Colorado purchase run 2\u20134% of price for the buyer \u2014 lender fees, title, appraisal, HOA transfer, first-year insurance, prepaid taxes and interest, and a chunk of that goes to an escrow reserve the lender collects. On a $600K purchase that's $12,000\u2013$24,000 out of pocket at close, on top of your down payment.",
+            "What sellers will consider covering: an interest-rate buydown (a 2-1 temporary buydown on a conventional loan costs the seller roughly 2.3% of the loan amount and can drop your rate by 2 points in year one), a repair credit at close, or a straight seller-paid closing-cost credit. What limits it: your loan type has a hard cap (3% for conventional under 90% LTV, 6% above that; 6% for FHA; 4% for VA), and the appraisal has to support the higher contract price if the seller is effectively rolling costs in.",
+            "The math I run for buyer clients: total-cash-to-close today, plus year-one payment, plus year-two payment. Rate buydowns look great in year one and expensive in year three; a straight price reduction is boring and better long-term. Depends on how long you're staying.",
+        ]},
+        {"h2": "Step 6 \u2014 Inspection", "paragraphs": [
+            "Hire your own inspector, not the one the lender or agent picks. Cost runs $450\u2013$700 for a standard inspection, plus $200\u2013$300 for radon and another $150\u2013$500 for sewer scope on any house 25+ years old. Do all three. Skipping any of them is the story I hear most often at the two-year mark.",
+            "What actually kills deals in NoCo: sewer scope shows a collapsed clay line ($8K\u2013$15K), radon comes back over 4.0 pCi/L (fixable, $1,200\u2013$1,800), electrical panel is a recalled Zinsco or Federal Pacific (needs a full swap, $2,500\u2013$4,500), foundation shows expansive-soil damage (structural engineer needed, price varies wildly), or the roof is past its warranty with active leaks.",
+            "What to negotiate: dollars, not repairs. A seller-paid credit at closing lets you pick your own contractor after you own the house; a seller repair is done by the cheapest bid the seller can find. Same money, different outcome.",
+        ]},
+        {"h2": "Step 7 \u2014 Appraisal And Title", "paragraphs": [
+            "The appraiser is the lender's independent eye on the deal, and in a rising or lateral market they occasionally come in low. If that happens, you have three options: seller drops price to appraised value, you split the gap in cash, or you walk (assuming you have an appraisal contingency \u2014 don't waive it without a real reason).",
+            "Title exceptions to actually read: HOA covenants, mineral-rights conveyance, water-rights conveyance, easements crossing the lot, and any recorded liens. Your title company will send a title commitment about 10 days before close; open it and read it. If anything is unclear, ask.",
+        ]},
+        {"h2": "Step 8 \u2014 Colorado-Specific Items That Surprise Out-Of-State Buyers", "paragraphs": [
+            "Wells and septic: any property outside a city's water/sewer service (common in Berthoud, Loveland foothills, north of Wellington, Estes area) is on a private well and septic system. Well permits are recorded with the state; ditch shares and augmentation plans are separate legal instruments; septic requires a Larimer County OWTS transfer inspection at sale. This adds 2\u20134 weeks and $500\u2013$1,500 to the transaction.",
+            "HOA vs. metro district: an HOA charges monthly dues for shared amenities. A metro district is a taxing authority \u2014 it shows up on your property tax bill and can run $2K\u2013$8K annually for 30+ years to pay off subdivision infrastructure bonds. Every new-construction NoCo subdivision built after 2005 has one. Ask what the mill levy is; anything above 50 is worth a hard second look.",
+            "Radon: Colorado is a Zone 1 (highest risk) state and roughly half of NoCo homes test above the EPA action level. Test it. Mitigation is $1,200\u2013$1,800 and works.",
+            "Hail: Front Range hail seasons run May through September and total-loss roofs happen. Get an insurance quote before you write \u2014 some carriers are pulling out of Colorado, and premiums have gone up 30\u201360% in three years. A five-figure annual premium changes the affordability math.",
+        ]},
+        {"h2": "What This Looks Like With Me", "paragraphs": [
+            "The above is the guide. What the day-to-day of a buyer engagement looks like with me: an initial call to walk through your specific situation (budget, timeline, must-haves, dealbreakers), lender referrals if you don't have one, alerts set up the same day, a shared shortlist we update after each tour block, and honest feedback on every house we see \u2014 including the ones you like that I think you shouldn't buy.",
+            "RealTrends Verified in the top 0.5% of Realtors nationwide, Certified Luxury Home Marketing Specialist (CLHMS), Certified Real Estate Negotiator (CREN), and 27 years working this market. Bold marketing, strategic pricing, fierce negotiation \u2014 at every price point.",
+            "The first conversation costs nothing and commits you to nothing. <a href=\"tel:3037094262\">Call or text 303-709-4262</a> \u2014 that is Christine's own line, not an office queue.",
+        ]},
+    ]
+
+
+def _tllsh_sellers_guide_sections():
+    return [
+        {"h2": "Step 1 \u2014 The Pricing Conversation (Weeks Before Listing)", "paragraphs": [
+            "Pricing is the one decision that controls everything else \u2014 how many showings you get in week one, whether the offers come in above or below list, and how long the house sits. In Northern Colorado in 2026, houses priced right sell in 10\u201321 days at or above list; houses priced 5% too high sit 60+ days and close 3\u20135% under a correctly-priced comp. The math punishes optimism.",
+            "My pricing process: three passes on the comps. First, closed comps in the last 90 days within a mile, adjusted for square footage, condition, lot, and year built. Second, active competition today \u2014 what a buyer sees when they filter for your price range. Third, the ceiling test \u2014 the highest comparable close in the last six months and whether there's a real path to beat it. Then we pick a number and a strategy: list at price, price a hair below to invite competition, or list above the highest comp with a specific reason we can defend.",
+            "What I will not do: promise a price to win the listing. If two agents give you dramatically different numbers, one of them is buying your listing. Ask each for the closed comps that support the price, in writing. Anyone who can't produce them is guessing.",
+        ]},
+        {"h2": "Step 2 \u2014 Pre-Listing Prep: What Pays, What Doesn't", "paragraphs": [
+            "What pays: interior paint in a warm neutral (~$3K, returns 3\u20135x); professional deep clean and carpet clean ($400\u2013$700, returns 5x+ in perceived condition); minor curb-appeal (fresh mulch, front-door paint, dead-plant removal, $200\u2013$500, biggest first-impression lever we have); replacing broken/dated light fixtures in the entry, kitchen, and primary bath (~$800 for three fixtures, big psychological lift).",
+            "What doesn't: kitchen renovations timed to the listing (buyers price against a rehab budget, you rarely recover the cost), color-of-the-moment paint choices, new appliances if the current ones work, and any \u201ctrendy\u201d update that will look dated in three years. Skip.",
+            "What to fix, always: any deferred maintenance an inspector will catch \u2014 roof leaks, plumbing drips, GFCI outlets, missing smoke/CO detectors, radon mitigation if you know it's high. Fix these before listing, not during negotiation, because they cost less to fix pre-listing and they don't become buyer leverage.",
+        ]},
+        {"h2": "Step 3 \u2014 Photography, Video, And Marketing That Moves NoCo Houses", "paragraphs": [
+            "90% of buyers form a first impression from the online photos before they ever tour. Professional photography is not a nice-to-have \u2014 it is the entire top of the funnel. What I include on every listing: a full architectural photo shoot (30\u201360 images), a walkthrough video, drone stills if the lot or location matters, twilight shots for luxury tier, and a floor plan drawn from measured dimensions.",
+            "Where the listing has to be to actually get seen: IRES MLS (feeds every syndication), Zillow (Premier Agent placement), Realtor.com, Redfin, plus targeted Facebook and Instagram ads keyed to buyer zip codes we know are moving into your specific price point. And a dedicated single-property landing page for luxury listings.",
+            "The marketing budget scales with the price point. A $500K Loveland listing needs a strong photo shoot and syndication. A $2M Signature Property Collection listing needs the full luxury treatment \u2014 print in the CLHMS network, single-property site, targeted digital, and coordinated open-house programming.",
+        ]},
+        {"h2": "Step 4 \u2014 The First Two Weeks Decide The Rest", "paragraphs": [
+            "Days 1\u201314 on market get the most buyer traffic. If your first two weekends produce fewer than eight showings and no offers on a well-photographed listing, the price is wrong. Not the marketing. Not the day of week. The price.",
+            "The signal I watch: showings-per-week and the feedback ratio (positive feedback that turns into offers vs. positive feedback that goes silent). Silence is the market's answer that the number is off. When the data says so, we adjust \u2014 typically 2\u20134% \u2014 rather than sitting and hoping.",
+            "Price reductions in weeks 3\u20134 recover most of the momentum. Price reductions in weeks 6+ mostly signal desperation and invite lowballs. Move on data, move early.",
+        ]},
+        {"h2": "Step 5 \u2014 Offer Review: What To Negotiate Besides Price", "paragraphs": [
+            "Terms that materially change the offer's value beyond the headline price: earnest money amount (1%+ is serious), close date (30\u201335 days is standard; shorter is aggressive), financing type and pre-approval strength, inspection objection window (shorter is better for seller), appraisal gap coverage in cash, and any post-close occupancy the buyer offers (rent-back to give you flexibility).",
+            "Multiple offers: I present all offers on a common summary sheet with terms normalized so we can compare apples to apples. Then we decide together: accept, counter one, counter all with a highest-and-best deadline, or accept one and back up others.",
+            "What I look for besides price: is the lender someone I've closed with (local matters), how strong is the pre-approval, what's the buyer's specific financing type, and is there any language in the offer that gives the buyer an easy way out. Sometimes the second-highest offer is the strongest offer.",
+        ]},
+        {"h2": "Step 6 \u2014 Inspection And Appraisal Objections", "paragraphs": [
+            "After inspection the buyer submits an inspection objection: a list of items they want addressed. Some are legitimate (safety, structural, unpermitted work); some are wish-list. I sort them into three buckets: must-address (safety, discoverable defects), reasonable-to-address (major mechanicals with documented issues), and no-way (cosmetic, wear-and-tear, code updates on grandfathered items).",
+            "What I negotiate: a lump-sum credit at close beats a list of seller-completed repairs almost every time. Buyer gets to pick their own contractor; seller doesn't scramble for bids in a 10-day window. Same dollar, less friction.",
+            "Appraisal comes in low: this is a real risk when the contract price beats the highest recent close. The playbook: rebut with better comps if we have them, or negotiate a split. Buyer covers gap in cash, seller drops price to appraised value, or somewhere in between. I have supporting comps ready before appraisal, not after.",
+        ]},
+        {"h2": "Step 7 \u2014 Close And Move-Out", "paragraphs": [
+            "Two weeks out from close: schedule movers, notify utilities, forward mail, do your final HOA/metro district payoff. The final walk-through is the buyer's opportunity to confirm the house is in the same condition as the day they wrote the offer \u2014 clean, empty, and all fixtures and appliances noted in the contract still present.",
+            "Day of close: sign paperwork with the title company (Larimer and Weld both allow remote notarization if you're already relocated), keys handed over, funds wired the same day or next business day. My involvement doesn't end at signing \u2014 I'm your point of contact if anything surfaces post-close.",
+        ]},
+        {"h2": "What This Looks Like With Me", "paragraphs": [
+            "The above is the guide. What a real listing engagement looks like: an in-home consultation to walk the property together, a written pricing recommendation with the comps that support it, a full marketing plan with the specific media and budget for your price point, and honest feedback throughout \u2014 including when I think we should move on price and when I think we should hold.",
+            "RealTrends Verified in the top 0.5% of Realtors nationwide, Certified Luxury Home Marketing Specialist (CLHMS), Certified Real Estate Negotiator (CREN), and 27 years working this market. Bold marketing, strategic pricing, fierce negotiation \u2014 at every price point.",
+            "The first conversation costs nothing and commits you to nothing. <a href=\"tel:3037094262\">Call or text 303-709-4262</a> \u2014 that is Christine's own line, not an office queue.",
+        ]},
+    ]
+
+
 def build_guides():
     for data_key, path, title, description in GUIDE_PAGES:
         g = GUIDES.get(data_key)
@@ -7897,7 +7991,7 @@ def build_guides():
     # Lead-capture landing pages (mirror the live site's PDF-download offers,
     # wired to the same Netlify Forms pattern as /contact.html for now).
     def _lead_guide(path, title, description, kicker, headline, bullets, form_name=None,
-                    lede=None):
+                    lede=None, content_sections=None):
         # 2026-08-13 fix: this used to derive the form name from the path
         # via `path.strip('/').replace('/', '-')`, which for
         # "/guides/buyers-guide.html" produces "guides-buyers-guide.html"
@@ -7943,31 +8037,56 @@ def build_guides():
   </div>
 </section>
 """
+        if content_sections:
+            body += "\n<section>\n  <div class=\"wrap\" style=\"max-width:780px\">\n"
+            for sec in content_sections:
+                if sec.get('h2'):
+                    body += f"    <h2 class=\"section-title\">{esc(sec['h2'])}</h2>\n"
+                if sec.get('h3'):
+                    body += f"    <h3>{esc(sec['h3'])}</h3>\n"
+                for para in sec.get('paragraphs', []):
+                    body += f"    <p>{para}</p>\n"
+                if sec.get('list'):
+                    body += "    <ul>\n"
+                    for item in sec['list']:
+                        body += f"      <li>{item}</li>\n"
+                    body += "    </ul>\n"
+            body += "    <div class=\"btn-row\" style=\"justify-content:flex-start;margin-top:40px\">\n"
+            body += f"      <a class=\"btn btn-dark\" href=\"/contact.html\">Talk To {esc(SITE['agent'].split()[0])} Directly</a>\n"
+            body += "    </div>\n  </div>\n</section>\n"
         page(title, description, path, None, body)
 
     _lead_guide(
         "/guides/buyers-guide.html",
-        "Free Buyer's Guide | The Little Lady Sells Homes",
-        "Get our free Buyer's Guide packed with pro strategies for finding your dream "
-        "home in Northern Colorado.",
-        "Buy Like A Pro", "Free Buyer's Guide",
-        ["Leverage the internet for first-to-know listings, private deals, and custom alerts",
-         "Find the right lender — and get the best mortgage terms with ease",
-         "Make the perfect offer — often the first is the one that wins",
-         "Negotiate closing costs so the seller covers key expenses"],
+        "Northern Colorado Buyer's Guide | The Little Lady Sells Homes",
+        "A working buyer's guide for Northern Colorado — the eight steps that actually "
+        "decide whether you close on the right house at the right price.",
+        "Buy Like A Pro", "The Northern Colorado Buyer's Guide",
+        ["How lender selection and rate-shopping actually work in this market",
+         "Where to find real off-market inventory (and why most \u201cprivate listing\u201d claims aren't)",
+         "How to write an offer that wins without overpaying",
+         "Concessions, closing-cost math, and what to ask the seller to cover",
+         "Inspection, appraisal, and title \u2014 the three deal-killers and how to survive them",
+         "Colorado-specific line items: wells, septic, HOA vs. metro district, radon, hail"],
         form_name="buyers-guide",
+        lede="Written for people actually shopping the Northern Colorado market right now \u2014 Loveland, Fort Collins, Windsor, Berthoud, Wellington and the towns in between. No filler. The order the steps actually go in, and what to do at each one.",
+        content_sections=_tllsh_buyers_guide_sections(),
     )
     _lead_guide(
         "/guides/sellers-guide.html",
-        "Free Seller's Guide | The Little Lady Sells Homes",
-        "Unlock home selling success with our free guide — staging, pricing, and "
-        "attracting buyers fast.",
-        "Pre-Listing Guide", "Free Seller's Guide",
-        ["Stage your home for maximum appeal",
-         "Avoid common mistakes sellers make",
-         "Understand pricing strategies that work",
-         "Attract the right buyers quickly"],
+        "Northern Colorado Seller's Guide | The Little Lady Sells Homes",
+        "A working seller's guide for Northern Colorado \u2014 the pre-listing decisions, "
+        "the pricing math, and the marketing that actually moves NoCo houses.",
+        "Pre-Listing Guide", "The Northern Colorado Seller's Guide",
+        ["Pre-listing prep \u2014 what pays, what doesn't, and what to skip",
+         "The pricing conversation \u2014 comps, the ceiling test, and how the first two weeks decide the rest",
+         "Photography, video, and marketing that gets a NoCo house showing traffic",
+         "Showings, feedback, and the price-adjustment triggers",
+         "Offer review \u2014 what to negotiate besides price",
+         "Inspection and appraisal objections \u2014 what to concede and what to hold"],
         form_name="sellers-guide",
+        lede="For homeowners preparing to list in Northern Colorado \u2014 Loveland, Fort Collins, Windsor, Berthoud, Wellington and the surrounding towns. What the pre-listing weeks should actually look like, and what separates a house that sells fast at a strong number from one that doesn't.",
+        content_sections=_tllsh_sellers_guide_sections(),
     )
     # 2026-08-16 (competitive audit, potterealty.com): the one thing the competing
     # NoCo site does that this one did not. His entire homepage funnels to a single
@@ -8148,7 +8267,7 @@ MARKET_TOPIC_PAGES = [
                 "Colorado retirement communities and what makes each one a fit.",
         "intro": "Northern Colorado has become one of the most searched retirement "
                   "destinations in the Mountain West — abundant sunshine, outdoor "
-                  "access from world-class trails to Rocky Mountain National Park, a "
+                  "access from serious hiking trails right up into Rocky Mountain National Park, a "
                   "cost of living that meaningfully undercuts Denver and Boulder, and "
                   "strong healthcare infrastructure. But \"NoCo\" isn't one thing — "
                   "it's a collection of communities, each with a distinct character, "

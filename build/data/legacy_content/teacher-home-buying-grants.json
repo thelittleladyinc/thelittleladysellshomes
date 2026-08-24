@@ -1,139 +1,139 @@
 {
- "path": "/teacher-home-buying-grants",
- "name": "Colorado Teacher Home Buying Grants",
- "type": null,
- "head": {
-  "title": "Home Buying Help for Northern Colorado Teachers | The Little Lady Sells Homes",
-  "description": "Are you a Northern Colorado teacher struggling to afford a home? The Little Lady Sells Homes offers $1000 to teacher clients to help with closing costs or down payments. Check out our comprehensive list of teacher salary schedules and learn how to buy a home with nothing down. Contact us at 303-709-4262.",
-  "url": "https://www.thelittleladysellshomes.com/teacher-home-buying-grants",
-  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
-  "image": {
-   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/AdobeStock_277492346.jpeg",
-   "height": 300,
-   "width": 400
-  }
- },
- "blocks": [
-  {
-   "id": "6a84f467b704d1713201fd9c",
-   "type": "pageHeading",
-   "html": null
+  "path": "/teacher-home-buying-grants",
+  "name": "Colorado Teacher Home Buying Grants",
+  "type": null,
+  "head": {
+    "title": "Home Buying Help for Northern Colorado Teachers | The Little Lady Sells Homes",
+    "description": "Are you a Northern Colorado teacher struggling to afford a home? The Little Lady Sells Homes offers $1000 to teacher clients to help with closing costs or down payments. Check out our comprehensive list of teacher salary schedules and learn how to buy a home with nothing down. Contact us at 303-709-4262.",
+    "url": "https://www.thelittleladysellshomes.com/teacher-home-buying-grants",
+    "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+    "image": {
+      "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/AdobeStock_277492346.jpeg",
+      "height": 300,
+      "width": 400
+    }
   },
-  {
-   "id": "custom-form-300227738",
-   "type": "form",
-   "html": null,
-   "options": {
-    "action": "/teacher-home-buying-grants",
-    "layout": "single",
-    "formBlocks": [
-     {
-      "id": "6a84f467b704d1713201fd9d",
-      "type": "customContent",
-      "options": {
-       "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><h1 style=\"text-align: center;\">Colorado Teacher Home Buying Grants<br>\r\n<img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/AdobeStock_277492346.jpeg?width=400&amp;height=267&amp;aspect_ratio=400%3A267\" style=\"border-width: 0px; border-style: solid; width: 400px; height: 267px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/AdobeStock_277492346.jpeg?width=800&amp;height=534&amp;aspect_ratio=400%3A267 2x\"></h1>\r\n\r\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td></td>\r\n\t\t\t<td style=\"text-align: center;\">\r\n\t\t\t<p>As a former teacher of 23 years, Christine has a HUGE&nbsp;<img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/heart.png?width=20&amp;height=17&amp;aspect_ratio=20%3A17\" style=\"border-width: 0px; border-style: solid; width: 20px; height: 17px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/heart.png?width=40&amp;height=34&amp;aspect_ratio=20%3A17 2x\">&nbsp;for teachers.<br>\r\n\t\t\tChristine, a former teacher of 23 years, understands the struggles that educators face when it comes to owning a home in Northern Colorado.<br>\r\n\t\t\tWith home prices increasing at a faster rate than teaching salaries, it can be challenging to get ahead.<br>\r\n\t\t\tThat's why she offers a $1000 incentive to Teacher Clients to help with closing costs or down payments.</p>\r\n\r\n\t\t\t<p style=\"text-align: left;\">Christine's passion for education doesn't stop there. She has collected all the Northern Colorado Teacher Salary <span style=\"font-size:18px;\"><a href=\"/colorado-teacher-salary-schedules\">SCHEDULES</a></span>&nbsp;in one place, from St. Vrain School District to the south to Poudre and Thompson School Districts to the north, to help current or future teachers learn which school district they want to work with.&nbsp; Additionally, some cities and school districts, such as Greeley, Colorado and School District 6, offer programs to help educators. To learn about Greeley's G-Hope program, click <a href=\"https://greeleygov.com/government/cmo/special-programs\">HERE</a>. If you're interested in buying a home with nothing down, contact Christine at 303-709-4262. As a trusted real estate expert in Northern Colorado, she's here to help make your dream of homeownership a reality.<br>\r\n\t\t\t<br>\r\n\t\t\tTo learn more about buying a home with nothing down, call Christine at 303-709-4262</p>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p></p></body></html>\n"
-      }
-     },
-     {
-      "id": "6a84f467b704d1713201fd9e",
-      "type": "textInput",
-      "mode": "default",
-      "options": {
-       "name": "name-301656059",
-       "label": "Name:",
-       "value": "",
-       "required": true
-      }
-     },
-     {
-      "id": "6a84f467b704d1713201fd9f",
-      "type": "textInput",
-      "mode": "default",
-      "options": {
-       "name": "email-301656060",
-       "label": "Email Address:",
-       "value": "",
-       "required": true,
-       "validate": "email"
-      }
-     },
-     {
-      "id": "6a84f467b704d1713201fda0",
-      "type": "textInput",
-      "mode": "default",
-      "options": {
-       "name": "phone-301656061",
-       "label": "Phone Number:",
-       "value": "",
-       "required": true,
-       "validate": "phone"
-      }
-     },
-     {
-      "id": "6a84f467b704d1713201fda1",
-      "type": "textArea",
-      "mode": "default",
-      "options": {
-       "name": "textarea-301656062",
-       "label": "Message:",
-       "value": "",
-       "required": true
-      }
-     },
-     {
-      "id": "6a84f467b704d1713201fda2",
-      "type": "selectMultiple",
-      "mode": "default",
-      "options": {
-       "name": "checkboxes-301681864",
-       "label": "Check all boxes that apply:",
-       "value": [],
-       "options": [
-        "Tour A Property",
-        "First Time Homebuyer",
-        "Investor",
-        "Relocating",
-        "Rent To Own",
-        "Teacher",
-        "Veteran",
-        "Client Appreciation",
-        "None of the above"
-       ],
-       "required": true
-      }
-     },
-     {
-      "id": "6a84f467b704d1713201fda3",
-      "type": "checkbox",
-      "mode": "default",
-      "options": {
-       "name": "marketing-opt-in-301984421",
-       "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
-       "value": false,
-       "required": true
-      }
-     }
-    ],
-    "initialValues": {
-     "name-301656059": "",
-     "email-301656060": "",
-     "phone-301656061": "",
-     "textarea-301656062": "",
-     "checkboxes-301681864": [],
-     "marketing-opt-in-301984421": false
+  "blocks": [
+    {
+      "id": "6a84f467b704d1713201fd9c",
+      "type": "pageHeading",
+      "html": null
     },
-    "initialErrors": {
-     "name-301656059": "",
-     "email-301656060": "",
-     "phone-301656061": "",
-     "textarea-301656062": "",
-     "checkboxes-301681864": "",
-     "marketing-opt-in-301984421": ""
-    },
-    "useCaptcha": false,
-    "context": "page"
-   }
-  }
- ],
- "post": null
+    {
+      "id": "custom-form-300227738",
+      "type": "form",
+      "html": null,
+      "options": {
+        "action": "/teacher-home-buying-grants",
+        "layout": "single",
+        "formBlocks": [
+          {
+            "id": "6a84f467b704d1713201fd9d",
+            "type": "customContent",
+            "options": {
+              "html": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><h1 style=\"text-align: center;\">Colorado Teacher Home Buying Grants<br>\r\n<img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/AdobeStock_277492346.jpeg?width=400&amp;height=267&amp;aspect_ratio=400%3A267\" style=\"border-width: 0px; border-style: solid; width: 400px; height: 267px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/AdobeStock_277492346.jpeg?width=800&amp;height=534&amp;aspect_ratio=400%3A267 2x\"></h1>\r\n\r\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td></td>\r\n\t\t\t<td style=\"text-align: center;\">\r\n\t\t\t<p>As a former teacher of 23 years, Christine has a HUGE&nbsp;<img alt=\"\" src=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/heart.png?width=20&amp;height=17&amp;aspect_ratio=20%3A17\" style=\"border-width: 0px; border-style: solid; width: 20px; height: 17px;\" srcset=\"https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/heart.png?width=40&amp;height=34&amp;aspect_ratio=20%3A17 2x\">&nbsp;for teachers.<br>\r\n\t\t\tChristine, a former teacher of 23 years, understands the struggles that educators face on owning a home in Northern Colorado.<br>\r\n\t\t\tWith home prices increasing at a faster rate than teaching salaries, it can be challenging to get ahead.<br>\r\n\t\t\tThat's why she offers a $1000 incentive to Teacher Clients to help with closing costs or down payments.</p>\r\n\r\n\t\t\t<p style=\"text-align: left;\">Christine's passion for education doesn't stop there. She has collected all the Northern Colorado Teacher Salary <span style=\"font-size:18px;\"><a href=\"/colorado-teacher-salary-schedules\">SCHEDULES</a></span>&nbsp;in one place, from St. Vrain School District to the south to Poudre and Thompson School Districts to the north, to help current or future teachers learn which school district they want to work with.&nbsp; Additionally, some cities and school districts, such as Greeley, Colorado and School District 6, offer programs to help educators. To learn about Greeley's G-Hope program, click <a href=\"https://greeleygov.com/government/cmo/special-programs\">HERE</a>. If you're interested in buying a home with nothing down, contact Christine at 303-709-4262. As a trusted real estate expert in Northern Colorado, she's here to help make your dream of homeownership a reality.<br>\r\n\t\t\t<br>\r\n\t\t\tTo learn more about buying a home with nothing down, call Christine at 303-709-4262</p>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p></p></body></html>\n"
+            }
+          },
+          {
+            "id": "6a84f467b704d1713201fd9e",
+            "type": "textInput",
+            "mode": "default",
+            "options": {
+              "name": "name-301656059",
+              "label": "Name:",
+              "value": "",
+              "required": true
+            }
+          },
+          {
+            "id": "6a84f467b704d1713201fd9f",
+            "type": "textInput",
+            "mode": "default",
+            "options": {
+              "name": "email-301656060",
+              "label": "Email Address:",
+              "value": "",
+              "required": true,
+              "validate": "email"
+            }
+          },
+          {
+            "id": "6a84f467b704d1713201fda0",
+            "type": "textInput",
+            "mode": "default",
+            "options": {
+              "name": "phone-301656061",
+              "label": "Phone Number:",
+              "value": "",
+              "required": true,
+              "validate": "phone"
+            }
+          },
+          {
+            "id": "6a84f467b704d1713201fda1",
+            "type": "textArea",
+            "mode": "default",
+            "options": {
+              "name": "textarea-301656062",
+              "label": "Message:",
+              "value": "",
+              "required": true
+            }
+          },
+          {
+            "id": "6a84f467b704d1713201fda2",
+            "type": "selectMultiple",
+            "mode": "default",
+            "options": {
+              "name": "checkboxes-301681864",
+              "label": "Check all boxes that apply:",
+              "value": [],
+              "options": [
+                "Tour A Property",
+                "First Time Homebuyer",
+                "Investor",
+                "Relocating",
+                "Rent To Own",
+                "Teacher",
+                "Veteran",
+                "Client Appreciation",
+                "None of the above"
+              ],
+              "required": true
+            }
+          },
+          {
+            "id": "6a84f467b704d1713201fda3",
+            "type": "checkbox",
+            "mode": "default",
+            "options": {
+              "name": "marketing-opt-in-301984421",
+              "label": "I agree to receive marketing and customer service calls and text messages from LPT Realty. Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.",
+              "value": false,
+              "required": true
+            }
+          }
+        ],
+        "initialValues": {
+          "name-301656059": "",
+          "email-301656060": "",
+          "phone-301656061": "",
+          "textarea-301656062": "",
+          "checkboxes-301681864": [],
+          "marketing-opt-in-301984421": false
+        },
+        "initialErrors": {
+          "name-301656059": "",
+          "email-301656060": "",
+          "phone-301656061": "",
+          "textarea-301656062": "",
+          "checkboxes-301681864": "",
+          "marketing-opt-in-301984421": ""
+        },
+        "useCaptcha": false,
+        "context": "page"
+      }
+    }
+  ],
+  "post": null
 }

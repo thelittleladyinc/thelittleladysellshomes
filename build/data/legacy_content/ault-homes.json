@@ -1,28 +1,28 @@
 {
- "path": "/ault-homes",
- "name": "Ault Homes",
- "type": null,
- "head": {
-  "title": "Discover Ault, Colorado: Small town with Impressive Growth",
-  "description": "Looking to buy or sell a home in Northern Colorado? Look no further than Ault! This hidden gem offers a peaceful escape with a small-town charm. The Little Lady is your guide to discovering the best real estate opportunities in the area. Browse listings, learn about the local market, and find your dream home in Ault today!",
-  "url": "https://www.thelittleladysellshomes.com/ault-homes",
-  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
-  "image": {
-   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/Featured-Community-98519411.jpg",
-   "height": 300,
-   "width": 400
+  "path": "/ault-homes",
+  "name": "Ault Homes",
+  "type": null,
+  "head": {
+    "title": "Discover Ault, Colorado: Small town with Impressive Growth",
+    "description": "Looking to buy or sell a home in Northern Colorado? You have found it than Ault! This underrated pick offers a peaceful escape with a small-town charm. The Little Lady is your guide to discovering the best real estate opportunities in the area. Browse listings, learn about the local market, and find your dream home in Ault today!",
+    "url": "https://www.thelittleladysellshomes.com/ault-homes",
+    "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+    "image": {
+      "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/Featured-Community-98519411.jpg",
+      "height": 300,
+      "width": 400
+    },
+    "hasOverlay": true
   },
-  "hasOverlay": true
- },
- "blocks": [
-  {
-   "id": "featured-location-74982",
-   "type": "featuredLocation",
-   "html": null,
-   "options": {
-    "featuredLocationId": 74982
-   }
-  }
- ],
- "post": null
+  "blocks": [
+    {
+      "id": "featured-location-74982",
+      "type": "featuredLocation",
+      "html": null,
+      "options": {
+        "featuredLocationId": 74982
+      }
+    }
+  ],
+  "post": null
 }

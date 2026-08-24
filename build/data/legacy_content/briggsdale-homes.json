@@ -1,28 +1,28 @@
 {
- "path": "/briggsdale-homes",
- "name": "Briggsdale Homes",
- "type": null,
- "head": {
-  "title": "Discover Briggsdale, Colorado - Your Gateway to Scenic Rural Living",
-  "description": "Nestled in the scenic plains of Northern Colorado, Briggsdale offers a peaceful escape from the bustle of city life. With vast expanses of farmland and natural beauty, Briggsdale is the perfect destination for anyone looking for a taste of rural living. Discover the town's unique charm, friendly locals, and outdoor recreation opportunities.",
-  "url": "https://www.thelittleladysellshomes.com/briggsdale-homes",
-  "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
-  "image": {
-   "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/Featured-Community-551422369.jpg",
-   "height": 300,
-   "width": 400
+  "path": "/briggsdale-homes",
+  "name": "Briggsdale Homes",
+  "type": null,
+  "head": {
+    "title": "Discover Briggsdale, Colorado - Your Gateway to Scenic Rural Living",
+    "description": "Located in the scenic plains of Northern Colorado, Briggsdale offers a peaceful escape from the bustle of city life. With vast expanses of farmland and natural beauty, Briggsdale is the perfect destination for anyone looking for a taste of rural living. Discover the town's unique charm, friendly locals, and outdoor recreation opportunities.",
+    "url": "https://www.thelittleladysellshomes.com/briggsdale-homes",
+    "ogSiteName": "Christine Gwinnup – The Little Lady Sells Homes",
+    "image": {
+      "src": "https://idx-acnt-ihouseprd.b-cdn.net/AR1140900/file_manager/Featured%20Communities/Featured-Community-551422369.jpg",
+      "height": 300,
+      "width": 400
+    },
+    "hasOverlay": true
   },
-  "hasOverlay": true
- },
- "blocks": [
-  {
-   "id": "featured-location-74997",
-   "type": "featuredLocation",
-   "html": null,
-   "options": {
-    "featuredLocationId": 74997
-   }
-  }
- ],
- "post": null
+  "blocks": [
+    {
+      "id": "featured-location-74997",
+      "type": "featuredLocation",
+      "html": null,
+      "options": {
+        "featuredLocationId": 74997
+      }
+    }
+  ],
+  "post": null
 }
