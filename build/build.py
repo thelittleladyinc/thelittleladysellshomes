@@ -4084,7 +4084,7 @@ def footer_html():
         <p style="max-width:340px;color:rgba(255,255,255,.7);line-height:1.6">
           {SITE['agent']} &middot; {SITE['brokerage']}<br>
           Homes at every price point &mdash; from first homes to acreage &mdash; across
-          Northern Colorado, Denver north to the Wyoming line.
+          Northern Colorado, from Denver north through Larimer and Weld counties.
         </p>
       </div>
       <div>
@@ -4711,8 +4711,11 @@ def build_home():
         # The description is the line Google prints, and it was describing a fraction
         # of the business. Now: what she does, where, and the phrase she uses herself.
         # Written to fit DESC_BUDGET (160) on purpose: the first draft ran to 217 and
-        # _fit_description trimmed off "Denver north to the Wyoming line", which was
-        # the whole point of rewriting it.
+        # _fit_description trimmed off "Denver north through Larimer and Weld counties",
+        # which was the whole point of rewriting it.
+        # 2026-08-24: dropped "to the Wyoming line" phrasing after Christine let her
+        # Wyoming license lapse; the new phrasing anchors to the Colorado counties she
+        # is actually licensed in.
         "Loveland & NoCo Realtor serving Berthoud, Greeley, Wellington, Estes Park & beyond. "
         "Bold marketing, strategic pricing, fierce negotiation.",
         "/index.html", None, body, extra,
@@ -8104,7 +8107,8 @@ def build_guides():
         RELOCATION_GUIDE_PATH,
         "Free Northern Colorado Relocation Guide | The Little Lady Sells Homes",
         "A free relocation guide to Northern Colorado — how the towns from Denver north "
-        "to the Wyoming line actually differ on schools, commute, price and pace.",
+        "through Larimer and Weld counties actually differ on schools, commute, price "
+        "and pace.",
         "Moving To Northern Colorado",
         "The Northern Colorado Relocation Guide",
         ["How the towns actually differ — Loveland, Fort Collins, Berthoud, Windsor, "

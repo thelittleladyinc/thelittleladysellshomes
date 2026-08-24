@@ -141,6 +141,16 @@ RENAMED = {
     "/homes-for-sale-in-cheyenne-wy-800000-to-1000000": "/communities/index.html",
     "/luxury-homes-for-sale-in-burns-wy": "/communities/index.html",
     "/luxury-homes-for-sale-in-cheyenne-wy": "/communities/index.html",
+    # 2026-08-24: Two Wyoming-boosting blog posts from Christine's earlier WY-
+    # licensed era ("Why More Coloradans Are Choosing Cheyenne" announced her
+    # Wyoming licensure in 2024; "Why Cheyenne Is Becoming a Hot Spot for Real
+    # Estate Investors" was market-cheerleading for the WY side). Her Wyoming
+    # license has since lapsed and both posts now imply services she is no
+    # longer legally able to offer. 301 both into the NoCo blog index; the
+    # Wyoming-milestone post had 8 clicks / 1822 impressions of accrued equity
+    # per legacy_terms, so a permanent redirect is worth more than a delete.
+    "/why-more-coloradans-are-choosing-cheyenne": "/blog/index.html",
+    "/why-cheyenne-is-becoming-a-hot-spot-for-real-estate-investors": "/blog/index.html",
 }
 
 
