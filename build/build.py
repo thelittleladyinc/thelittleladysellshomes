@@ -836,6 +836,23 @@ CITY_VIDEOS = {
     "broomfield-city": ("06q7rZAWEaY", "Inside This 4-Bedroom Broomfield Home", 2902),
     "denver-city": ("e7kMY1yV7GI", "Denver Home Tour — Charming Mid-Century Ranch", 1333),
     "red-feather-lakes": ("_ich5kS-VUY", "Red Feather Lakes: The Hidden Gem of Colorado", 1562),
+    # 2026-08-23 (P1 #2, Christine): filling gaps where a real lifestyle or
+    # tour video existed on the channel but wasn't pinned to the community
+    # page. Every entry below is verified real on
+    # youtube.com/@thelittleladysellshomes.
+    #
+    # Nunn: her strongest video for the town by watch count; it's a full
+    # walk of a 4,200 sq ft home on 4+ acres, which is the exact land+build
+    # combination Nunn is known for. Was showing up in TOWN_LISTING_VIDEOS
+    # only, so nobody landing on /communities/weld/nunn.html saw it above
+    # the fold.
+    "nunn": ("kAr4BH8C-JA", "4,200 Sq Ft Home on 4+ Acres in Nunn, Colorado", 2400),
+    # Fort Collins: "Is This The Best Lake In Fort Collins?" -- a lifestyle
+    # piece about Horsetooth Reservoir. Correct frame for the community page
+    # (a "why you'd want to live here" video, per the pattern the top of
+    # this table established), and lets the FoCo page finally lead with real
+    # local content instead of only listings.
+    "fort-collins": ("YvIPzWebofA", "Is This The Best Lake In Fort Collins?", 890),
 }
 
 # 2026-08-14 (luxury-only positioning, per Christine): videos whose titles

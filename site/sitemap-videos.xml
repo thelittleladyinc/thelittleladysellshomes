@@ -79,20 +79,20 @@
   <url>
     <loc>https://www.thelittleladysellshomes.com/communities/larimer/fort-collins.html</loc>
     <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/YvIPzWebofA/maxresdefault.jpg</video:thumbnail_loc>
+      <video:title>Is This The Best Lake In Fort Collins?</video:title>
+      <video:description>A local video tour of Fort Collins, Larimer County, Colorado from Christine Gwinnup of The Little Lady Sells Homes.</video:description>
+      <video:content_loc>https://www.youtube.com/watch?v=YvIPzWebofA</video:content_loc>
+      <video:player_loc>https://www.youtube-nocookie.com/embed/YvIPzWebofA</video:player_loc>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/Lv1K3yQaPWo/maxresdefault.jpg</video:thumbnail_loc>
       <video:title>Riding Through the Historic Baldwin Tunnel – Poudre Canyon, Colorado</video:title>
       <video:description>Riding Through the Historic Baldwin Tunnel – Poudre Canyon, Colorado — video from Christine Gwinnup of The Little Lady Sells Homes, covering Northern Colorado real estate.</video:description>
       <video:content_loc>https://www.youtube.com/watch?v=Lv1K3yQaPWo</video:content_loc>
       <video:player_loc>https://www.youtube-nocookie.com/embed/Lv1K3yQaPWo</video:player_loc>
-      <video:family_friendly>yes</video:family_friendly>
-      <video:live>no</video:live>
-    </video:video>
-    <video:video>
-      <video:thumbnail_loc>https://i.ytimg.com/vi/YvIPzWebofA/maxresdefault.jpg</video:thumbnail_loc>
-      <video:title>Is this the best Lake in Fort Collins?</video:title>
-      <video:description>Is this the best Lake in Fort Collins? — video from Christine Gwinnup of The Little Lady Sells Homes, covering Northern Colorado real estate.</video:description>
-      <video:content_loc>https://www.youtube.com/watch?v=YvIPzWebofA</video:content_loc>
-      <video:player_loc>https://www.youtube-nocookie.com/embed/YvIPzWebofA</video:player_loc>
       <video:family_friendly>yes</video:family_friendly>
       <video:live>no</video:live>
     </video:video>
@@ -468,6 +468,15 @@
   </url>
   <url>
     <loc>https://www.thelittleladysellshomes.com/communities/weld/nunn.html</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/kAr4BH8C-JA/maxresdefault.jpg</video:thumbnail_loc>
+      <video:title>4,200 Sq Ft Home on 4+ Acres in Nunn, Colorado</video:title>
+      <video:description>A local video tour of Nunn, Weld County, Colorado from Christine Gwinnup of The Little Lady Sells Homes.</video:description>
+      <video:content_loc>https://www.youtube.com/watch?v=kAr4BH8C-JA</video:content_loc>
+      <video:player_loc>https://www.youtube-nocookie.com/embed/kAr4BH8C-JA</video:player_loc>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
     <video:video>
       <video:thumbnail_loc>https://i.ytimg.com/vi/N57_J3llZCQ/maxresdefault.jpg</video:thumbnail_loc>
       <video:title>45 ACRES + 40x60 HEATED SHOP | Custom Colorado Ranch (No HOA) | 16225 County Road 98</video:title>
