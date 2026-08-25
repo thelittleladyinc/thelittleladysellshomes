@@ -3765,11 +3765,87 @@ NOINDEX_PATHS = {"/thank-you.html"}
 # change, same day, same reasoning as signature-property-collection.
 _INLINE_CSS = None
 
+def _assert_minifiable(css_text):
+    """Refuse to minify CSS whose meaning the minifier below would change.
+
+    Each of these is a real transform this file performs, read as a hazard:
+
+      1. `.card :hover` -- collapsing the space around `:` turns a DESCENDANT
+         combinator into a pseudo-class on the parent. Different element entirely,
+         and it fails silently: the rule still parses, it just stops matching.
+      2. `content: "a  b"` -- whitespace runs are collapsed everywhere, including
+         inside quoted strings, which are the one place they are significant.
+      3. `content: "/*"` -- a comment marker inside a string makes the comment
+         regex eat from there to the next `*/`, anywhere later in the file.
+      4. `url(... )` and any string carrying `{};:,>` -- spaces around that
+         punctuation are stripped without regard for quotes, so an inline SVG data
+         URI or a font family with a comma can come out altered.
+
+    None occur today (checked over the whole stylesheet, comments removed first so
+    prose in a comment cannot trip it). This exists for the edit that adds one.
+    """
+    body = re.sub(r"/\*[^*]*\*+(?:[^/*][^*]*\*+)*/", "", css_text)
+    strings = re.findall(r'"[^"\n]*"|\'[^\'\n]*\'', body)
+    hazards = []
+    for m in re.finditer(r"[\w\)\]] +:{1,2}[a-z-]+", body):
+        hazards.append(f"descendant combinator before a pseudo-class: {m.group(0)!r}")
+    for s in strings:
+        if re.search(r"\s\s", s):
+            hazards.append(f"significant whitespace inside a string: {s!r}")
+        if "/*" in s or "*/" in s:
+            hazards.append(f"comment marker inside a string: {s!r}")
+        if re.search(r"[{};:,>]", s) and re.search(r"\s", s):
+            hazards.append(f"spaced punctuation inside a string: {s!r}")
+    for m in re.finditer(r"url\([^)\"']*\s[^)]*\)", body):
+        hazards.append(f"whitespace inside an unquoted url(): {m.group(0)[:60]!r}")
+    if hazards:
+        raise SystemExit(
+            "style.css contains CSS the minifier would silently change:\n  "
+            + "\n  ".join(sorted(set(hazards))[:10])
+            + "\n\nThe minified copy is what every page inlines, so this would ship.\n"
+              "Rewrite the rule (a descendant combinator can be written `.card > :hover`\n"
+              "or given an explicit element), or teach _minify_css to skip strings."
+        )
+
+
+def _minify_css(css_text):
+    """Strip what a browser never needed, keep what it parses identically.
+
+    2026-08-18 added minification for exactly this reason ("PageSpeed, mobile 76")
+    but put it inside fingerprint_assets(), which rewrites site/assets/css/. That
+    file is referenced by NOTHING: all 752 pages inline their CSS via _inline_css()
+    below. So the minifier has been running on a dead file while every page shipped
+    the full source -- 86.6KB with 110 code comments, 32.9KB of comments alone, to
+    every phone on every page. tests/test-css.js checked the minified copy and
+    passed the whole time, because it was checking the artifact nobody loads.
+
+    Conservative on purpose, and unchanged from the 2026-08-18 version so the two
+    call sites cannot drift: comments, whitespace runs, and spaces around
+    punctuation CSS never needs. calc() survives because single spaces are preserved.
+
+    The patterns this transform WOULD break are checked rather than assumed. Until
+    now that was safe to hand-wave, because the minified copy was never served; from
+    this change on it is what 752 pages ship, so a stylesheet edit that introduces
+    one has to stop the build instead of silently reflowing the live site.
+    """
+    _assert_minifiable(css_text)
+    css_text = re.sub(r"/\*[^*]*\*+(?:[^/*][^*]*\*+)*/", "", css_text)
+    css_text = re.sub(r"\s+", " ", css_text)
+    css_text = re.sub(r" ?([{};:,>]) ?", r"\1", css_text)
+    css_text = css_text.replace(";}", "}")
+    return css_text.strip()
+
+
 def _inline_css():
+    """The stylesheet as it actually ships: inlined into all 752 pages.
+
+    Minified here, not just in fingerprint_assets(), because THIS is the copy a
+    visitor downloads. Source stays fully commented and readable on disk.
+    """
     global _INLINE_CSS
     if _INLINE_CSS is None:
         p = os.path.join(os.path.dirname(__file__), "assets", "css", "style.css")
-        _INLINE_CSS = open(p, encoding="utf-8").read()
+        _INLINE_CSS = _minify_css(open(p, encoding="utf-8").read())
     return _INLINE_CSS
 
 
@@ -3848,13 +3924,19 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
 <link rel="preload" href="/assets/fonts/abril-fatface-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/open-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <!-- Wave 5 P0.5: preconnect hints. Every content-heavy page here embeds
-     YouTube tours via the youtube-nocookie facade + i.ytimg thumbnails,
-     and GTM ships from googletagmanager.com. Opening those TCP/TLS
-     connections early trims ~100-300ms off the first thumbnail paint
-     on mobile without loading any of the actual assets. -->
+     YouTube tours via the youtube-nocookie facade + i.ytimg thumbnails.
+     Opening those TCP/TLS connections early trims ~100-300ms off the first
+     thumbnail paint on mobile without loading any of the actual assets.
+
+     The analytics hints are gated on their IDs. A preconnect to a host the
+     page never contacts is not free: the browser spends a connection from a
+     small per-origin budget on a DNS+TCP+TLS handshake that resolves to
+     nothing, competing with the fetches that do matter. GTM shipped
+     ungated, so with GA switched off every page opened a connection to
+     googletagmanager.com and used it for nothing. -->
 <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
 <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
-<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+{'<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>' if GA_MEASUREMENT_ID else ''}
 {'<link rel="preconnect" href="https://connect.facebook.net" crossorigin>' if META_PIXEL_ID else ''}
 <link rel="dns-prefetch" href="https://www.youtube.com">
 <style>{_inline_css()}</style>
@@ -14010,14 +14092,12 @@ def fingerprint_assets():
             # occur; calc() survives because single spaces are preserved.
             # JS is left alone: regex-minifying JavaScript is how sites break.
             if ext == ".css":
+                # Shared with _inline_css() -- two copies of this is how the inline
+                # path went unminified for a week while this one was fine.
                 with open(path, "r") as f:
                     css_text = f.read()
-                css_text = re.sub(r"/\*[^*]*\*+(?:[^/*][^*]*\*+)*/", "", css_text)
-                css_text = re.sub(r"\s+", " ", css_text)
-                css_text = re.sub(r" ?([{};:,>]) ?", r"\1", css_text)
-                css_text = css_text.replace(";}", "}")
                 with open(path, "w") as f:
-                    f.write(css_text.strip())
+                    f.write(_minify_css(css_text))
             with open(path, "rb") as f:
                 digest = hashlib.sha1(f.read()).hexdigest()[:8]
             hashed = f"{stem}.{digest}{ext}"
