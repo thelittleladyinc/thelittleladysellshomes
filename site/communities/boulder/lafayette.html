@@ -219,7 +219,7 @@ window.__ytPlay = function (b) {
     <summary>More filters &mdash; property type, size, riverfront, horse property</summary>
     <div class="fs-row" style="margin-top:20px">
       <div class="fs-block" style="flex:1 1 220px">
-        <span class="fs-label">Property Type</span>
+        <label class="fs-label" for="fs-lafayette-propertyCategory">Property Type</label>
         <select id="fs-lafayette-propertyCategory" name="propertyCategory" class="fs-select">
           <option value="">Any property type</option>
               <option value="house">Houses</option>
@@ -229,7 +229,7 @@ window.__ytPlay = function (b) {
         </select>
       </div>
       <div class="fs-block" style="flex:1 1 220px">
-        <span class="fs-label">Minimum Size</span>
+        <label class="fs-label" for="fs-lafayette-minSqft">Minimum Size</label>
         <select id="fs-lafayette-minSqft" name="minSqft" class="fs-select">
           <option value="">Any size</option>
               <option value="1000">1,000+ sq ft</option>
@@ -313,9 +313,9 @@ window.__ytPlay = function (b) {
       <form class="lead-form" name="listing-inquiry" action="/thank-you.html?from=listing-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="listing-inquiry">
       <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
-      <input type="text" name="name" placeholder="Full Name" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="tel" name="phone" placeholder="Phone">
+      <input type="text" name="name" placeholder="Full Name" aria-label="Full name" required>
+      <input type="email" name="email" placeholder="Email" aria-label="Email address" required>
+      <input type="tel" name="phone" placeholder="Phone" aria-label="Phone number">
       <input type="hidden" name="listing_address" id="li-address">
       <input type="hidden" name="listing_mls" id="li-mls">
       <input type="hidden" name="inquiry_type" id="li-kind">
@@ -338,9 +338,9 @@ window.__ytPlay = function (b) {
       <form class="lead-form" name="listing-alert-request" action="/thank-you.html?from=listing-alert-request" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="listing-alert-request">
       <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
-      <input type="text" name="name" placeholder="Full Name" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="tel" name="phone" placeholder="Phone">
+      <input type="text" name="name" placeholder="Full Name" aria-label="Full name" required>
+      <input type="email" name="email" placeholder="Email" aria-label="Email address" required>
+      <input type="tel" name="phone" placeholder="Phone" aria-label="Phone number">
       <input type="hidden" name="alert_criteria" id="al-criteria">
       <input type="hidden" name="alert_query" id="al-query">
       <textarea name="message" placeholder="Anything else you're looking for? (optional)" rows="3"></textarea>
@@ -1361,9 +1361,9 @@ window.__ytPlay = function (b) {
       <form class="lead-form" name="neighborhood-quiz" action="/thank-you.html?from=neighborhood-quiz" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="neighborhood-quiz">
       <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
-      <input type="text" name="name" placeholder="Full Name" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="tel" name="phone" placeholder="Phone">
+      <input type="text" name="name" placeholder="Full Name" aria-label="Full name" required>
+      <input type="email" name="email" placeholder="Email" aria-label="Email address" required>
+      <input type="tel" name="phone" placeholder="Phone" aria-label="Phone number">
       <input type="hidden" name="quiz_match" id="quiz-match-field">
       <input type="hidden" name="quiz_answers" id="quiz-answers-field">
       <label class="consent">

@@ -110,10 +110,18 @@ check("no committed page ships a hardcoded analytics ID",
 // And the hint itself must stay tied to the thing it is a hint FOR. A preconnect
 // to a host the page never calls spends a DNS+TCP+TLS handshake, from a small
 // per-origin budget, on nothing -- while the fetches that decide LCP wait.
+//
+// 2026-08-26: this used to require the word "preconnect" specifically, which is
+// the wrong thing to pin. fbevents.js no longer loads during page load (it waits
+// for the first real interaction -- see _meta_pixel_tag), so a preconnect to
+// connect.facebook.net would open a connection most visitors never use, which is
+// the exact waste this check exists to prevent. dns-prefetch is the correct hint
+// for a host we may call LATER, and it carries no crossorigin attribute. What
+// must not regress is the GATING, so that is what is asserted.
 const buildSrc = fs.readFileSync(path.join(ROOT, "build/build.py"), "utf8");
 for (const [host, gate] of [["googletagmanager", "GA_MEASUREMENT_ID"], ["connect.facebook.net", "META_PIXEL_ID"]]) {
-  check(`the ${host} preconnect is gated on ${gate}`,
-    new RegExp(`preconnect" href="https://[^"]*${host.replace(/[.]/g, "\\.")}[^"]*" crossorigin>' if ${gate}`).test(buildSrc),
+  check(`the ${host} resource hint is gated on ${gate}`,
+    new RegExp(`rel="(?:preconnect|dns-prefetch)" href="https://[^"]*${host.replace(/[.]/g, "\\.")}[^"]*"[^>]*>' if ${gate}`).test(buildSrc),
     "an unconditional hint to an analytics host is a wasted connection when analytics is off");
 }
 
