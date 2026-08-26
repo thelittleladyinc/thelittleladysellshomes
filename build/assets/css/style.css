@@ -199,6 +199,10 @@ a { color: inherit; text-decoration: none; }
    would silhouette her), fixed round crop sized to the header. */
 .brand-avatar { width: 46px; height: 46px; border-radius: 50%; display: block;
   background: var(--cream); box-shadow: 0 1px 6px rgba(0,0,0,.25); flex: 0 0 auto; }
+/* The <picture> wrapper, not the <img>, is the flex item in .brand-wordmark, so
+   the sizing has to live here too -- <picture> is display:inline by default and
+   would otherwise pick up a baseline gap and ignore flex: 0 0 auto. */
+.brand-avatar-slot { display: block; flex: 0 0 auto; line-height: 0; }
 .brand-mark { font-family: var(--font-script); font-size: 26px; line-height: 1; color: var(--white); }
 .brand-sub { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; color: var(--gray-light); }
 .brokerage { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; border-left: 1px solid rgba(255,255,255,.5); padding-left: 14px; margin-left: 4px; opacity: .95; }

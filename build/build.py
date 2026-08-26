@@ -3765,6 +3765,46 @@ NOINDEX_PATHS = {"/thank-you.html"}
 # change, same day, same reasoning as signature-property-collection.
 _INLINE_CSS = None
 
+# Regions whose bytes are not markup and must survive untouched: JS strings can
+# contain "<!--", and whitespace inside <pre>/<textarea> is rendered.
+_HTML_LITERAL_REGION = re.compile(r"<(script|style|textarea|pre)\b[^>]*>.*?</\1\s*>", re.S | re.I)
+# `<!--[if ...]>` is a conditional comment: markup a browser may ACT on, not a note.
+# Dead in practice (IE only) and none exist here, but "strip every comment" is the
+# kind of rule that outlives the audit that justified it.
+_HTML_COMMENT = re.compile(r"<!--(?!\[)(?:(?!-->).)*-->", re.S)
+
+
+def _strip_html_comments(html):
+    """Keep the source comments; stop shipping them to phones.
+
+    2026-08-25. Same finding as the CSS, one layer up and measured the same way:
+    752 pages were carrying 2,443,589 bytes of code comments to visitors, 3,248
+    per page on average. Three of them are in head() and header() and therefore
+    on EVERY page -- including, at the time this was written, a 1,789-byte note
+    explaining which fonts get preloaded and why. That note is worth keeping. It
+    is not worth sending to somebody on 4G looking at a listing.
+
+    Only six distinct comments exist in the whole built site and all six are
+    documentation, so this removes nothing a browser reads. Script, style, pre
+    and textarea regions are copied through byte-for-byte, and conditional
+    comments are left alone.
+
+    Verified structurally, not by eye: Chromium's parsed DOM for a stripped page
+    is identical to the DOM for the same page unstripped.
+    """
+    out, last = [], 0
+    for m in _HTML_LITERAL_REGION.finditer(html):
+        out.append(_HTML_COMMENT.sub("", html[last:m.start()]))
+        out.append(m.group(0))
+        last = m.end()
+    out.append(_HTML_COMMENT.sub("", html[last:]))
+    stripped = "".join(out)
+    # Removing a block comment leaves the blank lines it sat between. Collapse
+    # runs of them to ONE newline -- never to nothing, because whitespace between
+    # inline elements is rendered and joining two tags would change the layout.
+    return re.sub(r"[ \t]*\n(?:[ \t]*\n)+", "\n", stripped)
+
+
 def _assert_minifiable(css_text):
     """Refuse to minify CSS whose meaning the minifier below would change.
 
@@ -3916,11 +3956,36 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#141415">
-<!-- Only the two faces that render above-the-fold text (h1 display face,
-     body sans) are preloaded: preloading all five would push the CSS and
-     hero behind 150KB of fonts on slow connections. `crossorigin` is
-     required on font preloads even same-origin, or the browser fetches
-     the file twice. The @font-face rules live at the top of style.css. -->
+<!-- Only the faces that render above-the-fold text are preloaded: preloading
+     all five would push the CSS and hero behind 150KB of fonts on slow
+     connections. `crossorigin` is required on font preloads even same-origin,
+     or the browser fetches the file twice. The @font-face rules live at the
+     top of style.css.
+
+       abril-fatface  --font-display  .hero h1        (the LCP element)
+       open-sans      --font-sans     body text
+       yellowtail     --font-script   .brand-mark, .eyebrow
+
+     2026-08-25: yellowtail is deliberately NOT here, and this is the second
+     time that has needed deciding, so here is the measurement. A Lighthouse
+     critical-chain trace makes it look like an obvious omission -- it comes
+     back as the LONGEST node in the chain, discovered only once the CSS is
+     parsed, and it renders the header wordmark and the hero eyebrow, both
+     above the fold. Adding it, 3 runs each side, median of 3:
+
+       FCP  -149ms      SI  -149ms      LCP  +150ms      score 99 -> 98
+
+     It wins the paint it is visible in and loses the one that counts. A third
+     preload competes with abril-fatface, and abril-fatface sets .hero h1, which
+     IS the LCP element -- so preloading yellowtail buys a faster wordmark by
+     delaying the headline. LCP is weighted 25% and FCP 10%, so this is a real
+     trade and it loses. Yellowtail arrives fine on its own with font-display:
+     swap; the wordmark just renders in the fallback for a moment.
+
+     The two Playfair faces stay out for the simpler reason. They are
+     --font-serif: cards, FAQ answers, testimonials. Nothing they set is above
+     the fold, and they are the two heaviest files (39KB each) -- preloading
+     them is exactly the 150KB stampede this comment warns about. -->
 <link rel="preload" href="/assets/fonts/abril-fatface-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/open-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <!-- Wave 5 P0.5: preconnect hints. Every content-heavy page here embeds
@@ -4005,9 +4070,19 @@ def header_html(active=None):
         <!-- Her real photo (the same one her admin and socials use) as a round
              mark: "The Little Lady" is a personal brand, and the person IS the
              logo. The site's stored "logo" turned out to be the LPT brokerage
-             logo, which already sits on the right of this header. -->
-        <img class="brand-avatar" src="/assets/img/little-lady-mark.png" alt="{SITE['agent']}"
-             width="46" height="46">
+             logo, which already sits on the right of this header.
+
+             2026-08-25: this was a 156x156 PNG, 24,951 bytes, displayed at 46px
+             -- the only image above the fold on any page, on all 752 of them.
+             Lighthouse called 23,871 of those bytes waste. Now 92x92 (2x the
+             display box) as WebP at 2,974, with the resized PNG kept as the
+             fallback a WebP-capable browser never requests. Same photo, same
+             crop, 22KB lighter on every page. -->
+        <picture class="brand-avatar-slot">
+          <source srcset="/assets/img/little-lady-mark.webp" type="image/webp">
+          <img class="brand-avatar" src="/assets/img/little-lady-mark.png" alt="{SITE['agent']}"
+               width="46" height="46">
+        </picture>
         <span style="display:flex;flex-direction:column;line-height:1.05">
           <span style="font-family:var(--font-script);font-size:30px;color:var(--white)">The Little Lady</span>
           <span class="brand-sub">Sells Homes</span>
@@ -4538,7 +4613,7 @@ def page(title, description, path, active, body, extra_head="", schema_extra="",
     out_path = os.path.join(OUT, path.lstrip("/"))
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w") as f:
-        f.write(html)
+        f.write(_strip_html_comments(html))
     print("wrote", path)
 
 
@@ -13049,10 +13124,41 @@ def _explore_map_embed(height="min(82vh,860px)", min_h="520px"):
         s = _town_market_stats(name)
         if s:
             market[name] = {"medianList": s["median_list"], "activeCount": s.get("active")}
+    # 2026-08-25: this was `<script src=... defer>`, which downloads and parses
+    # the whole 90KB file before DOMContentLoaded on every page that embeds the
+    # map. Lighthouse measured 55KB of it (61%) unused on the homepage, ~150ms
+    # of main-thread work -- because explore-map.js already refuses to BOOT
+    # until its mount nears the viewport, so on the homepage and the communities
+    # index all that parsing buys nothing until someone scrolls.
+    #
+    # The fetch now waits for the same signal the boot does. On /explore the
+    # mount is the page and is on screen at load, so the observer fires on the
+    # first frame and nothing there is slower. rootMargin is wider than the
+    # 200px inside explore-map.js so the file has arrived by the time its own
+    # observer wants it. Same pattern as the county map's Leaflet loader.
     return (
         f'<div id="spc-explore" style="height:{height};min-height:{min_h}"></div>\n'
         f'  <script>window.SPC_EXPLORE_MARKET = {json.dumps(market, separators=(",", ":"))};</script>\n'
-        '  <script src="/assets/js/explore-map.js" defer></script>'
+        """  <script>
+  (function () {
+    var host = document.getElementById('spc-explore');
+    if (!host) return;
+    var started = false;
+    function boot() {
+      if (started) return;
+      started = true;
+      var s = document.createElement('script');
+      s.src = '/assets/js/explore-map.js';
+      s.async = true;
+      document.head.appendChild(s);
+    }
+    if (!('IntersectionObserver' in window)) return boot();
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { io.disconnect(); boot(); } });
+    }, { rootMargin: '400px 0px' });
+    io.observe(host);
+  })();
+  </script>"""
     )
 
 
@@ -14025,7 +14131,7 @@ def write_listing_page_shell():
 </html>"""
     path = os.path.join(out_dir, "_listing-page-shell.html")
     with open(path, "w") as f:
-        f.write(shell)
+        f.write(_strip_html_comments(shell))
     for token in ("{{TITLE}}", "{{DESCRIPTION}}", "{{CANONICAL}}", "{{OG_IMAGE}}",
                   "{{SCHEMA}}", "{{BODY}}"):
         if token not in shell:
