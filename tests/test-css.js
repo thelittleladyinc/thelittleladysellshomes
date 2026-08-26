@@ -17,7 +17,13 @@ const check = (l, c, x) => { if (c) console.log(`  ok   ${l}`); else { failures+
 
 const src = fs.readFileSync(path.join(ROOT, "build", "assets", "css", "style.css"), "utf8");
 const cssDir = path.join(ROOT, "site", "assets", "css");
-const builtName = fs.readdirSync(cssDir).find((f) => f.endsWith(".css"));
+// Pick the stylesheet by NAME, not by "first .css in the directory". Since
+// 2026-08-26 there are two: style.<hash>.css and the deferred-fonts.<hash>.css
+// that carries the Playfair @font-face rules (see DEFERRED_FONT_FAMILIES in
+// build.py). readdirSync order put the deferred one first and this test started
+// comparing the inline CSS against a 0.7KB font file.
+const builtName = fs.readdirSync(cssDir).find((f) => /^style\.[0-9a-f]+\.css$/.test(f));
+const deferredName = fs.readdirSync(cssDir).find((f) => /^deferred-fonts\.[0-9a-f]+\.css$/.test(f));
 const asset = fs.readFileSync(path.join(cssDir, builtName), "utf8");
 
 // 2026-08-25. Everything below used to read `asset` -- site/assets/css/style.*.css.
@@ -75,6 +81,11 @@ check("the primary button uses the deep token, not raw rose",
   /\.btn-primary\s*\{\s*background:\s*var\(--deep-mauve\)/.test(src),
   "white on raw rose is 3.75 — the exact fail PageSpeed flagged");
 
+// Order-insensitive comparison: the deferred faces are appended, not left in place.
+const sortedRules = (t) =>
+  (t.replace(/\/\*[\s\S]*?\*\//g, "").match(/[^{}]+\{[^{}]*\}/g) || [])
+    .map((r) => r.trim()).sort().join("");
+
 // The minifier's contract: smaller, and byte-for-byte the same parse.
 check("the css a visitor receives is inline, not a linked file",
   built.length > 1000,
@@ -86,17 +97,37 @@ check("minification strips every comment",
   !built.includes("/*"),
   `${(built.match(/\/\*/g) || []).length} comment blocks still shipping to every page`);
 
-// The two copies must not drift. They are minified by one function for exactly
-// this reason, and the bug above is what having two of them looked like.
-check("the inline copy and the fingerprinted asset are identical",
-  built.trim() === asset.trim(),
+// The copies must not drift. They are minified by one function for exactly this
+// reason, and the bug above is what having two of them looked like.
+//
+// 2026-08-26: the inline copy is now deliberately SHORTER than the asset -- the
+// Playfair @font-face rules are held out and served from deferred-fonts.css
+// after the load event, because they were on the critical path styling nothing
+// above the fold. So the invariant is no longer "identical", it is "the split
+// loses nothing": inline + deferred must reconstitute the asset exactly. That
+// still catches the original bug (two minifiers drifting) AND catches a split
+// that drops a rule on the floor.
+check("the deferred stylesheet exists",
+  !!deferredName, "build.py's write_deferred_font_css() did not run");
+const deferred = deferredName
+  ? fs.readFileSync(path.join(cssDir, deferredName), "utf8") : "";
+check("inline + deferred reconstitute the full stylesheet exactly",
+  (built.trim() + deferred.trim()).length === asset.trim().length
+  && sortedRules(built + deferred) === sortedRules(asset),
   "the inline path and the asset path have diverged again");
+check("the deferred stylesheet carries ONLY @font-face rules",
+  deferred.trim().length > 0 && /^(@font-face\{[^}]*\})+$/.test(deferred.trim()),
+  "something other than a font face is being withheld from first paint");
+check("no deferred family is still declared inline",
+  !/@font-face\{font-family:'Playfair Display'/.test(built),
+  "Playfair is back on the critical path");
 
 // Smaller is the point, but only if it still parses the same. Rule count is the
 // cheapest proxy that catches a minifier that ate a block.
 const rules = (t) => (t.replace(/\/\*[\s\S]*?\*\//g, "").match(/\{/g) || []).length;
 check(`minification preserves every rule block (${rules(src)})`,
-  rules(built) === rules(src), `source ${rules(src)} vs shipped ${rules(built)}`);
+  rules(built) + rules(deferred) === rules(src),
+  `source ${rules(src)} vs shipped ${rules(built)} inline + ${rules(deferred)} deferred`);
 
 // The whole point, checked on more than the one page. _inline_css() is memoised,
 // so a page built down a different path would silently keep the old copy.
