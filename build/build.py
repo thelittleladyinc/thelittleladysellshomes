@@ -3935,6 +3935,37 @@ def _inline_css():
     return _INLINE_CSS
 
 
+def _deferred_font_css_json():
+    """The deferred @font-face rules as a JS string literal, injected on load.
+
+    2026-08-26, second pass. The first version fetched these rules as a separate
+    stylesheet, and PageSpeed's network dependency tree showed exactly why that
+    was wrong: the critical path went from 809ms to 1,453ms. Deferring the rules
+    had removed them from the render-blocking CSS, but it also put a REQUEST
+    between the document and the fonts --
+
+        HTML -> deferred-fonts.css (682ms) -> playfair italic (1,453ms)
+
+    -- where before the fonts hung directly off the document. A 1.25KB file that
+    nothing can start until it lands is a worse shape than the 75KB it was
+    saving, because latency here is serialised, not parallel.
+
+    These rules are 673 bytes. They do not need a network request at all: the
+    injector carries them as text and creates a <style> on load. Same deferral,
+    no extra hop. json.dumps handles the quoting -- the rules contain single
+    quotes (font-family: 'Playfair Display') and url(), and the result is a
+    correctly escaped JS string literal.
+
+    The <noscript> link still points at the real stylesheet, which is why
+    write_deferred_font_css() still emits it: JS-off visitors get the faces the
+    normal way, on a path where an extra request costs them nothing.
+    """
+    p = os.path.join(os.path.dirname(__file__), "assets", "css", "style.css")
+    deferred = _split_deferred_font_faces(
+        _minify_css(open(p, encoding="utf-8").read()))[1]
+    return json.dumps(deferred)
+
+
 def write_deferred_font_css():
     """Emit /assets/css/deferred-fonts.css. Must run after copy_static_assets()
     (which wipes site/assets) and before fingerprint_assets() (which hashes it
@@ -4089,7 +4120,7 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
 {YT_HINTS if has_video else ''}{'<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>' if GA_MEASUREMENT_ID else ''}
 {'<link rel="dns-prefetch" href="https://connect.facebook.net">' if META_PIXEL_ID else ''}
 <style>{_inline_css()}</style>
-<script>addEventListener('load',function(){{var l=document.createElement('link');l.rel='stylesheet';l.href='/assets/css/deferred-fonts.css';document.head.appendChild(l)}});</script>
+<script>addEventListener('load',function(){{var s=document.createElement('style');s.textContent={_deferred_font_css_json()};document.head.appendChild(s)}});</script>
 <noscript><link rel="stylesheet" href="/assets/css/deferred-fonts.css"></noscript>
 {'<meta name="robots" content="noindex, follow">' if path in NOINDEX_PATHS else ''}
 <script type="application/ld+json">{_real_estate_agent_schema()}</script>
