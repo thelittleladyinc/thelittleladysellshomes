@@ -3914,8 +3914,15 @@ CROSS_BRAND_CANONICAL_TO_SIGNATURE = frozenset([
 ])
 
 
+YT_HINTS = (
+    '<link rel="dns-prefetch" href="https://www.youtube-nocookie.com">\n'
+    '<link rel="dns-prefetch" href="https://i.ytimg.com">\n'
+    '<link rel="dns-prefetch" href="https://www.youtube.com">'
+)
+
+
 def head(title, description, path="/", canonical_extra="", schema_extra="",
-         canonical_path=None):
+         canonical_path=None, has_video=False):
     title = _fit_title(title)
     description = _fit_description(description)
     # canonical_path lets a page declare a DIFFERENT page as the indexable
@@ -3988,10 +3995,24 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
      them is exactly the 150KB stampede this comment warns about. -->
 <link rel="preload" href="/assets/fonts/abril-fatface-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/open-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-<!-- Wave 5 P0.5: preconnect hints. Every content-heavy page here embeds
-     YouTube tours via the youtube-nocookie facade + i.ytimg thumbnails.
-     Opening those TCP/TLS connections early trims ~100-300ms off the first
-     thumbnail paint on mobile without loading any of the actual assets.
+<!-- Wave 5 P0.5: preconnect hints, revised 2026-08-26.
+     These were unconditional preconnects to youtube-nocookie.com and
+     i.ytimg.com on all 752 pages, and PageSpeed flagged both as "Unused
+     preconnect" on the homepage. Both halves of that were true:
+
+       * 640 of 752 pages embed no video at all, so the hint pointed at hosts
+         those pages never contact.
+       * On the 112 that DO, the thumbnail is behind the yt-facade and only
+         fetched on click or scroll (see _yt_embed and the lazy loader), so
+         nothing is requested during the load window either way.
+
+     A preconnect is the expensive hint -- it spends DNS+TCP+TLS from a small
+     per-origin budget -- and on the homepage that handshake was competing with
+     the font fetches that sit on the real critical path (PSI network dependency
+     tree: 809ms, three woff2 files). So the hints are now gated on the page
+     actually embedding a video, and downgraded to dns-prefetch: DNS stays warm
+     for a click that may come, without holding a connection open for one that
+     may not.
 
      The analytics hints are gated on their IDs. A preconnect to a host the
      page never contacts is not free: the browser spends a connection from a
@@ -3999,11 +4020,8 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
      nothing, competing with the fetches that do matter. GTM shipped
      ungated, so with GA switched off every page opened a connection to
      googletagmanager.com and used it for nothing. -->
-<link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
-<link rel="preconnect" href="https://i.ytimg.com" crossorigin>
-{'<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>' if GA_MEASUREMENT_ID else ''}
+{YT_HINTS if has_video else ''}{'<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>' if GA_MEASUREMENT_ID else ''}
 {'<link rel="dns-prefetch" href="https://connect.facebook.net">' if META_PIXEL_ID else ''}
-<link rel="dns-prefetch" href="https://www.youtube.com">
 <style>{_inline_css()}</style>
 {'<meta name="robots" content="noindex, follow">' if path in NOINDEX_PATHS else ''}
 <script type="application/ld+json">{_real_estate_agent_schema()}</script>
@@ -4613,7 +4631,7 @@ def page(title, description, path, active, body, extra_head="", schema_extra="",
     # and machines had no explicit main-content boundary -- which also
     # affects how cleanly an AI extractor separates page content from the
     # nav/trust-ribbon/footer furniture that repeats on every page.
-    html = f"""{head(title, description, path, canonical_extra=extra_head, schema_extra=schema_extra, canonical_path=canonical_path)}
+    html = f"""{head(title, description, path, canonical_extra=extra_head, schema_extra=schema_extra, canonical_path=canonical_path, has_video=bool(_embedded))}
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
 {header_html(active)}

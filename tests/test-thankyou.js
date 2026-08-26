@@ -125,6 +125,33 @@ for (const [host, gate] of [["googletagmanager", "GA_MEASUREMENT_ID"], ["connect
     "an unconditional hint to an analytics host is a wasted connection when analytics is off");
 }
 
+// 2026-08-26: the YouTube hints. These were unconditional preconnects on all 752
+// pages and PageSpeed flagged them "Unused preconnect" -- correctly, twice over:
+// 729 pages embed no video at all, and on the 23 that do the thumbnail sits behind
+// the yt-facade and is only fetched on click. So the handshake was competing with
+// the font fetches on the real critical path and buying nothing.
+//
+// Asserted against the BUILT pages rather than the source, because the bug was
+// never visible in build.py -- it was visible in what 752 pages shipped. The two
+// sets must match EXACTLY: a page with a hint and no video is the original waste,
+// and a page with a video and no hint is a silent loss of the thing the hint is for.
+const withVideo = new Set(), withHint = new Set();
+for (const f of pages) {
+  const h = fs.readFileSync(f, "utf8");
+  const rel = path.relative(ROOT, f);
+  if (/data-yt="[A-Za-z0-9_-]{6,}"/.test(h)) withVideo.add(rel);
+  if (/dns-prefetch" href="https:\/\/i\.ytimg/.test(h)) withHint.add(rel);
+}
+const hintNoVideo = [...withHint].filter((f) => !withVideo.has(f));
+const videoNoHint = [...withVideo].filter((f) => !withHint.has(f));
+check("no page hints at YouTube without embedding a video",
+  hintNoVideo.length === 0, hintNoVideo.slice(0, 3).join(", "));
+check("every page that embeds a video keeps its YouTube hint",
+  videoNoHint.length === 0, videoNoHint.slice(0, 3).join(", "));
+check("the YouTube hints are dns-prefetch, not preconnect",
+  !pages.some((f) => /preconnect" href="https:\/\/(www\.youtube|i\.ytimg)/.test(fs.readFileSync(f, "utf8"))),
+  "a facade thumbnail is fetched on click, so a held-open connection is waste");
+
 const buildPy = fs.readFileSync(path.join(ROOT, "build/build.py"), "utf8");
 check("the measurement ID comes from the environment",
   /GA_MEASUREMENT_ID\s*=\s*\(os\.environ\.get\("GA_MEASUREMENT_ID"\)/.test(buildPy));
