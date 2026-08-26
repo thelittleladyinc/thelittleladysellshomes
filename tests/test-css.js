@@ -18,7 +18,17 @@ const check = (l, c, x) => { if (c) console.log(`  ok   ${l}`); else { failures+
 const src = fs.readFileSync(path.join(ROOT, "build", "assets", "css", "style.css"), "utf8");
 const cssDir = path.join(ROOT, "site", "assets", "css");
 const builtName = fs.readdirSync(cssDir).find((f) => f.endsWith(".css"));
-const built = fs.readFileSync(path.join(cssDir, builtName), "utf8");
+const asset = fs.readFileSync(path.join(cssDir, builtName), "utf8");
+
+// 2026-08-25. Everything below used to read `asset` -- site/assets/css/style.*.css.
+// No page links that file. All 752 inline their CSS instead, and the inline path
+// skipped the minifier, so this suite spent a week confirming that a stylesheet
+// nobody downloads was 46KB while every phone was served the 86.6KB source. The
+// checks were right; they were pointed at the wrong copy. `built` is now the CSS
+// as a visitor receives it.
+const homepage = fs.readFileSync(path.join(ROOT, "site", "index.html"), "utf8");
+const inlined = (homepage.match(/<style[^>]*>([\s\S]*?)<\/style>/) || [])[1] || "";
+const built = inlined;
 
 check("source braces balance exactly",
   src.split("{").length === src.split("}").length,
@@ -66,11 +76,41 @@ check("the primary button uses the deep token, not raw rose",
   "white on raw rose is 3.75 — the exact fail PageSpeed flagged");
 
 // The minifier's contract: smaller, and byte-for-byte the same parse.
-check("built css is at least 30% smaller than source",
+check("the css a visitor receives is inline, not a linked file",
+  built.length > 1000,
+  "no <style> block on the homepage — check how _inline_css() is wired");
+check("shipped css is at least 30% smaller than source",
   built.length < src.length * 0.7,
   `${Math.round(built.length / 1024)}KB vs ${Math.round(src.length / 1024)}KB`);
 check("minification strips every comment",
-  !built.includes("/*"));
+  !built.includes("/*"),
+  `${(built.match(/\/\*/g) || []).length} comment blocks still shipping to every page`);
+
+// The two copies must not drift. They are minified by one function for exactly
+// this reason, and the bug above is what having two of them looked like.
+check("the inline copy and the fingerprinted asset are identical",
+  built.trim() === asset.trim(),
+  "the inline path and the asset path have diverged again");
+
+// Smaller is the point, but only if it still parses the same. Rule count is the
+// cheapest proxy that catches a minifier that ate a block.
+const rules = (t) => (t.replace(/\/\*[\s\S]*?\*\//g, "").match(/\{/g) || []).length;
+check(`minification preserves every rule block (${rules(src)})`,
+  rules(built) === rules(src), `source ${rules(src)} vs shipped ${rules(built)}`);
+
+// The whole point, checked on more than the one page. _inline_css() is memoised,
+// so a page built down a different path would silently keep the old copy.
+// Only the <style> block counts: inline JS keeps its comments on purpose.
+const SAMPLE = ["about.html", "search-homes.html", "communities/index.html", "404.html"];
+const commented = SAMPLE.filter((rel) => {
+  const f = path.join(ROOT, "site", rel);
+  if (!fs.existsSync(f)) return false;
+  const css = (fs.readFileSync(f, "utf8").match(/<style[^>]*>([\s\S]*?)<\/style>/) || [])[1] || "";
+  return css.includes("/*");
+});
+check(`every sampled page ships the minified copy (${SAMPLE.length} pages)`,
+  commented.length === 0,
+  `${commented.join(", ")} still inline commented CSS — _inline_css() is not reaching them`);
 
 console.log(failures ? `\n${failures} check(s) FAILED` : "\nAll checks passed.");
 process.exit(failures ? 1 : 0);

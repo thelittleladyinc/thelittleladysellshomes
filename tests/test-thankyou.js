@@ -95,10 +95,27 @@ if (uncovered.length) {
 // --- analytics: opt-in, never committed ---------------------------------------
 // 2026-08-16. GA is wired but gated on GA_MEASUREMENT_ID from the build
 // environment. Two things must stay true, and both are easy to break by accident.
-const withGtag = pages.filter((f) => /googletagmanager/.test(fs.readFileSync(f, "utf8")));
+//
+// 2026-08-25: this matched the bare word "googletagmanager", so the preconnect
+// hint added in Wave 5 -- a URL with no ID in it, which measures nothing and
+// identifies nobody -- failed the check on every page. Three days of "1 FAILED"
+// that meant nothing, which is how a suite stops being read. What is actually
+// forbidden is a MEASUREMENT ID baked into a committed page, so look for one.
+const GA_ID = /G-[A-Z0-9]{6,}|gtag\/js\?id=/;
+const withGtag = pages.filter((f) => GA_ID.test(fs.readFileSync(f, "utf8")));
 check("no committed page ships a hardcoded analytics ID",
   withGtag.length === 0,
   withGtag.slice(0, 3).map((f) => path.relative(ROOT, f)).join(", "));
+
+// And the hint itself must stay tied to the thing it is a hint FOR. A preconnect
+// to a host the page never calls spends a DNS+TCP+TLS handshake, from a small
+// per-origin budget, on nothing -- while the fetches that decide LCP wait.
+const buildSrc = fs.readFileSync(path.join(ROOT, "build/build.py"), "utf8");
+for (const [host, gate] of [["googletagmanager", "GA_MEASUREMENT_ID"], ["connect.facebook.net", "META_PIXEL_ID"]]) {
+  check(`the ${host} preconnect is gated on ${gate}`,
+    new RegExp(`preconnect" href="https://[^"]*${host.replace(/[.]/g, "\\.")}[^"]*" crossorigin>' if ${gate}`).test(buildSrc),
+    "an unconditional hint to an analytics host is a wasted connection when analytics is off");
+}
 
 const buildPy = fs.readFileSync(path.join(ROOT, "build/build.py"), "utf8");
 check("the measurement ID comes from the environment",

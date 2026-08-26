@@ -31,8 +31,17 @@ check(`every legacy URL is served or redirected (${terms.length - unresolved.len
 const zoning = fs.readFileSync(path.join(SITE, "understanding-open-zoning-in-larimer-county.html"), "utf8");
 check("the zoning post keeps its ranking title",
   zoning.includes("What Does Open Zoning Mean in Larimer County Colorado?"));
-check("its canonical is the extensionless legacy URL",
-  zoning.includes('rel="canonical" href="https://www.thelittleladysellshomes.com/understanding-open-zoning-in-larimer-county"'));
+// 2026-08-25: this asserted the EXTENSIONLESS form until today, and had been
+// failing since Wave 4 (2026-08-23) removed the rewrite that produced it. That
+// removal was the correction, not a regression: Netlify 301s /foo -> /foo.html in
+// production, so declaring /foo canonical named a URL that redirects -- the exact
+// input for "Duplicate, Google chose a different canonical", across ~610 pages.
+// What has to hold is that the declared canonical is the URL that serves 200.
+check("its canonical is the .html URL that actually serves 200",
+  zoning.includes('rel="canonical" href="https://www.thelittleladysellshomes.com/understanding-open-zoning-in-larimer-county.html"'),
+  "a canonical that redirects is the signal Google ignores");
+check("and not the extensionless form, which 301s",
+  !/rel="canonical" href="[^"]*larimer-county"/.test(zoning));
 check("the article body migrated (not a stub)",
   zoning.includes("Density") && zoning.length > 20000);
 check("the body does not repeat the hero h1",
