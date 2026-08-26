@@ -196,7 +196,7 @@ window.__ytPlay = function (b) {
     <p class="lede">I'll connect you with a lender who actually works with CHFA programs and walk you through what you likely qualify for.</p>
     <form class="lead-form" name="teacher-homebuying" action="/thank-you.html?from=teacher-homebuying" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="teacher-homebuying">
-      <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <p style="display:none" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" autocomplete="off" tabindex="-1"></label></p>
       <input type="text" name="name" placeholder="Full Name" aria-label="Full name" required>
       <input type="email" name="email" placeholder="Email" aria-label="Email address" required>
       <input type="tel" name="phone" placeholder="Phone" aria-label="Phone number">

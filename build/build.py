@@ -5176,7 +5176,7 @@ def build_seller_local_proof():
     </div>
     <form class="lead-form" name="seller-local-proof" action="/thank-you.html?from=seller-local-proof" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="seller-local-proof">
-      <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <p style="display:none" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" autocomplete="off" tabindex="-1"></label></p>
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email" required>
       <input type="tel" name="phone" placeholder="Phone">
@@ -8162,7 +8162,7 @@ def build_contact():
   <div class="wrap grid-2">
     <form class="lead-form" name="contact" action="/thank-you.html?from=contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="contact">
-      <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <p style="display:none" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" autocomplete="off" tabindex="-1"></label></p>
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email" required>
       <input type="tel" name="phone" placeholder="Phone" required>
@@ -8381,7 +8381,7 @@ def build_guides():
     </div>
     <form class="lead-form" name="{form_name}" action="/thank-you.html?from={form_name}" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="{form_name}">
-      <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <p style="display:none" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" autocomplete="off" tabindex="-1"></label></p>
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email" required>
       <label class="consent">
@@ -10549,7 +10549,7 @@ def build_blog():
 def _tool_lead_form(form_name, button_label, extra_fields=""):
     return f"""<form class="lead-form" name="{form_name}" action="/thank-you.html?from={form_name}" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="{form_name}">
-      <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <p style="display:none" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" autocomplete="off" tabindex="-1"></label></p>
       <input type="text" name="name" placeholder="Full Name" aria-label="Full name" required>
       <input type="email" name="email" placeholder="Email" aria-label="Email address" required>
       <input type="tel" name="phone" placeholder="Phone" aria-label="Phone number">
@@ -12951,6 +12951,23 @@ def build_search_homes():
     listings instead, with video tours where she has them?
     <a href="/current-listings.html" style="text-decoration:underline">See her Current Listings</a>.</p>
     {widget_html}
+  </div>
+</section>
+<section class="section-dark center">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Not Seeing It?</span>
+    <h2 class="section-title" style="margin-left:auto;margin-right:auto">The Right House Often Isn't
+    Listed The Day You Look</h2>
+    <p class="lede">Most of my buyers don't find their home on the first search &mdash; they find it
+    three weeks later, the morning it hits. Tell me what you're after and I'll send the matches
+    as they list, usually before they reach the big portals. If something's coming up that never
+    gets publicly listed, you hear it from me first.</p>
+    <div style="max-width:520px;margin:0 auto;text-align:left">
+      {_tool_lead_form("listing-alert-request", "Send Me Matches",
+        extra_fields='<textarea name="message" rows="3" aria-label="What you are looking for" '
+                     'placeholder="Town, price range, must-haves &mdash; or just tell me what '
+                     'you keep not finding"></textarea>')}
+    </div>
   </div>
 </section>
 {widget_js}

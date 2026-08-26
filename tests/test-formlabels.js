@@ -86,6 +86,38 @@ const home = fs.readFileSync(path.join(ROOT, "site/index.html"), "utf8");
 check("the homepage \"I'm looking to...\" select is named",
   /<select name="looking_to"[^>]*aria-label="[^"]+"/.test(home));
 
+// --- 1b. the honeypot must not be autofillable --------------------------------
+// 2026-08-26. Christine had zero leads and two form submissions that never
+// reached her. The submissions turned out to be bots the honeypot correctly
+// caught -- but the honeypot was a bare <input name="bot-field"> with no
+// autocomplete and no tabindex, sitting one line above the real name/email/phone
+// fields. Chrome and password managers autofill hidden inputs. If a real buyer's
+// browser had filled that box, Netlify would have filed their enquiry as spam and
+// nobody would ever have known, because a spam-filed lead is silent in every
+// place she looks. A trapdoor under the only lead channel on the site.
+const allPages = walk(path.join(ROOT, "site"));
+const forms = allPages.filter((f) => /name="bot-field"/.test(fs.readFileSync(f, "utf8")));
+const soft = forms.filter((f) => {
+  const h = fs.readFileSync(f, "utf8");
+  return /<input name="bot-field"(?![^>]*autocomplete="off")/.test(h)
+      || /<input name="bot-field"(?![^>]*tabindex="-1")/.test(h);
+});
+check(`every honeypot is proof against browser autofill (${forms.length} pages)`,
+  forms.length > 0 && soft.length === 0,
+  `${soft.length} page(s) with a fillable honeypot, e.g. ${soft.slice(0, 2).map((f) => path.relative(ROOT, f)).join(", ")}`);
+
+// --- 1c. the highest-intent page must offer a way in --------------------------
+// /search-homes is where visitors actually spend time (58s average against 6s on
+// the homepage), and it had no VISIBLE lead form at all -- both were inside
+// modals reachable only by clicking into a specific listing. Someone scanning
+// results had no way to raise their hand. Asserted as "not inside .lb-overlay"
+// rather than by pixel position, because position is layout and this is about
+// reachability.
+const sh = fs.readFileSync(path.join(ROOT, "site/search-homes.html"), "utf8");
+check("search-homes offers a lead form outside a modal",
+  /class="section-dark center"[\s\S]{0,4000}class="lead-form"/.test(sh),
+  "the only forms are modal-gated again — a scanner has no way to reach her");
+
 // --- 2. the pixel stays off the critical path --------------------------------
 const buildPy = fs.readFileSync(path.join(ROOT, "build/build.py"), "utf8");
 const pixel = (buildPy.match(/def _meta_pixel_tag\(\)[\s\S]*?\n\ndef /) || [""])[0];

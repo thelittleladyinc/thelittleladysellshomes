@@ -256,7 +256,7 @@ window.__ytPlay = function (b) {
     <p class="lede">The more specific you are, the faster I can send you homes that fit instead of a generic list.</p>
     <form class="lead-form" name="dream-home-finder" action="/thank-you.html?from=dream-home-finder" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="dream-home-finder">
-      <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <p style="display:none" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" autocomplete="off" tabindex="-1"></label></p>
       <input type="text" name="name" placeholder="Full Name" aria-label="Full name" required>
       <input type="email" name="email" placeholder="Email" aria-label="Email address" required>
       <input type="tel" name="phone" placeholder="Phone" aria-label="Phone number">
