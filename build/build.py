@@ -3876,17 +3876,83 @@ def _minify_css(css_text):
     return css_text.strip()
 
 
+# 2026-08-26. Two @font-face rules are held OUT of the inlined critical CSS and
+# served from a deferred stylesheet instead.
+#
+# PageSpeed's network dependency tree put the homepage's critical path at 809ms
+# and it was three woff2 files. Two of them are these: Playfair Display normal
+# and italic, 75KB together. Asked directly, the browser reports that the text
+# above the fold resolves to exactly three faces -- Open Sans, Abril Fatface and
+# Yellowtail. Playfair styles card headings, FAQ answers and testimonials, none
+# of which is on screen at first paint. It was being fetched during the initial
+# load purely because its @font-face sat in the render-blocking inline CSS, and
+# it was competing for a 1.6Mbps pipe with the fonts that decide when the LCP
+# paragraph paints.
+#
+# Deferring the DECLARATION is what makes this nearly free visually. These faces
+# are already font-display: swap, so those headings ALREADY paint in Georgia and
+# swap when the font lands -- the change only moves that swap slightly later, on
+# content that is below the fold when it happens. Nothing above the fold uses
+# Playfair, so nothing a visitor is looking at changes.
+#
+# Matched by family name rather than by line number: a family rename that
+# outruns this list degrades to today's behaviour (inlined, on the critical
+# path) rather than silently dropping the face, and tests/test-css.js pins the
+# split in both directions.
+DEFERRED_FONT_FAMILIES = ("Playfair Display",)
+
+
+def _split_deferred_font_faces(css_text):
+    """(critical_css, deferred_css) -- @font-face rules for DEFERRED_FONT_FAMILIES
+    move to the second, everything else stays in the first."""
+    deferred = []
+
+    def take(m):
+        block = m.group(0)
+        fam = re.search(r"font-family:\s*'([^']+)'", block)
+        if fam and fam.group(1) in DEFERRED_FONT_FAMILIES:
+            deferred.append(block)
+            return ""
+        return block
+
+    critical = re.sub(r"@font-face\{[^}]*\}", take, css_text)
+    return critical, "".join(deferred)
+
+
 def _inline_css():
     """The stylesheet as it actually ships: inlined into all 752 pages.
 
     Minified here, not just in fingerprint_assets(), because THIS is the copy a
     visitor downloads. Source stays fully commented and readable on disk.
+
+    Minus the deferred @font-face rules -- see DEFERRED_FONT_FAMILIES above.
     """
     global _INLINE_CSS
     if _INLINE_CSS is None:
         p = os.path.join(os.path.dirname(__file__), "assets", "css", "style.css")
-        _INLINE_CSS = _minify_css(open(p, encoding="utf-8").read())
+        _INLINE_CSS = _split_deferred_font_faces(
+            _minify_css(open(p, encoding="utf-8").read()))[0]
     return _INLINE_CSS
+
+
+def write_deferred_font_css():
+    """Emit /assets/css/deferred-fonts.css. Must run after copy_static_assets()
+    (which wipes site/assets) and before fingerprint_assets() (which hashes it
+    and rewrites the references)."""
+    p = os.path.join(os.path.dirname(__file__), "assets", "css", "style.css")
+    deferred = _split_deferred_font_faces(
+        _minify_css(open(p, encoding="utf-8").read()))[1]
+    if not deferred:
+        raise SystemExit(
+            "no @font-face matched DEFERRED_FONT_FAMILIES -- the families were "
+            "renamed in style.css and the deferred stylesheet would ship empty, "
+            "silently putting them back on the critical path."
+        )
+    out = os.path.join(OUT, "assets", "css", "deferred-fonts.css")
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    with open(out, "w", encoding="utf-8") as f:
+        f.write(deferred)
+    print("wrote /assets/css/deferred-fonts.css")
 
 
 # 2026-08-23. Second-wave two-brand consolidation. The 11 Loveland luxury
@@ -3914,8 +3980,15 @@ CROSS_BRAND_CANONICAL_TO_SIGNATURE = frozenset([
 ])
 
 
+YT_HINTS = (
+    '<link rel="dns-prefetch" href="https://www.youtube-nocookie.com">\n'
+    '<link rel="dns-prefetch" href="https://i.ytimg.com">\n'
+    '<link rel="dns-prefetch" href="https://www.youtube.com">'
+)
+
+
 def head(title, description, path="/", canonical_extra="", schema_extra="",
-         canonical_path=None):
+         canonical_path=None, has_video=False):
     title = _fit_title(title)
     description = _fit_description(description)
     # canonical_path lets a page declare a DIFFERENT page as the indexable
@@ -3988,10 +4061,24 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
      them is exactly the 150KB stampede this comment warns about. -->
 <link rel="preload" href="/assets/fonts/abril-fatface-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/open-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-<!-- Wave 5 P0.5: preconnect hints. Every content-heavy page here embeds
-     YouTube tours via the youtube-nocookie facade + i.ytimg thumbnails.
-     Opening those TCP/TLS connections early trims ~100-300ms off the first
-     thumbnail paint on mobile without loading any of the actual assets.
+<!-- Wave 5 P0.5: preconnect hints, revised 2026-08-26.
+     These were unconditional preconnects to youtube-nocookie.com and
+     i.ytimg.com on all 752 pages, and PageSpeed flagged both as "Unused
+     preconnect" on the homepage. Both halves of that were true:
+
+       * 640 of 752 pages embed no video at all, so the hint pointed at hosts
+         those pages never contact.
+       * On the 112 that DO, the thumbnail is behind the yt-facade and only
+         fetched on click or scroll (see _yt_embed and the lazy loader), so
+         nothing is requested during the load window either way.
+
+     A preconnect is the expensive hint -- it spends DNS+TCP+TLS from a small
+     per-origin budget -- and on the homepage that handshake was competing with
+     the font fetches that sit on the real critical path (PSI network dependency
+     tree: 809ms, three woff2 files). So the hints are now gated on the page
+     actually embedding a video, and downgraded to dns-prefetch: DNS stays warm
+     for a click that may come, without holding a connection open for one that
+     may not.
 
      The analytics hints are gated on their IDs. A preconnect to a host the
      page never contacts is not free: the browser spends a connection from a
@@ -3999,12 +4086,11 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
      nothing, competing with the fetches that do matter. GTM shipped
      ungated, so with GA switched off every page opened a connection to
      googletagmanager.com and used it for nothing. -->
-<link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
-<link rel="preconnect" href="https://i.ytimg.com" crossorigin>
-{'<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>' if GA_MEASUREMENT_ID else ''}
+{YT_HINTS if has_video else ''}{'<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>' if GA_MEASUREMENT_ID else ''}
 {'<link rel="dns-prefetch" href="https://connect.facebook.net">' if META_PIXEL_ID else ''}
-<link rel="dns-prefetch" href="https://www.youtube.com">
 <style>{_inline_css()}</style>
+<script>addEventListener('load',function(){{var l=document.createElement('link');l.rel='stylesheet';l.href='/assets/css/deferred-fonts.css';document.head.appendChild(l)}});</script>
+<noscript><link rel="stylesheet" href="/assets/css/deferred-fonts.css"></noscript>
 {'<meta name="robots" content="noindex, follow">' if path in NOINDEX_PATHS else ''}
 <script type="application/ld+json">{_real_estate_agent_schema()}</script>
 {_schema_scripts(schema_extra)}
@@ -4613,7 +4699,7 @@ def page(title, description, path, active, body, extra_head="", schema_extra="",
     # and machines had no explicit main-content boundary -- which also
     # affects how cleanly an AI extractor separates page content from the
     # nav/trust-ribbon/footer furniture that repeats on every page.
-    html = f"""{head(title, description, path, canonical_extra=extra_head, schema_extra=schema_extra, canonical_path=canonical_path)}
+    html = f"""{head(title, description, path, canonical_extra=extra_head, schema_extra=schema_extra, canonical_path=canonical_path, has_video=bool(_embedded))}
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
 {header_html(active)}
@@ -14367,6 +14453,7 @@ if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     copy_static_assets()
     write_map_county_data()   # must follow copy_static_assets: writes into site/assets
+    write_deferred_font_css()  # same constraint; must precede fingerprint_assets()
     write_listing_page_shell()
     write_neighborhood_quiz_script()
     build_home()
