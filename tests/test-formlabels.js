@@ -118,6 +118,45 @@ check("search-homes offers a lead form outside a modal",
   /class="section-dark center"[\s\S]{0,4000}class="lead-form"/.test(sh),
   "the only forms are modal-gated again — a scanner has no way to reach her");
 
+// --- 1d. the phone number rides on every page ---------------------------------
+// 2026-08-26 (Christine: "maybe large phone number at the top", "we just need to
+// make them want to work with me"). A phone number is the lowest-friction ask on
+// the site -- no form, no consent box, no waiting -- and there was not one above
+// the fold anywhere. Site-wide rather than homepage-only because the engaged
+// visitor is usually NOT on the homepage: 58s on /search-homes against 6s on the
+// front door.
+//
+// The href and the visible text must carry the same digits. A voice-control user
+// saying "303 709 4262" has to hit the thing they can see (WCAG 2.5.3), and it is
+// the kind of detail a later edit to either half breaks silently.
+const stripPages = allPages.filter((f) => /class="call-strip"/.test(fs.readFileSync(f, "utf8")));
+check(`the call strip is on every page (${stripPages.length})`,
+  stripPages.length === allPages.length,
+  `${allPages.length - stripPages.length} page(s) without it`);
+const mismatched = stripPages.filter((f) => {
+  const h = fs.readFileSync(f, "utf8");
+  const m = h.match(/<a href="tel:\+1(\d+)">([^<]+)<\/a>/);
+  return !m || m[1] !== m[2].replace(/\D/g, "");
+});
+check("the dialled number matches the number shown",
+  mismatched.length === 0,
+  `${mismatched.length} page(s) where href and text disagree`);
+
+// --- 1e. the homepage ask is actually reachable -------------------------------
+// It used to sit second from last, 12.3 screens down an 18-screen page, on a page
+// that holds people for six seconds. Now directly under the proof section. The
+// threshold is deliberately loose (before the halfway point) -- this guards
+// against it drifting back to the bottom, not against ordinary layout drift.
+const main = home.slice(home.indexOf('<main id="main">'), home.indexOf("</main>"));
+const askAt = main.indexOf("Tell Me What You&#39;re Trying To Do") >= 0
+  ? main.indexOf("Tell Me What You&#39;re Trying To Do") : main.indexOf("Trying To Do");
+check("the homepage ask sits in the first half of the page",
+  askAt > 0 && askAt < main.length * 0.5,
+  `ask is ${Math.round((askAt / main.length) * 100)}% of the way down the body`);
+check("the homepage still has exactly one lead form",
+  (main.match(/class="lead-form"/g) || []).length === 1,
+  "one clear ask beats three competing ones — see build_home");
+
 // --- 2. the pixel stays off the critical path --------------------------------
 const buildPy = fs.readFileSync(path.join(ROOT, "build/build.py"), "utf8");
 const pixel = (buildPy.match(/def _meta_pixel_tag\(\)[\s\S]*?\n\ndef /) || [""])[0];

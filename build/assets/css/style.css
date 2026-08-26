@@ -241,6 +241,48 @@ nav.primary-nav a:hover { text-decoration: underline; text-decoration-color: cur
    it. Sits between the header and each page's hero; charcoal to bookend
    the footer's charcoal and read as one continuous frame around the
    rose-colored header/content instead of a fourth competing color. */
+/* ---------- Call strip (2026-08-26) ----------------------------------------
+   Christine: "maybe large phone number at the top". Sits between the header and
+   the trust ribbon on EVERY page, not just the homepage, because the problem it
+   solves is not a homepage problem: GA4 showed visitors spending 58s on
+   /search-homes against 6s on the homepage, and four visits to a contact page
+   all week. The people actually reading are deep in the site, not on the front
+   door, so the way to reach her has to travel with them.
+
+   Deliberately a tel: link rather than a button -- on a phone it dials, on a
+   desktop it stays a readable, copyable number.
+
+   The tap target is set by PADDING, not by font size. First attempt relied on
+   23px text with a 1.5 line-height and measured 35px in the browser, under the
+   44px minimum -- the kind of thing that reads fine in a stylesheet and misses
+   under a thumb. inline-block + explicit padding is what actually makes the
+   box, and it is measured in tests rather than asserted here. */
+.call-strip {
+  background: var(--charcoal); color: var(--white); text-align: center;
+  padding: 10px 0;
+}
+.call-strip .wrap {
+  display: flex; justify-content: center; align-items: baseline;
+  flex-wrap: wrap; gap: 4px 12px;
+}
+.call-strip .prompt {
+  font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--gray-light); font-weight: 600;
+}
+.call-strip a {
+  color: var(--white); font-family: var(--font-display); font-size: 26px;
+  line-height: 1.2; text-decoration: none; letter-spacing: .01em;
+  display: inline-block; padding: 7px 10px; min-height: 44px; box-sizing: border-box;
+}
+.call-strip a:hover { color: var(--dusty-rose); }
+.call-strip a:focus-visible { outline: 2px solid var(--dusty-rose); outline-offset: 3px; }
+@media (max-width: 700px) {
+  .call-strip { padding: 8px 0; }
+  .call-strip .wrap { gap: 2px 10px; }
+  .call-strip .prompt { font-size: 10px; }
+  .call-strip a { font-size: 23px; padding: 9px 10px; }
+}
+
 .trust-ribbon {
   background: var(--cream); color: var(--slate); padding: 12px 0;
   border-bottom: 4px double var(--charcoal);
