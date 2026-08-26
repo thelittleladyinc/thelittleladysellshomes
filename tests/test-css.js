@@ -118,6 +118,20 @@ check("inline + deferred reconstitute the full stylesheet exactly",
 check("the deferred stylesheet carries ONLY @font-face rules",
   deferred.trim().length > 0 && /^(@font-face\{[^}]*\})+$/.test(deferred.trim()),
   "something other than a font face is being withheld from first paint");
+// 2026-08-26, second pass. The deferred rules are injected as a <style> whose
+// text the page already carries -- NOT fetched as a stylesheet. The first
+// version fetched them, and PageSpeed's dependency tree showed the cost: the
+// critical path went 809ms -> 1,453ms, because the fonts could not start until
+// a 1.25KB css file landed. A request between the document and the fonts is a
+// worse shape than the bytes it saves, so the shape is what is pinned here.
+check("the deferred faces are injected inline, not fetched as a stylesheet",
+  /createElement\('style'\)/.test(homepage) && /@font-face\{font-family:'Playfair Display'/.test(homepage),
+  "a fetched stylesheet puts a request between the document and the fonts");
+check("the only remaining link to the deferred sheet is the noscript fallback",
+  (homepage.match(/deferred-fonts\.[0-9a-f]+\.css/g) || []).length === 1
+  && /<noscript><link rel="stylesheet" href="\/assets\/css\/deferred-fonts/.test(homepage),
+  "a second reference would re-introduce the extra hop for JS-on visitors");
+
 check("no deferred family is still declared inline",
   !/@font-face\{font-family:'Playfair Display'/.test(built),
   "Playfair is back on the critical path");
