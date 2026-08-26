@@ -1911,13 +1911,13 @@ def _advanced_filters_block(wid):
     <summary>More filters &mdash; property type, size, riverfront, horse property</summary>
     <div class="fs-row" style="margin-top:20px">
       <div class="fs-block" style="flex:1 1 220px">
-        <span class="fs-label">Property Type</span>
+        <label class="fs-label" for="{wid}-propertyCategory">Property Type</label>
         <select id="{wid}-propertyCategory" name="propertyCategory" class="fs-select">
           {type_options}
         </select>
       </div>
       <div class="fs-block" style="flex:1 1 220px">
-        <span class="fs-label">Minimum Size</span>
+        <label class="fs-label" for="{wid}-minSqft">Minimum Size</label>
         <select id="{wid}-minSqft" name="minSqft" class="fs-select">
           {sqft_options}
         </select>
@@ -4002,7 +4002,7 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
 <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
 <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
 {'<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>' if GA_MEASUREMENT_ID else ''}
-{'<link rel="preconnect" href="https://connect.facebook.net" crossorigin>' if META_PIXEL_ID else ''}
+{'<link rel="dns-prefetch" href="https://connect.facebook.net">' if META_PIXEL_ID else ''}
 <link rel="dns-prefetch" href="https://www.youtube.com">
 <style>{_inline_css()}</style>
 {'<meta name="robots" content="noindex, follow">' if path in NOINDEX_PATHS else ''}
@@ -4522,11 +4522,28 @@ def _meta_pixel_tag():
     pid = META_PIXEL_ID
     return (
         "<script>"
+        # 2026-08-26: fbevents.js used to be injected immediately, and it cost
+        # the mobile score badly -- PSI mobile fell 92 -> 70, with TBT 60ms ->
+        # 270ms, unused JS 66KB -> 139KB and a 207KB "efficient cache lifetimes"
+        # flag, all of it Facebook's CDN on the critical path.
+        #
+        # Meta's own snippet queues calls (n.queue.push) until the script
+        # arrives, so DELAYING only the injection loses no events: fbq('init'),
+        # PageView, Lead and Contact all queue and flush on load. So the script
+        # now waits for the first real signal of a human -- a scroll, tap, key or
+        # pointer -- or for the tab being hidden, which is what a bounce looks
+        # like. Lead and Contact are unaffected either way: both require an
+        # interaction that already triggers the load.
         "!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){"
         "n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};"
         "if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';"
-        "n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;"
-        "s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}"
+        "n.queue=[];var L=!1,G=function(){if(L)return;L=!0;"
+        "t=b.createElement(e);t.async=!0;t.src=v;"
+        "s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)};"
+        "['pointerdown','keydown','touchstart','scroll'].forEach(function(x){"
+        "b.addEventListener(x,G,{once:!0,passive:!0})});"
+        "b.addEventListener('visibilitychange',function(){"
+        "if(b.visibilityState==='hidden')G()},{once:!0})}"
         "(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');"
         f"fbq('init','{pid}');fbq('track','PageView');"
         "document.addEventListener('submit',function(e){"
@@ -4760,7 +4777,7 @@ def build_home():
     home_lead_form = _tool_lead_form(
         "home-lead",
         "Send It Over",
-        extra_fields="""<select name="looking_to" required>
+        extra_fields="""<select name="looking_to" aria-label="What are you looking to do?" required>
         <option value="">I'm looking to&hellip;</option>
         <option value="buy">Buy a home</option>
         <option value="sell">Sell a home</option>
@@ -4768,7 +4785,7 @@ def build_home():
         <option value="value">Just find out what my home is worth</option>
         <option value="invest">Invest / land &amp; acreage</option>
       </select>
-      <textarea name="message" rows="3" placeholder="Anything useful: town, timeline, price range, questions"></textarea>""")
+      <textarea name="message" rows="3" aria-label="Your message" placeholder="Anything useful: town, timeline, price range, questions"></textarea>""")
 
     body = f"""
 <section class="hero">
@@ -10416,9 +10433,9 @@ def _tool_lead_form(form_name, button_label, extra_fields=""):
     return f"""<form class="lead-form" name="{form_name}" action="/thank-you.html?from={form_name}" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="{form_name}">
       <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
-      <input type="text" name="name" placeholder="Full Name" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="tel" name="phone" placeholder="Phone">
+      <input type="text" name="name" placeholder="Full Name" aria-label="Full name" required>
+      <input type="email" name="email" placeholder="Email" aria-label="Email address" required>
+      <input type="tel" name="phone" placeholder="Phone" aria-label="Phone number">
       {extra_fields}
       <label class="consent">
         <input type="checkbox" required>

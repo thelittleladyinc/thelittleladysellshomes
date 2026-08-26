@@ -200,9 +200,9 @@ Sell as-is. Seriously.</div>
     <form class="lead-form" name="cash-offer" action="/thank-you.html?from=cash-offer" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="cash-offer">
       <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
-      <input type="text" name="name" placeholder="Full Name" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="tel" name="phone" placeholder="Phone">
+      <input type="text" name="name" placeholder="Full Name" aria-label="Full name" required>
+      <input type="email" name="email" placeholder="Email" aria-label="Email address" required>
+      <input type="tel" name="phone" placeholder="Phone" aria-label="Phone number">
       <input type="text" name="address" placeholder="Property Address" required>
       <label class="consent">
         <input type="checkbox" required>
