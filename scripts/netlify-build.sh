@@ -18,26 +18,25 @@
 #      that only touch netlify/functions or already-committed HTML. So: log it
 #      loudly, publish the committed site/ (exactly today's behaviour), exit 0.
 #
-#   2. python3 RAN and build/build.py errored. That is a real defect in the
-#      content or the generator, and publishing a half-written site/ over it
-#      would be worse than not deploying. So: restore the committed site/ so a
-#      partial write can't be published, then exit 1 to fail the deploy. Netlify
-#      keeps serving the last good deploy and reports the failure, which is loud
-#      in the right way.
+#   2. python3 RAN and build/build.py or the post-build audit gate errored. That
+#      is a real defect in the content/output, and publishing a half-written or
+#      knowingly-regressed site/ would be worse than not deploying. So: restore
+#      committed site/, fail the deploy, and keep the last good production build.
 #
 # Net effect: never worse than the old no-build-step setup, and correct when the
 # environment is healthy.
 #
-# PYTHON_BIN and BUILD_SCRIPT are overridable so the failure paths above can be
-# exercised in a test rather than discovered in production.
+# PYTHON_BIN, BUILD_SCRIPT and POSTPROCESS_SCRIPT are overridable so failure paths
+# can be exercised in tests rather than discovered in production.
 
 set -uo pipefail   # NOT -e: every failure here is handled explicitly below.
 
 PY="${PYTHON_BIN:-python3}"
 BUILD="${BUILD_SCRIPT:-build/build.py}"
+POSTPROCESS="${POSTPROCESS_SCRIPT:-build/postprocess_audit_fixes_v2.py}"
 REQS="${REQS_FILE:-requirements.txt}"
 
-echo "--- netlify-build: using PY=$PY BUILD=$BUILD"
+echo "--- netlify-build: using PY=$PY BUILD=$BUILD POSTPROCESS=$POSTPROCESS"
 
 # Restore site/ from git so a partial write can never reach the CDN. Best effort:
 # outside a git checkout (or on a shallow clone missing the path) this is a no-op
@@ -78,15 +77,37 @@ if [ -f "$REQS" ]; then
   fi
 fi
 
-# --- 3. The actual build. A failure HERE is a real defect: fail the deploy. --
+# --- 3. Generator. A failure HERE is a real defect: fail the deploy. ----------
 echo "--- netlify-build: regenerating site/ from $BUILD"
-if "$PY" "$BUILD"; then
-  echo "--- netlify-build: build OK, publishing freshly generated site/"
-  exit 0
+if ! "$PY" "$BUILD"; then
+  echo "!! netlify-build: $BUILD FAILED."
+  echo "!! Not publishing a partially written site/. Restoring the committed"
+  echo "!! copy and failing this deploy so the last good deploy keeps serving."
+  restore_site
+  exit 1
 fi
 
-echo "!! netlify-build: $BUILD FAILED."
-echo "!! Not publishing a partially written site/. Restoring the committed"
-echo "!! copy and failing this deploy so the last good deploy keeps serving."
-restore_site
-exit 1
+echo "--- netlify-build: generator OK"
+
+# --- 4. Output-level audit fixes and regression gate. -------------------------
+# This is deliberately AFTER build.py: it can inspect exactly what a visitor and
+# crawler will receive, including analytics injected from Netlify environment
+# variables. It corrects the narrow Aug-31 audit findings and then validates them.
+if [ -f "$POSTPROCESS" ]; then
+  echo "--- netlify-build: applying post-build audit gate"
+  if ! "$PY" "$POSTPROCESS"; then
+    echo "!! netlify-build: $POSTPROCESS FAILED."
+    echo "!! Refusing to publish output that violates the audit guardrails."
+    restore_site
+    exit 1
+  fi
+  echo "--- netlify-build: audit gate OK"
+else
+  echo "!! netlify-build: $POSTPROCESS is missing."
+  echo "!! The generator ran, but the production quality gate cannot run."
+  restore_site
+  exit 1
+fi
+
+echo "--- netlify-build: build + audit OK, publishing freshly generated site/"
+exit 0
