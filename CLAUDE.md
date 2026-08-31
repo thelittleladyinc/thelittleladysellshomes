@@ -43,7 +43,7 @@ A build date is **not** a content modification date.
 3. Blog articles should retain their real publication/modification dates unless their article content actually changes.
 4. MLS/market pages should use the date of the underlying data snapshot, not the deploy date.
 5. Do not put a daily `dateModified` on the sitewide `RealEstateAgent` entity simply because the generator ran.
-6. `build/postprocess_audit_fixes.py` is the current output-level guardrail for these rules. If freshness logic is later moved into `build.py`, preserve the same behavior and update the postprocessor/tests rather than deleting the protection first.
+6. `build/postprocess_audit_fixes_v2.py` is the production wrapper for these output-level guardrails; it imports the correction/validation engine in `build/postprocess_audit_fixes.py`. If freshness logic is later moved into `build.py`, preserve the same behavior and update the postprocessor/tests rather than deleting the protection first.
 
 ## Market-report truthfulness
 
@@ -165,7 +165,7 @@ Read the commit comments and existing tests before changing these areas. If Ligh
 Production build path:
 1. `scripts/netlify-build.sh`
 2. `build/build.py`
-3. `build/postprocess_audit_fixes.py`
+3. `build/postprocess_audit_fixes_v2.py` (wrapper; uses `build/postprocess_audit_fixes.py` as the correction/validation engine)
 4. Netlify publishes `site/` only if both generator and audit gate pass.
 
 If the generator or audit gate fails after Python successfully starts, fail the deploy and preserve the previous production deploy. Never publish partially generated output.
