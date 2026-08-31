@@ -3,15 +3,11 @@
 # Netlify build step for thelittleladysellshomes.com.
 #
 # 2026-08-15: Netlify regenerates the site on each deploy instead of only
-# publishing the committed site/ fallback. Environmental failures may still use
-# the committed fallback; generator or quality-gate failures stop the deploy so
-# a partially generated/regressed site never replaces the last good production
-# version.
+# publishing committed generated HTML.
 #
-# 2026-08-31: after the SEO/technical audit gate passes, a second narrow ROI gate
-# adds lead attribution and conversion paths to proven organic winners. Keeping
-# it after the main audit means conversion work cannot quietly undo URL,
-# freshness, analytics, or migration protections.
+# 2026-08-31: technical/SEO, ROI/conversion, and final traffic-growth output
+# gates run in sequence. Any missing runtime/build/gate or any gate failure is a
+# hard failure so Netlify keeps the last known-good atomic deploy.
 
 set -uo pipefail   # NOT -e: failures are handled explicitly below.
 
@@ -19,34 +15,36 @@ PY="${PYTHON_BIN:-python3}"
 BUILD="${BUILD_SCRIPT:-build/build.py}"
 POSTPROCESS="${POSTPROCESS_SCRIPT:-build/postprocess_audit_fixes_v2.py}"
 ROI_POSTPROCESS="${ROI_POSTPROCESS_SCRIPT:-build/postprocess_roi_conversion_v2.py}"
+TRAFFIC_POSTPROCESS="${TRAFFIC_POSTPROCESS_SCRIPT:-build/postprocess_traffic_growth_v2.py}"
 REQS="${REQS_FILE:-requirements.txt}"
 
-echo "--- netlify-build: using PY=$PY BUILD=$BUILD POSTPROCESS=$POSTPROCESS ROI_POSTPROCESS=$ROI_POSTPROCESS"
+echo "--- netlify-build: using PY=$PY BUILD=$BUILD POSTPROCESS=$POSTPROCESS ROI_POSTPROCESS=$ROI_POSTPROCESS TRAFFIC_POSTPROCESS=$TRAFFIC_POSTPROCESS"
 
-# Restore site/ from git so a partial write can never reach the CDN. Best effort:
-# outside a git checkout this is a no-op and the committed files are already the
-# fallback we want.
+# Restore site/ from git after a failed generation attempt. Netlify will not
+# publish it because the script exits non-zero; this simply leaves the checkout
+# clean and makes local failure behavior predictable.
 restore_site() {
   if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     git checkout -- site 2>/dev/null \
       && echo "    restored committed site/ from git" \
       || echo "    could not restore site/ from git"
   else
-    echo "    not a git work tree; using committed site/"
+    echo "    not a git work tree"
   fi
 }
 
-# 1. Environment failures fall back to the committed site.
+# 1. The runtime/build must exist. Never publish an older committed fallback
+# merely because the production correction/validation layers could not run.
 if ! command -v "$PY" >/dev/null 2>&1; then
-  echo "!! netlify-build: '$PY' not found. Publishing committed site/ unchanged."
+  echo "!! netlify-build: '$PY' not found. Refusing to publish without production gates."
   restore_site
-  exit 0
+  exit 1
 fi
 
 if [ ! -f "$BUILD" ]; then
-  echo "!! netlify-build: $BUILD not found. Publishing committed site/."
+  echo "!! netlify-build: $BUILD not found. Refusing to publish."
   restore_site
-  exit 0
+  exit 1
 fi
 
 if [ -f "$REQS" ]; then
@@ -99,5 +97,22 @@ else
   exit 1
 fi
 
-echo "--- netlify-build: build + audit + ROI gates OK, publishing freshly generated site/"
+# 5. Final traffic-growth/consolidation guardrail. The v2 wrapper runs the base
+# engine and then covers the smaller community-market wording variants.
+if [ -f "$TRAFFIC_POSTPROCESS" ]; then
+  echo "--- netlify-build: applying traffic-growth gate"
+  if ! "$PY" "$TRAFFIC_POSTPROCESS"; then
+    echo "!! netlify-build: $TRAFFIC_POSTPROCESS FAILED."
+    echo "!! Refusing to publish output with duplicate winners, stale local claims, or traffic regressions."
+    restore_site
+    exit 1
+  fi
+  echo "--- netlify-build: traffic-growth gate OK"
+else
+  echo "!! netlify-build: $TRAFFIC_POSTPROCESS is missing."
+  restore_site
+  exit 1
+fi
+
+echo "--- netlify-build: generator + audit + ROI + traffic gates OK, publishing freshly generated site/"
 exit 0
