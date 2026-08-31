@@ -59,7 +59,7 @@ const TIMEOUT_MS = 8000;
 // deliver to the Resend account owner's own address -- which here is exactly
 // who we want to reach. Overridable once she verifies her own domain, matching
 // the DIGEST_FROM/DIGEST_TO pattern from sellerintelligence.
-const DEFAULT_FROM = "Signature Property Collection <onboarding@resend.dev>";
+const DEFAULT_FROM = "The Little Lady Sells Homes <onboarding@resend.dev>";
 const DEFAULT_TO = "thelittleladyinc@gmail.com";
 
 function loftyHeaders(apiKey) {
@@ -288,7 +288,7 @@ function alertEmailHtml({ name, email, phone, source, noteText, leadId, stamp })
     `<td style="padding:4px 0"><strong>${v}</strong></td></tr>`).join("");
 
   return `<div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:15px;color:#222;max-width:560px">
-<p style="font-size:18px;margin:0 0 4px"><strong>New website lead</strong></p>
+<p style="font-size:18px;margin:0 0 4px"><strong>NEW LITTLE LADY WEBSITE LEAD</strong></p>
 <table style="border-collapse:collapse;margin:8px 0 16px">${rows}</table>
 <p style="margin:0 0 4px;color:#666">What they said</p>
 <pre style="white-space:pre-wrap;font:inherit;background:#f6f6f6;padding:12px;border-radius:6px;margin:0">${escapeHtml(noteText)}</pre>
@@ -307,7 +307,7 @@ async function sendLeadAlertEmail(details) {
     .split(",").map((s) => s.trim()).filter(Boolean);
   const from = process.env.LEAD_ALERT_FROM || DEFAULT_FROM;
   const who = details.name || details.email || details.phone || "someone";
-  const subject = `New website lead: ${who}${details.sourceShort ? ` — ${details.sourceShort}` : ""}`;
+  const subject = `NEW LITTLE LADY LEAD — ${who}${details.sourceShort ? ` — ${details.sourceShort}` : ""}`;
 
   try {
     const res = await fetch(RESEND_ENDPOINT, {
