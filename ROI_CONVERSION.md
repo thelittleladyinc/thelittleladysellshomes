@@ -31,11 +31,14 @@ This site has enough historical SEO surface area. The next phase is to turn prov
 3. `build/postprocess_roi_conversion_v2.py`
 4. Netlify publishes `site/` only after all three stages pass.
 
-The v2 ROI wrapper loads `build/postprocess_roi_conversion.py` as its engine. The engine owns the funnel copy, attribution client and backend patch; the v2 wrapper owns the production instrumentation/validation policy. Existing legacy forms are not bulk-rewritten merely to add static hidden fields. The shared attribution client adds those values at submit time, while the five new ROI Netlify forms declare the fields statically and are validated field-by-field.
+The v2 ROI wrapper loads `build/postprocess_roi_conversion.py` as its engine. The engine owns the funnel copy, attribution client and backend patch; the v2 wrapper owns production instrumentation and validation.
+
+Netlify Forms discovers field names from static HTML at deploy time. Because browser-only fields can be dropped from saved submissions when Netlify did not see those names during the build, the ROI wrapper adds every attribution field statically to every actual `form.lead-form` in generated HTML. It deliberately ignores `lead-form` text inside shared CSS/JavaScript so the validator does not recreate the earlier false-positive failure. The browser client then fills those predeclared fields immediately before submit.
 
 The ROI layer adds and validates:
 
 - privacy-safe first-touch and form-page attribution;
+- static Netlify attribution field declarations on every actual lead form;
 - Rent-to-Own "Show Me My Options" funnel;
 - Raw Land "Send Me the Property" funnel and quick-answer table;
 - Multigenerational feature-specific search funnel;
