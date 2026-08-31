@@ -1,1 +1,0 @@
-This branch contains the evidence-led ROI conversion layer. Netlify preview must pass the normal generator, technical audit gate, and ROI conversion gate before merge.
