@@ -18,9 +18,13 @@ The newer rebuild guides below are intentionally consolidated with permanent red
 
 Internal links must point directly to the winners and the duplicate URLs must not appear in `sitemap.xml`.
 
+The old generated `/dream-home-finder.html` output is also an explicit redirect source to `/lifestyle-search.html`, matching the pre-existing extensionless legacy route. It is not an additional indexable search page.
+
 ## Community market truthfulness
 
 Static MLS aggregate copy on community pages is a dated snapshot. If its source date is more than three days old, it must not say `right now`, `live inventory`, or otherwise imply the aggregate count/median is current. The dynamic live listing search is separate and may describe itself as current when the feed is genuinely current.
+
+The production wrapper handles both community-market sentence shapes: pages with a price-per-square-foot sentence and smaller markets such as Laporte where that sentence is absent.
 
 ## Local FAQs
 
@@ -43,7 +47,7 @@ The ILC/survey page should keep answering cost intent, but do not publish undate
 1. `build/build.py`
 2. `build/postprocess_audit_fixes_v2.py`
 3. `build/postprocess_roi_conversion_v2.py`
-4. `build/postprocess_traffic_growth.py`
+4. `build/postprocess_traffic_growth_v2.py` (wrapper; uses `build/postprocess_traffic_growth.py` as the base engine)
 5. publish only if every stage passes
 
 Missing Python, a missing generator, a missing gate, or any gate failure is a hard deployment failure. Netlify should keep the previous atomic production deploy rather than publish a stale committed fallback.
