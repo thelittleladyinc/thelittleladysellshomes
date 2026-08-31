@@ -37,6 +37,13 @@ for needle in [
     "raw-land canonical changed",
     "multigenerational canonical changed",
     "ROI JS not exactly once",
+    "SCRIPT_STYLE_RE",
+    "LEAD_FORM_RE",
+    "add_static_attribution_fields",
+    "actual_lead_forms",
+    "roi.add_attr_fields",
+    "expected one static",
+    "ROI static form schema",
     "roi.instrument_site = instrument_site",
     "roi.validate = validate",
 ]:
