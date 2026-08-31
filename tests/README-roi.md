@@ -1,1 +1,0 @@
-The fast source check is `tests/test-roi-conversion.py`. The authoritative ROI validation runs against generated output inside `build/postprocess_roi_conversion.py` during every Netlify build.
