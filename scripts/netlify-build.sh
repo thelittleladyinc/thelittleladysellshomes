@@ -33,7 +33,7 @@ set -uo pipefail   # NOT -e: every failure here is handled explicitly below.
 
 PY="${PYTHON_BIN:-python3}"
 BUILD="${BUILD_SCRIPT:-build/build.py}"
-POSTPROCESS="${POSTPROCESS_SCRIPT:-build/postprocess_audit_fixes.py}"
+POSTPROCESS="${POSTPROCESS_SCRIPT:-build/postprocess_audit_fixes_v2.py}"
 REQS="${REQS_FILE:-requirements.txt}"
 
 echo "--- netlify-build: using PY=$PY BUILD=$BUILD POSTPROCESS=$POSTPROCESS"
