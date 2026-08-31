@@ -20,6 +20,6 @@ jobs:
           python-version: '3.12'
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
       - name: Run production build and regression suites
         run: bash tests/run-all.sh
