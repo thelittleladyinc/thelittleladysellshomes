@@ -15,7 +15,7 @@ PY="${PYTHON_BIN:-python3}"
 BUILD="${BUILD_SCRIPT:-build/build.py}"
 POSTPROCESS="${POSTPROCESS_SCRIPT:-build/postprocess_audit_fixes_v2.py}"
 ROI_POSTPROCESS="${ROI_POSTPROCESS_SCRIPT:-build/postprocess_roi_conversion_v2.py}"
-TRAFFIC_POSTPROCESS="${TRAFFIC_POSTPROCESS_SCRIPT:-build/postprocess_traffic_growth.py}"
+TRAFFIC_POSTPROCESS="${TRAFFIC_POSTPROCESS_SCRIPT:-build/postprocess_traffic_growth_v2.py}"
 REQS="${REQS_FILE:-requirements.txt}"
 
 echo "--- netlify-build: using PY=$PY BUILD=$BUILD POSTPROCESS=$POSTPROCESS ROI_POSTPROCESS=$ROI_POSTPROCESS TRAFFIC_POSTPROCESS=$TRAFFIC_POSTPROCESS"
@@ -97,7 +97,8 @@ else
   exit 1
 fi
 
-# 5. Final traffic-growth/consolidation guardrail.
+# 5. Final traffic-growth/consolidation guardrail. The v2 wrapper runs the base
+# engine and then covers the smaller community-market wording variants.
 if [ -f "$TRAFFIC_POSTPROCESS" ]; then
   echo "--- netlify-build: applying traffic-growth gate"
   if ! "$PY" "$TRAFFIC_POSTPROCESS"; then
