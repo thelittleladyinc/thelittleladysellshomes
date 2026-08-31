@@ -1,46 +1,28 @@
 #!/usr/bin/env bash
 #
-# Netlify build step for signaturepropertycollection.com.
+# Netlify build step for thelittleladysellshomes.com.
 #
-# 2026-08-15 (Christine: "can you fix it then"). Until now Netlify ran no build
-# at all -- it published the committed site/ folder as-is. That was chosen for a
-# good reason ("nothing that can fail at deploy time"), but it has a nasty edge:
-# editing build/build.py and pushing changed NOTHING on the live site, with no
-# error anywhere to explain why. You had to remember to run the build locally and
-# commit the regenerated site/ too. This script removes that trap.
+# 2026-08-15: Netlify now regenerates the site on each deploy instead of only
+# publishing the committed site/ fallback. Environmental failures may still use
+# the committed fallback; generator or quality-gate failures stop the deploy so
+# a partially generated/regressed site never replaces the last good production
+# version.
 #
-# It deliberately distinguishes two kinds of failure, because they deserve
-# opposite treatment:
-#
-#   1. The BUILD ENVIRONMENT can't run the generator at all -- no python3, no
-#      pip, missing wheels. That is not a problem with the site's content, and
-#      failing the deploy over it would block every future deploy including ones
-#      that only touch netlify/functions or already-committed HTML. So: log it
-#      loudly, publish the committed site/ (exactly today's behaviour), exit 0.
-#
-#   2. python3 RAN and build/build.py or the post-build audit gate errored. That
-#      is a real defect in the content/output, and publishing a half-written or
-#      knowingly-regressed site/ would be worse than not deploying. So: restore
-#      committed site/, fail the deploy, and keep the last good production build.
-#
-# Net effect: never worse than the old no-build-step setup, and correct when the
-# environment is healthy.
-#
-# PYTHON_BIN, BUILD_SCRIPT and POSTPROCESS_SCRIPT are overridable so failure paths
-# can be exercised in tests rather than discovered in production.
+# 2026-08-31: after the SEO/technical audit gate passes, a second narrow ROI gate
+# adds lead attribution and conversion paths to proven organic winners. Keeping
+# it after the main audit means conversion work cannot quietly undo URL,
+# freshness, analytics, or migration protections.
 
-set -uo pipefail   # NOT -e: every failure here is handled explicitly below.
+set -uo pipefail   # NOT -e: failures are handled explicitly below.
 
 PY="${PYTHON_BIN:-python3}"
 BUILD="${BUILD_SCRIPT:-build/build.py}"
 POSTPROCESS="${POSTPROCESS_SCRIPT:-build/postprocess_audit_fixes_v2.py}"
+ROI_POSTPROCESS="${ROI_POSTPROCESS_SCRIPT:-build/postprocess_roi_conversion.py}"
 REQS="${REQS_FILE:-requirements.txt}"
 
-echo "--- netlify-build: using PY=$PY BUILD=$BUILD POSTPROCESS=$POSTPROCESS"
+echo "--- netlify-build: using PY=$PY BUILD=$BUILD POSTPROCESS=$POSTPROCESS ROI_POSTPROCESS=$ROI_POSTPROCESS"
 
-# Restore site/ from git so a partial write can never reach the CDN. Best effort:
-# outside a git checkout (or on a shallow clone missing the path) this is a no-op
-# and the committed files on disk are already what we want.
 restore_site() {
   if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     git checkout -- site 2>/dev/null \
@@ -51,12 +33,10 @@ restore_site() {
   fi
 }
 
-# --- 1. Is the environment even capable of building? -------------------------
+# 1. Build environment failures fall back to the committed site.
 if ! command -v "$PY" >/dev/null 2>&1; then
   echo "!! netlify-build: '$PY' not found in this build image."
-  echo "!! Publishing the committed site/ unchanged -- same as the old"
-  echo "!! no-build-step setup. Regenerate locally and commit site/ to update"
-  echo "!! content, or set PYTHON_VERSION in Netlify so python3 is available."
+  echo "!! Publishing the committed site/ unchanged."
   restore_site
   exit 0
 fi
@@ -67,32 +47,24 @@ if [ ! -f "$BUILD" ]; then
   exit 0
 fi
 
-# --- 2. Dependencies. A failure here is environmental, not a content bug. ----
 if [ -f "$REQS" ]; then
   if "$PY" -m pip install --quiet --disable-pip-version-check -r "$REQS"; then
     echo "--- netlify-build: dependencies installed"
   else
-    echo "!! netlify-build: pip install failed. Trying the build anyway in case"
-    echo "!! the dependencies are already present in the image."
+    echo "!! netlify-build: pip install failed. Trying the build with installed dependencies."
   fi
 fi
 
-# --- 3. Generator. A failure HERE is a real defect: fail the deploy. ----------
+# 2. Main generator failures are real defects and stop deployment.
 echo "--- netlify-build: regenerating site/ from $BUILD"
 if ! "$PY" "$BUILD"; then
   echo "!! netlify-build: $BUILD FAILED."
-  echo "!! Not publishing a partially written site/. Restoring the committed"
-  echo "!! copy and failing this deploy so the last good deploy keeps serving."
   restore_site
   exit 1
 fi
-
 echo "--- netlify-build: generator OK"
 
-# --- 4. Output-level audit fixes and regression gate. -------------------------
-# This is deliberately AFTER build.py: it can inspect exactly what a visitor and
-# crawler will receive, including analytics injected from Netlify environment
-# variables. It corrects the narrow Aug-31 audit findings and then validates them.
+# 3. Technical/SEO output guardrail.
 if [ -f "$POSTPROCESS" ]; then
   echo "--- netlify-build: applying post-build audit gate"
   if ! "$PY" "$POSTPROCESS"; then
@@ -104,10 +76,25 @@ if [ -f "$POSTPROCESS" ]; then
   echo "--- netlify-build: audit gate OK"
 else
   echo "!! netlify-build: $POSTPROCESS is missing."
-  echo "!! The generator ran, but the production quality gate cannot run."
   restore_site
   exit 1
 fi
 
-echo "--- netlify-build: build + audit OK, publishing freshly generated site/"
+# 4. ROI/conversion output guardrail.
+if [ -f "$ROI_POSTPROCESS" ]; then
+  echo "--- netlify-build: applying ROI conversion gate"
+  if ! "$PY" "$ROI_POSTPROCESS"; then
+    echo "!! netlify-build: $ROI_POSTPROCESS FAILED."
+    echo "!! Refusing to publish output with broken attribution or conversion funnels."
+    restore_site
+    exit 1
+  fi
+  echo "--- netlify-build: ROI conversion gate OK"
+else
+  echo "!! netlify-build: $ROI_POSTPROCESS is missing."
+  restore_site
+  exit 1
+fi
+
+echo "--- netlify-build: build + audit + ROI gates OK, publishing freshly generated site/"
 exit 0
