@@ -154,6 +154,12 @@ const SOURCE_LABELS = {
   "ault-area-inquiry": "The Little Lady Sells Homes - Ault Area Inquiry",
   "newsletter-signup": "The Little Lady Sells Homes - Newsletter Signup",
   "loveland-buyers-guide": "The Little Lady Sells Homes - Loveland Buyer's Guide Download",
+  // ROI_ATTRIBUTION_PATCH_V1 - high-intent organic funnels
+  "rent-to-own-options": "The Little Lady Sells Homes - Rent-to-Own Options",
+  "multigenerational-search": "The Little Lady Sells Homes - Multigenerational Home Search",
+  "land-property-review": "The Little Lady Sells Homes - Land / Acreage Property Review",
+  "land-due-diligence-checklist": "The Little Lady Sells Homes - Land & Acreage Due-Diligence Checklist",
+  "loveland-market-seller": "The Little Lady Sells Homes - Loveland Market Seller Inquiry",
 };
 
 function splitName(fullName) {
@@ -196,6 +202,15 @@ exports.handler = async (event) => {
     // as a smart list, and used as a Smart Plan trigger, so it can drive a real
     // notification instead of sitting in a timeline nobody opens.
     body.tags = [TRIGGER_TAG, "Website Lead", formName];
+    // ROI_ATTRIBUTION_PATCH_V1: make high-intent funnel leads sortable in Lofty.
+    const ROI_TAGS = {
+      "rent-to-own-options": ["Buyer Lead", "Rent-to-Own"],
+      "multigenerational-search": ["Buyer Lead", "Multigenerational"],
+      "land-property-review": ["Buyer Lead", "Land & Acreage"],
+      "land-due-diligence-checklist": ["Buyer Lead", "Land & Acreage"],
+      "loveland-market-seller": ["Seller Lead", "Loveland"],
+    };
+    if (ROI_TAGS[formName]) body.tags.push(...ROI_TAGS[formName]);
     // Every note starts with this, so even a merged lead's activity timeline shows
     // at a glance that a NEW website enquiry came in and when.
     const stamp = new Date().toLocaleString("en-US", {
@@ -292,6 +307,24 @@ exports.handler = async (event) => {
     // of the branches above, and a lead with no note at all is the easiest one to
     // miss. The banner alone is still worth having.
     if (!body.notes) body.notes = banner;
+
+    // ROI_ATTRIBUTION_PATCH_V1: CRM/email-only journey context. This is not
+    // sent to GA4 or Meta by this server function.
+    if (data.roi_context) body.notes += `\n\nWHAT THEY NEED\n${data.roi_context}`;
+    const journey = [];
+    if (data.attribution_first_page) journey.push(`First page: ${data.attribution_first_page}`);
+    if (data.attribution_form_page) journey.push(`Form page: ${data.attribution_form_page}`);
+    if (data.attribution_source) journey.push(`Source: ${data.attribution_source}`);
+    if (data.attribution_referrer) journey.push(`Referrer: ${data.attribution_referrer}`);
+    const utmBits = [
+      data.utm_source && `source=${data.utm_source}`,
+      data.utm_medium && `medium=${data.utm_medium}`,
+      data.utm_campaign && `campaign=${data.utm_campaign}`,
+      data.utm_content && `content=${data.utm_content}`,
+      data.utm_term && `term=${data.utm_term}`,
+    ].filter(Boolean);
+    if (utmBits.length) journey.push(`UTM: ${utmBits.join(" | ")}`);
+    if (journey.length) body.notes += `\n\nWEBSITE JOURNEY\n${journey.join("\n")}`;
 
     const result = await postLead(body, apiKey);
     // The store is only needed for diagnostics, so a Blobs problem must not

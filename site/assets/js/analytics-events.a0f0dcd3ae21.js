@@ -1,0 +1,8 @@
+(function(){
+'use strict';
+function send(name,params){if(typeof window.gtag==='function'){window.gtag('event',name,params||{});}}
+function formName(f){return (f&&f.getAttribute&&f.getAttribute('name'))||'unknown';}
+document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.matches)return;if(f.classList.contains('lead-form')){send('lead_form_attempt',{form_name:formName(f)});return;}var id=(f.id||'')+' '+(f.className||'')+' '+(f.getAttribute('action')||'');if(/search|filter|home/i.test(id)){send('home_search_submit',{form_id:f.id||'unknown'});}},true);
+document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href]');if(!a)return;var raw=a.getAttribute('href')||'';if(a.matches('[data-contact]')){send('contact_click',{method:a.getAttribute('data-contact')||'unknown'});}if(/^\/listing\//.test(raw)||a.closest('.listing-card')){send('listing_click',{link_path:raw.split('?')[0].slice(0,180)});}try{var u=new URL(a.href,location.href);if(u.origin!==location.origin){var d=u.hostname.replace(/^www\./,'');if(/jotform\.com$/.test(d)){send('external_form_click',{destination_domain:d});}if(['signaturepropertycollection.com','owninnoco.com'].indexOf(d)!==-1){send('brand_site_click',{destination_domain:d});}}}catch(_){}} ,true);
+if(/^\/listing\//.test(location.pathname)){send('listing_detail_view',{listing_path:location.pathname.slice(0,180)});}
+})();
