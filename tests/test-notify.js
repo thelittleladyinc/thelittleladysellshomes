@@ -78,8 +78,11 @@ process.env.RESEND_API_KEY = "resend-test-key";
   check("emailed her exactly once", emails.length === 1, `${emails.length} calls`);
   if (emails.length) {
     const e = emails[0];
+    // 2026-08-31: the live alert subject was intentionally branded so it is
+    // unmistakable in Christine's inbox. Keep the regression test aligned with
+    // that production contract instead of the older generic wording.
     check("email subject names the lead and source",
-      /New website lead: Dana Reyes — Contact Form/.test(e.body.subject), e.body.subject);
+      /NEW LITTLE LADY LEAD — Dana Reyes — Contact Form/.test(e.body.subject), e.body.subject);
     check("email goes to her inbox", JSON.stringify(e.body.to) === '["thelittleladyinc@gmail.com"]', JSON.stringify(e.body.to));
     check("reply_to is the buyer", e.body.reply_to === "dana@example.com", e.body.reply_to);
     check("email body carries the message", e.body.html.includes("Looking in Fort Morgan"));
