@@ -1286,7 +1286,13 @@ def _sold_side_label(side):
     would imply the 24 with no side on file were buy-side, which is exactly the
     wrong inference. Absent means unknown here, never assumed.
     """
-    return {"buy": "Buyer side", "both": "Both sides"}.get((side or "").lower(), "")
+    # 2026-09-15, Christine: "put them all on the same page just put :Buyer on the
+    # buy side" -- so one list, and the label is the bare word. "both" keeps the
+    # seller half because dropping it would understate 23570 County Rd 1, where she
+    # actually represented each side of the same closing.
+    # Returned RAW, not HTML-escaped -- the caller runs esc() over each part, so an
+    # &amp; here would render as "&amp;amp;".
+    return {"buy": "Buyer", "both": "Buyer & Seller"}.get((side or "").lower(), "")
 
 
 def _build_sold_home_pins():
