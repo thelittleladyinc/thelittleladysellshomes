@@ -66,7 +66,8 @@
     "2026-08-16: eight pins removed. They came from the sold-status inference in _LISTING_VIDEO_ENTRIES (build.py) -- 'absent from her live-listings sheet, so presumably closed' -- not from Christine's records. She confirmed 32 Victoria Dr and 475 Homestead Ln did NOT sell, which invalidated the other six by the same reasoning. A pin belongs here only when Christine's own records back it, which in practice means it carries a year. Removed: 1110 S Quitman St, 1316 Cimarron Cir, 294 Gila Trail, 32 Victoria Dr, 39243 Boulevard E, 45615 County Rd 27, 475 Homestead Ln, 929 W Independent Ave.",
     "2026-08-16, same day: 1110 S Quitman St went back in. It was one of the eight removed above, and then her own 'Bold Collective — Updated Deal Tracker' in Drive turned out to record it CLOSED on 06/05/2026 at $405,000, co-listed with Kendra. That is a document, which is the standard -- one of the six unconfirmed addresses cleared it and five did not.",
     "2026-08-16, third correction of the day and the one that came straight from Christine: \"i sold 294 gila, bold 3 rounty rd 27 not indpendevent or cimaron\". So 294 Gila Trail (Ault), 39243 Boulevard E (Eaton) and 45615 County Rd 27 (Pierce) go back in, and 929 W Independent Ave and 1316 Cimarron Cir are recorded not-sold. No year on these three -- she has confirmed the sale, which is the standard here; the year is not required for a pin and is not shown when absent.",
-    "2026-09-15, from Christine: \"Green Mountain Boulevard in 2025 and West County Rd. 27. gila Trl didn't sell\". So 913 Green Mountain Dr (Erie), 39243 Boulevard E (Eaton) and 45615 County Rd 27 (Pierce) all get year 2025 -- the three that had been carried without one since 2026-08-16 -- and 294 Gila Trail is REMOVED. That removal reverses her own 2026-08-16 line (\"i sold 294 gila\") recorded two entries above, so this address has now flip-flopped twice; it was flagged back to her the same day rather than changed silently. Its _LISTING_VIDEO_ENTRIES marker in build.py was flipped to \"not-sold\" in the same pass, because leaving it \"sold\" there re-pins it on the map with no city and fails tests/test-soldclaims.js. Address spelling kept as \"45615 County Rd 27\" -- her \"West \" is how she says it, and every other County Rd entry in this file omits the direction."
+    "2026-09-15, from Christine: \"Green Mountain Boulevard in 2025 and West County Rd. 27. gila Trl didn't sell\". So 913 Green Mountain Dr (Erie), 39243 Boulevard E (Eaton) and 45615 County Rd 27 (Pierce) all get year 2025 -- the three that had been carried without one since 2026-08-16 -- and 294 Gila Trail is REMOVED. That removal reverses her own 2026-08-16 line (\"i sold 294 gila\") recorded two entries above, so this address has now flip-flopped twice; it was flagged back to her the same day rather than changed silently, and she CONFIRMED it the same day (\"gila was not sold\"). Settled: the 2026-08-16 line was the mistaken one. Do not put it back without a new word from her. Its _LISTING_VIDEO_ENTRIES marker in build.py was flipped to \"not-sold\" in the same pass, because leaving it \"sold\" there re-pins it on the map with no city and fails tests/test-soldclaims.js. Address spelling kept as \"45615 County Rd 27\" -- her \"West \" is how she says it, and every other County Rd entry in this file omits the direction.",
+    "2026-09-15, side-of-transaction: 'side' is \"buy\", \"sell\" or \"both\" and comes from the Buy/Sale column of Christine's \"Transactions 2021-2024\" sheet in Drive (1C-aIWPcuZJjt4tp7ST-wKt-EkalsyPBcqv-Wf9LG1lQ). Only 21 of the entries here are covered by that sheet; the rest have no side on file and carry no 'side' key, which is deliberate -- absent means unknown, never assumed. ONLY buy and both are rendered as a label, because sell-side is what a visitor already assumes on a page about her sales, so labelling it adds nothing and labelling only some of them would imply the unlabelled ones were buy-side. 23570 County Rd 1 is \"both\": the sheet lists it twice, once as buyer and once as seller. NOTE for whoever reconciles this next: the sheet writes \"1608 W 1st\" and this file has \"1608 E 1st St\" -- same house number and street, opposite direction, so one of the two is a typo and it has not been resolved here."
   ],
   "homes": [
     {
@@ -74,14 +75,16 @@
       "city": "Ault",
       "videoId": "eiFurERq_As",
       "title": "Charming Home for Sale at 504 Graefe Ave, Ault CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "4869 Stuart St",
       "city": "Denver",
       "videoId": "oNZBc-MxzUg",
       "title": "Stunning Home for Sale — 4986 Stuart St, Denver (Tennyson Art District)",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "5705 Snow Mesa Ct",
@@ -203,115 +206,134 @@
       "address": "14775 County Rd 88",
       "city": "Pierce",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "205 8th St",
       "city": "Gilcrest",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "4110 Julesberg Dr",
       "city": "Loveland",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "5112 W 9th St",
       "city": "Greeley",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "4953 W 5th St",
       "city": "Greeley",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "446 Pony Express Trl",
       "city": "Ault",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "621 Nokomis Rd",
       "city": "Red Feather Lakes",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "13909 Dahlia St",
       "city": "Thornton",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "1648 S Kenton St",
       "city": "Aurora",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "375 Cherokee Trl",
       "city": "Ault",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "111 2nd St",
       "city": "Ault",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "1121 Walnut St",
       "city": "Windsor",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "23570 County Rd 1",
       "city": "Loveland",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "both"
     },
     {
       "address": "1022 1st St",
       "city": "Nunn",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "304 W 52nd St",
       "city": "Loveland",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "4986 W 5th St",
       "city": "Greeley",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "1591 Sunflower Way",
       "city": "Johnstown",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "buy"
     },
     {
       "address": "810 S Rachel Ave",
       "city": "Milliken",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "buy"
     },
     {
       "address": "1608 E 1st St",
       "city": "Loveland",
       "state": "CO",
-      "year": "2024"
+      "year": "2024",
+      "side": "sell"
     },
     {
       "address": "2200 37th St",

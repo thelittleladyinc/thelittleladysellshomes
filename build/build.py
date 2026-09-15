@@ -1011,9 +1011,9 @@ _LISTING_VIDEO_ENTRIES = [
     # her 2026-08-16 correction ("i sold 294 gila"), which is why it is recorded
     # here as well as in sold_homes.json's _README -- this address has now
     # flip-flopped twice and the next person should see that before touching it.
-    # Flagged back to her the same day; the not-sold direction is the safe one to
-    # sit on while it is confirmed, because the error it avoids is a public claim
-    # to a sale that did not happen.
+    # Flagged back to her the same day and CONFIRMED by her the same day --
+    # "gila was not sold" -- so this is settled, not provisional. The 2026-08-16
+    # line is the one that was wrong.
     (["294 gila trail", "294 gila trl"],
      "JvtRGf01JXU", "Why Everyone's Talking About This Ault, Colorado Home | 294 Gila Trail", "not-sold"),
     (["39243 boulevard e", "39243 blvd e"],
@@ -1277,6 +1277,18 @@ def _street_key(street):
     return " ".join(street.strip().lower().split())
 
 
+def _sold_side_label(side):
+    """Human label for a transaction side, or "" when it should not be shown.
+
+    Only buy-side and both-sides are ever labelled. Sell-side is what a visitor
+    already assumes on a page titled "Homes Christine Has Sold", so printing it
+    adds nothing -- and printing it on ONLY the 18 entries whose side is known
+    would imply the 24 with no side on file were buy-side, which is exactly the
+    wrong inference. Absent means unknown here, never assumed.
+    """
+    return {"buy": "Buyer side", "both": "Both sides"}.get((side or "").lower(), "")
+
+
 def _build_sold_home_pins():
     pins = []
     seen = set()
@@ -1302,6 +1314,11 @@ def _build_sold_home_pins():
         }
         if home.get("year"):
             pin["year"] = str(home["year"])
+        # 2026-09-15: side of the transaction, from the Buy/Sale column of
+        # Christine's Transactions sheet. Only "buy" and "both" ever reach the
+        # page -- see _sold_side_label() for why sell-side stays silent.
+        if home.get("side"):
+            pin["side"] = str(home["side"]).lower()
         if home.get("videoId"):
             pin["videoId"] = home["videoId"]
             pin["title"] = home.get("title") or f"{street} home tour"
@@ -12702,7 +12719,7 @@ def build_nav_pages():
         homes = sorted(by_town[town], key=lambda p: (-int(p.get("year") or 0), p["address"]))
         rows = "\n        ".join(
             f"""<li><span class="sold-addr">{esc(p['address'])}</span>"""
-            f"""<span class="sold-town">{esc(str(p.get('year') or ''))}</span>"""
+            f"""<span class="sold-town">{" &middot; ".join(esc(x) for x in (str(p.get('year') or ''), _sold_side_label(p.get('side'))) if x)}</span>"""
             + (f"""<a class="sold-tour" href="https://www.youtube.com/watch?v={esc(p['videoId'])}" """
                f"""target="_blank" rel="noopener">Watch the tour &#8599;</a>"""
                if p.get("videoId") else '<span class="sold-tour"></span>')
