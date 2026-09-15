@@ -5237,10 +5237,12 @@ def build_seller_local_proof():
       <input type="text" name="address" placeholder="Your home's address" required>
       <input type="hidden" name="local_proof_town" id="spt-town-field" value="">
       <label class="consent">
-        <input type="checkbox" required>
+        <input type="checkbox" name="sms_consent" value="yes" required>
         I agree to receive marketing communication via call, text, or similar automated
-        means from {SITE['name']}. Consent is not a condition of purchase. Msg/data rates
-        may apply. Reply STOP to unsubscribe.
+        means from {SITE['name']}. Consent is not a condition of purchase. Message
+        frequency varies. Msg/data rates may apply. Reply STOP to unsubscribe, HELP for
+        help. See our <a href="/privacy-policy.html">Privacy Policy</a> and
+        <a href="/terms-of-service.html">Terms of Service</a>.
       </label>
       <button class="btn btn-dark" type="submit">Send Me My Local Proof</button>
     </form>
@@ -8222,10 +8224,12 @@ def build_contact():
       <input type="tel" name="phone" placeholder="Phone" required>
       <textarea name="message" rows="5" placeholder="Comments, Questions?" required></textarea>
       <label class="consent">
-        <input type="checkbox" required>
+        <input type="checkbox" name="sms_consent" value="yes" required>
         I agree to receive marketing communication via call, text, or similar automated
-        means from {SITE['name']}. Consent is not a condition of purchase. Msg/data rates
-        may apply. Reply STOP to unsubscribe.
+        means from {SITE['name']}. Consent is not a condition of purchase. Message
+        frequency varies. Msg/data rates may apply. Reply STOP to unsubscribe, HELP for
+        help. See our <a href="/privacy-policy.html">Privacy Policy</a> and
+        <a href="/terms-of-service.html">Terms of Service</a>.
       </label>
       <button class="btn btn-dark" type="submit">Submit</button>
     </form>
@@ -8439,10 +8443,12 @@ def build_guides():
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email" required>
       <label class="consent">
-        <input type="checkbox" required>
+        <input type="checkbox" name="sms_consent" value="yes" required>
         I agree to receive marketing communication via call, text, or similar automated
-        means from {SITE['name']}. Consent is not a condition of purchase. Msg/data rates
-        may apply. Reply STOP to unsubscribe.
+        means from {SITE['name']}. Consent is not a condition of purchase. Message
+        frequency varies. Msg/data rates may apply. Reply STOP to unsubscribe, HELP for
+        help. See our <a href="/privacy-policy.html">Privacy Policy</a> and
+        <a href="/terms-of-service.html">Terms of Service</a>.
       </label>
       <button class="btn btn-dark" type="submit">Get Access To This Free Guide</button>
     </form>
@@ -10609,10 +10615,12 @@ def _tool_lead_form(form_name, button_label, extra_fields=""):
       <input type="tel" name="phone" placeholder="Phone" aria-label="Phone number">
       {extra_fields}
       <label class="consent">
-        <input type="checkbox" required>
+        <input type="checkbox" name="sms_consent" value="yes" required>
         I agree to receive marketing communication via call, text, or similar automated
-        means from {SITE['name']}. Consent is not a condition of purchase. Msg/data rates
-        may apply. Reply STOP to unsubscribe.
+        means from {SITE['name']}. Consent is not a condition of purchase. Message
+        frequency varies. Msg/data rates may apply. Reply STOP to unsubscribe, HELP for
+        help. See our <a href="/privacy-policy.html">Privacy Policy</a> and
+        <a href="/terms-of-service.html">Terms of Service</a>.
       </label>
       <button class="btn btn-dark" type="submit">{esc(button_label)}</button>
     </form>"""

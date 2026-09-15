@@ -326,6 +326,41 @@ exports.handler = async (event) => {
     if (utmBits.length) journey.push(`UTM: ${utmBits.join(" | ")}`);
     if (journey.length) body.notes += `\n\nWEBSITE JOURNEY\n${journey.join("\n")}`;
 
+    // ---- TCPA consent record (2026-09-15) ------------------------------------
+    // The consent checkbox on every lead form used to be `<input type="checkbox"
+    // required>` with NO name attribute. The browser enforced the tick, but an
+    // unnamed input is never submitted, so nothing about consent reached Netlify,
+    // this function, Lofty or the notification email. Christine was collecting
+    // consent and keeping no proof of it -- which is the half that matters if
+    // anyone ever complains. The field is now `sms_consent` and its value is
+    // written into the lead note, where it is durable and timestamped by the
+    // banner at the top of the same note.
+    //
+    // The disclosure TEXT is recorded alongside the yes, not just the fact of it.
+    // A consent record that says only "agreed" cannot show WHAT was agreed to,
+    // and the wording on the page will change over time -- so the note has to
+    // carry the version that this person actually saw.
+    //
+    // An unchecked box submits nothing at all, so a MISSING field is not the same
+    // as "no": it means the form reached this function without passing the
+    // browser's own required check -- a direct POST, a bot, or a form that
+    // predates this change. That is called out explicitly rather than left blank,
+    // because the safe reading of "no record" is DO NOT TEXT.
+    if (data.sms_consent) {
+      body.notes += "\n\nCONSENT (TCPA)" +
+        "\nSMS/call consent: YES \u2014 box ticked at submit" +
+        "\nAgreed to: \"I agree to receive marketing communication via call, text, or " +
+        "similar automated means from The Little Lady Sells Homes. Consent is not a " +
+        "condition of purchase. Message frequency varies. Msg/data rates may apply. " +
+        "Reply STOP to unsubscribe, HELP for help.\"";
+    } else {
+      body.notes += "\n\nCONSENT (TCPA)" +
+        "\n!! NO CONSENT RECORD on this submission \u2014 the sms_consent field was " +
+        "absent, which means this did not arrive through the site's own form with the " +
+        "box ticked. Do NOT text or auto-dial this lead until consent is obtained and " +
+        "logged.";
+    }
+
     const result = await postLead(body, apiKey);
     // The store is only needed for diagnostics, so a Blobs problem must not
     // prevent the push itself -- it's fetched after the lead has already gone.
