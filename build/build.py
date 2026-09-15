@@ -1,3 +1,23 @@
+# 2026-09-15: the SMS consent checkbox is deliberately NOT `required`.
+#
+# It was required until today, which looked stricter but was worse in three ways.
+# The disclosure beside it says "Consent is not a condition of purchase" -- and a
+# box you cannot submit the form without ticking makes that untrue, since nobody
+# could contact Christine at all without agreeing to marketing texts. That is the
+# exact conditioning TCPA cares about. Her A2P 10DLC campaign registration also
+# states, in her own submitted words, that the checkboxes "are not required to
+# submit the form"; a reviewer loading any of these pages could see otherwise.
+#
+# And it made the record worthless. A mandatory box yields a 100% consent rate
+# that proves nothing about anyone. An optional one means `sms_consent` in the
+# Netlify payload is a real signal -- present means this person actually chose it.
+# submission-created.js already treats an absent field as "do NOT text", so the
+# unticked case lands somewhere safe rather than being silently assumed.
+#
+# Do not add `required` back without resolving the disclosure and the A2P filing
+# at the same time.
+
+
 #!/usr/bin/env python3
 """
 Static site generator for signaturepropertycollection.com.
@@ -5237,7 +5257,7 @@ def build_seller_local_proof():
       <input type="text" name="address" placeholder="Your home's address" required>
       <input type="hidden" name="local_proof_town" id="spt-town-field" value="">
       <label class="consent">
-        <input type="checkbox" name="sms_consent" value="yes" required>
+        <input type="checkbox" name="sms_consent" value="yes">
         I agree to receive marketing communication via call, text, or similar automated
         means from {SITE['name']}. Consent is not a condition of purchase. Message
         frequency varies. Msg/data rates may apply. Reply STOP to unsubscribe, HELP for
@@ -8224,7 +8244,7 @@ def build_contact():
       <input type="tel" name="phone" placeholder="Phone" required>
       <textarea name="message" rows="5" placeholder="Comments, Questions?" required></textarea>
       <label class="consent">
-        <input type="checkbox" name="sms_consent" value="yes" required>
+        <input type="checkbox" name="sms_consent" value="yes">
         I agree to receive marketing communication via call, text, or similar automated
         means from {SITE['name']}. Consent is not a condition of purchase. Message
         frequency varies. Msg/data rates may apply. Reply STOP to unsubscribe, HELP for
@@ -8443,7 +8463,7 @@ def build_guides():
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email" required>
       <label class="consent">
-        <input type="checkbox" name="sms_consent" value="yes" required>
+        <input type="checkbox" name="sms_consent" value="yes">
         I agree to receive marketing communication via call, text, or similar automated
         means from {SITE['name']}. Consent is not a condition of purchase. Message
         frequency varies. Msg/data rates may apply. Reply STOP to unsubscribe, HELP for
@@ -10615,7 +10635,7 @@ def _tool_lead_form(form_name, button_label, extra_fields=""):
       <input type="tel" name="phone" placeholder="Phone" aria-label="Phone number">
       {extra_fields}
       <label class="consent">
-        <input type="checkbox" name="sms_consent" value="yes" required>
+        <input type="checkbox" name="sms_consent" value="yes">
         I agree to receive marketing communication via call, text, or similar automated
         means from {SITE['name']}. Consent is not a condition of purchase. Message
         frequency varies. Msg/data rates may apply. Reply STOP to unsubscribe, HELP for
