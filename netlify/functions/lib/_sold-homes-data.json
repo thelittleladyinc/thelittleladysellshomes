@@ -29,6 +29,7 @@
       "address": "913 Green Mountain Dr",
       "city": "Erie",
       "state": "CO",
+      "year": "2025",
       "videoId": "e-_3Qs3liQ0",
       "title": "Inside a $1.35M Luxury Home in Small-Town Colorado — 913 Green Mountain Dr, Erie"
     },
@@ -269,16 +270,10 @@
       "title": "Denver Home Tour — Charming Mid-Century Ranch at 1110 S Quitman St"
     },
     {
-      "address": "294 Gila Trail",
-      "city": "Ault",
-      "state": "CO",
-      "videoId": "JvtRGf01JXU",
-      "title": "Why Everyone's Talking About This Ault, Colorado Home | 294 Gila Trail"
-    },
-    {
       "address": "39243 Boulevard E",
       "city": "Eaton",
       "state": "CO",
+      "year": "2025",
       "videoId": "L-uEVzq1bv4",
       "title": "Eaton, CO Home Under $400K — 39243 Boulevard E"
     },
@@ -286,6 +281,7 @@
       "address": "45615 County Rd 27",
       "city": "Pierce",
       "state": "CO",
+      "year": "2025",
       "videoId": "dVonJhu_zCo",
       "title": "Dream Ranch on 20 Acres — 45615 County Rd 27, Pierce CO"
     }

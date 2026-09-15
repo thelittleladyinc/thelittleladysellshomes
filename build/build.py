@@ -1007,8 +1007,15 @@ _LISTING_VIDEO_ENTRIES = [
     (["929 independent ave", "929 w independent ave", "929 west independent ave",
       "929 independent avenue", "929 w independent avenue"],
      "TpjE36J71zc", "Tour 929 W Independent Ave — Modern 4-Bed Home in LaSalle, Colorado", "not-sold"),
+    # 2026-09-15, straight from Christine: "gila Trl didn't sell". This REVERSES
+    # her 2026-08-16 correction ("i sold 294 gila"), which is why it is recorded
+    # here as well as in sold_homes.json's _README -- this address has now
+    # flip-flopped twice and the next person should see that before touching it.
+    # Flagged back to her the same day; the not-sold direction is the safe one to
+    # sit on while it is confirmed, because the error it avoids is a public claim
+    # to a sale that did not happen.
     (["294 gila trail", "294 gila trl"],
-     "JvtRGf01JXU", "Why Everyone's Talking About This Ault, Colorado Home | 294 Gila Trail", "sold"),
+     "JvtRGf01JXU", "Why Everyone's Talking About This Ault, Colorado Home | 294 Gila Trail", "not-sold"),
     (["39243 boulevard e", "39243 blvd e"],
      "L-uEVzq1bv4", "Eaton, CO Home Under $400K — 39243 Boulevard E", "sold"),
     (["1110 quitman st", "1110 s quitman st", "1110 south quitman st",
