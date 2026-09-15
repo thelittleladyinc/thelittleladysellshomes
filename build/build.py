@@ -195,6 +195,9 @@ LEGACY_AGENTFIRE_REDIRECTS = {
     # Legal/utility pages that only changed shape
     "/accessibility/": "/accessibility.html",
     "/privacy-policy/": "/privacy-policy.html",
+    "/terms/": "/terms-of-service.html",
+    "/terms": "/terms-of-service.html",
+    "/terms-of-service/": "/terms-of-service.html",
     "/thank-you/": "/thank-you.html",
 }
 
@@ -4427,6 +4430,7 @@ def footer_html():
     <div class="footer-bottom">
       <span>&copy; 2026 {SITE['name']} &middot; {SITE['agent']}, {SITE['brokerage']} &middot; {SITE['license']}. All information deemed reliable but not guaranteed.
       &middot; <a href="/privacy-policy.html" style="text-decoration:underline">Privacy Policy</a>
+      &middot; <a href="/terms-of-service.html" style="text-decoration:underline">Terms of Service</a>
       &middot; <a href="/accessibility.html" style="text-decoration:underline">Accessibility</a>
       &middot; {_qr_share_button()}</span>
     </div>
@@ -13418,6 +13422,17 @@ def build_legal():
              "The Little Lady Sells Homes's commitment to an accessible, inclusive website.",
              "/accessibility.html", None, body)
 
+    if LEGAL.get("terms-of-service"):
+        body = f"""
+<section class="hero" style="padding:80px 0 50px"><div class="wrap"><h1>Terms of Service</h1></div></section>
+<section><div class="wrap" style="max-width:780px">
+    {_legal_body_html(LEGAL['terms-of-service'])}
+</div></section>
+"""
+        page("Terms of Service | The Little Lady Sells Homes",
+             "Terms governing use of this site and the text messaging program.",
+             "/terms-of-service.html", None, body)
+
     # 2026-08-16. Two problems with what was here, which was a <h1>Thank You</h1>,
     # nine words of reassurance, and a link back to the homepage.
     #
@@ -13737,7 +13752,7 @@ def build_redirects_and_meta(extra_paths=None):
     # sitemap
     paths = ["/index.html", "/communities/index.html", "/about.html", "/buyers.html",
              "/sellers.html", "/seller-local-proof.html", "/testimonials.html", "/contact.html",
-             "/privacy-policy.html", "/accessibility.html", "/thank-you.html",
+             "/privacy-policy.html", "/terms-of-service.html", "/accessibility.html", "/thank-you.html",
              "/guides/buyers-guide.html", "/guides/sellers-guide.html",
              RELOCATION_GUIDE_PATH]
     paths += [f"/communities/{c['slug']}.html" for c in COUNTIES]
