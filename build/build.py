@@ -6474,12 +6474,26 @@ def _live_market_snapshot():
     }
 
 
+def _freshness_phrase(age_days):
+    """How to say the age of an MLS snapshot in words.
+
+    2026-09-16: the FAQ and schema paths rendered "refreshed 0 days ago" on the
+    day of a refresh. Accurate, and it reads like a broken template -- to a
+    visitor, and to Google, which quotes this text back in rich results. The
+    prose "as of" line already said "today"; the structured data did not. One
+    helper now, so the two cannot drift apart again.
+    """
+    if age_days == 0:
+        return "today"
+    if age_days == 1:
+        return "yesterday"
+    return f"{age_days} days ago"
+
+
 def _live_market_asof(snap):
     """The dated 'as of' line -- now a freshness claim rather than an apology."""
     when = datetime.date.fromisoformat(snap["generated_at"]).strftime("%B %-d, %Y")
-    age = snap["age_days"]
-    freshness = ("today" if age == 0 else
-                 "yesterday" if age == 1 else f"{age} days ago")
+    freshness = _freshness_phrase(snap["age_days"])
     return (f'<p class="mr-asof">Live from <strong>IRES MLS</strong>, last refreshed '
             f'{freshness} ({esc(when)}) across {snap["town_count"]} Northern Colorado '
             f'towns. These are <strong>asking</strong> prices on homes for sale right '
@@ -6513,9 +6527,7 @@ def _town_market_asof(city, stats):
     """Town-scoped 'as of' line. Mirrors _live_market_asof's honesty about
     asking vs sold, which is the whole trade these pages make."""
     when = datetime.date.fromisoformat(stats["generated_at"]).strftime("%B %-d, %Y")
-    age = stats["age_days"]
-    freshness = ("today" if age == 0 else
-                 "yesterday" if age == 1 else f"{age} days ago")
+    freshness = _freshness_phrase(stats["age_days"])
     return (f'<p class="mr-asof">Live from <strong>IRES MLS</strong> for '
             f'{esc(city)}, last refreshed {freshness} ({esc(when)}). These are '
             f'<strong>asking</strong> prices on homes for sale right now &mdash; what '
@@ -6697,13 +6709,12 @@ def town_market_report_body(city, state, page_url):
               "How to compare homes of different sizes."),
     ])
 
-    age_word = "day" if stats["age_days"] == 1 else "days"
     faqs = [
         (f"What is the average home price in {place}?",
          f"The median asking price in {city} is ${median:,} across {active:,} homes currently "
          f"for sale."
          + (f" That is about ${ppsf} per square foot." if ppsf else "")
-         + f" These are live IRES MLS figures, refreshed {stats['age_days']} {age_word} ago. A "
+         + f" These are live IRES MLS figures, refreshed {_freshness_phrase(stats['age_days'])}. A "
            f"median is the middle of what is listed, not a valuation of any particular house."),
         (f"How many homes are for sale in {place}?",
          f"{active:,} right now. Inventory is the number most worth watching: when it climbs, "
@@ -12176,7 +12187,7 @@ def build_nav_pages():
              f"{snap['town_count']} Northern Colorado towns in Larimer, Weld and Boulder "
              f"County. The median asking price is ${snap['median_list']:,}, or about "
              f"${snap['median_ppsf']} per square foot. These are live IRES MLS figures, "
-             f"refreshed {snap['age_days']} day{'s' if snap['age_days'] != 1 else ''} ago."),
+             f"refreshed {_freshness_phrase(snap['age_days'])}."),
             ("Are these sold prices or asking prices?",
              "Asking prices — what sellers are asking for homes that are on the market "
              "today. That is deliberate: it is the live picture, and it is the number that "
