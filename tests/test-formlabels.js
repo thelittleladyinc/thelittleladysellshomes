@@ -96,13 +96,13 @@ for (const file of walk(path.join(ROOT, "site"))) {
   const html = fs.readFileSync(file, "utf8");
   for (const fm of html.matchAll(/<form\b[^>]*class="[^"]*lead-form[^"]*"[^>]*>[\s\S]*?<\/form>/g)) {
     const form = fm.group ? fm.group : fm[0];
-    let depth = 0, labelText = "";
+    let depth = 0;
     const re = /(<label\b[^>]*>)|(<\/label>)|(<(?:input|select|textarea)\b[^>]*>)|([^<]+)/g;
     let m;
     while ((m = re.exec(form))) {
-      if (m[1]) { depth++; labelText = ""; continue; }
+      if (m[1]) { depth++; continue; }
       if (m[2]) { if (depth) depth--; continue; }
-      if (m[4]) { if (depth) labelText += m[4]; continue; }
+      if (m[4]) continue;
       const tag = m[3];
       const type = (tag.match(/type="([^"]+)"/i) || [, "text"])[1].toLowerCase();
       if (/^<input/i.test(tag) &&
@@ -167,9 +167,24 @@ for (const file of walk(path.join(ROOT, "site"))) {
     for (const lm of fm[0].matchAll(/<label class="consent">([\s\S]*?)<\/label>/g)) {
       const body = lm[1];
       if (!/<input\b[^>]*type="checkbox"/.test(body)) continue;  // calculator caption
-      // Strip the span and its contents; any link left over is a direct child.
-      const outside = body.replace(/<span class="consent-text">[\s\S]*?<\/span>/g, "");
-      if (/<a\b/.test(outside)) SPLIT.push(path.relative(ROOT, file));
+      // The invariant is structural, not link-specific: a flex container splits
+      // EVERY element child into its own column, so the label must contain
+      // exactly two of them -- the control, and one wrapper holding the words.
+      // Keying on anchors alone would pass a label that wrapped only its links
+      // and left the sentence split some other way.
+      const top = [];
+      let d = 0;
+      for (const em of body.matchAll(/<(\/?)([a-z]+)\b[^>]*?(\/?)>/gi)) {
+        const closing = em[1] === "/", tag = em[2].toLowerCase();
+        const VOID = ["input", "br", "img", "hr", "meta", "wbr"].includes(tag);
+        if (VOID) { if (d === 0) top.push(tag); continue; }
+        if (closing) { d--; continue; }
+        if (d === 0) top.push(tag);
+        d++;
+      }
+      if (top.length !== 2) {
+        SPLIT.push(`${path.relative(ROOT, file)} (${top.length} element children: ${top.join(",")})`);
+      }
     }
   }
 }
@@ -194,6 +209,21 @@ for (const file of walk(path.join(ROOT, "site"))) {
 }
 check("the SMS consent disclosure is still complete", MISSING.length === 0,
   `${MISSING.length} missing: ${MISSING.slice(0, 3).join("; ")}`);
+
+// Half of each accessibility commit is presentational: markup that ships unstyled
+// is markup that does not do its job. The label would render as an unspaced run of
+// text, and the consent checkbox would squash next to the sentence. Pin the rules
+// in the SHIPPED stylesheet, not the source, since the shipped copy is minified.
+const cssFile = fs.readdirSync(path.join(ROOT, "site/assets/css")).find((f) => /^style\..*\.css$/.test(f));
+const shippedCss = cssFile ? fs.readFileSync(path.join(ROOT, "site/assets/css", cssFile), "utf8") : "";
+check("the shipped stylesheet still styles the visible field labels",
+  /form\.lead-form\s+label\.field\s*\{[^}]*grid/.test(shippedCss)
+  && /\.field-label\s*\{/.test(shippedCss),
+  cssFile ? `not found in ${cssFile}` : "no hashed stylesheet found");
+check("the shipped stylesheet still keeps the consent checkbox from squashing",
+  /label\.consent\s*>\s*input\[type="checkbox"\]\s*\{[^}]*flex\s*:\s*none/.test(shippedCss)
+  && /\.consent-text\s*\{/.test(shippedCss),
+  cssFile ? `not found in ${cssFile}` : "no hashed stylesheet found");
 
 // The homepage select is the one Lighthouse named, so it gets its own check --
 // a count that drifts to zero is easy to miss, a named control is not.

@@ -119,5 +119,16 @@ check(distinct.size > posts.length / 2,
 check(!(distinct.size === 1),
   `every blog post shares the modification date ${[...distinct][0]}`);
 
+// The count above only catches a WHOLESALE collapse. The likelier future accident is
+// a subset -- a stage that stamps the twenty posts it happened to touch. So also cap
+// how much of the archive any single date may claim. Today the worst is 3 of 61;
+// anything approaching a fifth of the archive sharing one modification date is a
+// build step stamping, not sixty-one articles that happened to be edited together.
+const byDate = {};
+for (const d of metaDates) byDate[d] = (byDate[d] || 0) + 1;
+const [topDate, topCount] = Object.entries(byDate).sort((a, b) => b[1] - a[1])[0] || ["", 0];
+check(topCount <= Math.ceil(posts.length / 5),
+  `${topCount} of ${posts.length} blog posts share the modification date ${topDate} (cap ${Math.ceil(posts.length / 5)})`);
+
 if (fails) process.exit(1);
 console.log('All checks passed');
