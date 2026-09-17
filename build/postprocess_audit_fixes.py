@@ -503,6 +503,58 @@ def _fix_rent_to_own(text: str) -> str:
     return text
 
 
+LEAD_FORM_RE = re.compile(r'<form\b[^>]*class="[^"]*lead-form[^"]*"[^>]*>[\s\S]*?</form>')
+FIELD_RE = re.compile(r'<(input|select|textarea)\b([^>]*?)(/?)>')
+
+
+def _label_lead_form_inputs(text: str) -> tuple[str, int]:
+    """Give every lead-form field an accessible name.
+
+    2026-09-17: these forms are styled with placeholder text and no <label>, so
+    125 of 655 fields reached a screen reader as an unnamed edit box -- "blank,
+    edit text" where a sighted visitor sees "Your message". A buyer using a
+    screen reader could not tell which box was which, on the forms that are the
+    only way to contact Christine.
+
+    The placeholder already carries the human wording, so it becomes the
+    aria-label. That is the accessible-name fix, and it is deliberately the
+    whole fix: it changes nothing visually, so it cannot disturb the lead
+    capture path or the funnel layouts. It does NOT solve the other half of the
+    placeholder problem -- the text still vanishes once someone types, and only
+    real visible <label> elements fix that. Those change the look of all 37
+    forms, so that is a design decision rather than a defect to patch.
+
+    Checkboxes are skipped: they already sit inside a visible <label>, and the
+    multigenerational feature list sits in a <fieldset> with a <legend>.
+    Anything that already has an aria-label is left exactly as it is.
+    """
+    added = [0]
+
+    def fix_form(fm: re.Match[str]) -> str:
+        form = fm.group(0)
+
+        def fix_field(m: re.Match[str]) -> str:
+            attrs = m.group(2)
+            if "aria-label" in attrs:
+                return m.group(0)
+            tm = re.search(r'type="([^"]+)"', attrs)
+            ftype = tm.group(1) if tm else m.group(1)
+            if ftype in ("hidden", "checkbox", "radio", "submit", "button"):
+                return m.group(0)
+            nm = re.search(r'name="([^"]+)"', attrs)
+            if nm and nm.group(1) in ("form-name", "bot-field"):
+                return m.group(0)
+            ph = re.search(r'placeholder="([^"]*)"', attrs)
+            if not ph or not ph.group(1).strip():
+                return m.group(0)
+            added[0] += 1
+            return f'<{m.group(1)}{attrs} aria-label="{ph.group(1)}"{m.group(3)}>'
+
+        return FIELD_RE.sub(fix_field, form)
+
+    return LEAD_FORM_RE.sub(fix_form, text), added[0]
+
+
 def _fix_stale_market(text: str) -> tuple[str, dt.date | None]:
     asof = _market_asof(text)
     if not asof:
