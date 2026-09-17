@@ -80,6 +80,75 @@ check("every form control on every page has an accessible name",
   NAMELESS.length === 0,
   `${NAMELESS.length} nameless: ${NAMELESS.slice(0, 3).join("; ")}`);
 
+// --- 1b. the name has to stay on screen -------------------------------------
+// 2026-09-17. An aria-label satisfies the scan above, and for two weeks that was
+// all these forms had. A placeholder and an aria-label are both invisible to the
+// person actually filling the form once they start typing: the wording vanishes
+// on first keystroke and never comes back, so anyone interrupted mid-form is
+// looking at filled boxes with nothing saying what they asked. The contact form
+// loses three of every four people between starting and submitting.
+//
+// So every visible control inside a lead form must now sit inside a <label> that
+// carries real text. Hidden inputs are exempt -- the ten attribution fields
+// Netlify's build-time form schema depends on must never be restructured.
+const UNLABELLED = [];
+for (const file of walk(path.join(ROOT, "site"))) {
+  const html = fs.readFileSync(file, "utf8");
+  for (const fm of html.matchAll(/<form\b[^>]*class="[^"]*lead-form[^"]*"[^>]*>[\s\S]*?<\/form>/g)) {
+    const form = fm.group ? fm.group : fm[0];
+    let depth = 0, labelText = "";
+    const re = /(<label\b[^>]*>)|(<\/label>)|(<(?:input|select|textarea)\b[^>]*>)|([^<]+)/g;
+    let m;
+    while ((m = re.exec(form))) {
+      if (m[1]) { depth++; labelText = ""; continue; }
+      if (m[2]) { if (depth) depth--; continue; }
+      if (m[4]) { if (depth) labelText += m[4]; continue; }
+      const tag = m[3];
+      const type = (tag.match(/type="([^"]+)"/i) || [, "text"])[1].toLowerCase();
+      if (/^<input/i.test(tag) &&
+          ["hidden", "submit", "button", "image", "reset"].includes(type)) continue;
+      const name = (tag.match(/name="([^"]+)"/) || [, ""])[1];
+      if (["form-name", "bot-field"].includes(name)) continue;
+      // Inside a label, the visible wording may follow the control (checkboxes),
+      // so a label that is open at all counts; what is forbidden is a control
+      // whose only name is an attribute nobody can see.
+      if (depth > 0) continue;
+      UNLABELLED.push(`${path.relative(ROOT, file)}: <${tag.match(/<(\w+)/)[1]} name=${name}>`);
+    }
+  }
+}
+check("every visible lead-form control sits inside a real <label>",
+  UNLABELLED.length === 0,
+  `${UNLABELLED.length} label-less: ${UNLABELLED.slice(0, 3).join("; ")}`);
+
+// A label with no text is a label in name only.
+const EMPTY = [];
+for (const file of walk(path.join(ROOT, "site"))) {
+  const html = fs.readFileSync(file, "utf8");
+  for (const m of html.matchAll(/<label class="field">([\s\S]*?)<(?:input|select|textarea)\b/g)) {
+    if (!m[1].replace(/<[^>]*>/g, "").trim()) EMPTY.push(path.relative(ROOT, file));
+  }
+}
+check("no field label ships with empty text", EMPTY.length === 0,
+  `${EMPTY.length} empty: ${EMPTY.slice(0, 3).join("; ")}`);
+
+// The visible text and the accessible name must agree, or voice control users
+// cannot say what they can see (WCAG 2.5.3 Label in Name).
+const MISMATCH = [];
+for (const file of walk(path.join(ROOT, "site"))) {
+  const html = fs.readFileSync(file, "utf8");
+  for (const m of html.matchAll(
+      /<label class="field"><span class="field-label">([\s\S]*?)<\/span>(<(?:input|select|textarea)\b[^>]*>)/g)) {
+    const aria = (m[2].match(/aria-label="([^"]*)"/) || [])[1];
+    if (aria !== undefined && aria !== m[1]) {
+      MISMATCH.push(`${path.relative(ROOT, file)}: "${m[1]}" vs aria-label "${aria}"`);
+    }
+  }
+}
+check("the visible label and the accessible name say the same thing",
+  MISMATCH.length === 0,
+  `${MISMATCH.length} mismatched: ${MISMATCH.slice(0, 2).join("; ")}`);
+
 // The homepage select is the one Lighthouse named, so it gets its own check --
 // a count that drifts to zero is easy to miss, a named control is not.
 const home = fs.readFileSync(path.join(ROOT, "site/index.html"), "utf8");

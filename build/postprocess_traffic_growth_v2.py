@@ -14,7 +14,7 @@ import re
 import sys
 
 import postprocess_traffic_growth as engine
-from postprocess_audit_fixes import _label_lead_form_inputs
+from postprocess_audit_fixes import _label_lead_form_inputs, _wrap_lead_form_fields
 
 SITE = engine.SITE
 EXTRA_REDIRECTS = {
@@ -173,7 +173,7 @@ def extra_validate() -> list[str]:
     return errors
 
 
-def label_lead_form_inputs_everywhere() -> int:
+def label_lead_form_inputs_everywhere() -> tuple[int, int]:
     """Final accessible-name sweep, after every stage that can emit a form.
 
     The audit gate already does this, but the ROI wrapper runs after it and
@@ -188,14 +188,16 @@ def label_lead_form_inputs_everywhere() -> int:
     accessibility fix, not a content edit, and must not tell Google that 37
     pages of copy were rewritten.
     """
-    total = 0
+    named = wrapped = 0
     for p in sorted(SITE.rglob("*.html")):
         original = engine.read(p)
         text, n = _label_lead_form_inputs(original)
-        if n:
-            total += n
+        named += n
+        text, w = _wrap_lead_form_fields(text)
+        wrapped += w
+        if text != original:
             engine.write_if_changed(p, text)
-    return total
+    return named, wrapped
 
 
 def main() -> int:
@@ -216,7 +218,7 @@ def main() -> int:
             engine.write_if_changed(p, text)
             changed_paths.add("/" + p.relative_to(SITE).as_posix())
 
-    labelled = label_lead_form_inputs_everywhere()
+    labelled, wrapped = label_lead_form_inputs_everywhere()
 
     engine.update_sitemap_dates(changed_paths)
     errors = engine.validate() + extra_validate()
@@ -228,6 +230,7 @@ def main() -> int:
 
     print(f"--- traffic-growth v2 extras OK: {fixed} simple market claims corrected")
     print(f"--- lead-form fields given an accessible name (final sweep): {labelled}")
+    print(f"--- lead-form fields given a visible label (final sweep): {wrapped}")
     print(f"--- extra legacy redirect rules added/normalized: {extra_redirect_changes}")
     print(f"--- extra redirect-source sitemap URLs removed: {extra_sitemap_removed}")
     return 0

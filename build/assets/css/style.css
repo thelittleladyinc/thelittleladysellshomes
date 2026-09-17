@@ -682,6 +682,17 @@ form.lead-form input, form.lead-form textarea, form.lead-form select {
   border-radius: 0; color: var(--charcoal, #141415);
 }
 form.lead-form textarea { resize: vertical; }
+/* Visible field labels, added 2026-09-17. These forms were placeholder-only, so
+   the wording disappeared the moment anyone typed and never came back. The
+   label is the grid item now and the control sits inside it, which keeps the
+   form's existing 16px row rhythm untouched -- the only new space is the 6px
+   between a label and its own box. */
+form.lead-form label.field { display: grid; gap: 6px; }
+form.lead-form label.field > .field-label {
+  font-size: 12px; font-weight: 600; letter-spacing: .04em;
+  color: var(--slate-mist); font-family: var(--font-sans);
+}
+.section-dark form.lead-form label.field > .field-label { color: rgba(255,255,255,.78); }
 form.lead-form label.consent { font-size: 12px; color: var(--slate-mist); display: flex; gap: 8px; align-items: flex-start; }
 /* On a dark section the consent line inherited a mid-grey meant for white
    backgrounds and dropped to roughly 2:1 against the near-black -- legally
