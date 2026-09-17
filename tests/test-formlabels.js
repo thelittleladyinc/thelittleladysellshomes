@@ -80,6 +80,151 @@ check("every form control on every page has an accessible name",
   NAMELESS.length === 0,
   `${NAMELESS.length} nameless: ${NAMELESS.slice(0, 3).join("; ")}`);
 
+// --- 1b. the name has to stay on screen -------------------------------------
+// 2026-09-17. An aria-label satisfies the scan above, and for two weeks that was
+// all these forms had. A placeholder and an aria-label are both invisible to the
+// person actually filling the form once they start typing: the wording vanishes
+// on first keystroke and never comes back, so anyone interrupted mid-form is
+// looking at filled boxes with nothing saying what they asked. The contact form
+// loses three of every four people between starting and submitting.
+//
+// So every visible control inside a lead form must now sit inside a <label> that
+// carries real text. Hidden inputs are exempt -- the ten attribution fields
+// Netlify's build-time form schema depends on must never be restructured.
+const UNLABELLED = [];
+for (const file of walk(path.join(ROOT, "site"))) {
+  const html = fs.readFileSync(file, "utf8");
+  for (const fm of html.matchAll(/<form\b[^>]*class="[^"]*lead-form[^"]*"[^>]*>[\s\S]*?<\/form>/g)) {
+    const form = fm.group ? fm.group : fm[0];
+    let depth = 0;
+    const re = /(<label\b[^>]*>)|(<\/label>)|(<(?:input|select|textarea)\b[^>]*>)|([^<]+)/g;
+    let m;
+    while ((m = re.exec(form))) {
+      if (m[1]) { depth++; continue; }
+      if (m[2]) { if (depth) depth--; continue; }
+      if (m[4]) continue;
+      const tag = m[3];
+      const type = (tag.match(/type="([^"]+)"/i) || [, "text"])[1].toLowerCase();
+      if (/^<input/i.test(tag) &&
+          ["hidden", "submit", "button", "image", "reset"].includes(type)) continue;
+      const name = (tag.match(/name="([^"]+)"/) || [, ""])[1];
+      if (["form-name", "bot-field"].includes(name)) continue;
+      // Inside a label, the visible wording may follow the control (checkboxes),
+      // so a label that is open at all counts; what is forbidden is a control
+      // whose only name is an attribute nobody can see.
+      if (depth > 0) continue;
+      UNLABELLED.push(`${path.relative(ROOT, file)}: <${tag.match(/<(\w+)/)[1]} name=${name}>`);
+    }
+  }
+}
+check("every visible lead-form control sits inside a real <label>",
+  UNLABELLED.length === 0,
+  `${UNLABELLED.length} label-less: ${UNLABELLED.slice(0, 3).join("; ")}`);
+
+// A label with no text is a label in name only.
+const EMPTY = [];
+for (const file of walk(path.join(ROOT, "site"))) {
+  const html = fs.readFileSync(file, "utf8");
+  for (const m of html.matchAll(/<label class="field">([\s\S]*?)<(?:input|select|textarea)\b/g)) {
+    if (!m[1].replace(/<[^>]*>/g, "").trim()) EMPTY.push(path.relative(ROOT, file));
+  }
+}
+check("no field label ships with empty text", EMPTY.length === 0,
+  `${EMPTY.length} empty: ${EMPTY.slice(0, 3).join("; ")}`);
+
+// The visible text and the accessible name must agree, or voice control users
+// cannot say what they can see (WCAG 2.5.3 Label in Name).
+const MISMATCH = [];
+for (const file of walk(path.join(ROOT, "site"))) {
+  const html = fs.readFileSync(file, "utf8");
+  for (const m of html.matchAll(
+      /<label class="field"><span class="field-label">([\s\S]*?)<\/span>(<(?:input|select|textarea)\b[^>]*>)/g)) {
+    const aria = (m[2].match(/aria-label="([^"]*)"/) || [])[1];
+    if (aria !== undefined && aria !== m[1]) {
+      MISMATCH.push(`${path.relative(ROOT, file)}: "${m[1]}" vs aria-label "${aria}"`);
+    }
+  }
+}
+check("the visible label and the accessible name say the same thing",
+  MISMATCH.length === 0,
+  `${MISMATCH.length} mismatched: ${MISMATCH.slice(0, 2).join("; ")}`);
+
+// --- 1c. the consent sentence stays a sentence ------------------------------
+// 2026-09-17. label.consent is display:flex, so every element child became its
+// own flex item -- including the two links. "See our Privacy Policy and Terms
+// of Service." came apart on screen, the links stacking in a narrow column
+// beside the words introducing them. This is the disclosure text Christine's
+// A2P 10DLC registration points at, so it has to read as one statement to
+// anyone who opens a lead page.
+//
+// The fix wraps the wording in a single span, so the flex container has the two
+// children the rule always assumed. Asserted as the invariant that broke: no
+// link may be a direct child of the consent label.
+const SPLIT = [];
+for (const file of walk(path.join(ROOT, "site"))) {
+  const html = fs.readFileSync(file, "utf8");
+  for (const fm of html.matchAll(/<form\b[^>]*class="[^"]*lead-form[^"]*"[^>]*>[\s\S]*?<\/form>/g)) {
+    for (const lm of fm[0].matchAll(/<label class="consent">([\s\S]*?)<\/label>/g)) {
+      const body = lm[1];
+      if (!/<input\b[^>]*type="checkbox"/.test(body)) continue;  // calculator caption
+      // The invariant is structural, not link-specific: a flex container splits
+      // EVERY element child into its own column, so the label must contain
+      // exactly two of them -- the control, and one wrapper holding the words.
+      // Keying on anchors alone would pass a label that wrapped only its links
+      // and left the sentence split some other way.
+      const top = [];
+      let d = 0;
+      for (const em of body.matchAll(/<(\/?)([a-z]+)\b[^>]*?(\/?)>/gi)) {
+        const closing = em[1] === "/", tag = em[2].toLowerCase();
+        const VOID = ["input", "br", "img", "hr", "meta", "wbr"].includes(tag);
+        if (VOID) { if (d === 0) top.push(tag); continue; }
+        if (closing) { d--; continue; }
+        if (d === 0) top.push(tag);
+        d++;
+      }
+      if (top.length !== 2) {
+        SPLIT.push(`${path.relative(ROOT, file)} (${top.length} element children: ${top.join(",")})`);
+      }
+    }
+  }
+}
+check("the consent sentence is not split into flex columns",
+  SPLIT.length === 0,
+  `${SPLIT.length} split: ${[...new Set(SPLIT)].slice(0, 3).join("; ")}`);
+
+// The disclosure must survive the wrap intact -- it is what the A2P filing says
+// visitors are shown, so the required phrases are pinned rather than assumed.
+const MISSING = [];
+for (const file of walk(path.join(ROOT, "site"))) {
+  const html = fs.readFileSync(file, "utf8");
+  for (const lm of html.matchAll(/<label class="consent">([\s\S]*?)<\/label>/g)) {
+    if (!/<input\b[^>]*type="checkbox"[^>]*name="sms_consent"/.test(lm[1])) continue;
+    for (const phrase of ["Consent is not a condition of purchase",
+                          "Reply STOP to unsubscribe",
+                          "/privacy-policy.html",
+                          "/terms-of-service.html"]) {
+      if (!lm[1].includes(phrase)) MISSING.push(`${path.relative(ROOT, file)}: ${phrase}`);
+    }
+  }
+}
+check("the SMS consent disclosure is still complete", MISSING.length === 0,
+  `${MISSING.length} missing: ${MISSING.slice(0, 3).join("; ")}`);
+
+// Half of each accessibility commit is presentational: markup that ships unstyled
+// is markup that does not do its job. The label would render as an unspaced run of
+// text, and the consent checkbox would squash next to the sentence. Pin the rules
+// in the SHIPPED stylesheet, not the source, since the shipped copy is minified.
+const cssFile = fs.readdirSync(path.join(ROOT, "site/assets/css")).find((f) => /^style\..*\.css$/.test(f));
+const shippedCss = cssFile ? fs.readFileSync(path.join(ROOT, "site/assets/css", cssFile), "utf8") : "";
+check("the shipped stylesheet still styles the visible field labels",
+  /form\.lead-form\s+label\.field\s*\{[^}]*grid/.test(shippedCss)
+  && /\.field-label\s*\{/.test(shippedCss),
+  cssFile ? `not found in ${cssFile}` : "no hashed stylesheet found");
+check("the shipped stylesheet still keeps the consent checkbox from squashing",
+  /label\.consent\s*>\s*input\[type="checkbox"\]\s*\{[^}]*flex\s*:\s*none/.test(shippedCss)
+  && /\.consent-text\s*\{/.test(shippedCss),
+  cssFile ? `not found in ${cssFile}` : "no hashed stylesheet found");
+
 // The homepage select is the one Lighthouse named, so it gets its own check --
 // a count that drifts to zero is easy to miss, a named control is not.
 const home = fs.readFileSync(path.join(ROOT, "site/index.html"), "utf8");

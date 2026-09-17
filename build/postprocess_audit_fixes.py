@@ -517,12 +517,11 @@ def _label_lead_form_inputs(text: str) -> tuple[str, int]:
     only way to contact Christine.
 
     The placeholder already carries the human wording, so it becomes the
-    aria-label. That is the accessible-name fix, and it is deliberately the
-    whole fix: it changes nothing visually, so it cannot disturb the lead
-    capture path or the funnel layouts. It does NOT solve the other half of the
-    placeholder problem -- the text still vanishes once someone types, and only
-    real visible <label> elements fix that. Those change the look of all 37
-    forms, so that is a design decision rather than a defect to patch.
+    aria-label. This is the machine-readable half of the fix and it changes
+    nothing visually; _wrap_lead_form_fields, below, then promotes the same
+    wording to a visible <label> so it survives typing. Running this pass first
+    is what lets the wrapper fall back to an aria-label when a control has no
+    placeholder to promote -- the homepage <select> is the only one today.
 
     Checkboxes are skipped: they already sit inside a visible <label>, and the
     multigenerational feature list sits in a <fieldset> with a <legend>.
@@ -553,6 +552,157 @@ def _label_lead_form_inputs(text: str) -> tuple[str, int]:
         return FIELD_RE.sub(fix_field, form)
 
     return LEAD_FORM_RE.sub(fix_form, text), added[0]
+
+
+# A field element, whole: an <input> is its own tag, a <select> or <textarea>
+# runs to its closing tag.  Label boundaries are matched in the same pass so a
+# field that already sits inside a <label> can be recognized and left alone.
+FIELD_EL_RE = re.compile(
+    r'(?P<label><label\b[^>]*>)'
+    r'|(?P<unlabel></label>)'
+    r'|(?P<field><input\b[^>]*>'
+    r'|<select\b[^>]*>[\s\S]*?</select>'
+    r'|<textarea\b[^>]*>[\s\S]*?</textarea>)'
+)
+
+SKIP_TYPES = ("hidden", "checkbox", "radio", "submit", "button", "image", "reset")
+SKIP_NAMES = ("form-name", "bot-field")
+
+
+def _wrap_lead_form_fields(text: str) -> tuple[str, int]:
+    """Give every lead-form field a visible label that does not vanish.
+
+    2026-09-17: the forms were built with placeholder text and nothing else.
+    A placeholder is a hint, not a label -- it disappears the instant someone
+    starts typing, so anyone who pauses mid-form, gets interrupted, or comes
+    back to check what they wrote is looking at filled boxes with no idea what
+    any of them asked. On this site that matters more than usual: the forms are
+    the only way to reach Christine, and the contact form loses three out of
+    four people between starting and submitting.
+
+    Each field is wrapped in its own <label> carrying the placeholder's wording
+    as permanent visible text. The placeholder stays as the in-field hint, and
+    so does the aria-label, which now matches the visible text word for word --
+    that is what WCAG 2.5.3 asks for, and it means voice control users can say
+    what they see.
+
+    Deliberately conservative about what it touches:
+      * a field already inside a <label> is left alone, which covers the
+        honeypot and every consent and feature checkbox;
+      * hidden, submit and button controls are skipped, so the ten attribution
+        fields Netlify's form schema depends on are never restructured;
+      * a field with no placeholder and no aria-label has no wording to promote,
+        so it is left as it was rather than given an invented one.
+
+    Idempotent: after the first pass every wrapped field sits inside a <label>,
+    so a second pass recognizes it and does nothing. That matters because this
+    runs once in the audit gate and again in the final sweep, after the ROI
+    wrapper has injected the five funnel forms.
+    """
+    wrapped = [0]
+
+    def fix_form(fm: re.Match[str]) -> str:
+        form = fm.group(0)
+        depth = 0
+        out: list[str] = []
+        pos = 0
+
+        for m in FIELD_EL_RE.finditer(form):
+            if m.group("label"):
+                depth += 1
+                continue
+            if m.group("unlabel"):
+                if depth:
+                    depth -= 1
+                continue
+            if depth:
+                continue  # already has a visible label around it
+
+            el = m.group("field")
+            head = el[:el.index(">") + 1]
+            tag = re.match(r'<(\w+)', el).group(1)
+            ftype = (re.search(r'type="([^"]+)"', head) or [None, tag])[1]
+            if tag == "input" and ftype in SKIP_TYPES:
+                continue
+            nm = re.search(r'name="([^"]+)"', head)
+            if nm and nm.group(1) in SKIP_NAMES:
+                continue
+
+            # The aria-label wins over the placeholder as the visible wording.
+            # Where the two differ they differ because someone wrote a proper
+            # label and a terser in-field hint -- "Email address" against
+            # "Email", "Your message" against "Anything useful: town, timeline,
+            # price range, questions". Promoting the aria-label shows the better
+            # of the two AND keeps the visible text identical to the accessible
+            # name, which is what WCAG 2.5.3 asks for and what lets a voice
+            # control user say the words they can see. Fields with no
+            # aria-label were given one from their placeholder a moment ago by
+            # _label_lead_form_inputs, so the two agree there by construction.
+            wording = re.search(r'aria-label="([^"]*)"', head) or re.search(
+                r'placeholder="([^"]*)"', head)
+            if not wording or not wording.group(1).strip():
+                continue
+
+            out.append(form[pos:m.start()])
+            out.append(
+                f'<label class="field"><span class="field-label">'
+                f'{wording.group(1)}</span>{el}</label>'
+            )
+            pos = m.end()
+            wrapped[0] += 1
+
+        out.append(form[pos:])
+        return "".join(out)
+
+    return LEAD_FORM_RE.sub(fix_form, text), wrapped[0]
+
+
+CONSENT_LABEL_RE = re.compile(r'<label class="consent">([\s\S]*?)</label>')
+CHECKBOX_RE = re.compile(r'<input\b[^>]*type="checkbox"[^>]*>')
+
+
+def _wrap_consent_text(text: str) -> tuple[str, int]:
+    """Keep the SMS consent sentence a sentence.
+
+    2026-09-17: label.consent is a flex container, so every element child
+    became its own flex item -- including the two links. "See our Privacy
+    Policy and Terms of Service." broke apart, the links stacking in a narrow
+    column off to the right of the paragraph while the words that introduce
+    them stayed behind. On a phone it read as two unrelated blocks.
+
+    This is the disclosure text Christine's A2P 10DLC campaign registration
+    points at, so it has to be legible as one statement; a carrier or a
+    reviewer opening any lead page sees what a visitor sees.
+
+    Wrapping everything after the checkbox in one span gives the flex
+    container exactly two children -- the box and the paragraph -- which is
+    what the existing rule was written for. The text flows normally inside it
+    and the links sit back in their sentence.
+
+    Scoped to real lead forms and keyed on the checkbox, because the
+    calculators reuse class="consent" for their small field captions and those
+    have no control to sit beside. Idempotent via the span it adds.
+    """
+    wrapped = [0]
+
+    def fix_form(fm: re.Match[str]) -> str:
+        def fix_label(m: re.Match[str]) -> str:
+            body = m.group(1)
+            if "consent-text" in body:
+                return m.group(0)
+            cb = CHECKBOX_RE.search(body)
+            if not cb:
+                return m.group(0)
+            rest = body[cb.end():].strip()
+            if not rest:
+                return m.group(0)
+            wrapped[0] += 1
+            return (f'<label class="consent">{body[:cb.end()]}'
+                    f'<span class="consent-text">{rest}</span></label>')
+
+        return CONSENT_LABEL_RE.sub(fix_label, fm.group(0))
+
+    return LEAD_FORM_RE.sub(fix_form, text), wrapped[0]
 
 
 def _fix_stale_market(text: str) -> tuple[str, dt.date | None]:

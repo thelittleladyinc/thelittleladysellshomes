@@ -26,6 +26,8 @@ from postprocess_audit_fixes import (
     _ensure_confirmed_meta_lead,
     _update_sitemap_dates,
     _validate,
+    _wrap_consent_text,
+    _wrap_lead_form_fields,
     _write,
 )
 import sys
@@ -53,6 +55,8 @@ def main() -> int:
     analytics_rel = _analytics_asset()
     total_redirect_links = 0
     total_labels = 0
+    total_wrapped = 0
+    total_consent = 0
     changed_pages = 0
 
     for path in _html_files():
@@ -71,11 +75,17 @@ def main() -> int:
         if rel == "thank-you.html":
             text = _ensure_confirmed_meta_lead(text)
 
-        # An aria-label is an accessible name, not page content, so it belongs
-        # here rather than in _content_level_fixes: naming a field must not tell
-        # Google the article was rewritten.
+        # Labelling a field is an accessibility fix, not page content, so it
+        # belongs here rather than in _content_level_fixes: naming a box must
+        # not tell Google the article was rewritten. The aria pass runs first so
+        # the visible-label pass has wording to promote on controls that carry
+        # no placeholder.
         text, nlabels = _label_lead_form_inputs(text)
         total_labels += nlabels
+        text, nwrapped = _wrap_lead_form_fields(text)
+        total_wrapped += nwrapped
+        text, nconsent = _wrap_consent_text(text)
+        total_consent += nconsent
 
         text, nlinks = _rewrite_internal_redirect_links(text, redirects)
         total_redirect_links += nlinks
@@ -104,6 +114,8 @@ def main() -> int:
     print(f"--- postprocess audit gate OK: {changed_pages} HTML files normalized")
     print(f"--- internal redirect hops removed: {total_redirect_links}")
     print(f"--- lead-form fields given an accessible name: {total_labels}")
+    print(f"--- lead-form fields given a visible label: {total_wrapped}")
+    print(f"--- SMS consent sentences kept intact: {total_consent}")
     print(f"--- analytics asset: {analytics_rel}")
     return 0
 
