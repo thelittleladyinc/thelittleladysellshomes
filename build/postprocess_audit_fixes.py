@@ -91,6 +91,30 @@ def _normalize_for_change_detection(text: str) -> str:
     # build.py stamps RealEstateAgent dateModified with BUILD_DATE.  That field
     # is removed later, so ignore it when deciding whether the PAGE changed.
     text = re.sub(r'("@type"\s*:\s*"RealEstateAgent"[\s\S]{0,3500}?"dateModified"\s*:\s*)"\d{4}-\d{2}-\d{2}"', r'\1"DATE"', text)
+
+    # 2026-09-17: presentation is not content.
+    #
+    # This function decides whether a page "changed" this deploy, and that answer
+    # decides whether the page keeps its real article date or gets stamped with
+    # today's. It already ignored the three date fields, but not the CSS and font
+    # payload -- so the performance work of late August (minifying the inlined
+    # CSS, deferring the font faces, taking Playfair off the critical path,
+    # re-hashing assets) rewrote the <style> block on every page and every page
+    # therefore looked edited. 62 blog articles lost their real publication dates
+    # to a font change; the oldest genuinely dates to October 2024.
+    #
+    # CLAUDE.md names this exact failure: "A CSS, font, analytics, deployment, or
+    # infrastructure-only change must not make hundreds of pages look newly
+    # edited." So the comparison now ignores the two things an infrastructure
+    # deploy rewrites and a writer never touches: the content hash in asset
+    # filenames, and the contents of inlined <style> blocks.
+    #
+    # Deliberately narrow. Body copy, headings, links, JSON-LD and every other
+    # tag still count as a change, because they are what an edit actually
+    # touches. Losing a real edit to over-normalisation would be the worse bug:
+    # it would leave a rewritten page claiming a stale date.
+    text = re.sub(r'\.[0-9a-f]{8,}\.(css|js)\b', r'.HASH.\1', text)
+    text = re.sub(r'(<style[^>]*>)[\s\S]*?(</style>)', r'\1STYLE\2', text)
     return text
 
 
