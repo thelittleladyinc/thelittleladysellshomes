@@ -14,6 +14,7 @@ import re
 import sys
 
 import postprocess_traffic_growth as engine
+from postprocess_audit_fixes import _label_lead_form_inputs
 
 SITE = engine.SITE
 EXTRA_REDIRECTS = {
@@ -172,6 +173,31 @@ def extra_validate() -> list[str]:
     return errors
 
 
+def label_lead_form_inputs_everywhere() -> int:
+    """Final accessible-name sweep, after every stage that can emit a form.
+
+    The audit gate already does this, but the ROI wrapper runs after it and
+    injects the five funnel forms fresh, so twenty of their fields arrived
+    unnamed. Rather than teach each funnel builder to remember, the last stage
+    sweeps everything: whatever produced a lead form, its fields end up named.
+
+    Idempotent -- a field that already has an aria-label is skipped -- so the
+    audit gate doing its pass first costs nothing here.
+
+    Deliberately does NOT call touch_meaningful_freshness. Naming a field is an
+    accessibility fix, not a content edit, and must not tell Google that 37
+    pages of copy were rewritten.
+    """
+    total = 0
+    for p in sorted(SITE.rglob("*.html")):
+        original = engine.read(p)
+        text, n = _label_lead_form_inputs(original)
+        if n:
+            total += n
+            engine.write_if_changed(p, text)
+    return total
+
+
 def main() -> int:
     rc = engine.main()
     if rc:
@@ -190,6 +216,8 @@ def main() -> int:
             engine.write_if_changed(p, text)
             changed_paths.add("/" + p.relative_to(SITE).as_posix())
 
+    labelled = label_lead_form_inputs_everywhere()
+
     engine.update_sitemap_dates(changed_paths)
     errors = engine.validate() + extra_validate()
     if errors:
@@ -199,6 +227,7 @@ def main() -> int:
         return 1
 
     print(f"--- traffic-growth v2 extras OK: {fixed} simple market claims corrected")
+    print(f"--- lead-form fields given an accessible name (final sweep): {labelled}")
     print(f"--- extra legacy redirect rules added/normalized: {extra_redirect_changes}")
     print(f"--- extra redirect-source sitemap URLs removed: {extra_sitemap_removed}")
     return 0

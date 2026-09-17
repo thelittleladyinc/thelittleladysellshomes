@@ -38,8 +38,27 @@ function redirect(to) {
   };
 }
 
+// Percent-decoding is the first thing this function does, and decodeURIComponent
+// throws URIError on malformed input -- "/idx/100%" or a truncated "%E0%A4" is
+// enough. An unhandled throw in a Netlify function is a 502, so Google was being
+// handed a server error on exactly the legacy URLs this file exists to rescue,
+// instead of the 301 that transfers their standing. Search Console reported
+// "Server error (5xx)" on 2026-08-23 and the fix validation failed on 2026-09-06.
+//
+// A URL we cannot decode is, by definition, not one of the shapes matched below,
+// so it takes the same path every unrecognised /idx/ URL already takes: the
+// search page, which is the honest generic successor. Raw is kept rather than
+// dropped so a decodable-looking prefix still gets its chance at a real match.
+function safeDecode(raw) {
+  try {
+    return decodeURIComponent(raw);
+  } catch (e) {
+    return raw;
+  }
+}
+
 exports.handler = async (event) => {
-  const path = decodeURIComponent((event && event.path) || "");
+  const path = safeDecode((event && event.path) || "");
 
   // /idx/listing/CO-IRES/1000585/621-Nokomis-... -> /listing/IRE1000585
   // (also tolerates other feed prefixes; the number is the listing key)
