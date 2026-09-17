@@ -75,6 +75,19 @@ def is_stale(raw: str, days: int = 3) -> bool:
 
 
 def max_date(existing: str | None) -> str:
+    """The date to stamp on a page whose CONTENT this stage just corrected.
+
+    CHANGE_DATE is when these corrections were authored.  Re-running the same
+    deterministic correction on a later deploy is not a new edit, so the stamp
+    stays pinned rather than walking forward to today.
+
+    2026-09-17: this used to run on every page the stage touched, including the
+    61 blog posts whose only change was a rewritten internal href.  It raised
+    each of them from its real publication date -- the oldest is 2024-10-25 --
+    to 2026-08-31, telling Google that two years of archived articles were all
+    edited on the same day.  Callers now gate on a real content change, so a
+    page that was merely re-linked keeps whatever honest date it arrived with.
+    """
     if not existing:
         return CHANGE_DATE.isoformat()
     old = parse_iso(existing)
@@ -84,7 +97,12 @@ def max_date(existing: str | None) -> str:
 
 
 def touch_meaningful_freshness(text: str) -> str:
-    """Stamp at least the real Aug-31 change date, never a daily deploy date."""
+    """Stamp the change date on a page this stage actually rewrote.
+
+    Call this ONLY when the page's visible content or structured data changed.
+    Link normalization, asset hashes and analytics wiring are not edits to the
+    article and must not reach this function.
+    """
     m = re.search(r'<meta name="last-modified" content="(\d{4}-\d{2}-\d{2})">', text)
     iso = max_date(m.group(1) if m else None)
     if m:
@@ -519,11 +537,16 @@ def main() -> int:
 
     for p in sorted(SITE.rglob("*.html")):
         original = read(p)
-        text = original
-        text, n = rewrite_duplicate_hrefs(text)
-        link_rewrites += n
-
         rel = p.relative_to(SITE).as_posix()
+
+        # Pointing a href at the winner URL instead of its duplicate is link
+        # normalization, not an edit to the article.  Do it first and remember
+        # where the page stood afterwards, so the content check below cannot
+        # mistake a rewritten link for rewritten prose.
+        text, n = rewrite_duplicate_hrefs(original)
+        link_rewrites += n
+        after_links = text
+
         if rel.startswith("communities/"):
             text, n = remove_self_nomination_faq(text)
             faq_removals += n
@@ -535,10 +558,13 @@ def main() -> int:
         if rel == "what-is-an-ilc-and-when-should-you-get-a-full-survey.html":
             text = fix_ilc_cost(text)
 
-        if text != original:
+        # Only a change to what the page SAYS earns a new modification date.
+        if text != after_links:
             text = touch_meaningful_freshness(text)
-            write_if_changed(p, text)
             changed_pages.add("/" + rel)
+
+        if text != original:
+            write_if_changed(p, text)
 
     update_sitemap_dates(changed_pages)
     errors = validate()

@@ -64,5 +64,60 @@ check(fc.includes('href="/rent-to-own.html#roi-rto-funnel"'), 'Fort Collins RTO 
 const ilc = read('what-is-an-ilc-and-when-should-you-get-a-full-survey.html');
 check(!ilc.includes('Typically $350&ndash;$600'), 'ILC stale dollar range remains');
 check(!ilc.includes('$1,000&ndash;$2,500+'), 'boundary survey stale dollar range remains');
+
+// --- blog articles keep their own modification dates -------------------------
+// 2026-09-17. This layer used to stamp every page it touched with a fixed
+// "change date" of 2026-08-31. Touching a page included rewriting an internal
+// href at it, which happens to every blog post, so 61 archived articles -- the
+// oldest published 2024-10-25 -- all told Google they were last edited on the
+// same August day. A build step that rewrites a link is not an edit to the
+// article, and a sitemap full of identical lastmod values is exactly the fake
+// freshness the freshness rules in CLAUDE.md exist to prevent.
+//
+// Asserted as an outcome rather than against the constant: the archive must
+// look like an archive, and no article may claim a modification date its own
+// BlogPosting schema does not support.
+const blogDir = path.join(site, 'blog');
+const posts = fs.readdirSync(blogDir)
+  .filter((f) => f.endsWith('.html') && f !== 'index.html')
+  .map((f) => path.join(blogDir, f));
+const metaDates = [];
+for (const p of posts) {
+  const h = fs.readFileSync(p, 'utf8');
+  const rel = 'blog/' + path.basename(p);
+  const meta = /<meta name="last-modified" content="(\d{4}-\d{2}-\d{2})">/.exec(h);
+  check(!!meta, `${rel} has no last-modified date`);
+  if (!meta) continue;
+  metaDates.push(meta[1]);
+
+  // The article's own schema is the source of truth for when it was written.
+  let published = null, modified = null;
+  for (const m of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    let obj; try { obj = JSON.parse(m[1]); } catch { continue; }
+    const stack = [obj];
+    while (stack.length) {
+      const x = stack.pop();
+      if (Array.isArray(x)) { stack.push(...x); continue; }
+      if (!x || typeof x !== 'object') continue;
+      if (['BlogPosting', 'Article', 'NewsArticle'].includes(x['@type'])) {
+        published = published || String(x.datePublished || '').slice(0, 10) || null;
+        modified = modified || String(x.dateModified || '').slice(0, 10) || null;
+      }
+      stack.push(...Object.values(x));
+    }
+  }
+  if (!published) continue;
+  check(meta[1] === modified,
+    `${rel}: meta last-modified ${meta[1]} disagrees with schema dateModified ${modified}`);
+  check(modified >= published,
+    `${rel}: claims modified ${modified} before it was published ${published}`);
+}
+// A real archive has many dates. One shared date means a build step stamped them.
+const distinct = new Set(metaDates);
+check(distinct.size > posts.length / 2,
+  `blog archive collapsed to ${distinct.size} modification date(s) across ${posts.length} posts`);
+check(!(distinct.size === 1),
+  `every blog post shares the modification date ${[...distinct][0]}`);
+
 if (fails) process.exit(1);
 console.log('All checks passed');
