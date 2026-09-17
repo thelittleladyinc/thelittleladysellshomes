@@ -72,5 +72,29 @@ for (const phrase of ["County County", "Barr Lake Lake", "sure sure"]) {
   check(`"${phrase}" does not reappear`, !all.includes(phrase));
 }
 
+// Machine-sounding freshness phrasing.
+//
+// 2026-09-16. The market-report FAQ and its FAQPage schema rendered the snapshot age
+// arithmetically: on the day of a refresh, 16 town pages read "These are live IRES MLS
+// figures, refreshed 0 days ago." The prose "as of" line directly above them said
+// "refreshed today", because that path had its own today/yesterday wording and the FAQ
+// path did not. Accurate either way; one of them reads like a template that broke.
+//
+// It matters more in the schema than in the body: Google quotes FAQ answers verbatim in
+// rich results, so "0 days ago" is a sentence Christine never wrote appearing under her
+// name in search. Both paths now share _freshness_phrase() in build.py.
+//
+// Checked against the RAW html rather than the stripped text so JSON-LD is covered --
+// that is the copy with the wider audience. "1 days ago" is here too: same helper, and
+// the same class of mistake if someone reintroduces naive pluralisation.
+for (const phrase of ["0 days ago", "1 days ago"]) {
+  const pages = walk(SITE)
+    .filter((f) => fs.readFileSync(f, "utf8").includes(phrase))
+    .map((f) => path.relative(ROOT, f));
+  check(`"${phrase}" never reaches the rendered copy or its schema`,
+    pages.length === 0,
+    pages.length ? `${pages.length} page(s) e.g. ${pages[0]}` : "");
+}
+
 console.log(failures === 0 ? "\nAll checks passed.\n" : `\n${failures} FAILED\n`);
 process.exit(failures ? 1 : 0);
