@@ -14,7 +14,11 @@ import re
 import sys
 
 import postprocess_traffic_growth as engine
-from postprocess_audit_fixes import _label_lead_form_inputs, _wrap_lead_form_fields
+from postprocess_audit_fixes import (
+    _label_lead_form_inputs,
+    _wrap_consent_text,
+    _wrap_lead_form_fields,
+)
 
 SITE = engine.SITE
 EXTRA_REDIRECTS = {
@@ -173,7 +177,7 @@ def extra_validate() -> list[str]:
     return errors
 
 
-def label_lead_form_inputs_everywhere() -> tuple[int, int]:
+def label_lead_form_inputs_everywhere() -> tuple[int, int, int]:
     """Final accessible-name sweep, after every stage that can emit a form.
 
     The audit gate already does this, but the ROI wrapper runs after it and
@@ -188,16 +192,18 @@ def label_lead_form_inputs_everywhere() -> tuple[int, int]:
     accessibility fix, not a content edit, and must not tell Google that 37
     pages of copy were rewritten.
     """
-    named = wrapped = 0
+    named = wrapped = consent = 0
     for p in sorted(SITE.rglob("*.html")):
         original = engine.read(p)
         text, n = _label_lead_form_inputs(original)
         named += n
         text, w = _wrap_lead_form_fields(text)
         wrapped += w
+        text, c = _wrap_consent_text(text)
+        consent += c
         if text != original:
             engine.write_if_changed(p, text)
-    return named, wrapped
+    return named, wrapped, consent
 
 
 def main() -> int:
@@ -218,7 +224,7 @@ def main() -> int:
             engine.write_if_changed(p, text)
             changed_paths.add("/" + p.relative_to(SITE).as_posix())
 
-    labelled, wrapped = label_lead_form_inputs_everywhere()
+    labelled, wrapped, consent = label_lead_form_inputs_everywhere()
 
     engine.update_sitemap_dates(changed_paths)
     errors = engine.validate() + extra_validate()
@@ -231,6 +237,7 @@ def main() -> int:
     print(f"--- traffic-growth v2 extras OK: {fixed} simple market claims corrected")
     print(f"--- lead-form fields given an accessible name (final sweep): {labelled}")
     print(f"--- lead-form fields given a visible label (final sweep): {wrapped}")
+    print(f"--- SMS consent sentences kept intact (final sweep): {consent}")
     print(f"--- extra legacy redirect rules added/normalized: {extra_redirect_changes}")
     print(f"--- extra redirect-source sitemap URLs removed: {extra_sitemap_removed}")
     return 0

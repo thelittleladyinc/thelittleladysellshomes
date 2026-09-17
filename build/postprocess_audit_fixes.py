@@ -657,6 +657,54 @@ def _wrap_lead_form_fields(text: str) -> tuple[str, int]:
     return LEAD_FORM_RE.sub(fix_form, text), wrapped[0]
 
 
+CONSENT_LABEL_RE = re.compile(r'<label class="consent">([\s\S]*?)</label>')
+CHECKBOX_RE = re.compile(r'<input\b[^>]*type="checkbox"[^>]*>')
+
+
+def _wrap_consent_text(text: str) -> tuple[str, int]:
+    """Keep the SMS consent sentence a sentence.
+
+    2026-09-17: label.consent is a flex container, so every element child
+    became its own flex item -- including the two links. "See our Privacy
+    Policy and Terms of Service." broke apart, the links stacking in a narrow
+    column off to the right of the paragraph while the words that introduce
+    them stayed behind. On a phone it read as two unrelated blocks.
+
+    This is the disclosure text Christine's A2P 10DLC campaign registration
+    points at, so it has to be legible as one statement; a carrier or a
+    reviewer opening any lead page sees what a visitor sees.
+
+    Wrapping everything after the checkbox in one span gives the flex
+    container exactly two children -- the box and the paragraph -- which is
+    what the existing rule was written for. The text flows normally inside it
+    and the links sit back in their sentence.
+
+    Scoped to real lead forms and keyed on the checkbox, because the
+    calculators reuse class="consent" for their small field captions and those
+    have no control to sit beside. Idempotent via the span it adds.
+    """
+    wrapped = [0]
+
+    def fix_form(fm: re.Match[str]) -> str:
+        def fix_label(m: re.Match[str]) -> str:
+            body = m.group(1)
+            if "consent-text" in body:
+                return m.group(0)
+            cb = CHECKBOX_RE.search(body)
+            if not cb:
+                return m.group(0)
+            rest = body[cb.end():].strip()
+            if not rest:
+                return m.group(0)
+            wrapped[0] += 1
+            return (f'<label class="consent">{body[:cb.end()]}'
+                    f'<span class="consent-text">{rest}</span></label>')
+
+        return CONSENT_LABEL_RE.sub(fix_label, fm.group(0))
+
+    return LEAD_FORM_RE.sub(fix_form, text), wrapped[0]
+
+
 def _fix_stale_market(text: str) -> tuple[str, dt.date | None]:
     asof = _market_asof(text)
     if not asof:

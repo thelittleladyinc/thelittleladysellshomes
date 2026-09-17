@@ -26,6 +26,7 @@ from postprocess_audit_fixes import (
     _ensure_confirmed_meta_lead,
     _update_sitemap_dates,
     _validate,
+    _wrap_consent_text,
     _wrap_lead_form_fields,
     _write,
 )
@@ -55,6 +56,7 @@ def main() -> int:
     total_redirect_links = 0
     total_labels = 0
     total_wrapped = 0
+    total_consent = 0
     changed_pages = 0
 
     for path in _html_files():
@@ -82,6 +84,8 @@ def main() -> int:
         total_labels += nlabels
         text, nwrapped = _wrap_lead_form_fields(text)
         total_wrapped += nwrapped
+        text, nconsent = _wrap_consent_text(text)
+        total_consent += nconsent
 
         text, nlinks = _rewrite_internal_redirect_links(text, redirects)
         total_redirect_links += nlinks
@@ -111,6 +115,7 @@ def main() -> int:
     print(f"--- internal redirect hops removed: {total_redirect_links}")
     print(f"--- lead-form fields given an accessible name: {total_labels}")
     print(f"--- lead-form fields given a visible label: {total_wrapped}")
+    print(f"--- SMS consent sentences kept intact: {total_consent}")
     print(f"--- analytics asset: {analytics_rel}")
     return 0
 

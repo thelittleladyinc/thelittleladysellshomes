@@ -149,6 +149,52 @@ check("the visible label and the accessible name say the same thing",
   MISMATCH.length === 0,
   `${MISMATCH.length} mismatched: ${MISMATCH.slice(0, 2).join("; ")}`);
 
+// --- 1c. the consent sentence stays a sentence ------------------------------
+// 2026-09-17. label.consent is display:flex, so every element child became its
+// own flex item -- including the two links. "See our Privacy Policy and Terms
+// of Service." came apart on screen, the links stacking in a narrow column
+// beside the words introducing them. This is the disclosure text Christine's
+// A2P 10DLC registration points at, so it has to read as one statement to
+// anyone who opens a lead page.
+//
+// The fix wraps the wording in a single span, so the flex container has the two
+// children the rule always assumed. Asserted as the invariant that broke: no
+// link may be a direct child of the consent label.
+const SPLIT = [];
+for (const file of walk(path.join(ROOT, "site"))) {
+  const html = fs.readFileSync(file, "utf8");
+  for (const fm of html.matchAll(/<form\b[^>]*class="[^"]*lead-form[^"]*"[^>]*>[\s\S]*?<\/form>/g)) {
+    for (const lm of fm[0].matchAll(/<label class="consent">([\s\S]*?)<\/label>/g)) {
+      const body = lm[1];
+      if (!/<input\b[^>]*type="checkbox"/.test(body)) continue;  // calculator caption
+      // Strip the span and its contents; any link left over is a direct child.
+      const outside = body.replace(/<span class="consent-text">[\s\S]*?<\/span>/g, "");
+      if (/<a\b/.test(outside)) SPLIT.push(path.relative(ROOT, file));
+    }
+  }
+}
+check("the consent sentence is not split into flex columns",
+  SPLIT.length === 0,
+  `${SPLIT.length} split: ${[...new Set(SPLIT)].slice(0, 3).join("; ")}`);
+
+// The disclosure must survive the wrap intact -- it is what the A2P filing says
+// visitors are shown, so the required phrases are pinned rather than assumed.
+const MISSING = [];
+for (const file of walk(path.join(ROOT, "site"))) {
+  const html = fs.readFileSync(file, "utf8");
+  for (const lm of html.matchAll(/<label class="consent">([\s\S]*?)<\/label>/g)) {
+    if (!/<input\b[^>]*type="checkbox"[^>]*name="sms_consent"/.test(lm[1])) continue;
+    for (const phrase of ["Consent is not a condition of purchase",
+                          "Reply STOP to unsubscribe",
+                          "/privacy-policy.html",
+                          "/terms-of-service.html"]) {
+      if (!lm[1].includes(phrase)) MISSING.push(`${path.relative(ROOT, file)}: ${phrase}`);
+    }
+  }
+}
+check("the SMS consent disclosure is still complete", MISSING.length === 0,
+  `${MISSING.length} missing: ${MISSING.slice(0, 3).join("; ")}`);
+
 // The homepage select is the one Lighthouse named, so it gets its own check --
 // a count that drifts to zero is easy to miss, a named control is not.
 const home = fs.readFileSync(path.join(ROOT, "site/index.html"), "utf8");
