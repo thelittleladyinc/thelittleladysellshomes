@@ -169,5 +169,28 @@ check("the lead event is guarded on gtag existing",
 check("the lead event carries the form name, not just a bare count",
   /"generate_lead"[\s\S]{0,80}form_name/.test(ty));
 
+// Run the shipped script: visiting the page is not itself a completed form.
+const vm = require("vm");
+const leadScript = [...ty.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)]
+  .map((m) => m[1]).find((s) => s.includes('"generate_lead"'));
+function leadEvents(search, analytics = true) {
+  const events = [];
+  vm.runInNewContext(leadScript, {
+    URLSearchParams,
+    window: { location: { search }, ...(analytics ? { gtag: (...args) => events.push(args) } : {}) },
+    document: { getElementById: () => null },
+  });
+  return events;
+}
+check("direct thank-you visits do not count as leads", leadEvents("").length === 0);
+check("empty success parameters do not count as leads", leadEvents("?from=").length === 0);
+for (const form of ["contact", "land-property-review", "rent-to-own-options"]) {
+  const events = leadEvents(`?from=${form}`);
+  check(`successful ${form} arrival emits one attributed lead`,
+    events.length === 1 && events[0][0] === "event"
+    && events[0][1] === "generate_lead" && events[0][2].form_name === form);
+}
+check("thank-you works when analytics is unavailable", leadEvents("?from=contact", false).length === 0);
+
 console.log(failures === 0 ? "\nAll checks passed.\n" : `\n${failures} FAILED\n`);
 process.exit(failures ? 1 : 0);

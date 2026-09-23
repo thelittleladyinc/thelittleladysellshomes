@@ -13628,8 +13628,9 @@ def build_legal():
        shows which page a lead actually came from instead of a flat total.
        Guarded on gtag existing, because analytics is optional here -- with
        GA_MEASUREMENT_ID unset the page still works and simply counts nothing. */
-    if (typeof window.gtag === "function") {{
-      window.gtag("event", "generate_lead", {{ form_name: from || "unknown" }});
+    // A direct visit without a form's success parameter is not a lead.
+    if (from && typeof window.gtag === "function") {{
+      window.gtag("event", "generate_lead", {{ form_name: from }});
     }}
   }} catch (e) {{ /* default copy stands */ }}
 }})();

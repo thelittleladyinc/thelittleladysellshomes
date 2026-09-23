@@ -129,5 +129,41 @@ check("contact clicks report which method was used",
 check("click tracking is guarded on gtag, so links work with analytics off",
   /typeof window\.gtag !== "function"\) return/.test(home));
 
+// Exercise both shipped listeners together: testing either in isolation missed
+// the second contact_click added by the post-build analytics asset.
+const vm = require("vm");
+const contactScript = [...home.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)]
+  .map((m) => m[1]).find((s) => s.includes('"contact_click"'));
+const businessAsset = (home.match(/src="(\/assets\/js\/analytics-events\.[^"]+\.js)"/) || [])[1];
+const businessScript = fs.readFileSync(path.join(ROOT, "site", businessAsset), "utf8");
+function contactEvents(analytics = true) {
+  const handlers = [];
+  const events = [];
+  const location = { pathname: "/contact.html", href: "https://www.thelittleladysellshomes.com/contact.html", origin: "https://www.thelittleladysellshomes.com" };
+  const context = vm.createContext({
+    URL, location,
+    window: { location, ...(analytics ? { gtag: (...args) => events.push(args) } : {}) },
+    document: { addEventListener: (type, fn) => { if (type === "click") handlers.push(fn); } },
+  });
+  vm.runInContext(contactScript, context);
+  vm.runInContext(businessScript, context);
+  const anchor = {
+    href: "tel:3037094262",
+    getAttribute: (name) => name === "data-contact" ? "call" : "tel:3037094262",
+    matches: (selector) => selector === "[data-contact]",
+    closest: () => null,
+  };
+  const event = { target: { closest: () => anchor } };
+  handlers.forEach((fn) => fn(event));
+  return events;
+}
+const measuredContact = contactEvents();
+check("one contact click emits exactly one event across shipped listeners",
+  measuredContact.length === 1 && measuredContact[0][1] === "contact_click");
+check("contact event retains method and page without the phone number",
+  measuredContact[0][2].method === "call" && measuredContact[0][2].page_path === "/contact.html"
+  && !JSON.stringify(measuredContact).includes("3037094262"));
+check("combined contact listeners work without analytics", contactEvents(false).length === 0);
+
 console.log(failures === 0 ? "\nAll checks passed.\n" : `\n${failures} FAILED\n`);
 process.exit(failures ? 1 : 0);
