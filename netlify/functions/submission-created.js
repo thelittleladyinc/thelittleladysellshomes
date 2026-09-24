@@ -64,6 +64,8 @@ const { getStore } = require("@netlify/blobs");
 const { getBlobStore } = require("./lib/_mls-shared");
 const { postLead, recordPush } = require("./lib/_lofty");
 const { addLoftyNote, refireLoftyTag, sendLeadAlertEmail } = require("./lib/_notify");
+const { newsletterFromEvent } = require("./lib/_flodesk");
+const { homeValueProperty } = require("./lib/_lead-address");
 
 const DIAG_STORE = "mls-listings";        // same store the rest of the site uses
 
@@ -169,7 +171,24 @@ function splitName(fullName) {
   return { firstName: parts[0], lastName: parts.slice(1).join(" ") };
 }
 
+// 2026-09-24: newsletter sign-ups also go to Flodesk (lib/_flodesk.js). Started
+// first and awaited last, so it runs alongside the Lofty path and can never
+// block, delay or fail it -- newsletterFromEvent() never throws or rejects.
 exports.handler = async (event) => {
+  const flodesk = newsletterFromEvent(event);
+  const result = await handleLead(event);
+  const fd = await flodesk;
+  if (fd.attempted) {
+    console.log(`Flodesk newsletter sync: ${fd.ok ? "ok" : "FAILED"} ` +
+      `(county ${fd.county || "unknown"}, segment ${fd.segmentEnv || "none"}` +
+      `${fd.httpStatus ? `, HTTP ${fd.httpStatus}` : ""}${fd.error ? `, ${fd.error}` : ""})`);
+  } else if (fd.reason === "FLODESK_API_KEY not set") {
+    console.log("Flodesk newsletter sync skipped: FLODESK_API_KEY not set.");
+  }
+  return result;
+};
+
+async function handleLead(event) {
   try {
     const apiKey = process.env.LOFTY_API_KEY;
     if (!apiKey) {
@@ -361,6 +380,14 @@ exports.handler = async (event) => {
         "logged.";
     }
 
+    // 2026-09-24: a home-value lead carries its address as a real Lofty field
+    // (the nested `property` object), not only in the note, so Seller
+    // Intelligence's Lofty sync -- which reads streetAddress/city/state/zipCode
+    // and has no inbound webhook for new homeowners -- picks the homeowner up.
+    // See lib/_lead-address.js.
+    const homeProperty = homeValueProperty(formName, data);
+    if (homeProperty) body.property = homeProperty;
+
     const result = await postLead(body, apiKey);
     // The store is only needed for diagnostics, so a Blobs problem must not
     // prevent the push itself -- it's fetched after the lead has already gone.
@@ -433,4 +460,4 @@ exports.handler = async (event) => {
     console.error("submission-created function error:", err);
     return { statusCode: 200, body: "ok (error logged, see function logs)" };
   }
-};
+}

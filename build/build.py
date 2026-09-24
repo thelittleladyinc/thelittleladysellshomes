@@ -304,6 +304,15 @@ LEGACY_URL_REDIRECTS = {
     "/johnstown-luxury-real-estate/": "/communities/weld/johnstown.html",
     "/windsor-co-lifestyle-guide": "/communities/weld/windsor.html",
     "/windsor-co-lifestyle-guide/": "/communities/weld/windsor.html",
+    # 2026-09-24: the county land guides were published as -co, but their own
+    # imported copy (and seven sibling land articles) linked /buying-land-<county>-county,
+    # which never existed here -- 13 internal links to a 404. The links are fixed at
+    # the source in build/data/legacy_content/; these keep any old external link,
+    # bookmark or search result landing on the real page instead of a 404.
+    "/buying-land-larimer-county": "/buying-land-larimer-co.html",
+    "/buying-land-larimer-county/": "/buying-land-larimer-co.html",
+    "/buying-land-weld-county": "/buying-land-weld-co.html",
+    "/buying-land-weld-county/": "/buying-land-weld-co.html",
 }
 
 
@@ -4631,6 +4640,29 @@ def _contact_bar():
 </script>"""
 
 
+# 2026-09-24: the thank-you page counted a lead on ANY visit carrying ?from= -- a
+# direct visit, a shared or bookmarked thank-you URL, a refresh, a back-button
+# return. The form page now leaves a one-time marker in THIS tab's sessionStorage
+# when a lead form is really submitted, and the thank-you page consumes it (see the
+# conversion script in the thank-you body). Form name + time only, never a field
+# value. Bubble phase, so a submit that the form's own handler cancelled is not
+# marked. Keyed off the action URL because that is what carries ?from=, and the
+# thank-you page compares the two.
+LEAD_SUBMIT_KEY = "tll_lead_submit"
+
+
+def _lead_submit_marker():
+    return (
+        "<script>document.addEventListener('submit',function(e){"
+        "var f=e.target;if(e.defaultPrevented||!f||!f.getAttribute)return;"
+        "var m=/\\/thank-you\\.html\\?from=([^&#]+)/.exec(f.getAttribute('action')||'');"
+        "if(!m)return;"
+        f"try{{sessionStorage.setItem('{LEAD_SUBMIT_KEY}',"
+        "JSON.stringify({form:decodeURIComponent(m[1]),t:Date.now()}));}catch(_){}"
+        "});</script>"
+    )
+
+
 # 2026-08-16. Her Search Console already lists signaturepropertycollection.com, but
 # under "Not verified" -- and as a DOMAIN property, which Google only verifies by DNS
 # TXT record. Her first Verify attempt failed for exactly that reason: no record had
@@ -4814,6 +4846,7 @@ def page(title, description, path, active, body, extra_head="", schema_extra="",
 </main>
 {footer_html()}
 {_contact_bar()}
+{_lead_submit_marker()}
 {_qr_share_modal(path)}
 {_scroll_reveal_script()}
 </body>
@@ -13627,10 +13660,29 @@ def build_legal():
        GA4's generate_lead with the form name attached, so the landing-page report
        shows which page a lead actually came from instead of a flat total.
        Guarded on gtag existing, because analytics is optional here -- with
-       GA_MEASUREMENT_ID unset the page still works and simply counts nothing. */
-    // A direct visit without a form's success parameter is not a lead.
-    if (from && typeof window.gtag === "function") {{
-      window.gtag("event", "generate_lead", {{ form_name: from }});
+       GA_MEASUREMENT_ID unset the page still works and simply counts nothing.
+       2026-09-24: ?from= alone is not proof -- a direct visit, a shared link or
+       a refresh carries it too. Only a visit that follows a real submit of that
+       same form in this tab counts: the marker left by _lead_submit_marker() is
+       consumed here, so it can count once. Meta's Lead (added to this page by
+       postprocess_audit_fixes.py) reads the same window.__tllConfirmedLead. */
+    var confirmed = "";
+    try {{
+      var mark = JSON.parse(window.sessionStorage.getItem("{LEAD_SUBMIT_KEY}") || "null");
+      window.sessionStorage.removeItem("{LEAD_SUBMIT_KEY}");
+      if (from && mark && mark.form === from && Date.now() - mark.t < 1800000) confirmed = from;
+    }} catch (_) {{ /* no storage: count nothing rather than guess */ }}
+    window.__tllConfirmedLead = confirmed;
+    /* Fired once the page has parsed, so a tag injected at the end of <body>
+       (Netlify snippet injection) has defined gtag by then. */
+    var fireLead = function () {{
+      if (typeof window.gtag === "function") {{
+        window.gtag("event", "generate_lead", {{ form_name: confirmed }});
+      }}
+    }};
+    if (confirmed) {{
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fireLead);
+      else fireLead();
     }}
   }} catch (e) {{ /* default copy stands */ }}
 }})();
