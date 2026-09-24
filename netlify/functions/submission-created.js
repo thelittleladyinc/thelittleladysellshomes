@@ -65,6 +65,7 @@ const { getBlobStore } = require("./lib/_mls-shared");
 const { postLead, recordPush } = require("./lib/_lofty");
 const { addLoftyNote, refireLoftyTag, sendLeadAlertEmail } = require("./lib/_notify");
 const { newsletterFromEvent } = require("./lib/_flodesk");
+const { homeValueProperty } = require("./lib/_lead-address");
 
 const DIAG_STORE = "mls-listings";        // same store the rest of the site uses
 
@@ -378,6 +379,14 @@ async function handleLead(event) {
         "box ticked. Do NOT text or auto-dial this lead until consent is obtained and " +
         "logged.";
     }
+
+    // 2026-09-24: a home-value lead carries its address as a real Lofty field
+    // (the nested `property` object), not only in the note, so Seller
+    // Intelligence's Lofty sync -- which reads streetAddress/city/state/zipCode
+    // and has no inbound webhook for new homeowners -- picks the homeowner up.
+    // See lib/_lead-address.js.
+    const homeProperty = homeValueProperty(formName, data);
+    if (homeProperty) body.property = homeProperty;
 
     const result = await postLead(body, apiKey);
     // The store is only needed for diagnostics, so a Blobs problem must not
