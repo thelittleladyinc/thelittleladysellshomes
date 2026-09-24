@@ -64,6 +64,7 @@ const { getStore } = require("@netlify/blobs");
 const { getBlobStore } = require("./lib/_mls-shared");
 const { postLead, recordPush } = require("./lib/_lofty");
 const { addLoftyNote, refireLoftyTag, sendLeadAlertEmail } = require("./lib/_notify");
+const { newsletterFromEvent } = require("./lib/_flodesk");
 
 const DIAG_STORE = "mls-listings";        // same store the rest of the site uses
 
@@ -169,7 +170,24 @@ function splitName(fullName) {
   return { firstName: parts[0], lastName: parts.slice(1).join(" ") };
 }
 
+// 2026-09-24: newsletter sign-ups also go to Flodesk (lib/_flodesk.js). Started
+// first and awaited last, so it runs alongside the Lofty path and can never
+// block, delay or fail it -- newsletterFromEvent() never throws or rejects.
 exports.handler = async (event) => {
+  const flodesk = newsletterFromEvent(event);
+  const result = await handleLead(event);
+  const fd = await flodesk;
+  if (fd.attempted) {
+    console.log(`Flodesk newsletter sync: ${fd.ok ? "ok" : "FAILED"} ` +
+      `(county ${fd.county || "unknown"}, segment ${fd.segmentEnv || "none"}` +
+      `${fd.httpStatus ? `, HTTP ${fd.httpStatus}` : ""}${fd.error ? `, ${fd.error}` : ""})`);
+  } else if (fd.reason === "FLODESK_API_KEY not set") {
+    console.log("Flodesk newsletter sync skipped: FLODESK_API_KEY not set.");
+  }
+  return result;
+};
+
+async function handleLead(event) {
   try {
     const apiKey = process.env.LOFTY_API_KEY;
     if (!apiKey) {
@@ -433,4 +451,4 @@ exports.handler = async (event) => {
     console.error("submission-created function error:", err);
     return { statusCode: 200, body: "ok (error logged, see function logs)" };
   }
-};
+}

@@ -1637,7 +1637,8 @@
       "kicker": "Twice A Month, No Spam",
       "heading": "Get Local Market Tips In Your Inbox",
       "lede": "Buying tips, selling tips, financing options, and what's actually happening in the Northern Colorado market — sent twice a month, nothing more.",
-      "button": "Sign Me Up"
+      "button": "Sign Me Up",
+      "extraFields": "<select name=\"county\" aria-label=\"Which area do you want news about?\"><option value=\"\">Which area? (optional)</option><option value=\"larimer\">Larimer County (Fort Collins, Loveland, Berthoud, Estes Park)</option><option value=\"weld\">Weld County (Greeley, Windsor, Johnstown, Eaton)</option><option value=\"boulder\">Boulder County (Longmont, Boulder, Lyons)</option><option value=\"other\">Somewhere else in Northern Colorado</option></select>"
     }
   },
   "/loveland-co-buyers-guide": {
