@@ -115,6 +115,9 @@ def _normalize_for_change_detection(text: str) -> str:
     # it would leave a rewritten page claiming a stale date.
     text = re.sub(r'\.[0-9a-f]{8,}\.(css|js)\b', r'.HASH.\1', text)
     text = re.sub(r'(<style[^>]*>)[\s\S]*?(</style>)', r'\1STYLE\2', text)
+    # 2026-09-24: the lead-submit marker (build.py _lead_submit_marker) is
+    # measurement plumbing on every page, not copy -- same rule as above.
+    text = re.sub(r'<script>(?:(?!</script>)[\s\S])*?tll_lead_submit[\s\S]*?</script>\n?', '', text)
     return text
 
 
@@ -347,7 +350,11 @@ def _ensure_confirmed_meta_lead(text: str) -> str:
     marker = "confirmed_meta_lead"
     if marker in text:
         return text
-    script = """<script id="confirmed_meta_lead">(function(){try{var p=new URLSearchParams(location.search);var f=p.get('from');if(f&&typeof window.fbq==='function'){window.fbq('track','Lead',{form_name:f,success:'confirmed'});}}catch(e){}})();</script>"""
+    # 2026-09-24: ?from= alone is not proof of a submission (direct visit, shared
+    # link, refresh). Lead fires only when build.py's thank-you script consumed the
+    # one-time submit marker for this same form (window.__tllConfirmedLead), and
+    # after parse so a pixel injected at the end of <body> is defined by then.
+    script = """<script id="confirmed_meta_lead">(function(){try{var p=new URLSearchParams(location.search);var f=p.get('from');if(!f||window.__tllConfirmedLead!==f)return;var go=function(){if(typeof window.fbq==='function'){window.fbq('track','Lead',{form_name:f,success:'confirmed'});}};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',go);}else{go();}}catch(e){}})();</script>"""
     return text.replace("</body>", script + "\n</body>")
 
 
@@ -790,6 +797,18 @@ def _validate(redirects: dict[str, str], analytics_rel: str) -> list[str]:
         h = _read(ty)
         if "confirmed_meta_lead" not in h or "p.get('from')" not in h:
             errors.append("thank-you does not emit confirmed Meta Lead from ?from=")
+        # A thank-you visit only counts when it follows a real submit in this tab.
+        if "window.__tllConfirmedLead!==f" not in h:
+            errors.append("thank-you Meta Lead is not gated on the submit marker")
+        if "window.__tllConfirmedLead = confirmed" not in h:
+            errors.append("thank-you GA lead is not gated on the submit marker")
+    # Every page with a lead form must leave the marker the thank-you gate needs,
+    # or its leads would silently stop counting.
+    for p in pages:
+        h = _read(p)
+        if 'action="/thank-you.html?from=' in h and "tll_lead_submit" not in h:
+            errors.append(f"lead form page lacks the submit marker: {p.relative_to(SITE)}")
+            break
     # Meta must never count a lead from a form submit attempt.
     for p in pages:
         h = _read(p)
