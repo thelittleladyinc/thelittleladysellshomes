@@ -304,6 +304,15 @@ LEGACY_URL_REDIRECTS = {
     "/johnstown-luxury-real-estate/": "/communities/weld/johnstown.html",
     "/windsor-co-lifestyle-guide": "/communities/weld/windsor.html",
     "/windsor-co-lifestyle-guide/": "/communities/weld/windsor.html",
+    # 2026-09-24: the county land guides were published as -co, but their own
+    # imported copy (and seven sibling land articles) linked /buying-land-<county>-county,
+    # which never existed here -- 13 internal links to a 404. The links are fixed at
+    # the source in build/data/legacy_content/; these keep any old external link,
+    # bookmark or search result landing on the real page instead of a 404.
+    "/buying-land-larimer-county": "/buying-land-larimer-co.html",
+    "/buying-land-larimer-county/": "/buying-land-larimer-co.html",
+    "/buying-land-weld-county": "/buying-land-weld-co.html",
+    "/buying-land-weld-county/": "/buying-land-weld-co.html",
 }
 
 
