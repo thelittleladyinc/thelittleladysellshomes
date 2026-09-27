@@ -118,6 +118,31 @@ def _normalize_for_change_detection(text: str) -> str:
     # 2026-09-24: the lead-submit marker (build.py _lead_submit_marker) is
     # measurement plumbing on every page, not copy -- same rule as above.
     text = re.sub(r'<script>(?:(?!</script>)[\s\S])*?tll_lead_submit[\s\S]*?</script>\n?', '', text)
+    # 2026-09-26: Christine's street address was removed from every page (footer
+    # NAP line, Contact card, Terms contact, RealEstateAgent PostalAddress). That
+    # is a sitewide contact-detail swap, not an edit to any page's content, so it
+    # must not restamp ~750 pages with the deploy date. Both the old and the new
+    # renderings collapse to the same token; anything else on the page still
+    # counts. Safe to leave in place after the committed site/ catches up.
+    text = _normalize_business_address(text)
+    return text
+
+
+_OLD_ADDRESS = r'2411 Glade Rd, Loveland, CO 80538'
+_NEW_NAP = r'Christine Gwinnup (?:&middot;|·) LPT Realty (?:&middot;|·) 303-709-4262 (?:&middot;|·) Serving Northern Colorado'
+
+
+def _normalize_business_address(text: str) -> str:
+    # Footer <li> and Contact-card line.
+    text = re.sub(rf'(?:{_OLD_ADDRESS}|{_NEW_NAP})(?=</li>|</p>)', 'BUSINESS_NAP', text)
+    # Terms of Service "Contact" paragraph.
+    text = re.sub(
+        rf'(?:The Little Lady Sells Homes, {_OLD_ADDRESS}\. Telephone 303-709-4262\.|{_NEW_NAP}\.)'
+        r'( Email thelittleladyinc@gmail\.com\.)',
+        r'BUSINESS_NAP\1', text)
+    # Schema PostalAddress: drop only the street and ZIP the old build emitted.
+    text = re.sub(r'"streetAddress"\s*:\s*"2411 Glade Rd"\s*,\s*', '', text)
+    text = re.sub(r'("addressRegion"\s*:\s*"CO")\s*,\s*"postalCode"\s*:\s*"80538"', r'\1', text)
     return text
 
 
