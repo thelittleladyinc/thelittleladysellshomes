@@ -216,6 +216,8 @@ def _normalize_bold_retirement(text: str) -> str:
         for href in (old, new):
             text = text.replace(f'href="{href}"', f'href="DEAD_LINK_FIX_{i}"')
     text = TEACHER_PHOTO_PLACEHOLDER_RE.sub('', text)
+    for linked, plain in DEAD_LINK_UNLINKS:
+        text = text.replace(linked, plain)
     return text
 
 
@@ -235,6 +237,8 @@ DEAD_LINK_FIXES: list[tuple[str, str]] = [
      "https://signaturepropertycollection.com/blog/wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest.html"),
     ("https://signaturepropertycollection.com/wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest/",
      "https://signaturepropertycollection.com/blog/wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest.html"),
+    ("https://bxpx4.edit.ihouseelite.com/-/Blog/tag/Tips%20for%20Sellers", f"{_T}/sellers.html"),
+    ("https://bxpx4.edit.ihouseelite.com/how-much-is-your-home-worth", f"{_T}/free-home-valuation.html"),
     ("/colorado-teacher-salary-schedules", "/colorado-teacher-salary-schedules-1.html"),
     ("/files/Ultimate_Loveland_Buyer_Guide.pdf", "/loveland-co-buyers-guide.html"),
     ("/first-time-buyer-quick-check", "/first-time-homebuyer.html"),
@@ -264,6 +268,12 @@ DEAD_LINK_FIXES: list[tuple[str, str]] = [
     (f"{_T}/noco-sellers-market", f"{_T}/is-northern-colorado-still-a-sellers-market.html"),
     (f"{_T}/open-houses-near-me-1", f"{_T}/northern-colorado-open-houses.html"),
     (f"{_T}/outdoor-spaces", f"{_T}/outdoor-living-spaces-a-must-have-for-northern-colorado-buyers.html"),
+]
+
+# A phrase an editor auto-linked into a URL that does not exist
+# ("https://17.5-mile"); the words stay, the link goes.
+DEAD_LINK_UNLINKS: list[tuple[str, str]] = [
+    ('<a href="https://17.5-mile">17.5-mile</a>', '17.5-mile'),
 ]
 
 # special-buyer-programs: three <img> placeholders for photos that never existed.

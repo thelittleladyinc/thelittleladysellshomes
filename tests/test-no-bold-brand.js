@@ -10,7 +10,8 @@
 //   2. "The Bold Collective" presented as her business in visible copy, titles
 //      or meta tags on any built page or the IDX listing-page shell.
 //   3. Links to other retired services (Fello, the old homebuyer-funnel and
-//      listing-engine Render apps, Follow Up Boss, Blotato).
+//      listing-engine Render apps, Follow Up Boss, Blotato, the old iHouseWeb
+//      editor host).
 const fs = require("fs");
 const path = require("path");
 const ROOT = path.resolve(__dirname, "..");
@@ -31,7 +32,7 @@ files.push(path.join(ROOT, "netlify", "functions", "lib", "_listing-page-shell.h
 
 const BOLD_DOMAIN = /(?:the)?boldcollectivehomes\.com/i;
 const BOLD_BRAND = /\bbold\s+collective\b/i;
-const RETIRED = /hifello\.com|homebuyer-funnel\.onrender\.com|listing-engine\.onrender\.com|followupboss\.com|blotato\.com/i;
+const RETIRED = /hifello\.com|\.edit\.ihouseelite\.com|homebuyer-funnel\.onrender\.com|listing-engine\.onrender\.com|followupboss\.com|blotato\.com/i;
 
 const domain = [], brand = [], retired = [];
 for (const f of files) {
