@@ -231,6 +231,70 @@ const home = fs.readFileSync(path.join(ROOT, "site/index.html"), "utf8");
 check("the homepage \"I'm looking to...\" select is named",
   /<select name="looking_to"[^>]*aria-label="[^"]+"/.test(home));
 
+// --- 1d. the honeypot must not be autofillable -------------------------------
+// 2026-08-26. The honeypot was a bare <input name="bot-field"> with no
+// autocomplete and no tabindex, one line above the real name/email/phone fields.
+// Chrome and password managers can autofill hidden inputs; if a real buyer's
+// browser filled that box, Netlify would file the enquiry as spam and it would
+// never trigger submission-created -- no Lofty lead, no alert, nothing visible
+// anywhere Christine looks.
+const allPages = walk(path.join(ROOT, "site"));
+const honeypotPages = allPages.filter((f) => /name="bot-field"/.test(fs.readFileSync(f, "utf8")));
+const soft = honeypotPages.filter((f) => {
+  const h = fs.readFileSync(f, "utf8");
+  return [...h.matchAll(/<input\b[^>]*name="bot-field"[^>]*>/g)]
+    .some((m) => !/autocomplete="off"/.test(m[0]) || !/tabindex="-1"/.test(m[0]));
+});
+check(`every honeypot is proof against browser autofill (${honeypotPages.length} pages)`,
+  honeypotPages.length > 0 && soft.length === 0,
+  `${soft.length} page(s) with a fillable honeypot, e.g. ${soft.slice(0, 2).map((f) => path.relative(ROOT, f)).join(", ")}`);
+
+// --- 1e. the highest-intent page must offer a visible way in ------------------
+// /search-homes is where visitors actually spend time (58s vs 6s on the
+// homepage), and its only lead forms were inside modals. Asserted as "a lead
+// form outside any .lb-overlay" rather than by pixel position: this is about
+// reachability, not layout.
+const sh = fs.readFileSync(path.join(ROOT, "site/search-homes.html"), "utf8");
+const shOutsideModals = sh.replace(/<div class="lb-overlay"[\s\S]*?<\/form>\s*<\/div>\s*<\/div>/g, "");
+check("search-homes offers a lead form outside a modal",
+  /<form\b[^>]*class="[^"]*lead-form[^"]*"[^>]*name="listing-alert-request"/.test(shOutsideModals),
+  "the only forms are modal-gated again — a scanner has no way to reach her");
+
+// --- 1f. the phone number rides on every page ---------------------------------
+// 2026-08-26 (Christine: "maybe large phone number at the top"). Site-wide, not
+// homepage-only, because the engaged visitor is usually NOT on the homepage.
+// The href and the visible text must carry the same digits (WCAG 2.5.3), the
+// kind of detail a later edit to either half breaks silently.
+const templatePages = allPages.filter((f) => /<a class="skip-link" href="#main">/.test(fs.readFileSync(f, "utf8")));
+const stripPages = allPages.filter((f) => /class="call-strip"/.test(fs.readFileSync(f, "utf8")));
+const noStrip = templatePages.filter((f) => !stripPages.includes(f));
+check(`the call strip is on every site page (${stripPages.length}/${templatePages.length})`,
+  templatePages.length > 0 && noStrip.length === 0,
+  `${noStrip.length} page(s) without it, e.g. ${noStrip.slice(0, 2).map((f) => path.relative(ROOT, f)).join(", ")}`);
+const shell = fs.readFileSync(path.join(ROOT, "netlify/functions/lib/_listing-page-shell.html"), "utf8");
+check("the live listing-page shell carries the call strip too", /class="call-strip"/.test(shell));
+const mismatched = [...stripPages.map((f) => fs.readFileSync(f, "utf8")), shell].filter((h) => {
+  const m = h.match(/<div class="call-strip">[\s\S]*?<a href="tel:\+1(\d+)"[^>]*>([^<]+)<\/a>/);
+  return !m || m[1] !== m[2].replace(/\D/g, "");
+});
+check("the dialled number matches the number shown",
+  mismatched.length === 0,
+  `${mismatched.length} page(s) where href and text disagree`);
+
+// --- 1g. the homepage ask is actually reachable -------------------------------
+// It used to sit second from last, ~12 screens down an 18-screen page that holds
+// people for six seconds. Now directly under the proof section. The threshold is
+// deliberately loose (first half of <main>) -- it guards against the ask drifting
+// back to the bottom, not against ordinary layout changes.
+const homeMain = home.slice(home.indexOf('<main id="main">'), home.indexOf("</main>"));
+const askAt = homeMain.search(/Tell Me What You(?:'|&#39;|&#x27;|&rsquo;)re Trying To Do/);
+check("the homepage ask sits in the first half of the page",
+  askAt > 0 && askAt < homeMain.length * 0.5,
+  `ask is ${Math.round((askAt / homeMain.length) * 100)}% of the way down the body`);
+check("the homepage still has exactly one lead form",
+  (homeMain.match(/<form\b[^>]*class="[^"]*lead-form/g) || []).length === 1,
+  "one clear ask beats three competing ones — see build_home");
+
 // --- 2. the pixel stays off the critical path --------------------------------
 const buildPy = fs.readFileSync(path.join(ROOT, "build/build.py"), "utf8");
 const pixel = (buildPy.match(/def _meta_pixel_tag\(\)[\s\S]*?\n\ndef /) || [""])[0];

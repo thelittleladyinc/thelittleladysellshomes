@@ -3275,6 +3275,31 @@ except (OSError, json.JSONDecodeError):
     GOOGLE_REVIEWS_STATS = {"totalReviewCount": 98, "averageRating": 5.0, "ratingDisplay": "5.0"}
 
 
+def _call_strip_html():
+    """A large, tappable phone number directly under the header, every page.
+
+    2026-08-26 (Christine: "maybe large phone number at the top"). GA4 showed
+    ~58s of engagement on /search-homes against 6s on the homepage and almost
+    no contact-page visits: the engaged visitor is deep in the site, so the
+    lowest-friction ask (a number to call or text -- no form, no consent box)
+    has to travel with them rather than live on the homepage only.
+
+    tel: dials on a phone and stays a readable, copyable number on a desktop.
+    The visible text and the href carry the same digits so a voice-control user
+    saying "303 709 4262" hits the target they can see (WCAG 2.5.3).
+    data-contact="call" feeds the same Contact tracking as the sticky bar.
+    """
+    digits = re.sub(r"[^0-9]", "", SITE.get("phone", ""))
+    if not digits:
+        return ""
+    return f"""<div class="call-strip">
+  <div class="wrap">
+    <span class="prompt">Questions? Call or text {esc(SITE['agent'].split()[0])}</span>
+    <a href="tel:+1{digits}" data-contact="call">{esc(SITE['phone'])}</a>
+  </div>
+</div>"""
+
+
 def _trust_ribbon_html():
     return f"""<div class="trust-ribbon">
   <div class="wrap">
@@ -4845,6 +4870,7 @@ def page(title, description, path, active, body, extra_head="", schema_extra="",
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
 {header_html(active)}
+{_call_strip_html()}
 {_trust_ribbon_html()}
 <main id="main">
 {body}
@@ -5016,6 +5042,40 @@ def build_home():
       </select>
       <textarea name="message" rows="3" aria-label="Your message" placeholder="Anything useful: town, timeline, price range, questions"></textarea>""")
 
+    # 2026-08-26 (Christine: "fix the homepage too"). This ask used to sit
+    # second from last, ~12 screens down an 18-screen page, on a page GA4 says
+    # holds people for six seconds -- in practice the homepage had no ask at all.
+    # Now directly under the proof section, the warmest point on the page: a
+    # visitor who has just read "150+ homes sold, top 0.5% nationwide" meets the
+    # invitation next. The sticky contact bar and the call strip still bracket
+    # the page for anyone who reads down to the FAQ. Still the homepage's ONLY
+    # form -- one clear ask beats three competing ones.
+    home_ask_section = f"""
+<section class="section-dark">
+  <div class="wrap">
+    <span class="eyebrow">No Pressure, Real Answers</span>
+    <h2 class="section-title">Tell Me What You're Trying To Do</h2>
+    <p class="lede">You do not need to be ready to list, ready to buy, or ready
+    for anything. If you are three years out and just want to know what that
+    looks like, that is a normal thing to ask. {SITE['agent']} answers these
+    herself &mdash; usually the same day.</p>
+    <div class="grid-2" style="margin-top:36px;align-items:start">
+      {home_lead_form}
+      <div class="card">
+        <h2 class="card-title">Faster Ways To Reach Me</h2>
+        <p><strong>Call or text:</strong>
+          <a href="tel:{SITE['phone'].replace('-', '')}" style="text-decoration:underline">{SITE['phone']}</a></p>
+        <p><strong>Email:</strong>
+          <a href="mailto:{SITE['email']}" style="text-decoration:underline">{SITE['email']}</a></p>
+        <p><strong>Pick a time that works:</strong>
+          <a href="{SITE["schedule_url"]}" style="text-decoration:underline">book a 30-minute call</a>
+          &mdash; buyer consult, seller walk-through, or just questions.</p>
+        <p class="mr-note">{SITE['brokerage']} &middot; {SITE['license']}</p>
+      </div>
+    </div>
+  </div>
+</section>"""
+
     body = f"""
 <section class="hero">
   <div class="wrap">
@@ -5049,6 +5109,7 @@ def build_home():
     </div>
   </div>
 </section>
+{home_ask_section}
 
 <!-- Wave 5 P0.4: cross-brand visible callout. Christine runs a second
      brand for the estate/luxury tier (Signature Property Collection). The
@@ -5130,36 +5191,6 @@ def build_home():
 </section>
 """
     body += _instagram_feed_section()
-    # Placed after the reviews and the Instagram feed, before the FAQ: the ask
-    # comes once the page has already made its case, and it sits above the FAQ
-    # so a visitor whose question was just answered has somewhere to go without
-    # scrolling back up. This is the homepage's only form -- one clear ask beats
-    # three competing ones.
-    body += f"""
-<section class="section-dark">
-  <div class="wrap">
-    <span class="eyebrow">No Pressure, Real Answers</span>
-    <h2 class="section-title">Tell Me What You're Trying To Do</h2>
-    <p class="lede">You do not need to be ready to list, ready to buy, or ready
-    for anything. If you are three years out and just want to know what that
-    looks like, that is a normal thing to ask. {SITE['agent']} answers these
-    herself &mdash; usually the same day.</p>
-    <div class="grid-2" style="margin-top:36px;align-items:start">
-      {home_lead_form}
-      <div class="card">
-        <h2 class="card-title">Faster Ways To Reach Me</h2>
-        <p><strong>Call or text:</strong>
-          <a href="tel:{SITE['phone'].replace('-', '')}" style="text-decoration:underline">{SITE['phone']}</a></p>
-        <p><strong>Email:</strong>
-          <a href="mailto:{SITE['email']}" style="text-decoration:underline">{SITE['email']}</a></p>
-        <p><strong>Pick a time that works:</strong>
-          <a href="{SITE["schedule_url"]}" style="text-decoration:underline">book a 30-minute call</a>
-          &mdash; buyer consult, seller walk-through, or just questions.</p>
-        <p class="mr-note">{SITE['brokerage']} &middot; {SITE['license']}</p>
-      </div>
-    </div>
-  </div>
-</section>"""
     faq_html, faq_schema = _faq_block(HOME_FAQ)
     body += faq_html
     extra = _leaflet_lazy_loader_extra()
@@ -5288,7 +5319,7 @@ def build_seller_local_proof():
     </div>
     <form class="lead-form" name="seller-local-proof" action="/thank-you.html?from=seller-local-proof" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="seller-local-proof">
-      <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <p style="display:none" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" autocomplete="off" tabindex="-1"></label></p>
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email" required>
       <input type="tel" name="phone" placeholder="Phone">
@@ -8287,7 +8318,7 @@ def build_contact():
   <div class="wrap grid-2">
     <form class="lead-form" name="contact" action="/thank-you.html?from=contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="contact">
-      <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <p style="display:none" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" autocomplete="off" tabindex="-1"></label></p>
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email" required>
       <input type="tel" name="phone" placeholder="Phone" required>
@@ -8508,7 +8539,7 @@ def build_guides():
     </div>
     <form class="lead-form" name="{form_name}" action="/thank-you.html?from={form_name}" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="{form_name}">
-      <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <p style="display:none" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" autocomplete="off" tabindex="-1"></label></p>
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email" required>
       <label class="consent">
@@ -10678,7 +10709,7 @@ def build_blog():
 def _tool_lead_form(form_name, button_label, extra_fields=""):
     return f"""<form class="lead-form" name="{form_name}" action="/thank-you.html?from={form_name}" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="{form_name}">
-      <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <p style="display:none" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" autocomplete="off" tabindex="-1"></label></p>
       <input type="text" name="name" placeholder="Full Name" aria-label="Full name" required>
       <input type="email" name="email" placeholder="Email" aria-label="Email address" required>
       <input type="tel" name="phone" placeholder="Phone" aria-label="Phone number">
@@ -13066,6 +13097,21 @@ def build_search_homes():
         price_floor=0, always_no_floor=True, counties=search_counties,
     )
 
+    # 2026-08-26: /search-homes is where visitors actually spend time (58s vs 6s
+    # on the homepage), yet its only lead forms sat inside modals reachable from
+    # a button or a specific listing card. This gives someone scanning results a
+    # visible way to raise their hand. Same form name as the widget's alert modal
+    # (and the same field names, so Netlify's registered field set is unchanged);
+    # alert_criteria is pre-filled so the Lofty note says where the request came
+    # from instead of "no filters -- all new listings".
+    search_page_alert_form = _tool_lead_form(
+        "listing-alert-request", "Send Me Matches",
+        extra_fields='<input type="hidden" name="alert_criteria" '
+                     'value="Not set on the site - see their message">'
+                     '<textarea name="message" rows="3" aria-label="What you are looking for" '
+                     'placeholder="Town, price range, must-haves &mdash; or just tell me what '
+                     'you keep not finding"></textarea>')
+
     body = f"""
 <section class="hero" style="padding:100px 0 60px">
   <div class="wrap">
@@ -13082,6 +13128,20 @@ def build_search_homes():
     listings instead, with video tours where she has them?
     <a href="/current-listings.html" style="text-decoration:underline">See her Current Listings</a>.</p>
     {widget_html}
+  </div>
+</section>
+<section class="section-dark center">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Not Seeing It?</span>
+    <h2 class="section-title" style="margin-left:auto;margin-right:auto">The Right House Often Isn't
+    Listed The Day You Look</h2>
+    <p class="lede">Most of my buyers don't find their home on the first search &mdash; they find it
+    three weeks later, the morning it hits. Tell me what you're after and I'll send the matches
+    as they list, usually before they reach the big portals. If something's coming up that never
+    gets publicly listed, you hear it from me first.</p>
+    <div style="max-width:520px;margin:0 auto;text-align:left">
+      {search_page_alert_form}
+    </div>
   </div>
 </section>
 {widget_js}
@@ -14420,6 +14480,7 @@ def write_listing_page_shell():
     shell = f"""{shell_head}
 <body>
 {header_html("Current Listings")}
+{_call_strip_html()}
 {_trust_ribbon_html()}
 {{{{BODY}}}}
 {footer_html()}

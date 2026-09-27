@@ -70,7 +70,7 @@ def form_shell(name: str, fields: str, button: str, form_id: str) -> str:
   netlify-honeypot="bot-field">
   <input type="hidden" name="form-name" value="{name}">
   {ATTR_INPUTS}
-  <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+  <p style="display:none" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" autocomplete="off" tabindex="-1"></label></p>
   {fields}
   {CONSENT}
   <button class="btn btn-primary" type="submit" data-roi-cta="{name}-submit">{button}</button>
