@@ -233,6 +233,8 @@ DEAD_LINK_FIXES: list[tuple[str, str]] = [
      "/why-real-estate-agents-in-colorado-are-switching-to-a-100-commission-model.html"),
     ("/blog/wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest.html",
      "https://signaturepropertycollection.com/blog/wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest.html"),
+    ("https://signaturepropertycollection.com/wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest/",
+     "https://signaturepropertycollection.com/blog/wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest.html"),
     ("/colorado-teacher-salary-schedules", "/colorado-teacher-salary-schedules-1.html"),
     ("/files/Ultimate_Loveland_Buyer_Guide.pdf", "/loveland-co-buyers-guide.html"),
     ("/first-time-buyer-quick-check", "/first-time-homebuyer.html"),
