@@ -125,6 +125,17 @@ def _normalize_for_change_detection(text: str) -> str:
     # renderings collapse to the same token; anything else on the page still
     # counts. Safe to leave in place after the committed site/ catches up.
     text = _normalize_business_address(text)
+    # 2026-09-27: the sitewide call strip (build.py _call_strip_html) is page
+    # chrome like the header and footer, and the honeypot hardening
+    # (autocomplete="off" tabindex="-1" aria-hidden) is spam-trap plumbing.
+    # Neither is an edit to any page's content, so neither may restamp ~750
+    # pages with the deploy date. Pages whose copy really changed in the same
+    # deploy (homepage ask, /search-homes form) still differ elsewhere.
+    text = re.sub(r'<div class="call-strip">[\s\S]*?</div>\s*</div>\n?', '', text)
+    text = re.sub(
+        r'<p style="display:none"(?: aria-hidden="true")?><label>Don\'t fill this out: '
+        r'<input name="bot-field"(?: autocomplete="off" tabindex="-1")?></label></p>',
+        'HONEYPOT', text)
     return text
 
 
