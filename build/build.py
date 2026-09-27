@@ -808,10 +808,6 @@ TESTIMONIALS = [
      "John Zamora"),
     ("I couldn't be happier with the outcome and highly recommend Christine to anyone "
      "looking for a knowledgeable and supportive agent.", "Rhonda Beach"),
-    ("Kendra is passionate about selling your home. She has amazing marketing skills and "
-     "was a professional while dealing with an underhanded buying agent and sold our home "
-     "in a tough market. I'm convinced there is no better agent than Kendra.",
-     "Rhonda Beach"),
     ("She's one of the best agents on the planet.", "Andrew Vose"),
     ("Christine has done such a wonderful job for us and our home. She is great at "
      "keeping in constant contact with you about what's going on with your home and "
@@ -832,21 +828,18 @@ TESTIMONIALS = [
      "things moving with grace and momentum. Her clients are beyond lucky — they're "
      "working with a true professional who knows her stuff and leads with heart.",
      "Lindsay Klein"),
-    ("Christine and Kendra were amazing. They fought to keep the price up on my home "
-     "since the buyers came up with all sorts of nonsense to try to lower the price.",
-     "Tiny Conquest"),
-    ("Christine and Kendra helped us sell our home for more than we expected, and their "
-     "marketing strategies were key in getting so much attention. Highly recommend!",
-     "Cassidi G"),
 ]
-# Christine confirmed (Aug 2026) she and Kendra Bajcar work as a duo, so the four
-# reviews naming Kendra as co-agent are accurate and included above. The second
-# Rhonda Beach quote (2026-08-14, sourced from Christine's official "Signature
-# Listing Strategy" marketing brochure) is a distinct, genuine review focused
-# specifically on Kendra -- not a duplicate of her earlier, shorter quote above
-# it, which predates Kendra's review. Google Business Profiles are per-agent,
-# so the same client leaving separate reviews on Christine's and Kendra's
-# individual profiles is expected, not an error.
+# 2026-09-27 (Christine's decision): Kendra Bajcar appears publicly ONLY on
+# Signature Property Collection, not on this site. Reviews are quotes, so they
+# are never edited -- the three real reviews that name Kendra were removed from
+# this list instead (Rhonda Beach's Kendra-focused review, Tiny Conquest,
+# Cassidi G). They remain valid Signature Property Collection testimonials.
+# Rhonda Beach's own review of Christine stays above.
+
+# Town pages rotate a testimonial by town index over the ORIGINAL 11-review
+# order. Each entry is an index into TESTIMONIALS; slots 3, 9 and 10 held the
+# removed Kendra reviews and now point at other real reviews.
+_TOWN_PROOF_SLOTS = (0, 1, 2, 7, 3, 4, 5, 6, 7, 5, 6)
 
 # Real videos from Christine's own YouTube channel ("The Little Lady Sells Homes",
 # youtube.com/@thelittleladysellshomes — 1,980 subs, 158K+ views, 223 videos as of
@@ -3454,8 +3447,9 @@ def _real_estate_agent_schema():
 # (2026-08-19, Christine: "kendra the blonde is not tllsh") -- this site is
 # Christine's own brand. The Kendra Bajcar RealEstateAgent schema that the
 # Signature engine placed on /about.html is gone along with her section of
-# that page; real client reviews that mention her by name stay verbatim,
-# because reviews are quotes, not copy.
+# that page. Reviews are quotes, not copy, so they are never edited; since
+# 2026-09-27 the real reviews that name her are left off this site entirely
+# (see the note under TESTIMONIALS) -- she is public only on Signature.
 
 
 def _website_schema():
@@ -7318,7 +7312,12 @@ def build_city_pages():
             # city, so this is presented honestly as "what clients say," not
             # misattributed to this town).
             city_index = list(CITY_CONTENT.keys()).index(data_slug) if data_slug in CITY_CONTENT else 0
-            proof_quote, proof_who = TESTIMONIALS[city_index % len(TESTIMONIALS)]
+            #
+            # 2026-09-27: the three Kendra reviews left TESTIMONIALS (see the
+            # note there). _TOWN_PROOF_SLOTS keeps the original 11-slot
+            # rotation so every other town keeps the quote it already shows;
+            # only the slots that pointed at a removed review get a new one.
+            proof_quote, proof_who = TESTIMONIALS[_TOWN_PROOF_SLOTS[city_index % len(_TOWN_PROOF_SLOTS)]]
             agent_proof_block = f"""<section class="tight">
   <div class="wrap grid-2">
     <div>
