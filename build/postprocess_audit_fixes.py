@@ -136,7 +136,151 @@ def _normalize_for_change_detection(text: str) -> str:
         r'<p style="display:none"(?: aria-hidden="true")?><label>Don\'t fill this out: '
         r'<input name="bot-field"(?: autocomplete="off" tabindex="-1")?></label></p>',
         'HONEYPOT', text)
+    # 2026-09-27: the Bold Collective Homes website was retired and Christine is
+    # a solo agent, so legacy articles that named "The Bold Collective" as her
+    # business now name The Little Lady Sells Homes / Christine Gwinnup, LPT
+    # Realty. That is a business-name swap like the address change above, not
+    # an edit to any article, so it must not restamp blog dates.
+    text = _normalize_bold_retirement(text)
     return text
+
+
+# (old, new) pairs applied to build/data/legacy_content/*.json and
+# build/data/legacy_terms.json by a one-off edit (2026-09-27). Strings are
+# the decoded JSON values, so they match the rendered HTML.
+BOLD_RETIREMENT_SWAPS: list[tuple[str, str]] = [
+    ("The Little Lady Sells Homes l BOLD Collective powered by lpt", "The Little Lady Sells Homes"),
+    ("| The BOLD Collective powered by lpt", "| The Little Lady Sells Homes"),
+    ("in Northern Colorado | The BOLD Collective", "in Northern Colorado | The Little Lady Sells Homes"),
+    ("Learn proven strategies from The BOLD Collective powered by lpt",
+     "Learn proven strategies from Christine Gwinnup, LPT Realty,"),
+    ("reach out to us at The BOLD Collective powered by lpt. We're here to help you make the BOLD move!",
+     "reach out to us at The Little Lady Sells Homes (Christine Gwinnup, LPT Realty). We're here to help you make your move!"),
+    ("The BOLD Collective powered by LPT<br>", "LPT Realty<br>"),
+    ("Christine Gwinnup with the Bold Collective powered by LPT is", "Christine Gwinnup with LPT Realty is"),
+    ("Working with The Bold Collective, powered by LPT, I am", "Working with LPT Realty, I am"),
+    ("The Little Lady Sells Homes - BOLD Collective", "The Little Lady Sells Homes"),
+    ("Our BOLD Collective team offers", "Christine Gwinnup, LPT Realty, offers"),
+    ('<p class="lpt-td">The Bold Collective &middot; ', '<p class="lpt-td">LPT Realty &middot; '),
+    ("&copy; 2026 The Bold Collective at LPT Realty.", "&copy; 2026 Christine Gwinnup, LPT Realty."),
+    ("Join LPT Realty with the BOLD Collective", "Join LPT Realty with Christine Gwinnup"),
+    ("how the BOLD Collective can help you succeed", "how working with Christine Gwinnup can help you succeed"),
+    ("how LPT Realty and the BOLD Collective can help", "how LPT Realty can help"),
+    ("Network & Learn with The BOLD Collective in Northern Colorado",
+     "Network & Learn with Christine Gwinnup in Northern Colorado"),
+    ("Contact The BOLD Collective at 303-709-4262", "Contact Christine Gwinnup at 303-709-4262"),
+    ("lives on the Bold Collective Homes site. Here's the quick version:",
+     "is on Christine's Northern Colorado market report page, linked below. Here's the quick version:"),
+    ('Remember, "The Bold Collective" is more than just a brand;',
+     'Remember, "The Little Lady Sells Homes" is more than just a brand;'),
+    ("The BOLD Collective powered by lpt covers everything", "The Little Lady Sells Homes covers everything"),
+    ("Christine Gwinnup of the Bold Collective, powered by LPT,", "Christine Gwinnup with LPT Realty,"),
+    ("we embrace at the Bold Collective,", "we embrace at The Little Lady Sells Homes,"),
+    ("our commitment at the Bold Collective to", "our commitment at The Little Lady Sells Homes to"),
+    ("how the Bold Collective, powered by LPT, integrates", "how The Little Lady Sells Homes integrates"),
+    ("Embracing the Future with the Bold Collective", "Embracing the Future with The Little Lady Sells Homes"),
+    ("one way the Bold Collective stands out", "one way The Little Lady Sells Homes stands out"),
+    ("our team at the Bold Collective, powered by LPT, is committed",
+     "Christine Gwinnup with LPT Realty is committed"),
+    ("and The Bold Collective, powered by LPT, are here", "and LPT Realty are here"),
+    ("with the BOLD Collective powered by lpt", "with The Little Lady Sells Homes"),
+    ("The Bold Collective, in collaboration with The Little Lady Sells Homes, is here",
+     "The Little Lady Sells Homes (Christine Gwinnup, LPT Realty) is here"),
+    ("The Bold Collective&rsquo;s Comprehensive", "The Little Lady Sells Homes&rsquo; Comprehensive"),
+    ("Why Choose The Bold Collective?", "Why Choose The Little Lady Sells Homes?"),
+    ("Choosing The Bold Collective means", "Choosing The Little Lady Sells Homes means"),
+    ("The Bold Collective utilizes", "The Little Lady Sells Homes utilizes"),
+    ("The Bold Collective ensures", "The Little Lady Sells Homes ensures"),
+    ("The Bold Collective is proud", "The Little Lady Sells Homes is proud"),
+    ("Christine Gwinnup from The Bold Collective is here", "Christine Gwinnup, LPT Realty, is here"),
+    ("A Seller's Guide by The BOLD Collective", "A Seller's Guide by Christine Gwinnup"),
+    ("Join The BOLD Collective powered by lpt for", "Join Christine Gwinnup, LPT Realty, for"),
+]
+
+# The relocation article's sign-off named the team and a former brokerage.
+BOLD_SIGNOFF_RE = re.compile(
+    r'(The Little Lady Sells Homes<br>\s*)The BOLD Collective<br>(\s*)Realty ONE Group Fourpoints</p>')
+BOLD_SIGNOFF_NEW = r'\1LPT Realty</p>'
+
+
+def _normalize_bold_retirement(text: str) -> str:
+    for i, (old, new) in enumerate(BOLD_RETIREMENT_SWAPS):
+        token = f'BOLD_SWAP_{i}'
+        for variant in {old, new, html_lib.escape(old, quote=False), html_lib.escape(old),
+                        html_lib.escape(new, quote=False), html_lib.escape(new)}:
+            text = text.replace(variant, token)
+    text = BOLD_SIGNOFF_RE.sub('BOLD_SIGNOFF', text)
+    text = re.sub(r'The Little Lady Sells Homes<br>\s*LPT Realty</p>', 'BOLD_SIGNOFF', text)
+    text = text.replace('www.thelittleladyinc@gmail.com', 'thelittleladyinc@gmail.com')
+    for i, (old, new) in enumerate(DEAD_LINK_FIXES):
+        for href in (old, new):
+            text = text.replace(f'href="{href}"', f'href="DEAD_LINK_FIX_{i}"')
+    text = TEACHER_PHOTO_PLACEHOLDER_RE.sub('', text)
+    for linked, plain in DEAD_LINK_UNLINKS:
+        text = text.replace(linked, plain)
+    return text
+
+
+# 2026-09-27: internal links in imported legacy articles that 404ed (the old
+# iHouseWeb slugs never existed on this site). Each now points at the page that
+# carries the same offer. A link repair is not an article edit, so the
+# freshness check above treats the old and new href as the same.
+_T = "https://www.thelittleladysellshomes.com"
+DEAD_LINK_FIXES: list[tuple[str, str]] = [
+    ("/Web/AR1140900/WebUser/register/", "/search-homes.html"),
+    ("/blog/how-to-choose-brokerage-colorado",
+     "/how-to-choose-the-right-real-estate-brokerage-in-colorado-5-questions-to-ask.html"),
+    ("/blog/tag/Tips%20for%20Buyers", "/buyers.html"),
+    ("/blog/why-100-commission-colorado",
+     "/why-real-estate-agents-in-colorado-are-switching-to-a-100-commission-model.html"),
+    ("/blog/wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest.html",
+     "https://signaturepropertycollection.com/blog/wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest.html"),
+    ("https://signaturepropertycollection.com/wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest/",
+     "https://signaturepropertycollection.com/blog/wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest.html"),
+    ("https://bxpx4.edit.ihouseelite.com/-/Blog/tag/Tips%20for%20Sellers", f"{_T}/sellers.html"),
+    ("https://bxpx4.edit.ihouseelite.com/how-much-is-your-home-worth", f"{_T}/free-home-valuation.html"),
+    ("/colorado-teacher-salary-schedules", "/colorado-teacher-salary-schedules-1.html"),
+    ("/files/Ultimate_Loveland_Buyer_Guide.pdf", "/loveland-co-buyers-guide.html"),
+    ("/first-time-buyer-quick-check", "/first-time-homebuyer.html"),
+    ("/free-market-analysis", "/free-home-valuation.html"),
+    ("/get-your-seller-guide", "/get-the-ultimate-northern-colorado-seller-guide.html"),
+    ("/homes-for-sale-in-ault-colorado", "/homes-for-sale-in-ault-co.html"),
+    ("/homes-for-sale-in-eaton-colorado", "/homes-for-sale-in-eaton-co.html"),
+    ("/how-much-is-my-home-worth", "/free-home-valuation.html"),
+    ("/rent-to-own-og", "/rent-to-own.html"),
+    ("/search-northern-colorado", "/search-homes.html"),
+    (f"{_T}/bold-marketing-edge", f"{_T}/how-christines-bold-edge-marketing-plan-sells-homes-fast.html"),
+    (f"{_T}/buyer-assistance-programs", f"{_T}/noco-fthb-dpa-programs.html"),
+    (f"{_T}/cash-sale-myths", f"{_T}/myths-about-selling-your-home-for-cash-the-truth-revealed.html"),
+    (f"{_T}/first-time-homebuyers", f"{_T}/first-time-homebuyer.html"),
+    (f"{_T}/free-sellers-guide", f"{_T}/get-the-ultimate-northern-colorado-seller-guide.html"),
+    (f"{_T}/front-range-map.pdf", f"{_T}/join-lpt-realty-colorado.html"),
+    (f"{_T}/home-prep-checklist", f"{_T}/preparing-your-home-for-showings-a-sellers-checklist.html"),
+    (f"{_T}/home-sale-calculator-1", f"{_T}/home-sale-calculator.html"),
+    (f"{_T}/home-valuation", f"{_T}/free-home-valuation.html"),
+    (f"{_T}/how-much-is-my-home-worth", f"{_T}/free-home-valuation.html"),
+    (f"{_T}/how-much-is-your-home-worth", f"{_T}/free-home-valuation.html"),
+    (f"{_T}/im-ready-to-buy-a-home", f"{_T}/search-homes.html"),
+    (f"{_T}/landscaping-boosts-home-value", f"{_T}/unlock-the-potential-of-your-home-tips-to-maximize-its-value.html"),
+    (f"{_T}/lpt-realty-colorado-guide.pdf", f"{_T}/join-lpt-realty-colorado.html"),
+    (f"{_T}/lpt-realty-comparison.pdf", f"{_T}/join-lpt-realty.html"),
+    (f"{_T}/mortgage-rates", f"{_T}/mortgage-calculator.html"),
+    (f"{_T}/noco-sellers-market", f"{_T}/is-northern-colorado-still-a-sellers-market.html"),
+    (f"{_T}/open-houses-near-me-1", f"{_T}/northern-colorado-open-houses.html"),
+    (f"{_T}/outdoor-spaces", f"{_T}/outdoor-living-spaces-a-must-have-for-northern-colorado-buyers.html"),
+]
+
+# A phrase an editor auto-linked into a URL that does not exist
+# ("https://17.5-mile"); the words stay, the link goes.
+DEAD_LINK_UNLINKS: list[tuple[str, str]] = [
+    ('<a href="https://17.5-mile">17.5-mile</a>', '17.5-mile'),
+]
+
+# special-buyer-programs: three <img> placeholders for photos that never existed.
+TEACHER_PHOTO_PLACEHOLDER_RE = re.compile(
+    r'<div class="photos">(?:<!--[^>]*-->)?<img alt="Teacher home buying program" src="teacher-photo1\.jpg"> '
+    r'<img alt="Teacher home buying seminar" src="teacher-photo2\.jpg"> '
+    r'<img alt="Teacher home buying assistance" src="teacher-photo3\.jpg"></div>(?:\r?\n)*')
 
 
 _OLD_ADDRESS = r'2411 Glade Rd, Loveland, CO 80538'
