@@ -142,6 +142,14 @@ def _normalize_for_change_detection(text: str) -> str:
     # Realty. That is a business-name swap like the address change above, not
     # an edit to any article, so it must not restamp blog dates.
     text = _normalize_bold_retirement(text)
+    # 2026-09-28: listings now reach these sites through Lofty, not MLS Grid, so
+    # the listing widgets' source line reads "Source: IRES MLS" instead of
+    # "Source: IRES MLS via MLS Grid" (build.py _VIA_GRID). That line sits in the
+    # hidden "One Of Christine's Active Listings" spotlight on every blog post:
+    # a data-provider attribution, not an edit to any article, so it must not
+    # restamp the archive with the deploy date. Both renderings collapse to one.
+    text = text.replace('<span class="mls-source-badge">Source: IRES MLS</span> via MLS Grid &middot;',
+                        '<span class="mls-source-badge">Source: IRES MLS</span> &middot;')
     return text
 
 
