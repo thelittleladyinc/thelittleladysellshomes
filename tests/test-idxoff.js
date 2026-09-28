@@ -25,7 +25,11 @@ if (m) {
   const good = idxOffHtml({ searchUrl: "https://homes.example.com/", message: msg });
   check("links to the server's URL with the message", good.includes('href="https://homes.example.com/"') && good.includes(msg));
   const none = idxOffHtml({});
-  check("no URL from the server -> the default", none.includes('href="https://www.thelittleladysellshomes.com"') && none.includes(msg));
+  // 2026-09-28: the default is this site's search page, which hands off to her
+  // Lofty home search (netlify/functions/home-search.js). It used to be this
+  // site's home page -- whose search passed through to Signature's, which pointed
+  // back here: with display off, each site's button led to the other.
+  check("no URL from the server -> the search page", none.includes('href="/search-homes.html"') && none.includes(msg));
   const bad = idxOffHtml({ searchUrl: "javascript:alert(1)", message: "<img src=x onerror=alert(1)>" });
   check("a javascript: URL is never linked", !bad.includes("javascript:"));
   check("the message is escaped", !bad.includes("<img"));

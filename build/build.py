@@ -1791,21 +1791,53 @@ def _paced_photo_js():
 """
 
 
+# 2026-09-28: where the live listings come from -- Lofty unless LISTINGS_SOURCE
+# says "mlsgrid". This site's listing data comes through the shared Signature
+# backend (netlify/functions/lib/_sig-proxy.js), so this must agree with
+# LISTINGS_SOURCE on the Signature deployment: set it on BOTH sites to switch back.
+# On Lofty, this site shows Christine's own listings and every home search opens
+# her Lofty site (netlify/functions/home-search.js).
+LISTINGS_SOURCE = "mlsgrid" if (os.environ.get("LISTINGS_SOURCE") or "").strip().lower() == "mlsgrid" else "lofty"
+_VIA_GRID = LISTINGS_SOURCE == "mlsgrid"
+
+
 def _mls_disclaimer_html(fetched_at_id="mls-fetched-at"):
-    """The MLS Grid IDX Rule 26 disclaimer block, shared by every page that
-    displays live MLS Grid data (search-homes.html and current-listings.html)
-    so the required legal text only has to be kept correct in one place.
+    """The IDX Rule 26 disclaimer block, shared by every page that displays live
+    IRES data (search-homes.html and current-listings.html) so the required legal
+    text only has to be kept correct in one place.
+
+    2026-09-28: MLS Grid is named only while it is the source. "As distributed by
+    MLS Grid" is MLS Grid's own licence requirement, and printing it over data
+    that now comes from IRES through Lofty would be false. The rest is the
+    standard IRES IDX text either way. Same wording as Signature's build.py.
     See https://www.mlsgrid.com/s/MLS-Grid-IDX-Rules.pdf ."""
+    via = "\n      as distributed by MLS Grid" if _VIA_GRID else ""
+    submitted_to = "MLS Grid" if _VIA_GRID else "the MLS"
+    verified_by = "MLS Grid" if _VIA_GRID else "MLS"
     return f"""<div class="mls-disclaimer">
-      <p><span class="mls-source-badge">Source: IRES MLS</span> — Listings courtesy of IRES MLS
-      as distributed by MLS Grid. Based on information submitted to MLS Grid as of
+      <p><span class="mls-source-badge">Source: IRES MLS</span> — Listings courtesy of IRES MLS{via}. Based on information submitted to {submitted_to} as of
       <span id="{fetched_at_id}">page load</span>. All data is obtained from various sources and may
-      not have been verified by broker or MLS Grid. Supplied open house information is subject to
+      not have been verified by broker or {verified_by}. Supplied open house information is subject to
       change without notice. All information should be independently reviewed and verified for
       accuracy. Properties may or may not be listed by the office/agent presenting the information.
       Some IDX listings have been excluded from this website. Offer of compensation is made only to
       participants of the MLS where the listing is filed.</p>
     </div>"""
+
+
+def _city_search_lede(city, county_name, county_cities_qs):
+    """The line above a town page's search. 2026-09-28: on Lofty the search opens
+    her Lofty home search (netlify/functions/home-search.js), so it no longer
+    promises listings shown on this page."""
+    county_link = (f'<a href="/search-homes.html?cities={county_cities_qs}" '
+                   f'style="text-decoration:underline">search all of {esc(county_name)} at once</a>')
+    if _VIA_GRID:
+        return (f"Every active {esc(city)} listing from IRES MLS, any price range —\n"
+                f"    updated every 15 minutes, not a stale snapshot. Filter by price, beds, and baths\n"
+                f"    below, or {county_link}.")
+    return (f"Every {esc(city)} home for sale, at any price, on my home search — live from\n"
+            f"    the MLS. Set your price, beds and baths below and tap Search Homes, or\n"
+            f"    {county_link}.")
 
 
 def _idx_off_js():
@@ -1820,7 +1852,7 @@ def _idx_off_js():
     return r"""
   function idxOffHtml(data) {
     var url = (data && typeof data.searchUrl === 'string' && /^https?:\/\//i.test(data.searchUrl))
-      ? data.searchUrl : 'https://www.thelittleladysellshomes.com';
+      ? data.searchUrl : '/search-homes.html';
     var msg = (data && typeof data.message === 'string' && data.message) || 'Search homes on my home-search site';
     var e = function (s) {
       return String(s).replace(/[&<>"']/g, function (c) {
@@ -2707,6 +2739,10 @@ def _fancy_search_widget(wid, search_cities=None, fixed_city=None, support_deep_
   //     quick checkbox clicks collapse into one request.
   var inflight = null;
   var autoTimer = null;
+  // 2026-09-28: on Lofty, listings-search answers a public search with where to
+  // find it (reason "home_search": her Lofty home search, same filters). A
+  // filter change shows that as a button; tapping Search Homes goes straight there.
+  var goOnHandoff = false;
   var resultCache = {{}};
   var resultCacheKeys = [];
   var CACHE_TTL_MS = 2 * 60 * 1000;
@@ -2714,6 +2750,11 @@ def _fancy_search_widget(wid, search_cities=None, fixed_city=None, support_deep_
 {_idx_off_js()}
   function renderResults(data, fetchedAt) {{
     if (data.idxUnavailable) {{
+      if (goOnHandoff && data.reason === 'home_search' && /^https?:\/\//i.test(String(data.searchUrl || ''))) {{
+        goOnHandoff = false;
+        window.location.href = data.searchUrl;
+        return;
+      }}
       statusEl.innerHTML = idxOffHtml(data);
       loadMoreBtn.style.display = 'none';
       return;
@@ -2781,6 +2822,7 @@ def _fancy_search_widget(wid, search_cities=None, fixed_city=None, support_deep_
   // Change a filter and the results just follow -- the Search Homes button
   // still works, but nobody has to find it.
   function autoSearch() {{
+    goOnHandoff = false;
     clearTimeout(autoTimer);
     autoTimer = setTimeout(function () {{ runSearch(true); }}, 350);
   }}
@@ -2837,6 +2879,7 @@ def _fancy_search_widget(wid, search_cities=None, fixed_city=None, support_deep_
   form.addEventListener('submit', function (e) {{
     e.preventDefault();
     clearTimeout(autoTimer);
+    goOnHandoff = true;
     runSearch(true);
   }});
   // 2026-08-18: every control in the form now auto-runs the search on change --
@@ -7053,9 +7096,12 @@ def _moving_to_block(city, county_name, school_district, commute, relocate_extra
     else:
         cards.append((
             f"What Homes Cost In {city}",
-            f"The live IRES MLS feed further down this page shows every active {city} listing "
-            f"at its real asking price, updated every 15 minutes, and the monthly Northern "
-            f"Colorado market report tracks where the numbers are heading.",
+            (f"The live IRES MLS feed further down this page shows every active {city} listing "
+             f"at its real asking price, updated every 15 minutes, and the monthly Northern "
+             f"Colorado market report tracks where the numbers are heading.") if _VIA_GRID else
+            (f"The home search further down this page opens every active {city} listing at its "
+             f"real asking price, live from the MLS, and the monthly Northern Colorado market "
+             f"report tracks where the numbers are heading."),
         ))
     cards_html = "\n      ".join(
         f"""<div class="card">
@@ -7384,6 +7430,11 @@ def build_city_pages():
                     f"Browse live, active IRES MLS listings in {esc(city)} below — updated in "
                     f"real time, not a stale snapshot — or reach out and we'll send you a "
                     f"curated list matched to what you're looking for."
+                ) if _VIA_GRID else (
+                    # 2026-09-28: the search below now opens her Lofty home search.
+                    f"Search every active {esc(city)} listing below — it opens my home search, "
+                    f"live from the MLS — or reach out and we'll send you a curated list matched "
+                    f"to what you're looking for."
                 )
                 # 2026-08-13 (Christine's request, applied here after
                 # search-homes.html): same fix as that page -- no more
@@ -7399,10 +7450,7 @@ def build_city_pages():
   <div class="wrap">
     <span class="eyebrow eyebrow-clear" style="color:var(--dusty-rose)">Live IRES MLS Inventory</span>
     <h2 class="section-title">Search Homes In {esc(city)}</h2>
-    <p class="lede">Every active {esc(city)} listing from IRES MLS, any price range —
-    updated every 15 minutes, not a stale snapshot. Filter by price, beds, and baths
-    below, or <a href="/search-homes.html?cities={county_cities_qs}" style="text-decoration:underline">search
-    all of {esc(c['name'])} at once</a>.</p>
+    <p class="lede">{_city_search_lede(city, c['name'], county_cities_qs)}</p>
     {widget_html}
   </div>
 </section>
@@ -10723,7 +10771,7 @@ def build_blog():
     <span class="eyebrow" style="color:var(--dusty-rose)">Currently Listed</span>
     <h2 class="card-title" style="margin-top:6px">One Of {esc(SITE['agent'].split()[0])}'s Active Listings</h2>
     <div class="listing-grid" style="grid-template-columns:1fr;max-width:420px" id="listing-spotlight"></div>
-    <p class="search-status"><span class="mls-source-badge">Source: IRES MLS</span> via MLS Grid &middot;
+    <p class="search-status"><span class="mls-source-badge">Source: IRES MLS</span>{" via MLS Grid" if _VIA_GRID else ""} &middot;
     <a href="/current-listings.html" style="text-decoration:underline">See all current listings &amp; full disclaimer</a></p>
   </div>
 </section>
@@ -13534,9 +13582,12 @@ def _explore_map_embed(height="min(82vh,860px)", min_h="520px"):
     # first frame and nothing there is slower. rootMargin is wider than the
     # 200px inside explore-map.js so the file has arrived by the time its own
     # observer wants it. Same pattern as the county map's Leaflet loader.
+    # 2026-09-28: tells the map where the home search lives (explore-map.js
+    # LOFTY_SEARCH): on Lofty, her Lofty site, reached through /search-homes.html.
+    _home_search_flag = "" if _VIA_GRID else " window.SPC_HOME_SEARCH = 'lofty';"
     return (
         f'<div id="spc-explore" style="height:{height};min-height:{min_h}"></div>\n'
-        f'  <script>window.SPC_EXPLORE_MARKET = {json.dumps(market, separators=(",", ":"))};</script>\n'
+        f'  <script>window.SPC_EXPLORE_MARKET = {json.dumps(market, separators=(",", ":"))};{_home_search_flag}</script>\n'
         """  <script>
   (function () {
     var host = document.getElementById('spc-explore');
@@ -14240,6 +14291,20 @@ def build_redirects_and_meta(extra_paths=None):
     # resolve, because the fix for "the human typed the other obvious name" is an
     # alias, not a reminder to type it correctly.
     redirect_lines += ["/site-health  /.netlify/functions/site-health  200"]
+    # 2026-09-28 (Christine approved it: "lets do it!!!"): every home search opens
+    # her Lofty site, which was faster from click to data. Every "Search Homes"
+    # link and form here points at /search-homes.html, most with filters in the
+    # query string, so the page itself hands off: netlify/functions/home-search.js
+    # passes the query to the shared Signature backend, which answers with a 302 to
+    # the same search on her Lofty site. Forced (200!), because the static page
+    # still ships (it is what LISTINGS_SOURCE=mlsgrid serves) and Netlify serves a
+    # file before it reads a plain rule. Listed ahead of the trailing-slash rules
+    # below so /search-homes and /search-homes/ go straight there.
+    if not _VIA_GRID:
+        redirect_lines += [
+            f"{_p}  /.netlify/functions/home-search  200!"
+            for _p in ("/search-homes.html", "/search-homes/", "/search-homes")
+        ]
     # 2026-08-17: a redirect pointing at a page that does not exist is worse than
     # the 404 it replaced -- it looks deliberate, and Google reports it as a soft
     # 404 rather than as a missing page. Every destination is checked against the
