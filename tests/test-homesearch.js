@@ -51,12 +51,32 @@ const check = (l, c, x) => { if (c) console.log(`  ok   ${l}`); else { failures+
   check("with the visitor's filters", asked.searchParams.get("cities") === "Loveland" &&
     asked.searchParams.get("maxPrice") === "650000" && asked.searchParams.get("beds") === "3");
   check("and noFloor=true, because this site searches every price", asked.searchParams.get("noFloor") === "true");
+  check("and site=thelittleladysellshomes, so the Lofty link credits this site (utm_source)",
+    asked.searchParams.get("site") === "thelittleladysellshomes");
   check("the backend's redirect reaches the visitor unchanged",
     res.statusCode === 302 && res.headers.location === "https://theboldcollectivehomes.com/listing?condition=x", JSON.stringify(res.headers));
   check("it does not follow the redirect itself", seen[0].init && seen[0].init.redirect === "manual");
   seen.length = 0;
   await handler({ rawQuery: "city=Windsor&noFloor=false&minPrice=950000", headers: {} });
   check("a link that says otherwise keeps its own noFloor", new URL(seen[0].url).searchParams.get("noFloor") === "false");
+  seen.length = 0;
+  await handler({ rawQuery: "city=Windsor&site=signaturepropertycollection", headers: {} });
+  check("a link can't pass itself off as the other site", new URL(seen[0].url).searchParams.get("site") === "thelittleladysellshomes");
+  seen.length = 0;
+  const searchHandler = require(path.join(ROOT, "netlify", "functions", "listings-search.js")).handler;
+  await searchHandler({ rawQuery: "cities=Berthoud&noFloor=true", headers: {} });
+  const askedSearch = new URL(seen[0].url);
+  check("the search widgets' pass-through says site=thelittleladysellshomes too, filters intact",
+    askedSearch.pathname === "/.netlify/functions/listings-search" &&
+    askedSearch.searchParams.get("site") === "thelittleladysellshomes" && askedSearch.searchParams.get("cities") === "Berthoud");
+
+  console.log("\n2b. Google Analytics counts the hand-off (a redirect is never a page view)");
+  const roiPy = fs.readFileSync(path.join(ROOT, "build", "postprocess_roi_conversion.py"), "utf8");
+  check("the ROI client sends home_search_handoff for Search Homes links and forms",
+    /'home_search_handoff'/.test(roiPy) && /a\[href\*="\/search-homes"\]/.test(roiPy) && /handoff\('search-form'\)/.test(roiPy));
+  check("with page and button only -- never the search", /home_search_handoff', \{cta_id: cta, page_path: location\.pathname \|\| '\/', transport_type: 'beacon'\}/.test(roiPy));
+  check("\"Search Loveland Homes\" on the Loveland market report opens Loveland",
+    /href="\/search-homes\.html\?cities=Loveland&amp;noFloor=true" data-roi-cta="loveland-market-buy-search"/.test(roiPy));
 
   console.log("\n3. The built pages");
   const home = fs.readFileSync(path.join(SITE, "index.html"), "utf8");

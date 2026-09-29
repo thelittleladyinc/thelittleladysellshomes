@@ -225,7 +225,7 @@ def loveland_block() -> str:
       <div class="card">
         <h3>Thinking about buying?</h3>
         <p>Market averages are useful context, but the homes available in your actual price range are what matter.</p>
-        <a class="btn btn-dark" href="/search-homes.html" data-roi-cta="loveland-market-buy-search">Search Loveland Homes</a>
+        <a class="btn btn-dark" href="/search-homes.html?cities=Loveland&amp;noFloor=true" data-roi-cta="loveland-market-buy-search">Search Loveland Homes</a>
       </div>
       <div class="card">
         <h3>Own a Loveland home?</h3>
@@ -393,6 +393,19 @@ CLIENT_JS = r"""(function () {
     var el = event.target && event.target.closest ? event.target.closest('[data-roi-cta]') : null;
     if (!el) return;
     if (typeof window.gtag === 'function') window.gtag('event', 'roi_cta_click', {cta_id: el.getAttribute('data-roi-cta') || 'unknown', page_path: location.pathname || '/'});
+  });
+  // Search Homes is a redirect to Christine's Lofty site, never a page view, so
+  // count the hand-off itself: page and button (or form) only, never the search.
+  function handoff(cta) {
+    if (typeof window.gtag === 'function') window.gtag('event', 'home_search_handoff', {cta_id: cta, page_path: location.pathname || '/', transport_type: 'beacon'});
+  }
+  document.addEventListener('click', function (event) {
+    var a = event.target && event.target.closest ? event.target.closest('a[href*="/search-homes"]') : null;
+    if (a) handoff(a.getAttribute('data-roi-cta') || 'link');
+  });
+  document.addEventListener('submit', function (event) {
+    var f = event.target;
+    if (f && f.getAttribute && /\/search-homes/.test(f.getAttribute('action') || '')) handoff('search-form');
   });
 })();"""
 
