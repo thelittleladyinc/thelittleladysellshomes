@@ -12,6 +12,15 @@
 //   - the teacher-commission and 2023 client-appreciation offers are gone;
 //   - the veterans offer itself is still there.
 //
+// Later the same day, Christine: "lets change all 1000 to 500 instead". The
+// only $1,000 offer left was her teacher incentive ("$1000 incentive to Teacher
+// Clients to help with closing costs or down payments", on the teacher-grants
+// and special-buyer-programs pages). It stays, at $500. So a "$500 ... closing
+// cost" sentence may also be that teacher incentive (the sentence names
+// teachers), and no page may offer $1,000 any more. The $1,000 figures that are
+// facts, not offers (title insurance, a boundary survey, one loan point, a
+// year of insurance due at closing), are untouched.
+//
 // Why the sentence and not the whole page: every page's RealEstateAgent
 // JSON-LD lists "VA loans and military relocation" (knowsAbout), so "the page
 // mentions VA" is true everywhere and would never catch a non-veteran promise.
@@ -76,6 +85,12 @@ function segments(html) {
 const FIVE_HUNDRED = /\$\s?500(?:\.00)?(?!\d|,\d)/g;
 const CLOSING = /closing[\s-]*costs?/i;
 const VETERAN_WORD = (s) => /\bveterans?\b|\bserved\b/i.test(s) || /\bVA\b/.test(s);
+const TEACHER_WORD = (s) => /\bteachers?\b/i.test(s);
+// "$1,000" / "$1000" as an amount: not $1,000,000 or $10,000.
+const ONE_THOUSAND = /\$\s?1,?000(?:\.00)?(?!\d|,\d)/g;
+// Her offer wording, as it appeared on the old pages ("offers a $1000 incentive",
+// "offers $1000 to teacher clients", "$1000 off at closing").
+const OFFER = /\bincentive\b|\boffers?\b|\boff at closing\b|\btoward (?:your |their )?closing\b/i;
 
 function sentenceAt(seg, from, to) {
   const before = seg.slice(0, from).match(/^[\s\S]*[.!?]["”’)]*\s/);
@@ -94,7 +109,19 @@ function closingCostMentions(html) {
       const a = m.index, b = a + m[0].length;
       if (!CLOSING.test(seg.slice(Math.max(0, a - 120), b + 120))) continue;
       const sentence = sentenceAt(seg, a, b);
-      found.push({ sentence, veterans: veteransPage || VETERAN_WORD(sentence) });
+      found.push({ sentence, veterans: veteransPage || VETERAN_WORD(sentence), teachers: TEACHER_WORD(sentence) });
+    }
+  }
+  return found;
+}
+
+// Every sentence on one page that offers $1,000.
+function thousandOffers(html) {
+  const found = [];
+  for (const seg of segments(html)) {
+    for (const m of seg.matchAll(ONE_THOUSAND)) {
+      const sentence = sentenceAt(seg, m.index, m.index + m[0].length);
+      if (OFFER.test(sentence)) found.push(sentence);
     }
   }
   return found;
@@ -110,21 +137,32 @@ check("a veterans promise is not",
   closingCostMentions("<p>Veterans: I put <strong>$500 toward your closing costs</strong> when you buy with me.</p>").every((x) => x.veterans));
 check("\"VA\" elsewhere on the page doesn't excuse the sentence",
   closingCostMentions("<p>VA loans and military relocation.</p><p>Get $500 toward closing costs when you buy or list.</p>").some((x) => !x.veterans));
+check("the teacher incentive is recognised as the teacher offer",
+  closingCostMentions("<p>She offers a $500 incentive to Teacher Clients to help with closing costs or down payments.</p>").every((x) => x.teachers));
+check("\"$1000 incentive\" and \"offers $1,000\" are $1,000 offers",
+  thousandOffers("<p>That's why she offers a $1000 incentive to Teacher Clients.</p>").length === 1 &&
+  thousandOffers('<meta name="description" content="The Little Lady Sells Homes offers $1,000 to teacher clients.">').length === 1);
+check("a $1,000 cost fact is not an offer",
+  thousandOffers("<p>This can be an extra $1,000 to $2,000 or even more due at closing.</p>").length === 0 &&
+  thousandOffers("<p>Boundary Survey: $1,000–$2,500+ depending on acreage and terrain.</p>").length === 0);
+check("\"$1,000,000\" and \"$10,000\" are not $1,000", [..."offers $1,000,000 and $10,000".matchAll(ONE_THOUSAND)].length === 0);
 
-console.log("\n1. Every $500 closing-cost mention on the site is the veterans offer");
+console.log("\n1. Every $500 closing-cost mention on the site is the veterans offer or the teacher incentive");
 const files = htmlFiles(SITE);
 check(`there are built pages to scan (${files.length})`, files.length > 500);
 const offenders = [];
-let veteranMentions = 0;
+let veteranMentions = 0, teacherMentions = 0;
 for (const f of files) {
   for (const x of closingCostMentions(fs.readFileSync(f, "utf8"))) {
     if (x.veterans) veteranMentions++;
+    else if (x.teachers) teacherMentions++;
     else offenders.push(`${path.relative(SITE, f)}: "${x.sentence.slice(0, 140)}"`);
   }
 }
-check("no page promises $500 toward closing costs to anyone but veterans", offenders.length === 0,
+check("no page promises $500 toward closing costs to anyone but veterans and teachers", offenders.length === 0,
   `\n        ${offenders.join("\n        ")}`);
 check(`the scan did find the veterans offer (${veteranMentions} mentions)`, veteranMentions > 0);
+check(`the scan did find the teacher incentive (${teacherMentions} mentions)`, teacherMentions > 0);
 
 console.log("\n2. The other closing-cost offers are gone");
 const withPhrase = (re) => files.filter((f) => {
@@ -146,6 +184,18 @@ check("…toward closing costs", closingCostMentions(vet).some((x) => x.veterans
 const sbp = text(read("special-buyer-programs.html"));
 check("special-buyer-programs keeps its veterans offer",
   sbp.includes("Special Offer for Veterans") && sbp.includes("Christine offers $500 to assist with closing costs"));
+
+console.log("\n4. The teacher incentive is $500, and no page offers $1,000");
+const thousand = [];
+for (const f of files) {
+  for (const s of thousandOffers(fs.readFileSync(f, "utf8"))) thousand.push(`${path.relative(SITE, f)}: "${s.slice(0, 140)}"`);
+}
+check("no page offers $1,000 (title, meta, JSON-LD or body)", thousand.length === 0, `\n        ${thousand.join("\n        ")}`);
+const tg = text(read("teacher-home-buying-grants.html"));
+check("teacher-home-buying-grants offers teachers $500",
+  tg.includes("That's why she offers a $500 incentive to Teacher Clients to help with closing costs or down payments."));
+check("special-buyer-programs offers teachers $500",
+  sbp.includes("To help, Christine offers a $500 incentive to teacher clients to assist with closing costs or down payments."));
 
 console.log(failures === 0 ? "\nAll checks passed.\n" : `\n${failures} FAILED\n`);
 process.exit(failures ? 1 : 0);
