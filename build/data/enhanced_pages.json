@@ -326,6 +326,38 @@
       ]
     ]
   },
+  "/homes-for-sale-in-northern-colorado": {
+    "written": "2026-09-29",
+    "basis": "Search Console: this page and its old extensionless URL are what Google shows for 'homes for sale in northern colorado' / 'homes northern colorado' (iHouseWeb-era export, 480 days: about 350 impressions at positions ~50-57; theboldcollectivehomes.com, 16 months: 'homes northern colorado' 80 impressions at ~82). Before this it was reachable only from the site directory, and its copy did not answer the query. Links out to every town's listings page, so those pages get a real inbound link too.",
+    "metaDescription": "Homes for sale across Northern Colorado, town by town: Loveland, Fort Collins, Greeley, Windsor, Nunn and more, plus acreage and multigenerational homes.",
+    "intro": [
+      "Northern Colorado is several housing markets that happen to share a name. Fort Collins, Loveland, Berthoud, Wellington and Timnath sit on the Larimer County side, closest to the foothills. Greeley, Eaton, Severance, Milliken and Mead are in Weld County, and Windsor and Johnstown straddle the county line. Past them are the small towns (Ault, Pierce, Nunn, Carr, Briggsdale), where most buyers are really shopping for land and room. One search across all of it mostly shows you whatever listed last, not what fits.",
+      "So start with the town. Each link below opens that town's current listings, and every town has a longer guide covering the drive, the school district that serves it and what the housing actually looks like there. When you want to filter by price, bedrooms or acreage across the whole region, [search every Northern Colorado listing](/search-homes.html)."
+    ],
+    "sections": [
+      {
+        "h2": "Homes for sale by town",
+        "paragraphs": [
+          "**Larimer County:** [Loveland](/homes-for-sale-in-loveland-co.html) · [Fort Collins](/homes-for-sale-in-fort-collins-co.html) · [Berthoud](/homes-for-sale-in-berthoud-co.html) · [Wellington](/homes-for-sale-in-wellington-co.html) · [Timnath](/homes-for-sale-in-timnath-co.html) · [Windsor](/homes-for-sale-in-windsor-co.html) · [Estes Park](/homes-for-sale-in-estes-park-co.html) · [Red Feather Lakes](/homes-for-sale-in-red-feather-lakes-co.html)",
+          "**Weld County:** [Greeley](/homes-for-sale-in-greeley-co.html) · [Evans](/homes-for-sale-in-evans-co.html) · [Eaton](/homes-for-sale-in-eaton-co.html) · [Aspen Meadows in Eaton](/homes-for-sale-in-aspen-meadows-eaton-co.html) · [Severance](/homes-for-sale-in-severance-co.html) · [Johnstown](/homes-for-sale-in-johnstown-co.html) · [Milliken](/homes-for-sale-in-milliken-co.html) · [Mead](/homes-for-sale-in-mead-co.html) · [Platteville](/homes-for-sale-in-platteville-co.html) · [Ault](/homes-for-sale-in-ault-co.html) · [Pierce](/homes-for-sale-in-pierce-co.html) · [Nunn](/homes-for-sale-in-nunn-co.html) · [Carr](/homes-for-sale-in-carr-co.html) · [Briggsdale](/homes-for-sale-in-briggsdale-co.html)",
+          "**Boulder County:** [Longmont](/homes-for-sale-in-longmont-co.html)",
+          "Still choosing between towns? [Compare them side by side](/communities/index.html). Every town guide covers the commute, the school district and the local spots worth knowing."
+        ]
+      },
+      {
+        "h2": "Homes with land and acreage",
+        "paragraphs": [
+          "Acreage is where Northern Colorado purchases go wrong most often, because the house is the easy part. Wells, septic, irrigation water, road access, zoning and what you are allowed to build all change from parcel to parcel. Before you fall for a property, read [what buying land in Northern Colorado involves](/buying-land-northern-colorado.html), [when an ILC isn't enough and you need a full survey](/what-is-an-ilc-and-when-should-you-get-a-full-survey.html) and [what it really costs to develop raw land](/whats-the-real-cost-to-develop-raw-land-in-colorado.html). Then send me the listing and I'll help you sort out which questions to ask first, and which of them belong with a surveyor, well inspector or attorney."
+        ]
+      },
+      {
+        "h2": "Homes for the way you actually live",
+        "paragraphs": [
+          "Some searches don't fit a price-and-bedrooms filter. If the home needs a second living space, such as an in-law suite, a walkout with a kitchenette, a guest house or an ADU, start with [multigenerational homes](/multi-generational-homes-for-sale-in-northern-colorado-find-your-familys-fit.html). If owning isn't possible yet, [rent-to-own and other paths to ownership](/rent-to-own.html) lays out the options and their trade-offs. For homes near the water, see [Northern Colorado lake homes](/northern-colorado-lake-homes.html). Estate and luxury homes have their own site, [Signature Property Collection](https://signaturepropertycollection.com/)."
+        ]
+      }
+    ]
+  },
   "/day-trips-from-loveland-co": {
     "title": "Things To Do in Loveland, CO & The Best Day Trips From Town",
     "metaDescription": "A local's list: the best things to do in Loveland, Colorado — art, trails, lakes, downtown — plus the scenic drives and day trips that make living here worth it, from Estes Park to the Poudre Canyon.",

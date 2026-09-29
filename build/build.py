@@ -5249,6 +5249,10 @@ def build_home():
       <div class="county-list">
         {county_btns}
       </div>
+      <!-- 2026-09-29: the town-by-town listings hub had no link from anywhere but
+           the site directory, so Google treated it as unimportant for "homes for
+           sale in Northern Colorado" (see enhanced_pages.json). -->
+      <p style="margin:16px 0 0"><a href="/homes-for-sale-in-northern-colorado.html" style="color:#fff;text-decoration:underline">Homes for sale across Northern Colorado, town by town &rsaquo;</a></p>
       <!-- Filled in by map.js once the spots load, and left empty if they don't:
            chips for the kinds of places Christine actually goes, so a visitor can
            look for somewhere to eat rather than reading every pin. Deliberately
@@ -5855,7 +5859,8 @@ def _town_directory_block():
     <h2 class="section-title">All {total} Towns We Cover</h2>
     <p class="lede">Each one has its own page with live listings, what the area is
     actually like, and — where {esc(SITE['agent'].split()[0])} has filmed there — the
-    local spots worth knowing about.</p>
+    local spots worth knowing about. Want the listings first?
+    <a href="/homes-for-sale-in-northern-colorado.html">Homes for sale across Northern Colorado, town by town</a>.</p>
     <div class="town-dir">
       {"".join(cols)}
     </div>
