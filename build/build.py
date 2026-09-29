@@ -4859,16 +4859,27 @@ def _meta_pixel_tag():
         # pointer -- or for the tab being hidden, which is what a bounce looks
         # like. Lead and Contact are unaffected either way: both require an
         # interaction that already triggers the load.
+        #
+        # 2026-09-29: except that stopped being true for Lead. Since 2026-09-24
+        # the confirmed conversion fires on the THANK-YOU page load (see
+        # postprocess_audit_fixes._ensure_confirmed_meta_lead), and a visitor
+        # who reads "thank you" and closes the tab never scrolls or taps -- so
+        # the conversion sat in the queue until the hidden-tab path, which a
+        # closing tab doesn't wait for. The thank-you page now loads the script
+        # straight away (it is noindex; its speed score costs nothing). And
+        # visibilitychange is no longer `once`: a tab opened in the background
+        # turns visible first, and that used up the listener.
         "!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){"
         "n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};"
         "if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';"
         "n.queue=[];var L=!1,G=function(){if(L)return;L=!0;"
         "t=b.createElement(e);t.async=!0;t.src=v;"
         "s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)};"
+        r"if(/^\/thank-you(\.html)?\/?$/.test(f.location.pathname))G();else{"
         "['pointerdown','keydown','touchstart','scroll'].forEach(function(x){"
         "b.addEventListener(x,G,{once:!0,passive:!0})});"
         "b.addEventListener('visibilitychange',function(){"
-        "if(b.visibilityState==='hidden')G()},{once:!0})}"
+        "if(b.visibilityState==='hidden')G()})}}"
         "(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');"
         f"fbq('init','{pid}');fbq('track','PageView');"
         "document.addEventListener('submit',function(e){"
