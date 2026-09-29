@@ -225,7 +225,7 @@ function resp(status, body) {
   await handler(event("spouse@example.com"));
   rec = pushes[pushes.length - 1];
   check("phone-only match: tags added not replaced, but no task, no fields, and the note goes to the create's own id",
-    Array.isArray(rt.bodies[0].tagsAdd) && rec.returningResult === undefined && !rt.calls.includes("POST /v2.0/tasks") &&
+    Array.isArray(rt.bodies[0].tagsAdd) && !(rec.returningResult && rec.returningResult.attempted) && !rt.calls.includes("POST /v2.0/tasks") &&
     !rt.calls.some((c) => c.startsWith("PUT ")) && rec.existing.anyMatch === true, JSON.stringify(rt.calls));
 
   rt = route([]);
@@ -234,8 +234,44 @@ function resp(status, body) {
   await handler(event("new.person@example.com"));
   rec = pushes[pushes.length - 1];
   check("lookup down: the lead still goes to Lofty and her inbox, and nothing new is attempted",
-    rec.ok === true && rec.emailResult.ok === true && !rec.returningResult && !rec.fieldsResult &&
-    Array.isArray(rt.bodies[0].tags) && !rt.calls.includes("POST /v2.0/tasks") && !rt.calls.some((c) => c.startsWith("PUT ")));
+    rec.ok === true && rec.emailResult.ok === true && !(rec.returningResult && rec.returningResult.attempted) &&
+    !(rec.fieldsResult && rec.fieldsResult.attempted) &&
+    !rt.calls.includes("POST /v2.0/tasks") && !rt.calls.some((c) => c.startsWith("PUT ")));
+  // Second review: "can't tell" must never be treated as "new" -- a slow or
+  // rate-limited lookup for a returning client would otherwise REPLACE their tags.
+  check("lookup down: the form's tags are ADDED (tagsAdd), never replacing a possible client's",
+    Array.isArray(rt.bodies[0].tagsAdd) && rt.bodies[0].tagsAdd.includes("Hot Lead - Website") && !("tags" in rt.bodies[0]),
+    JSON.stringify(rt.bodies[0]));
+
+  console.log("\n5b. Time: the create can't starve the backup email");
+  const L = require(`${FN_DIR}/lib/_lofty.js`);
+  const tDeadline = Date.now();
+  global.fetch = (url, init) => new Promise((resolve, reject) => {
+    init.signal.addEventListener("abort", () => reject(new Error("aborted")));
+  });
+  // AbortSignal.timeout's timer doesn't hold the event loop open; this does.
+  const holdOpen = setTimeout(() => {}, 5000);
+  let pr = await L.postLead({ emails: ["x@example.com"], tags: ["a"] }, "k", { deadline: Date.now() + 400 });
+  clearTimeout(holdOpen);
+  check("a hung Lofty stops at the caller's deadline, not after two 6-second attempts",
+    pr.ok === false && pr.httpStatus === 0 && Date.now() - tDeadline < 1500, `${Date.now() - tDeadline}ms`);
+  let postCalls = 0;
+  global.fetch = async () => { postCalls++; return resp(400, "bad shape"); };
+  pr = await L.postLead({ emails: ["x@example.com"], tags: ["a"] }, "k", { deadline: Date.now() + 1000 });
+  check("with under 1.5 seconds left, the minimal-shape retry is skipped (the lead is emailed and queued)",
+    postCalls === 1 && pr.ok === false && /no time left/.test(pr.payloadShape), `${postCalls} calls, ${pr.payloadShape}`);
+  postCalls = 0;
+  pr = await L.postLead({ emails: ["x@example.com"], tags: ["a"] }, "k");
+  check("without a deadline it behaves as before (full, then minimal)", postCalls === 2 && /both rejected/.test(pr.payloadShape));
+  check("the handler's create deadline leaves room for the email", L.MIN_RETRY_MS === 1500 &&
+    /CREATE_DEADLINE_MS = 7000/.test(require("fs").readFileSync(`${FN_DIR}/submission-created.js`, "utf8")));
+  const queueStore = { data: { "lofty-failed-pushes.json": [{ at: "x", formName: "contact", lead: { emails: ["q@example.com"], tags: ["Hot Lead - Website"] } }] },
+    get: async (k) => queueStore.data[k] || null, setJSON: async (k, v) => { queueStore.data[k] = v; } };
+  const replayed = [];
+  global.fetch = async (url, init) => { replayed.push(JSON.parse(init.body)); return resp(200, { data: { leadId: 5 } }); };
+  const dr = await L.drainFailedPushes(queueStore, "k");
+  check("a queued retry ADDS its tags (the contact may exist by now) instead of replacing them",
+    dr.recovered === 1 && replayed[0] && Array.isArray(replayed[0].tagsAdd) && !("tags" in replayed[0]), JSON.stringify(replayed[0]));
 
   console.log("\n6. Same module as the shared backend (Signature)");
   const fs = require("fs");
