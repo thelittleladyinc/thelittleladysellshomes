@@ -119,6 +119,26 @@ def _normalize_for_change_detection(text: str) -> str:
     # /index.html (_home_links_to_root). Same link either way; a committed site/
     # holding either form must not make every page look edited.
     text = re.sub(r'href="/(?:index\.html)?(?=[#?"])', 'href="HOME', text)
+    # 2026-09-29: the analytics tags exist ONLY in production builds -- GA
+    # (GA_MEASUREMENT_ID), the Meta Pixel (META_PIXEL_ID) and Search Console
+    # verification (GSC_VERIFICATION) are Netlify environment variables, and
+    # the committed site/ this compares against is built without them. So on
+    # Netlify every page differed from its committed copy on every deploy, and
+    # every deploy dated every page "today": the live sitemap on 2026-09-29 said
+    # 719 of 735 pages had just been edited, blog posts from October 2024
+    # included. Tracking tags are infrastructure, not content (CLAUDE.md,
+    # Freshness rule 2), so they are removed from BOTH sides of the comparison.
+    text = re.sub(r'<link rel="preconnect" href="https://www\.googletagmanager\.com" crossorigin>', '', text)
+    text = re.sub(r'<link rel="dns-prefetch" href="https://connect\.facebook\.net">', '', text)
+    text = re.sub(r'<script async src="https://www\.googletagmanager\.com/gtag/js\?id=[^"]*"></script>', '', text)
+    text = re.sub(r'<script>window\.dataLayer=window\.dataLayer\|\|\[\];function gtag\(\)[\s\S]*?</script>', '', text)
+    text = re.sub(r'<script>!function\(f,b,e,v,n,t,s\)\{if\(f\.fbq\)return;[\s\S]*?</script>', '', text)
+    text = re.sub(r'<noscript><img height="1" width="1" style="display:none" '
+                  r'src="https://www\.facebook\.com/tr\?[^"]*"/></noscript>', '', text)
+    text = re.sub(r'<meta name="google-site-verification" content="[^"]*">', '', text)
+    # The template leaves an empty line where each unset tag would go; drop
+    # blank lines on both sides so the tags' absence can't differ either.
+    text = re.sub(r"\n[ \t]*(?=\n)", "", text)
     # 2026-09-24: the lead-submit marker (build.py _lead_submit_marker) is
     # measurement plumbing on every page, not copy -- same rule as above.
     text = re.sub(r'<script>(?:(?!</script>)[\s\S])*?tll_lead_submit[\s\S]*?</script>\n?', '', text)
