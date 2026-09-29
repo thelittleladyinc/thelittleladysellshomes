@@ -21,6 +21,7 @@ from postprocess_audit_fixes import (
     _read,
     _redirect_map,
     _rewrite_internal_redirect_links,
+    _home_links_to_root,
     _set_freshness,
     _strip_public_gsc_counts,
     _ensure_confirmed_meta_lead,
@@ -54,6 +55,7 @@ def main() -> int:
     redirects = _redirect_map()
     analytics_rel = _analytics_asset()
     total_redirect_links = 0
+    total_home_links = 0
     total_labels = 0
     total_wrapped = 0
     total_consent = 0
@@ -89,6 +91,8 @@ def main() -> int:
 
         text, nlinks = _rewrite_internal_redirect_links(text, redirects)
         total_redirect_links += nlinks
+        text, nhome = _home_links_to_root(text)
+        total_home_links += nhome
         text = _inject_analytics_asset(text, analytics_rel)
         text = _set_freshness(
             text,
@@ -113,6 +117,7 @@ def main() -> int:
 
     print(f"--- postprocess audit gate OK: {changed_pages} HTML files normalized")
     print(f"--- internal redirect hops removed: {total_redirect_links}")
+    print(f"--- home-page links kept at \"/\": {total_home_links}")
     print(f"--- lead-form fields given an accessible name: {total_labels}")
     print(f"--- lead-form fields given a visible label: {total_wrapped}")
     print(f"--- SMS consent sentences kept intact: {total_consent}")

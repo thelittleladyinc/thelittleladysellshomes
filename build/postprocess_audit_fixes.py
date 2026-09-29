@@ -115,6 +115,10 @@ def _normalize_for_change_detection(text: str) -> str:
     # it would leave a rewritten page claiming a stale date.
     text = re.sub(r'\.[0-9a-f]{8,}\.(css|js)\b', r'.HASH.\1', text)
     text = re.sub(r'(<style[^>]*>)[\s\S]*?(</style>)', r'\1STYLE\2', text)
+    # 2026-09-29: the published home-page link is "/" and the generator's is
+    # /index.html (_home_links_to_root). Same link either way; a committed site/
+    # holding either form must not make every page look edited.
+    text = re.sub(r'href="/(?:index\.html)?(?=[#?"])', 'href="HOME', text)
     # 2026-09-24: the lead-submit marker (build.py _lead_submit_marker) is
     # measurement plumbing on every page, not copy -- same rule as above.
     text = re.sub(r'<script>(?:(?!</script>)[\s\S])*?tll_lead_submit[\s\S]*?</script>\n?', '', text)
@@ -491,6 +495,28 @@ def _resolve_redirect(path: str, redirects: dict[str, str]) -> str | None:
             return dst
         cur = dst
     return None
+
+
+HOME_LINK_RE = re.compile(r'href="/index\.html(?=[#?"])')
+
+
+def _home_links_to_root(text: str) -> tuple[str, int]:
+    """Links to the home page point at "/", exactly as visitors and Google saw them.
+
+    2026-09-29: Netlify's "Pretty URLs" post-processing rewrote every internal link
+    in the PUBLISHED HTML to its extensionless form (/about.html -> /about), after
+    this gate had passed -- and each of those then 301'd back to the .html page
+    (_redirects), so every click on the site went through one of our own
+    redirects. It is switched off in netlify.toml ([build.processing.html]).
+
+    The one link it rewrote that must NOT change is the home page's: Pretty URLs
+    served /index.html links as "/", Google indexes the home page as "/" (Search
+    Console, 28 days: "/" ~900 impressions, /index.html 3), and CLAUDE.md freezes
+    the /index.html-vs-/ decision. "/" is a 200 rewrite (site/_redirects line 1),
+    not a redirect, so this is not a 301 hop. Runs after the page date is decided
+    (postprocess_audit_fixes_v2), so it can't make pages look edited.
+    """
+    return HOME_LINK_RE.subn('href="/', text)
 
 
 def _rewrite_internal_redirect_links(text: str, redirects: dict[str, str]) -> tuple[str, int]:
@@ -971,6 +997,8 @@ def _validate(redirects: dict[str, str], analytics_rel: str) -> list[str]:
             errors.append("self-nominating homepage FAQ remains")
         if analytics_rel not in h:
             errors.append(f"business analytics asset missing: {rel}")
+        if HOME_LINK_RE.search(h):
+            errors.append(f"home-page link to /index.html instead of \"/\": {rel}")
         if not re.search(r'<meta name="last-modified" content="\d{4}-\d{2}-\d{2}">', h):
             errors.append(f"meaningful last-modified missing: {rel}")
         # No internal href should point at one of our literal 301 sources.
@@ -1057,6 +1085,7 @@ def main() -> int:
         text, _ = _fix_stale_market(text)
         text, nlinks = _rewrite_internal_redirect_links(text, redirects)
         total_redirect_links += nlinks
+        text, _ = _home_links_to_root(text)
         text = _inject_analytics_asset(text, analytics_rel)
 
         page_date = _meaningful_date(path, text)
