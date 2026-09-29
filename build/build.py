@@ -7059,7 +7059,8 @@ def _town_place_schema(city, county_name, url_path, welcome, data_slug=None):
     return json.dumps(data, indent=None)
 
 
-def _moving_to_block(city, county_name, school_district, commute, relocate_extra, stats=None):
+def _moving_to_block(city, county_name, school_district, commute, relocate_extra, stats=None,
+                     due_diligence=""):
     """The "Moving To {City}" section — the relocation half of a town page.
 
     2026-08-16 (competitive audit against potterealty.com). Every fact in this
@@ -7093,6 +7094,12 @@ def _moving_to_block(city, county_name, school_district, commute, relocate_extra
         cards.append((f"The Commute From {city}", commute))
     if relocate_extra:
         cards.append((f"What's Changing In {city}", relocate_extra))
+    # 2026-09-29 (Christine: "go ahead" on the Lofty page comparison): the
+    # buyer checks her old Lofty Loveland guide made that this page didn't --
+    # metro-district taxes, water rules, wind, flood and fire history. Only a
+    # town whose city_content.json entry carries "due_diligence" gets the card.
+    if due_diligence:
+        cards.append((f"Before You Write An Offer In {city}", due_diligence))
     # 2026-08-16: this card used to argue that a price on a page is always wrong
     # by spring, which was true of how it is usually done — typed in by hand and
     # left. It is not true here: these figures are computed from the same live
@@ -7267,6 +7274,7 @@ def build_city_pages():
             school_district = info.get("school_district", "")
             commute = info.get("commute", "")
             relocate_extra = info.get("relocate_extra", "")
+            due_diligence = info.get("due_diligence", "")
             meta = _city_meta_description(
                 city, c["name"], welcome,
                 disambiguate=city_county_counts[city] > 1,
@@ -7356,7 +7364,8 @@ def build_city_pages():
             # the welcome. See _moving_to_block() for why.
             market_stats = _town_market_stats(city)
             moving_block = _moving_to_block(
-                city, c["name"], school_district, commute, relocate_extra, market_stats)
+                city, c["name"], school_district, commute, relocate_extra, market_stats,
+                due_diligence=due_diligence)
 
             # Her "why I moved back" film, above the local spots: the personal
             # reason first, then the proof of how well she knows the place.
@@ -11926,6 +11935,9 @@ def build_nav_pages():
       <p class="lede">Before I was selling homes here, I left Loveland — and then I came back.
       If you're weighing a move to Northern Colorado, I'd rather you hear the honest version
       from someone who's actually made that decision than another list of amenities.</p>
+      <p>For the rest of Northern Colorado — the towns, the food, the events — watch
+      <a href="{YOUTUBE_CHANNEL_URL}" target="_blank" rel="noopener">NOCO Unlocked</a>,
+      my video series on YouTube.</p>
     </div>
     {_yt_embed("2jNGXw5lzAM", "I Moved Away from Loveland, CO... And Here's Why I'm Back")}
   </div>
