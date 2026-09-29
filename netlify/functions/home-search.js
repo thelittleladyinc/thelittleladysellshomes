@@ -21,8 +21,17 @@ const { makeProxy } = require("./lib/_sig-proxy");
 
 const proxy = makeProxy("home-search");
 
+// 2026-09-29 (Christine approved: "lets do 1-5"): ?site=thelittleladysellshomes
+// tells the shared backend which site the search came from, so the Lofty link it
+// answers with carries utm_source=thelittleladysellshomes.com -- and a buyer who
+// registers on her Lofty site shows up in Lofty with this site as their source.
+// A query parameter, not a header: the backend's answers are cached by URL.
+const SITE = "thelittleladysellshomes";
+
 exports.handler = async (event) => {
   const params = new URLSearchParams((event && event.rawQuery) || "");
   if (!params.has("noFloor")) params.set("noFloor", "true");
+  params.set("site", SITE);
   return proxy({ ...(event || {}), rawQuery: params.toString() });
 };
+exports.SITE = SITE;
