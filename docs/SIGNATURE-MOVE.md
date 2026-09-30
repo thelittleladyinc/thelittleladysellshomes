@@ -86,7 +86,7 @@ answering on this site" listing which answer here and why any do not.
 
 Comma-separated MLS numbers Christine has confirmed are off the market, for
 example `IRE1043314` (212 N 54th, Greeley, expired November 2025, still Active in
-Lofty's copy of the feed). Works without MLS Grid and in **both** modes, so it can
+Lofty's copy of the feed). A bare number works too: `1043314` means `IRE1043314`. Works without MLS Grid and in **both** modes, so it can
 be set before the switch:
 
 - listing widgets and current listings: hidden before paging, so counts are right;
@@ -115,7 +115,7 @@ them at deploy time, so each change needs a deploy.
 | `MAPBOX_PUBLIC_TOKEN` | mapbox-token, local-spots, sold-homes-geocode, my-listings-geo | no (new) | copy from Signature (a `pk.` token; its URL restrictions already list this domain) |
 | `GOOGLE_MAPS_API_KEY` | nearby-places, walkability, geocoding, `/status` | yes | keep, **after confirming** Geocoding, Places and Distance Matrix are enabled on it (or copy Signature's key) |
 | `LOFTY_API_KEY` | site-health, refresh-my-listings | yes | keep (same Lofty account) |
-| `HIDE_LISTING_IDS` | listing functions | no (new) | e.g. `IRE1043314`; Christine's call |
+| `HIDE_LISTING_IDS` | listing functions | no (new) | e.g. `IRE1043314` (or `1043314`); Christine's call |
 | `IDX_SEARCH_URL`, `HOME_SEARCH_COUNTIES` | home-search, listing links | no | copy from Signature **only if set there** (the defaults are the same: `https://thelittleladyhomesearch.com/listing`, Larimer + Weld) |
 | `OPERATING_COUNTIES`, `LISTING_AGENT_SURNAME` | shared listing rules | no | copy from Signature only if set there |
 | `LISTINGS_SOURCE` | everything | no | leave unset (or `lofty`). `mlsgrid` keeps everything passing through |

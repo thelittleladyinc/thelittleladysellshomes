@@ -761,10 +761,32 @@ exports.localHandler = localHandler;
 // shell (brand=tllsh) -- exactly what the /listing/:id rewrite in netlify.toml used
 // to fetch from Signature directly, with its noindex and Retry-After headers. A
 // listing Christine confirmed is off the market gets this site's own 404 instead.
+//
+// The listing id comes from the rewrite (?id=:id), which Netlify puts in
+// queryStringParameters. rawQuery can be just the visitor's own query (a shared
+// link's ?fbclid=... or ?utm_...), so it is never the source of the id: reading it
+// first would drop the id and Signature would answer "listing unavailable". The
+// upstream query is exactly what the old rule sent -- id, then brand=tllsh --
+// since Signature's listing-page reads nothing else, and tracking parameters
+// would only split its cache.
 const passThrough = makeProxy("listing-page", { extraHeaders: ["x-robots-tag", "retry-after"] });
+function listingIdOf(event) {
+  const qsp = (event && event.queryStringParameters) || {};
+  let id = String(qsp.id || "").trim();
+  if (!id) id = String(queryOf(event).get("id") || "").trim();
+  if (!id && event && event.path) {
+    const m = event.path.match(/\/listing\/([^/?#]+)/);
+    if (m) {
+      try { id = decodeURIComponent(m[1]); } catch (e) { id = m[1]; }
+    }
+  }
+  return id;
+}
 async function proxyHandler(event) {
-  const q = queryOf(event);
-  if (isHiddenListing(q.get("id"))) return hiddenListingResponse();
+  const id = listingIdOf(event);
+  if (isHiddenListing(id)) return hiddenListingResponse();
+  const q = new URLSearchParams();
+  if (id) q.set("id", id);
   q.set("brand", "tllsh");
   return passThrough(withQuery(event, q));
 }

@@ -10,6 +10,8 @@
 //
 //   HIDE_LISTING_IDS = "IRE1043314"     (MLS numbers, comma- or space-separated,
 //                                        any case; unset = nothing hidden)
+//   HIDE_LISTING_IDS = "1043314"        (the bare number, as IRES prints it, means
+//                                        the same listing: IRE is added)
 //
 // It is applied wherever her Lofty listings are shown from this site, in both
 // backend modes (lib/_backend-mode.js): the listing widgets and current-listings
@@ -20,9 +22,16 @@
 // as before.
 "use strict";
 
+// Every listing on this site is an IRES listing, whose id is "IRE" + the MLS
+// number, so an all-digits entry is that number.
+function normalizeId(s) {
+  const id = String(s).trim().toUpperCase();
+  return /^\d+$/.test(id) ? `IRE${id}` : id;
+}
+
 function hiddenListingIds(env) {
   const raw = String(((env || process.env).HIDE_LISTING_IDS) || "");
-  return new Set(raw.split(/[\s,;]+/).map((s) => s.trim().toUpperCase()).filter(Boolean));
+  return new Set(raw.split(/[\s,;]+/).map(normalizeId).filter(Boolean));
 }
 
 function isHiddenListing(id, env) {
