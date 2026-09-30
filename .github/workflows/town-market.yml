@@ -1,0 +1,85 @@
+# Keeps the town pages' market figures alive.
+#
+# 2026-09-30 (API audit). build/data/town_market.json feeds the town pages, the
+# market report and the town market-report pages, and build.py stops showing any
+# figure older than 21 days (TOWN_MARKET_STALE_DAYS). Nothing in this repo ever
+# refreshed it -- the last run was by hand on 2026-09-15 -- so every figure would
+# have switched itself off around 2026-10-06, and this repo's copy of the script
+# could no longer read the market anyway after the switch to Lofty.
+#
+# The Signature repo already regenerates the same file from the same MLS Grid copy
+# every Monday and Thursday at 13:20 UTC (its .github/workflows/town-market.yml).
+# This takes that file about 90 minutes later (build/tools/town-market-stats.js,
+# which refuses a malformed, stale or older file), runs the production build and
+# regression suites against it, and commits ONLY the data file: the push to main
+# is what makes Netlify rebuild the pages. No MLS Grid call anywhere.
+#
+# No secrets needed: the Signature repo is public, and the commit uses this
+# workflow's own GITHUB_TOKEN.
+name: town market data
+
+on:
+  schedule:
+    - cron: "50 14 * * 1,4"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: town-market-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Take the figures the Signature repo published
+        run: node build/tools/town-market-stats.js
+
+      - name: Anything new?
+        id: diff
+        run: |
+          if git diff --quiet -- build/data/town_market.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Same figures as already committed — nothing to do."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The same gate every push to main goes through (site-tests.yml), run here
+      # because a push made with GITHUB_TOKEN does not start other workflows.
+      - name: Production build and regression suites
+        if: steps.diff.outputs.changed == 'true'
+        run: bash tests/run-all.sh
+
+      - name: Commit the data file
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add build/data/town_market.json
+          git commit -q -m "Refresh town market figures from the Signature copy" \
+            -m "Copied by .github/workflows/town-market.yml from the Signature repo's build/data/town_market.json (generated from the MLS Grid copy by its town-market-stats.js). No figure in this commit was typed by hand."
+          # The build rewrote site/; only the data file is published from here.
+          git reset -q --hard HEAD
+          git clean -fdq site
+          for attempt in 1 2 3 4; do
+            if git push -q origin HEAD:main; then echo "Pushed."; exit 0; fi
+            echo "Push rejected (main moved); rebasing the one-file commit and retrying."
+            sleep $((attempt * 5))
+            git pull -q --rebase origin main || { git rebase --abort; exit 1; }
+          done
+          echo "::error::Could not push the refreshed figures. Re-run this workflow."
+          exit 1

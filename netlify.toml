@@ -33,6 +33,13 @@
 [functions]
   directory = "netlify/functions"
 
+# 2026-09-30 (API audit): leads Lofty refused are queued by submission-created.js,
+# and nothing on this site ever retried them (only the Signature site's sync
+# drained a queue). lofty-queue-drain.js replays them, offset from Signature's
+# :00/:30 sync so the two rarely meet (and a lease handles it when they do).
+[functions."lofty-queue-drain"]
+  schedule = "15,45 * * * *"
+
 # 2026-08-14: there was no [[headers]] block at all. Two costs, in order of
 # impact:
 #

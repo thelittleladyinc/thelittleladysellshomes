@@ -37,8 +37,9 @@
 // entirely -- a "median" of two listings is not a statistic, it is a price.
 //
 // USAGE
+//   node build/tools/town-market-stats.js            (no credentials needed;
+//                                                     .github/workflows/town-market.yml)
 //   BLOBS_SITE_ID=... BLOBS_TOKEN=... node build/tools/town-market-stats.js
-//   node build/tools/town-market-stats.js            (no credentials needed)
 //
 // TWO SOURCES, ONE DATASET (2026-09-15). The Blobs path above needs a Netlify
 // Personal Access Token for the SIGNATURE project, because that is the
@@ -56,6 +57,28 @@
 // That last point is the whole reason this is safe to run whenever: the thing
 // that must never be hammered is the FEED, and neither path touches it.
 //
+// 2026-09-30 (API audit): BOTH of those paths stopped working with the switch
+// to Lofty (2026-09-28), and nothing here noticed.
+//   - listings-search on the Signature site no longer reads the MLS Grid copy:
+//     it hands searches to her Lofty site and holds only her own listings, so
+//     the harvest found nothing to count.
+//   - LISTINGS_KEY now names the LOFTY copy (her handful of listings), so the
+//     Blobs path would have computed "the market" from her own listings and
+//     stamped it with today's date. The whole-market MLS Grid copy lives under
+//     MLSGRID_KEYS, which is what the Signature copy of this script reads.
+// And no workflow ran this at all, so the figures from 2026-09-15 would have
+// switched themselves off at the 21-day limit (~2026-10-06).
+//
+// The Signature repo already regenerates the same file from the same copy every
+// Monday and Thursday (its .github/workflows/town-market.yml), and that repo is
+// public. So the credential-free path now takes THAT file -- the same numbers
+// from the same dataset, computed by the up-to-date script -- checks it, and
+// writes it here with its own generated_at, so the "as of" date on the pages is
+// the date the figures were computed, never the date they were copied.
+// .github/workflows/town-market.yml here runs it after Signature's run. The
+// Blobs path reads the MLS Grid keys, with the same 48-hour freshness guard as
+// the Signature script.
+//
 // Writes build/data/town_market.json. build/build.py READS that file and never
 // runs this one: the generator stays offline, deterministic and unable to fail
 // because a third-party API had a bad afternoon. If the file is missing or has
@@ -64,7 +87,12 @@
 const fs = require("fs");
 const path = require("path");
 
-const { getBlobStore, BLOB_STORE_NAME, LISTINGS_KEY } = require("../../netlify/functions/lib/_mls-shared.js");
+const { getBlobStore, BLOB_STORE_NAME, MLSGRID_KEYS } = require("../../netlify/functions/lib/_mls-shared.js");
+// The whole-market MLS Grid copy, not the Lofty keys LISTINGS_KEY now points at.
+const { LISTINGS_KEY, SYNC_STATE_KEY } = MLSGRID_KEYS;
+// Same guard as the Signature script: the copy replicates every 30 minutes, so
+// two days without a successful run means something is broken.
+const MAX_COPY_AGE_MS = 48 * 60 * 60 * 1000;
 
 // Below this many active listings in a town we publish nothing. See the
 // compliance note above -- this is a privacy/IDX floor, not a cosmetic one.
@@ -72,16 +100,13 @@ const MIN_SAMPLE = 5;
 
 const OUT_PATH = path.join(__dirname, "..", "data", "town_market.json");
 
-// The public reader over the same blob. Overridable so this can be pointed at
-// a deploy preview, but it defaults to the one deployment that holds the data.
-const SEARCH_ORIGIN = process.env.LISTINGS_SEARCH_ORIGIN || "https://signaturepropertycollection.com";
-const SEARCH_PATH = "/.netlify/functions/listings-search";
-
-// listings-search.js clamps `top` server-side; asking for 1000 returns 24.
-// Hard-coding the real ceiling keeps the page count honest instead of
-// silently harvesting a fraction of the dataset and calling it the market.
-const PAGE = 24;
-const CONCURRENCY = 6;
+// The Signature repo's published copy of this file (public repo, master is what
+// Netlify deploys there). Overridable for testing.
+const PUBLISHED_URL = process.env.TOWN_MARKET_URL ||
+  "https://raw.githubusercontent.com/thelittleladyinc/signature-property-collection/master/build/data/town_market.json";
+// build.py's TOWN_MARKET_STALE_DAYS: older figures would be suppressed anyway,
+// so copying them only to have them hidden is pointless.
+const STALE_DAYS = 21;
 
 function median(values) {
   if (!values.length) return null;
@@ -114,106 +139,60 @@ function listingsFromBlob(raw) {
   return [];
 }
 
-// ---- SOURCE 2: the public reader over that same blob ---------------------
+// ---- SOURCE 2: the Signature repo's published file -------------------------
 //
-// listings-search.js returns {listings, totalCount, fetchedAt} and pages with
-// top/skip in a stable descending-price order. noFloor=true is REQUIRED: without
-// it matchesQuery() in _mls-shared.js applies LUXURY_PRICE_FLOOR and you would
-// compute a "median list price" over only the luxury tail -- a wrong number
-// that looks perfectly reasonable, which is the worst kind.
-//
-// fetchedAt is the blob's own checkpoint timestamp. Every page must carry the
-// same one: if the 15-minute sync lands mid-harvest the ordering shifts under
-// us and pages silently duplicate or skip listings. Rather than paper over
-// that, the harvest restarts. Stale numbers are worse than none, and quietly
-// wrong ones are worse than either.
-async function fetchPage(city, skip) {
-  const qs = new URLSearchParams({ top: String(PAGE), skip: String(skip), noFloor: "true" });
-  if (city) qs.set("city", city);
-  const url = SEARCH_ORIGIN + SEARCH_PATH + "?" + qs.toString();
+// Checked before anything is written: it must parse, carry towns with real
+// numbers, and have a generated_at that is a real date, not in the future, not
+// past STALE_DAYS, and not older than the file already here (never go backwards).
+function validatePublished(pub, current, now) {
+  const today = new Date(now || Date.now()).toISOString().slice(0, 10);
+  if (!pub || typeof pub !== "object") return "not a JSON object";
+  const towns = pub.towns;
+  if (!towns || typeof towns !== "object" || !Object.keys(towns).length) return "no towns in it";
+  for (const [city, t] of Object.entries(towns)) {
+    if (!t || typeof t.active !== "number" || typeof t.median_list !== "number") return `town "${city}" has no figures`;
+  }
+  const gen = String(pub.generated_at || "");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(gen) || Number.isNaN(Date.parse(gen))) return `generated_at "${gen}" is not a date`;
+  if (gen > today) return `generated_at ${gen} is in the future`;
+  const ageDays = Math.round((Date.parse(today) - Date.parse(gen)) / 86400000);
+  if (ageDays > STALE_DAYS) return `generated_at ${gen} is ${ageDays} days old (limit ${STALE_DAYS})`;
+  const mine = current && String(current.generated_at || "");
+  if (mine && /^\d{4}-\d{2}-\d{2}$/.test(mine) && gen < mine) return `generated_at ${gen} is older than this repo's ${mine}`;
+  return null;
+}
+
+async function fetchPublished() {
   let lastErr;
   for (let attempt = 0; attempt < 3; attempt += 1) {
     try {
-      const res = await fetch(url);
+      const res = await fetch(PUBLISHED_URL, { signal: AbortSignal.timeout(15000) });
       if (!res.ok) throw new Error("HTTP " + res.status);
-      const body = await res.json();
-      if (body && body.error) throw new Error(String(body.error));
-      return body;
+      return await res.json();
     } catch (err) {
       lastErr = err;
-      await new Promise((r) => setTimeout(r, 500 * (attempt + 1)));
+      await new Promise((r) => setTimeout(r, 1000 * (attempt + 1)));
     }
   }
-  throw new Error("listings-search failed for skip=" + skip + ": " + (lastErr && lastErr.message));
-}
-
-async function fetchAllActiveFromSearch() {
-  const head = await fetchPage(null, 0);
-  const total = Number(head.totalCount) || 0;
-  const checkpoint = head.fetchedAt || null;
-  if (!total) return { listings: [], checkpoint };
-
-  const pages = Math.ceil(total / PAGE);
-  const rows = new Array(pages);
-  rows[0] = head.listings || [];
-
-  console.log(
-    "reading " + total + " active listings from " + SEARCH_ORIGIN +
-    " (" + pages + " pages, blob checkpoint " + checkpoint + ")"
-  );
-
-  let next = 1;
-  let drifted = false;
-  async function worker() {
-    for (;;) {
-      const i = next;
-      next += 1;
-      if (i >= pages || drifted) return;
-      const body = await fetchPage(null, i * PAGE);
-      if (body.fetchedAt && checkpoint && body.fetchedAt !== checkpoint) {
-        drifted = true;
-        return;
-      }
-      rows[i] = body.listings || [];
-      if (i % 100 === 0) console.log("  ... page " + i + "/" + pages);
-    }
-  }
-  await Promise.all(Array.from({ length: CONCURRENCY }, worker));
-
-  if (drifted) {
-    throw new Error(
-      "the replicated blob was refreshed mid-harvest (checkpoint moved from " +
-      checkpoint + ") — re-run; nothing written"
-    );
-  }
-
-  const listings = rows.flat().filter(Boolean);
-  const seen = new Set();
-  const unique = [];
-  for (const l of listings) {
-    const id = l && l.listingId;
-    if (!id || seen.has(id)) continue;   // belt and braces against paging drift
-    seen.add(id);
-    unique.push(l);
-  }
-  if (unique.length < total * 0.98) {
-    throw new Error(
-      "harvest returned " + unique.length + " unique listings but the feed says " +
-      total + " — too big a gap to compute a median from; nothing written"
-    );
-  }
-  return { listings: unique, checkpoint };
+  throw new Error("could not read " + PUBLISHED_URL + ": " + (lastErr && lastErr.message));
 }
 
 async function main() {
   let listings;
   let via;
-  let checkpoint = null;
 
   if (process.env.BLOBS_SITE_ID && process.env.BLOBS_TOKEN) {
     via = "netlify-blobs";
     const { getStore } = require("@netlify/blobs");
     const store = getBlobStore(getStore, BLOB_STORE_NAME);
+    const syncState = await store.get(SYNC_STATE_KEY, { type: "json" }).catch(() => null);
+    const lastOk = syncState && syncState.lastSuccessAt ? Date.parse(syncState.lastSuccessAt) : NaN;
+    if (!Number.isFinite(lastOk) || Date.now() - lastOk > MAX_COPY_AGE_MS) {
+      console.error("!! The MLS Grid copy has no successful refresh in the last 48 hours " +
+        `(last: ${syncState && syncState.lastSuccessAt ? syncState.lastSuccessAt : "never"}). ` +
+        "Not writing a file — stale numbers are worse than none.");
+      process.exit(1);
+    }
     const raw = await store.get(LISTINGS_KEY, { type: "json" });
 
     listings = listingsFromBlob(raw);  // see the note on that function
@@ -234,19 +213,22 @@ async function main() {
       process.exit(1);
     }
   } else {
-    via = "listings-search";
-    console.log("BLOBS_SITE_ID / BLOBS_TOKEN not set — reading the same replicated listings");
-    console.log("through the public listings-search endpoint. No MLS Grid calls either way.");
-    const harvested = await fetchAllActiveFromSearch();
-    listings = harvested.listings;
-    checkpoint = harvested.checkpoint;
-
-    if (!listings.length) {
-      console.error("!! listings-search returned no active listings at all. Either the sync");
-      console.error("!! has not run or " + SEARCH_ORIGIN + " is not serving the blob.");
-      console.error("!! Not writing a file — stale numbers are worse than none.");
+    console.log("BLOBS_SITE_ID / BLOBS_TOKEN not set — taking the figures the Signature repo");
+    console.log("computed from the same MLS Grid copy: " + PUBLISHED_URL);
+    const pub = await fetchPublished();
+    let current = null;
+    try { current = JSON.parse(fs.readFileSync(OUT_PATH, "utf8")); } catch (e) { current = null; }
+    const problem = validatePublished(pub, current);
+    if (problem) {
+      console.error("!! The published file was not used: " + problem + ".");
+      console.error("!! Not writing a file — the pages keep their current figures until they expire.");
       process.exit(1);
     }
+    const out = { ...pub, via: "signature-published", copied_from: PUBLISHED_URL };
+    fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 2) + "\n");
+    console.log(`wrote ${path.relative(process.cwd(), OUT_PATH)}: ${Object.keys(pub.towns).length} towns, ` +
+      `generated ${pub.generated_at} by the Signature repo`);
+    return;
   }
 
   // Active only. "Pending" and "Active Under Contract" are replicated too (see
@@ -300,12 +282,11 @@ async function main() {
     ],
     generated_at: new Date().toISOString().slice(0, 10),
     source: "IRES MLS",
-    // Which reader over the replicated copy produced this — "netlify-blobs"
-    // (direct, needs a token) or "listings-search" (the public reader over the
-    // identical blob). Not a data difference; a provenance note, so the next
-    // person can tell how it was refreshed without guessing.
+    // Which path produced this -- "netlify-blobs" (direct, needs a token) or
+    // "signature-published" (the Signature repo's file from the identical copy).
+    // Not a data difference; a provenance note, so the next person can tell how
+    // it was refreshed without guessing.
     via,
-    blob_checkpoint: checkpoint,
     min_sample: MIN_SAMPLE,
     towns,
   };
@@ -327,4 +308,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { listingsFromBlob, median, MIN_SAMPLE };
+module.exports = { listingsFromBlob, median, validatePublished, MIN_SAMPLE, STALE_DAYS };
