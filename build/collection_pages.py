@@ -1308,17 +1308,17 @@ SELLERS_FAQ = [
      "a renegotiation you are losing, to before the property goes live, where it is a repair you chose to "
      "make on your timeline."),
 ]
-# Christine's "Selected Property Results" (the Signature Listing Strategy brochure).
+# Christine's "Selected Property Results" (the Signature Listing Strategy
+# brochure). Only the sales that are also on her own sold list
+# (build/data/sold_homes.json) are shown: the brochure was the duo's, and two of
+# its four results -- 50842 County Road 33, Nunn, and the buyer side of 9522
+# Yucca Way, Arvada -- are not on it. Add them back here once she confirms they
+# were hers.
 RESULTS = [
     ("3016 Glendevey Drive", "Loveland (Olde Course)", "$599,999", "February 2026",
      "4 bed | 1,928 sq ft", "Closed in 21 days. Both sides represented — buyer sourced through Christine's community network."),
     ("913 Green Mountain Drive", "Erie, Colorado", "$1,200,000", "September 2025",
      "6 bed | 6 bath | 7,096 sq ft", "Erie's top-tier luxury market — positioned, marketed, and closed."),
-    ("50842 County Road 33", "Nunn, Colorado", "$750,000", "June 2025",
-     "4 bed | 3 bath | 1,972 sq ft | working acreage with outbuilding",
-     "Land, residence, and outbuilding — Northern Colorado rural representation, closed as one."),
-    ("9522 Yucca Way", "Arvada, Colorado", "$1,272,500", "Represented the buyers",
-     "4 bed | 4 bath | 5,666 sq ft", "Luxury buyer representation — market expertise on both sides of the transaction."),
 ]
 
 
