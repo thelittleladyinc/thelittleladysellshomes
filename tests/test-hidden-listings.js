@@ -86,13 +86,19 @@ global.fetch = async (url, init) => {
   check("any case, commas, spaces or semicolons", ["IRE1043314", "ire2", "IRE3", "IRE4"].every((id) => H.isHiddenListing(id, env)),
     JSON.stringify([...H.hiddenListingIds(env)]));
   check("nothing else", !H.isHiddenListing("IRE10433", env) && !H.isHiddenListing("", env) && !H.isHiddenListing(null, env));
+  const bare = { HIDE_LISTING_IDS: "1043314, IRE1000009" };
+  check("a bare MLS number means the IRE listing (1043314 -> IRE1043314)",
+    H.isHiddenListing("IRE1043314", bare) && H.isHiddenListing("ire1043314", bare) && H.isHiddenListing("IRE1000009", bare) &&
+    [...H.hiddenListingIds(bare)].join(",") === "IRE1043314,IRE1000009", JSON.stringify([...H.hiddenListingIds(bare)]));
+  check("...and only that listing", !H.isHiddenListing("IRE104331", bare) && !H.isHiddenListing("1043314X", bare));
   check("an array of listings loses the hidden ones", H.withoutHidden([HIDDEN, KEPT], env).map((l) => l.listingId).join() === "IRE1000004");
   const byId = H.withoutHidden({ IRE1043314: HIDDEN, IRE1000004: KEPT }, env);
   check("so does a catalogue keyed by id", Object.keys(byId).join() === "IRE1000004");
   check("unset, the same object comes back untouched", H.withoutHidden(byId, {}) === byId);
 
   console.log("\n2. Answered on this site (BACKEND_MODE=local)");
-  setEnv({ ...LOCAL, HIDE_LISTING_IDS: "IRE1043314" });
+  // Set the way IRES prints it, a bare number, to show that form works end to end.
+  setEnv({ ...LOCAL, HIDE_LISTING_IDS: "1043314" });
   let store = storeWith();
   fresh(store);
   let res = await load("listings-search").handler(ev({ mine: "true", top: "12" }));
