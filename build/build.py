@@ -4230,8 +4230,15 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
      top of style.css.
 
        abril-fatface  --font-display  .hero h1        (the LCP element)
-       open-sans      --font-sans     body text
+       open-sans-400  --font-sans     body text, the hero lede
+       open-sans-600  --font-sans     call strip, trust ribbon, labels
        yellowtail     --font-script   .brand-mark, .eyebrow
+
+     2026-09-30: Open Sans was one 48KB variable file (61.5KB preloaded in
+     all). Chrome holds first paint until preloaded fonts land, so those bytes
+     sat directly on FCP/LCP. It is now one ~11KB static file per weight
+     (style.css), and only the two weights above the fold are preloaded:
+     ~36KB in all, under Signature's 42KB. 300/500/700 load when used.
 
      2026-08-25: yellowtail is deliberately NOT here, and this is the second
      time that has needed deciding, so here is the measurement. A Lighthouse
@@ -4254,7 +4261,8 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
      the fold, and they are the two heaviest files (39KB each) -- preloading
      them is exactly the 150KB stampede this comment warns about. -->
 <link rel="preload" href="/assets/fonts/abril-fatface-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/open-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/open-sans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/open-sans-600-latin.woff2" as="font" type="font/woff2" crossorigin>
 <!-- Wave 5 P0.5: preconnect hints, revised 2026-08-26.
      These were unconditional preconnects to youtube-nocookie.com and
      i.ytimg.com on all 752 pages, and PageSpeed flagged both as "Unused
