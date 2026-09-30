@@ -168,6 +168,11 @@ body {
   line-height: 1.6;
 }
 img { max-width: 100%; display: block; }
+/* 2026-09-30: imported (iHouseWeb) article images carry width/height attributes
+   so the browser reserves their box; height:auto lets that box shrink with the
+   width on a phone instead of stretching (build/legacy_pages.py _speed_pass). */
+.blog-article img { height: auto; }
+.blog-article .video-embed { margin: 1.4em 0; }
 a { color: inherit; text-decoration: none; }
 /* 2026-08-23 (Christine, luxury air): padding was a flat 24px which felt
    tight on wider screens. Clamp lets it grow to 48px on desktop for a
