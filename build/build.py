@@ -1859,7 +1859,10 @@ def _idx_off_js():
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
       });
     };
-    return '<a class="btn btn-dark" href="' + e(url) + '" rel="noopener">' + e(msg) + ' &rarr;</a>';
+    // 2026-09-30: what the search can't filter for, when the link asked for it.
+    var note = (data && typeof data.note === 'string' && data.note)
+      ? '<p class="search-note">' + e(data.note) + ' <a href="/contact.html">Ask Christine</a></p>' : '';
+    return '<a class="btn btn-dark" href="' + e(url) + '" rel="noopener">' + e(msg) + ' &rarr;</a>' + note;
   }
 """
 
