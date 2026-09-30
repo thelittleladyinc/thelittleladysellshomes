@@ -5232,7 +5232,9 @@ def build_home():
      brand for the estate/luxury tier (Signature Property Collection). The
      footer sameAs schema and buyer-page paragraph mention it, but the
      homepage had no visible bridge. This gives luxury-intent visitors a
-     clean single-hop to the right brand instead of bouncing. -->
+     clean single-hop to the right brand instead of bouncing.
+     2026-09-30 (WCAG): the button is charcoal on the light rose (6.2:1), the
+     same fix as the 3D-map button; cream on #B86F7A was 3.48:1. -->
 <section class="tight" style="padding-top:0">
   <div class="wrap">
     <div class="cross-brand-callout" style="background:#141415;color:#F8F6F4;padding:32px 28px;border-radius:12px;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between">
@@ -5245,7 +5247,7 @@ def build_home():
         for that specific market.</p>
       </div>
       <div style="flex-shrink:0">
-        <a class="btn" style="background:#B86F7A;color:#F8F6F4;padding:14px 24px;font-weight:600;border-radius:8px;text-decoration:none;display:inline-block" href="{_SIGNATURE_URL}/" rel="noopener">Visit Signature Property Collection &rsaquo;</a>
+        <a class="btn" style="background:#E57373;color:#141415;padding:14px 24px;font-weight:600;border-radius:8px;text-decoration:none;display:inline-block" href="{_SIGNATURE_URL}/" rel="noopener">Visit Signature Property Collection &rsaquo;</a>
       </div>
     </div>
   </div>
@@ -6798,7 +6800,7 @@ def town_market_report_body(city, state, page_url):
     the multiple listing service rather than an aggregator's estimate.</p>
     <div class="btn-row" style="justify-content:flex-start;margin-top:24px">
       <a class="btn btn-dark" href="/contact.html">Get {esc(city)} Numbers</a>
-      <a class="btn btn-outline" style="border-color:#141415;color:#141415" href="{esc(search_link)}">Search {esc(city)} Homes</a>
+      <a class="btn btn-outline" href="{esc(search_link)}">Search {esc(city)} Homes</a>
     </div>
   </div>
 </section>

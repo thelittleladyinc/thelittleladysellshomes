@@ -77,6 +77,50 @@ check("rose as TEXT on charcoal clears WCAG AA (hero eyebrow)",
   rose && charcoal ? `ratio=${ratio(rose, charcoal).toFixed(2)}` : "");
 check("charcoal as TEXT on rose clears WCAG AA (header tagline)",
   rose && charcoal && ratio(charcoal, rose) >= 4.5);
+// ---- Light grounds (2026-09-30) ----------------------------------------------
+// Everything above checks the accent on CHARCOAL. The page-speed audit found the
+// failures on the other ground: 572 eyebrows and captions in var(--dusty-rose),
+// which aliased the dark-ground rose (2.77:1 on cream, 2.99:1 on white), a
+// white-on-white card heading on the homepage, and an invisible white outline
+// button ("Plan Your Move To <town>", 1.08:1) on 21 pages. Most sections are
+// light, so these are asserted on the CSS a visitor receives.
+const CREAM = token("cream") || "f8f6f4";
+const rootBlock = (built.match(/:root\{([^}]*)\}/) || [])[1] || "";
+check("--dusty-rose resolves to the deep token on light grounds",
+  /--dusty-rose:var\(--deep-mauve\)/.test(rootBlock),
+  "it aliased --rose, which is 2.77:1 on cream");
+for (const [ground, hex] of [["cream", CREAM], ["white", "ffffff"]]) {
+  check(`the light-ground accent clears WCAG AA as small text on ${ground}`,
+    deep && ratio(deep, hex) >= 4.5, deep ? `ratio=${ratio(deep, hex).toFixed(2)}` : "");
+}
+const darkRule = (built.match(/([^{}]*)\{--dusty-rose:var\(--rose\)\}/) || [])[1] || "";
+for (const sel of [".hero", ".county-hero", ".section-dark", ".site-footer", ".site-header", ".call-strip"]) {
+  check(`dark ground ${sel} switches the accent back to the light rose`,
+    darkRule.split(",").map((x) => x.trim()).includes(sel),
+    "the deep token is 2.56:1 on charcoal -- a dark ground left off this list goes unreadable");
+}
+check(".eyebrow on a light ground uses the deep token",
+  /\.eyebrow\{font-family:var\(--font-script\);font-size:27px;color:var\(--deep-mauve\)/.test(built));
+check("the outline button is charcoal by default (light grounds)",
+  /\.btn-outline\{border-color:var\(--charcoal\);color:var\(--charcoal\)/.test(built),
+  "white on cream is 1.08:1 -- invisible");
+check("...and white only inside the dark grounds",
+  /\.hero \.btn-outline,\.county-hero \.btn-outline,\.section-dark \.btn-outline,\.site-footer \.btn-outline\{border-color:var\(--white\);color:var\(--white\)\}/.test(built));
+check("a white card inside a dark section gets dark text back",
+  /\.section-dark \.card\{color:var\(--charcoal\);--dusty-rose:var\(--deep-mauve\)\}/.test(built),
+  "\"Faster Ways To Reach Me\" on the homepage was white on white (1:1)");
+check("charcoal text on cream and white clears AA",
+  ratio(charcoal, CREAM) >= 4.5 && ratio(charcoal, "ffffff") >= 4.5);
+// The two known offenders, checked where they render.
+{
+  const loveland = fs.readFileSync(path.join(ROOT, "site", "communities", "larimer", "loveland.html"), "utf8");
+  const plan = (loveland.match(/<a class="btn btn-outline"[^>]*>Plan Your Move To/) || [""])[0];
+  check("\"Plan Your Move To <town>\" uses the default (charcoal) outline on its light section",
+    plan && !/style="[^"]*color:#fff/i.test(plan), plan || "button not found on the Loveland page");
+  check("\"Faster Ways To Reach Me\" still sits in a card inside the dark section it needs the fix for",
+    /<section class="section-dark">[\s\S]*?<div class="card">\s*<h2 class="card-title">Faster Ways To Reach Me/.test(homepage));
+}
+
 check("the primary button uses the deep token, not raw rose",
   /\.btn-primary\s*\{\s*background:\s*var\(--deep-mauve\)/.test(src),
   "white on raw rose is 3.75 — the exact fail PageSpeed flagged");
