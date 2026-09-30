@@ -29,6 +29,8 @@ const HASHED = /\/assets\/(?:css|js)\/[A-Za-z0-9_-]+\.[0-9a-f]{8,64}\.(?:css|js)
 // EVERYTHING this build generates that can name an asset — not just site/.
 const EXTRA_GENERATED = [
   path.join(ROOT, "netlify", "functions", "lib", "_listing-page-shell.html"),
+  // 2026-09-30: the Collection's listing shell (a listing from $950K).
+  path.join(ROOT, "netlify", "functions", "lib", "_listing-page-shell-collection.html"),
 ];
 
 const refs = new Map();

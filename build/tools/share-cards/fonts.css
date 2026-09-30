@@ -1,0 +1,7 @@
+/* Fonts for the share-card templates, from the site's own font files. */
+@font-face{font-family:'Yellowtail';src:url(../../assets/fonts/yellowtail-latin.woff2) format('woff2')}
+@font-face{font-family:'Abril Fatface';src:url(../../assets/fonts/abril-fatface-latin.woff2) format('woff2')}
+@font-face{font-family:'Open Sans';font-weight:300 700;src:url(../../assets/fonts/open-sans-latin.woff2) format('woff2')}
+@font-face{font-family:'Poppins';font-weight:400;src:url(../../assets/fonts/poppins-400-latin.woff2) format('woff2')}
+@font-face{font-family:'Poppins';font-weight:600;src:url(../../assets/fonts/poppins-600-latin.woff2) format('woff2')}
+@font-face{font-family:'Libre Baskerville';src:url(../../assets/fonts/libre-baskerville-400-latin.woff2) format('woff2')}

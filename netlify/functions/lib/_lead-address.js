@@ -27,6 +27,9 @@ const HOME_VALUE_FORMS = new Set([
   "seller-local-proof",
   "cash-offer",
   "loveland-market-seller",
+  // 2026-09-30: the Collection's seller forms (a luxury homeowner's own address).
+  "signature-sellers-inquiry",
+  "signature-expired-inquiry",
 ]);
 
 function propertyFromAddress(raw) {
