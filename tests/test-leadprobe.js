@@ -1,0 +1,144 @@
+// Ported 2026-09-30 from the Signature repo with the function(s) it covers
+// (Signature move, part 1, docs/SIGNATURE-MOVE.md). It exercises the copied code
+// through each function's localHandler; whether that code or the pass-through to
+// Signature answers a visitor is lib/_backend-mode.js's decision, pinned in
+// tests/test-sharedproxy.js.
+//
+// The read-back probe must give a straight answer for each of the four outcomes
+// that actually matter, without needing a screenshot relayed by hand.
+// Repo root derived from this file's own location, never hardcoded: these suites
+// run both locally and in GitHub Actions, where the checkout is at
+// /home/runner/work/<repo>/<repo>. An absolute path would pass here and fail there.
+const ROOT = require("path").resolve(__dirname, "..");
+const FN_DIR = `${ROOT}/netlify/functions`;
+const blobsPath = require.resolve("@netlify/blobs", { paths: [FN_DIR] });
+let failures = 0;
+const check = (l, c, x) => { if (c) console.log(`  ok   ${l}`); else { failures++; console.log(`  FAIL ${l}${x ? ` — ${x}` : ""}`); } };
+
+const cases = [
+  ["tag IS on the lead (string tags)", 200,
+    { data: { tags: ["Hot Lead - Website", "Website Lead"] } },
+    (r) => {
+      check("row is green", r.ok === true);
+      check("confirms the read worked", /Read lead 1147334685108095 back from Lofty/.test(r.detail));
+      check("names the shape", /array of 2 item\(s\) of type string/.test(r.detail), r.detail);
+      check("says the tag IS there", /IS on the lead/.test(r.detail));
+      check("points at the Smart Plan trigger as the remaining suspect", /trigger inside the plan/.test(r.detail));
+    }],
+  ["tag MISSING from the lead", 200,
+    { data: { tags: ["Website Lead"] } },
+    (r) => {
+      check("row is red", r.ok === false);
+      check("says the tag is NOT there", /is NOT on the lead/.test(r.detail), r.detail);
+      check("explains why the plan wouldn't fire", /wouldn't fire/.test(r.detail));
+    }],
+  ["tags come back as OBJECTS (the data-loss shape)", 200,
+    { data: { tags: [{ id: 7, name: "Hot Lead - Website" }] } },
+    (r) => {
+      check("row is red", r.ok === false);
+      check("names the object shape", /type object/.test(r.detail), r.detail);
+      check("says tags are left alone", /leaves them alone/.test(r.detail));
+      check("includes a sample to fix the reader with", /"name":"Hot Lead - Website"/.test(r.detail), r.detail);
+    }],
+  // 2026-08-18. Two different 404s, and telling them apart is the whole job of
+  // this row. Christine's page carried a red ❌ reading "GET /leads/{id} isn't
+  // available on this account" — a guess this codebase's own evidence disproves,
+  // since lead 1147802441137106 read back HTTP 200. What actually happened is that
+  // her test used the Lofty account owner's own email, so Lofty MERGED it into the
+  // existing contact and handed back the absorbed record's id, which by definition
+  // no longer resolves. "Your CRM is broken" and "your test merged, as a duplicate
+  // always will" need opposite reactions, and only the second one was true.
+  ["a 404 that IS the merge signature", 404,
+    '{"message":"BaseApplicationException:errorCode=20006,errorMsg=Lead not exist"}',
+    (r) => {
+      check("row is NOT red — a merge is expected behaviour, not a fault",
+        r.ok === true,
+        "a red row for a duplicate submission trains you to ignore the health page");
+      check("names it as a merge", /MERGE signature/.test(r.detail), r.detail);
+      check("says the endpoint itself works", /read back HTTP 200/.test(r.detail));
+      check("explains why every test so far merged", /account\s+owner's own address/.test(r.detail), r.detail);
+      check("says what a real enquirer would do instead", /does\s+not merge/.test(r.detail), r.detail);
+    }],
+  ["a 404 that is NOT a merge", 404, "not found",
+    (r) => {
+      check("row is red", r.ok === false);
+      check("shows Lofty's status", /404/.test(r.detail), r.detail);
+      check("says plainly that this one is not the merge case", /NOT the merge signature/.test(r.detail));
+    }],
+];
+
+(async () => {
+  for (const [label, status, body, assert] of cases) {
+    console.log(`\n${label}`);
+    const written = {};
+    require.cache[blobsPath] = { id: blobsPath, filename: blobsPath, loaded: true, exports: {
+      getStore: () => ({
+        get: async (k) => (k === "lofty-last-push.json"
+          ? { at: "2026-08-15T18:51:40.000Z", formName: "contact", ok: true, httpStatus: 200,
+              leadId: 1147334685108095, payloadShape: "full",
+              noteResult: { attempted: true, ok: true }, tagResult: { attempted: true, ok: true, step: "added" } }
+          : null),
+        setJSON: async (k, v) => { written[k] = v; },
+        list: async () => ({ blobs: [] }),
+      }),
+    } };
+    for (const k of Object.keys(require.cache)) {
+      if (k.startsWith(FN_DIR) && k !== blobsPath) delete require.cache[k];
+    }
+    process.env.LOFTY_API_KEY = "k";
+    process.env.GOOGLE_MAPS_API_KEY = "g";
+    delete process.env.RESEND_API_KEY;
+
+    const seen = [];
+    global.fetch = async (url, opts = {}) => {
+      seen.push({ url: String(url), method: opts.method || "GET" });
+      if (String(url).includes("/leads/")) {
+        return { ok: status >= 200 && status < 300, status,
+          text: async () => (typeof body === "string" ? body : JSON.stringify(body)),
+          headers: { get: () => null } };
+      }
+      // Every other probe (Google, /me, photos) — keep them out of the way.
+      return { ok: false, status: 503, text: async () => "{}", json: async () => ({}), headers: { get: () => null } };
+    };
+
+    const res = await require(`${FN_DIR}/site-health.js`).localHandler({ queryStringParameters: { format: "json", probe: "1" } });
+    const p = JSON.parse(res.body);
+    const row = p.checks.find((c) => c.name === "What Lofty says about your last lead");
+    check("row exists", !!row);
+    if (!row) continue;
+    console.log(`       ${row.ok ? "✓" : "✗"} ${row.detail}`);
+    assert(row);
+
+    const leadCalls = seen.filter((s) => s.url.includes("/leads/"));
+    check("the probe is READ-ONLY — only a GET touched the lead",
+      leadCalls.length === 1 && leadCalls[0].method === "GET", JSON.stringify(leadCalls));
+    check("result cached so refreshes don't hammer Lofty", !!written["lofty-lead-check.json"]);
+  }
+
+  // 2026-08-17: I briefly made these probes refresh themselves, and rewrote this
+  // block to match. That was wrong -- the no-outbound-calls-by-default promise is
+  // load-bearing (see test-optional.js on the crying-wolf lesson), so it stands,
+  // and these assertions are restored. What was actually broken was that a saved
+  // reading was indistinguishable from a live one; that is fixed by disclosure,
+  // pinned in test-healthlive.js, not by probing harder.
+  console.log("\nno probe requested => no Lofty call at all");
+  const seen2 = [];
+  global.fetch = async (url) => { seen2.push(String(url)); return { ok: false, status: 503, text: async () => "{}", headers: { get: () => null } }; };
+  for (const k of Object.keys(require.cache)) { if (k.startsWith(FN_DIR) && k !== blobsPath) delete require.cache[k]; }
+  const res2 = await require(`${FN_DIR}/site-health.js`).localHandler({ queryStringParameters: { format: "json" } });
+  check("nothing was fetched", seen2.length === 0, JSON.stringify(seen2));
+  const parsed2 = JSON.parse(res2.body);
+  const row2 = parsed2.checks.find((c) => c.name === "What Lofty says about your last lead");
+  check("row tells her how to run it", /add \?probe=1/.test(row2.detail), row2.detail);
+  check("not-yet-run does not read as broken", row2.ok === true);
+  // And the new summary row must say plainly that nothing here has been run yet,
+  // rather than leaving the page looking like a set of current readings.
+  const summary = parsed2.checks.find((c) => c.name === "Live checks are current");
+  check("a summary row reports the readings are not live", !!summary && summary.ok === false, JSON.stringify(summary));
+  check("it names what needs running", summary && /never run:/.test(summary.detail), summary && summary.detail);
+  check("it says how to make them live", summary && /\?probe=1/.test(summary.detail));
+  check("and it cannot turn the page red by itself", summary && summary.optional === true);
+
+  console.log(failures === 0 ? "\nAll checks passed.\n" : `\n${failures} FAILED\n`);
+  process.exit(failures ? 1 : 0);
+})().catch((e) => { console.error("harness error:", e); process.exit(1); });

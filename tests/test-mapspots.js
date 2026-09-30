@@ -145,10 +145,13 @@ for (const rel of ["build/assets/js/map.js", null]) {
 // The endpoint is now a real local function passing through to the shared
 // Signature deployment (see netlify/functions/lib/_sig-proxy.js), so the
 // check's intent -- the URL the map fetches must resolve -- points there.
+// 2026-09-30 (Signature move, part 1): the function now also carries the
+// Signature code and answers here once switched on (lib/_backend-mode.js), so
+// the check is that the endpoint exists under this exact name with that switch.
 const spotsFn = fs.readFileSync(
   path.join(ROOT, "netlify", "functions", "local-spots.js"), "utf8");
-check("the local-spots endpoint passes through to the shared backend",
-  /_sig-proxy/.test(spotsFn) && /makeProxy\("local-spots"\)/.test(spotsFn));
+check("the local-spots endpoint exists, passing through to the shared backend until switched on",
+  /backendSwitch\("local-spots", localHandler\)/.test(spotsFn));
 const mapSrc = fs.readFileSync(path.join(ROOT, "build", "assets", "js", "map.js"), "utf8");
 check(
   "the map still fetches her spots at runtime",

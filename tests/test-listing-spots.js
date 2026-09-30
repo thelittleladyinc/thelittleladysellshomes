@@ -1,0 +1,93 @@
+// Ported 2026-09-30 from the Signature repo with the function(s) it covers
+// (Signature move, part 1, docs/SIGNATURE-MOVE.md). It exercises the copied code
+// through each function's localHandler; whether that code or the pass-through to
+// Signature answers a visitor is lib/_backend-mode.js's decision, pinned in
+// tests/test-sharedproxy.js.
+//
+// A listing page must carry Christine's own local spots for its town — the thing
+// no portal listing page can have — and must degrade to nothing for a town where
+// she has no spots yet.
+// Repo root derived from this file's own location, never hardcoded: these suites
+// run both locally and in GitHub Actions, where the checkout is at
+// /home/runner/work/<repo>/<repo>. An absolute path would pass here and fail there.
+// 2026-09-28: listing display is behind the IDX kill switch (default OFF) and a
+// 12-hour freshness guard -- see lib/_idx-display.js and test-idxdisplay.js. This
+// suite tests what happens once display is ON with current data.
+process.env.IDX_DISPLAY = "on";
+const ROOT = require("path").resolve(__dirname, "..");
+const FN_DIR = `${ROOT}/netlify/functions`;
+const blobsPath = require.resolve("@netlify/blobs", { paths: [FN_DIR] });
+const KEYS = require(`${FN_DIR}/lib/_mls-shared.js`);
+let failures = 0;
+const check = (l, c, x) => { if (c) console.log(`  ok   ${l}`); else { failures++; console.log(`  FAIL ${l}${x ? ` — ${x}` : ""}`); } };
+
+function listing(city) {
+  return {
+    listingId: "IRE123", address: "123 Test St", city, state: "CO", zip: "80538",
+    price: 750000, beds: 4, baths: 3, sqft: 2400, status: "Active", mlgCanView: true,
+    // 2026-09-28: one of HERS. On Lofty this site's listing pages are Christine's
+    // own listings only (every other home is on her Lofty home search), and hers
+    // are exactly where her local spots now appear.
+    propertyType: "Residential", agentName: "Christine Gwinnup", photoCount: 3,
+  };
+}
+function load(city) {
+  require.cache[blobsPath] = { id: blobsPath, filename: blobsPath, loaded: true, exports: {
+    getStore: () => ({
+      // listings.json is a MAP keyed by listing id, not an array.
+      // 2026-09-28: the key names come from _mls-shared.js, so this follows the
+      // page to whichever source (Lofty or MLS Grid) it is reading.
+      get: async (k) => (k === KEYS.LISTINGS_KEY ? { IRE123: listing(city) }
+        : k === KEYS.SYNC_STATE_KEY ? { lastRunAt: "2026-08-16T00:00:00Z", lastSuccessAt: new Date().toISOString() } : null),
+    }),
+  } };
+  for (const k of Object.keys(require.cache)) {
+    if (k.startsWith(FN_DIR) && k !== blobsPath && !k.endsWith(".json")) delete require.cache[k];
+  }
+  return require(`${FN_DIR}/listing-page.js`).localHandler;
+}
+(async () => {
+  const res = await load("Loveland")({ queryStringParameters: { id: "IRE123" } });
+  const html = res.body || "";
+  check("page renders", res.statusCode === 200, String(res.statusCode));
+  check("the section appears", /Around Loveland, From Christine/.test(html), html.slice(0, 200));
+  check("headline sells judgement, not a database", /actually worth your time/.test(html));
+  const titles = [...html.matchAll(/spot-card-title">([^<]+)</g)].map(m => m[1]);
+  console.log(`       spots shown: ${titles.join(" | ")}`);
+  check("exactly three spots", titles.length === 3, String(titles.length));
+  // Derived, not hardcoded: the leader changes as reviews and videos are added.
+  // Sweet Heart Winery leads today only because it carries BOTH (1,188 + 1,000).
+  const all = require(`${ROOT}/netlify/functions/lib/_local-spots.json`).spots;
+  const total = (s) => (s.views || 0) + (s.reviewViews || 0);
+  const expected = all.filter(s => s.city === "Loveland").sort((a, b) => total(b) - total(a))[0];
+  check("most-watched first, counting both platforms", titles[0] === expected.name,
+    `got ${titles[0]}, expected ${expected.name} (${total(expected).toLocaleString()})`);
+  check("her videos are embedded", /youtube-nocookie\.com\/embed\//.test(html));
+  check("view counts are shown with their platform", /views on YouTube/.test(html));
+  check("uses the shared spot styles", /class="spot-grid"/.test(html));
+
+  const berthoud = await load("Berthoud")({ queryStringParameters: { id: "IRE123" } });
+  check("a review-backed town shows her words instead of a video",
+    /spot-quote/.test(berthoud.body) && /views on Google/.test(berthoud.body));
+
+  // 2026-08-16: this used to name Windsor, and then Windsor got two spots -- so a
+  // test of "an empty town renders nothing" started failing because the town it
+  // picked stopped being empty. Adding a spot is the whole point of the feature and
+  // must never break a test, so the empty town is now DERIVED: take a town the
+  // listing feed really carries and that the spots data really has nothing for.
+  const townsWithSpots = new Set(all.map((s) => s.city));
+  const emptyTown = ["Greeley", "Timnath", "Wellington", "Johnstown", "Mead", "Severance"]
+    .find((t) => !townsWithSpots.has(t));
+  check("there is still an un-covered town to test with", !!emptyTown,
+    `every candidate now has spots: ${[...townsWithSpots].join(", ")}`);
+  if (emptyTown) {
+    const empty = await load(emptyTown)({ queryStringParameters: { id: "IRE123" } });
+    check(`a town with no spots renders NO empty heading (${emptyTown})`,
+      !/From Christine/.test(empty.body) && empty.statusCode === 200);
+  }
+
+  const unknown = await load("Nowheresville")({ queryStringParameters: { id: "IRE123" } });
+  check("an unknown town degrades silently", !/From Christine/.test(unknown.body));
+  console.log(failures === 0 ? "\nAll checks passed.\n" : `\n${failures} FAILED\n`);
+  process.exit(failures ? 1 : 0);
+})().catch(e => { console.error("harness error:", e.message); process.exit(1); });

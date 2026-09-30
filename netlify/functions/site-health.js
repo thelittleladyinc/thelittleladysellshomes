@@ -1,4 +1,1696 @@
-// Credential-free pass-through to the shared Signature backend -- see
-// lib/_sig-proxy.js for why this exists (reserved-path proxy rules never fire).
-"use strict";
-exports.handler = require("./lib/_sig-proxy").makeProxy("site-health");
+// ---- The Little Lady copy (2026-09-30, Signature move, part 1) --------------
+// Copied from the Signature repo (signature-property-collection, including its
+// 2026-09-30 audit fixes) under the SAME function name, because this site's pages,
+// its map and other apps call it by that name. It answers HERE only once Christine
+// switches it on -- lib/_backend-mode.js, docs/SIGNATURE-MOVE.md. Until then every
+// request passes through to the same function on the Signature site exactly as
+// before (lib/_sig-proxy.js). Below this block is the Signature code; anything
+// changed for this site is marked "(Little Lady copy)".
+// -----------------------------------------------------------------------------
+// Human-readable "is everything actually working" status page — one URL
+// Christine can bookmark and check herself instead of both of us running
+// ad-hoc ?debug=true fetches back and forth every time something seems
+// off.
+//
+// 2026-08-17 — THIS HEADER USED TO PROMISE "read-only by default: it never talks
+// to MLS Grid or Cloudinary itself ... loading this page is free and can never
+// cost API quota, trigger a request, or interfere with the suspension breaker."
+// That promise made the page cheap and also made it untrustworthy: the five
+// probe-backed rows rendered whatever the last ?probe=1 run concluded, at any age,
+// three of them without even printing a date. Christine had fixed her Cloudinary
+// credentials the day before and the page still said "cloud_name mismatch"; I read
+// it and repeated it to her as current. Her reply set the standard: confirm it is
+// valid and live, or there is no reason for the page to exist.
+//
+// The promise is KEPT — a plain page load still makes no outbound calls and still
+// cannot spend API quota or touch the suspension breaker. What changed is that the
+// page no longer hides the cost of that choice. Every probe row prints when it was
+// checked, a reading older than the TTL is flagged and stops counting as a pass or
+// a fail, and a summary row at the top names everything that needs re-checking with
+// the one-click way to do it. Honest by default, live in one click.
+//
+// (I first made the probes refresh themselves. That broke three suites, each
+// guarding a lesson already paid for here. Probing was never the missing piece —
+// disclosure was. See the note above freshen().)
+//
+// ONE EXCEPTION, added 2026-08-15 (Christine: "can you confirm that google maps
+// is correct api set correct for me?"). Nobody can answer that by reading code:
+// the key lives in Netlify's env vars and which APIs are enabled lives in her
+// Google Cloud project. So ?google=1 runs two real, tiny probes against her key
+// — one Geocoding request and one Places request — and reports Google's own
+// status and error_message verbatim, which is the part that actually says which
+// API to turn on ("This API project is not authorized to use this API",
+// "REQUEST_DENIED", "API key not valid", and so on).
+//
+// Kept honest about cost: opt-in only (the default page still makes zero
+// outbound calls), the result is cached in Blobs for GOOGLE_CHECK_TTL_MS so
+// refreshing the page doesn't re-spend quota, and two requests is far inside
+// the free tier either way. The key itself is never printed — only whether it
+// works.
+const { getStore } = require("@netlify/blobs");
+const {
+  SYNC_STATE_KEY, MINE_LISTINGS_KEY, getBlobStore, LISTINGS_SOURCE, MLSGRID_KEYS,
+} = require("./lib/_mls-shared");
+const { isLoftyPhoto, sizedPhoto, CARD_PHOTO_WIDTH } = require("./lib/_lofty-listings");
+const { homeSearchUrl } = require("./lib/_home-search");
+const recentActivity = require("./recent-activity")._internals;
+const { idxGate } = require("./lib/_idx-display");
+const { isCloudinaryConfigured, cloudinaryCredentials } = require("./lib/_cloudinary");
+// (Little Lady copy) No lib/_media.js here: it served only the MLS Grid photo
+// probe, which is not copied (see the note where probePhotoPipeline was).
+const { checkMlsQuota } = require("./lib/_mls-usage");
+const { cloudinaryDiagnostics } = require("./lib/_cloudinary");
+const { tagsFromLead, describeTagShape } = require("./lib/_notify");
+const { hiddenListingIds } = require("./lib/_hidden-listings");
+const { describeBackends } = require("./lib/_backend-mode");
+// Read for the Tour It With Me coverage row below — same file the map reads.
+const LOCAL_SPOTS = require("./lib/_local-spots.json");
+
+// Must match SUSPENSION_KEY in sync-listings.js — duplicated here rather
+// than exported since it's a single literal string and this file should
+// stay read-only / dependency-light.
+const SUSPENSION_KEY = "mlsgrid-suspension.json";
+const GOOGLE_CHECK_KEY = "google-api-check.json";
+// Written by submission-created.js on every website-lead push. See that file's
+// 2026-08-15 note: a broken Lofty integration used to look exactly like a
+// working one from outside, which is how a real form submission went missing.
+const LOFTY_LAST_PUSH_KEY = "lofty-last-push.json";
+const LOFTY_FAILED_PUSH_KEY = "lofty-failed-pushes.json";
+const LOFTY_CHECK_KEY = "lofty-key-check.json";
+const LOFTY_LEAD_CHECK_KEY = "lofty-lead-check.json";
+// Must match TRIGGER_TAG in submission-created.js.
+const LOFTY_TRIGGER_TAG = "Hot Lead - Website";
+// 2026-09-28: the Lofty photo check keeps its own verdict, so an old MLS Grid
+// photo verdict can never be shown as if it described Lofty's image server.
+const PHOTO_CHECK_KEY = LISTINGS_SOURCE === "lofty" ? "lofty-photo-check.json" : "photo-pipeline-check.json";
+const CLOUDINARY_CHECK_KEY = "cloudinary-usage-check.json";
+
+// MUST MATCH the cron in netlify.toml's [functions."sync-listings"] block.
+//
+// 2026-08-17: the schedule moved 15 -> 30 minutes and this row did not follow it.
+// It kept telling Christine the sync "should be every 15", and — the part that
+// actually mattered — it went RED at 20 minutes, so a completely healthy sync on
+// the new schedule would report itself broken for a third of every cycle. A health
+// page that cries wolf is worse than no health page, because the next real failure
+// gets read as the same noise.
+//
+// The lateness threshold is derived rather than typed, so changing the interval
+// can't leave a stale number behind again. One full missed run plus a margin: the
+// sync is resumable and a single skipped run is not a fault worth alarming on.
+const SYNC_INTERVAL_MINUTES = 30;
+const SYNC_LATE_AFTER_MINUTES = SYNC_INTERVAL_MINUTES * 2 + 5;
+
+// 2026-08-15: Lofty's own API page (Settings > Integrations > API) documents
+// this exact call as its usage example, which makes it the ideal key test --
+// GET, read-only, and it either recognizes the key or it doesn't:
+//
+//   curl --request GET --url https://api.lofty.com/v1.0/me \
+//        --header 'Authorization: token <your apiKey>'
+//
+// Worth having because the alternative was "submit a form and wait": Christine
+// asked why a lead never reached Lofty, and without this the only way to test
+// the key was to generate another real lead.
+const LOFTY_ME_URL = "https://api.lofty.com/v1.0/me";
+
+// ---- 2026-09-28: Lofty as the listing source -------------------------------
+// The photo check for Lofty: fetch one of Christine's cover photos from Lofty's
+// image server at card size, exactly as a buyer's browser would. No MLS Grid
+// call, and one small request, so it follows the same ?probe=1 rules as the rest.
+async function probeLoftyPhoto(mineListings) {
+  const out = { checkedAt: new Date().toISOString() };
+  const first = (Array.isArray(mineListings) ? mineListings : []).find((l) => l && isLoftyPhoto(l.photo));
+  if (!first) {
+    out.ok = false;
+    out.detail = "None of Christine's listings has a Lofty photo stored yet — the Lofty refresh has not finished a run.";
+    return out;
+  }
+  const url = sizedPhoto(first.photo, CARD_PHOTO_WIDTH);
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+    const type = String((res.headers && res.headers.get && res.headers.get("content-type")) || "");
+    const bytes = res.ok ? (await res.arrayBuffer()).byteLength : 0;
+    out.ok = res.ok && type.startsWith("image/");
+    out.detail = out.ok
+      ? `Working — ${first.listingId}'s cover came back from Lofty's image server as a ${Math.round(bytes / 1024)}KB card-size photo.`
+      : `Lofty's image server answered HTTP ${res.status}${type ? ` (${type})` : ""} for ${first.listingId}'s cover.`;
+  } catch (err) {
+    out.ok = false;
+    out.detail = `Could not reach Lofty's image server for ${first.listingId}: ${err && err.message}`;
+  }
+  return out;
+}
+
+// The listing rows when Lofty is the source. Same questions the MLS Grid rows
+// answered -- is it running, did it fail, is her inventory there -- asked of the
+// 30-minute refresh of her own listings (lib/_lofty-listings.js runMineSync).
+// 2026-09-28: under Lofty the MLS Grid path still runs after her listings, for
+// the town pages' market figures (sync-listings.js). Its own row, optional: if it
+// stops, the figures go stale and then drop off the town pages -- nothing a
+// visitor sees breaks.
+function mlsGridMarketDataRow(gridState, now) {
+  const tokenSet = !!process.env.MLSGRID_API_TOKEN;
+  const off = String(process.env.MLSGRID_MARKET_DATA || "").trim().toLowerCase() === "off";
+  const disabled = String(process.env.MLS_DISABLED || "").trim().toLowerCase() === "true";
+  const row = { optional: true, name: "Market data from MLS Grid refreshing (optional)" };
+  // (Little Lady copy) This site has no MLSGRID_API_TOKEN on purpose: the MLS Grid
+  // job stays on the Signature site (until it moves to the shared Seller
+  // Intelligence copy) and writes the store this page reads. So with no token
+  // here the row reports that job's copy instead of calling it switched off.
+  const elsewhere = !tokenSet;
+  if (!elsewhere && (off || disabled)) {
+    return { ...row, ok: false, detail: off ? "Switched off (MLSGRID_MARKET_DATA=off); the town market figures will go stale."
+      : "MLS_DISABLED is set, so nothing is read from MLS Grid; the town market figures will go stale." };
+  }
+  const lastRunAt = gridState && gridState.lastRunAt ? Date.parse(gridState.lastRunAt) : null;
+  const minutes = lastRunAt ? Math.round((now - lastRunAt) / 60000) : null;
+  const ok = minutes !== null && minutes < SYNC_LATE_AFTER_MINUTES && !(gridState && gridState.lastRunError);
+  const stored = gridState && typeof gridState.totalListingsStored === "number"
+    ? `${gridState.totalListingsStored.toLocaleString()} listings in the copy. ` : "";
+  return {
+    ...row,
+    ok,
+    detail: (elsewhere ? "Runs on the Signature site (no MLS Grid token here, on purpose). " : "") +
+      (lastRunAt ? `Last ran ${minutes} minute(s) ago. ` : "Has not run yet. ") + stored +
+      (gridState && gridState.lastSuccessAt ? `Last complete pass ${gridState.lastSuccessAt}. ` : "") +
+      (gridState && gridState.lastRunError ? `Error: ${gridState.lastRunError}. ` : "") +
+      "Used only for the town pages' market figures — never shown as listings.",
+  };
+}
+
+// 2026-09-28: the homepage's "Recently sold & open houses" strip (recent-activity.js)
+// hides itself whenever it has nothing to show, so "it's on" and "it's broken"
+// looked the same from the outside. Christine wants it on, and off when needed:
+// this says which it is, and -- with ?probe=1 -- what Listing Engine is sending it.
+async function recentActivityRow(wantsProbe, now) {
+  const env = process.env;
+  const row = { optional: true, name: "Sold & open-houses strip (optional)" };
+  if (!recentActivity.stripAllowed(env)) {
+    return { ...row, ok: true, detail: "OFF. To show it, set RECENT_ACTIVITY_DISPLAY=on (with IDX_DISPLAY=on) in Netlify and redeploy; set it to off to hide it again." };
+  }
+  if (!String(env.LISTING_FEED_KEY || "").trim()) {
+    return { ...row, ok: false, detail: "ON, but LISTING_FEED_KEY isn't set in Netlify, so it has nothing to show and stays hidden." };
+  }
+  if (!wantsProbe) {
+    return { ...row, ok: true, detail: "ON (RECENT_ACTIVITY_DISPLAY=on). Add ?probe=1 to this page's URL to see what Listing Engine is sending it right now." };
+  }
+  try {
+    const events = await recentActivity.loadEvents(env, now);
+    const items = recentActivity.shapeEvents(events, now);
+    return {
+      ...row,
+      ok: true,
+      detail: `ON — Listing Engine sent ${events.length} event(s) from the last 75 days; ${items.length} fit the strip right now ` +
+        "(homes sold in the last 60 days, open houses in the next 14)." +
+        (items.length ? "" : " With nothing to show, it stays hidden until one does."),
+    };
+  } catch (err) {
+    return { ...row, ok: false, detail: `ON, but Listing Engine didn't answer: ${err && err.name === "AbortError" ? "timed out" : err && err.message}.` };
+  }
+}
+
+function loftyListingRows(state, mineListings, now, alertCount, gridState) {
+  const rows = [];
+  const lastRunAt = state && state.lastRunAt ? Date.parse(state.lastRunAt) : null;
+  const minutes = lastRunAt ? Math.round((now - lastRunAt) / 60000) : null;
+  rows.push({
+    name: "Your listings refreshing from Lofty on schedule",
+    ok: minutes !== null && minutes < SYNC_LATE_AFTER_MINUTES,
+    detail: lastRunAt
+      ? `Last refreshed ${minutes} minute(s) ago (every ${SYNC_INTERVAL_MINUTES} minutes; ` +
+        "POST /.netlify/functions/refresh-my-listings to refresh now)."
+      : "Has never run yet.",
+  });
+  // IDX asks for data no more than 12 hours old, so that is where this goes red.
+  const okAt = state && state.lastSuccessAt ? Date.parse(state.lastSuccessAt) : null;
+  const hoursSince = okAt ? (now - okAt) / 3600000 : null;
+  rows.push({
+    name: "Your listings confirmed by Lofty within 12 hours",
+    ok: hoursSince !== null && hoursSince < 12,
+    detail: okAt
+      ? `Lofty last gave a complete answer ${hoursSince < 1 ? `${Math.round(hoursSince * 60)} minute(s)` : `${hoursSince.toFixed(1)} hour(s)`} ago.` +
+        (state && state.lastRunAnswer && state.lastRunAnswer !== "ok"
+          ? ` The latest run's answer was "${state.lastRunAnswer}", so the last good set was kept.` : "")
+      : "Lofty hasn't given a complete answer yet, so the 12-hour freshness rule holds her listings back.",
+  });
+  rows.push({
+    name: "No Lofty errors on last run",
+    ok: !state || !state.lastRunError,
+    detail: (state && state.lastRunError) || "none",
+  });
+  const mineCount = Array.isArray(mineListings) ? mineListings.length : 0;
+  const nonMls = state && Array.isArray(state.herNonMlsListings) ? state.herNonMlsListings : [];
+  rows.push({
+    name: "Christine's own listings found",
+    ok: mineCount > 0,
+    detail: `${mineCount} listing(s) on the site` +
+      (state && state.skippedNotHers ? `; ${state.skippedNotHers} more from Lofty's "my listings" don't carry her name as agent or co-agent, so they aren't shown` : "") +
+      (nonMls.length ? `. Also in Lofty but not on the MLS, so not shown here: ${nonMls.join("; ")}` : ""),
+  });
+  // 2026-09-30: a Lofty record the MLS says is off the market is hidden by the
+  // sync (lib/_lofty-listings.js confirmOnMarket) and named here, because the
+  // fix for it lives with Lofty support, not on this site.
+  const hidden = state && Array.isArray(state.hiddenOffMarket) ? state.hiddenOffMarket : [];
+  rows.push({
+    name: "Every listing Lofty reports is still on the MLS",
+    ok: hidden.length === 0,
+    detail: hidden.length
+      ? `${hidden.length} listing(s) Lofty reports as yours are NOT on the market per the MLS, so the site hides them: ` +
+        hidden.map((h) => `${h.listingId} · ${h.address}, ${h.city} (Lofty says ${h.status}; ${h.why})`).join("; ") +
+        ". Ask Lofty support to correct the record — it shows on every Lofty-powered site, including your home search."
+      : state && state.mlsCheck === "checked"
+        ? `All ${mineCount} confirmed against the MLS on the last refresh` +
+          (state.mlsUnconfirmed ? ` (${state.mlsUnconfirmed} could not be checked and were kept)` : "") + "."
+        : "Not checked: the MLS check runs only when the MLS Grid market-data run is on (MLSGRID_API_TOKEN set).",
+  });
+  const withDetails = (Array.isArray(mineListings) ? mineListings : []).filter((l) => l && l.detailsFor).length;
+  rows.push({
+    optional: true,
+    name: "Descriptions and full galleries loaded (optional)",
+    ok: withDetails === mineCount,
+    detail: withDetails === mineCount
+      ? "All loaded."
+      : `${mineCount - withDetails} of ${mineCount} listing(s) still show only a cover photo — the next refresh retries.`,
+  });
+  rows.push({
+    optional: true,
+    name: "Home search goes to Lofty (optional)",
+    ok: true,
+    detail: `Every "Search Homes" on this site opens ${homeSearchUrl({})} (with the visitor's towns and ` +
+      "filters). Change it with IDX_SEARCH_URL in Netlify.",
+  });
+  rows.push(mlsGridMarketDataRow(gridState, now));
+  if (alertCount) {
+    rows.push({
+      optional: true,
+      name: "Map new-home alerts paused (optional)",
+      ok: true,
+      detail: `${alertCount} sign-up(s) from before the switch are saved but no longer emailed — this site ` +
+        "only holds your own listings now. New sign-ups are sent to your home search to save a search there.",
+    });
+  }
+  return rows;
+}
+
+// (Little Lady copy) probePhotoPipeline -- the Signature check that resolved a
+// listing's photos at MLS Grid and downloaded one, making real MLS Grid requests
+// under ?probe=1 -- is not copied. This page answers here only while the listings
+// come from Lofty (lib/_backend-mode.js), where the photo check is
+// probeLoftyPhoto above, and nothing moved to this site calls MLS Grid.
+
+// Cloudinary's own account usage. The 403 blocking her permanent photo copies
+// comes from Cloudinary's upload API (proven: that error string lives in
+// node_modules/cloudinary/lib/uploader.js), and Cloudinary answers 403 for a
+// short list of reasons -- credits exhausted, account disabled, bad signature.
+// Asking for usage separates them: it needs valid credentials to answer at all,
+// and its numbers say whether the account is out of room.
+async function probeCloudinaryUsage() {
+  try {
+    const cloudinary = require("cloudinary").v2;
+    // 2026-08-17: read through the same resolver the uploads use, so this row can
+    // never test a different set of credentials than the ones actually in play.
+    // It used to read the three env vars directly, which would have quietly tested
+    // the WRONG thing the moment CLOUDINARY_URL became an option -- a health check
+    // that disagrees with the code it is checking is worse than no health check.
+    const creds = cloudinaryCredentials();
+    if (!creds) return { checkedAt: new Date().toISOString(), ok: false, error: "not configured" };
+    cloudinary.config(Object.assign({ secure: true }, creds));
+    const usage = await cloudinary.api.usage({ timeout: 6000 });
+    const credits = usage && usage.credits;
+    return {
+      checkedAt: new Date().toISOString(),
+      ok: true,
+      plan: usage && usage.plan,
+      creditsUsed: credits && credits.used_percent != null ? `${credits.used_percent}% of ${credits.limit}` : null,
+      storageBytes: usage && usage.storage && usage.storage.usage,
+      lastUpdated: usage && usage.last_updated,
+    };
+  } catch (err) {
+    return {
+      checkedAt: new Date().toISOString(),
+      ok: false,
+      error: (err && (err.message || (err.error && err.error.message))) || String(err),
+      httpCode: (err && err.http_code) || null,
+    };
+  }
+}
+
+async function probeLoftyKey(apiKey) {
+  try {
+    const res = await fetch(LOFTY_ME_URL, {
+      headers: { "Authorization": `token ${apiKey}` },
+      signal: AbortSignal.timeout(GOOGLE_PROBE_TIMEOUT_MS),
+    });
+    const text = await res.text().catch(() => "");
+    return {
+      checkedAt: new Date().toISOString(),
+      ok: res.ok,
+      httpStatus: res.status,
+      // Trimmed hard: /me returns the account's own details and this page is
+      // reachable by anyone who knows the URL, so only enough to confirm which
+      // account answered, never the full payload.
+      body: text.slice(0, 160),
+    };
+  } catch (err) {
+    return {
+      checkedAt: new Date().toISOString(),
+      ok: false,
+      httpStatus: "request failed",
+      body: (err && err.message) || "",
+    };
+  }
+}
+// Reads back the LAST lead this site pushed and reports what Lofty says about
+// it. Read-only on purpose -- it creates nothing, changes nothing, and adds no
+// junk contact to her CRM.
+//
+// 2026-08-15 (Christine: "can you check again? just revonnected?"). I can't. Her
+// live site, api.lofty.com and developer.lofty.com are all blocked by this
+// environment's egress proxy, so every question about what Lofty actually
+// returns has had to be relayed through her, one screenshot at a time, and the
+// answer keeps arriving hours later than the question. This probe collapses that
+// loop: one page load answers the three things I have been unable to check.
+//
+//   1. Does GET /leads/{id} work on her account at all? If it 404s, the tag
+//      re-fire can never run, and that would be the whole story.
+//   2. What SHAPE are tags in? Strings, or objects? That is the unknown behind
+//      the data-loss guard in lib/_notify.js -- it currently refuses to touch a
+//      lead whose tags it can't read, which is safe but means the Smart Plan
+//      never re-triggers. Knowing the shape is what lets that be fixed properly.
+//   3. Is "Hot Lead - Website" actually ON that lead right now? That settles
+//      whether the tag is reaching Lofty, independently of any automation.
+//
+// Deliberately reports counts and the trigger tag's presence rather than dumping
+// the lead: this page is reachable by anyone who knows the URL.
+async function probeLoftyLead(apiKey, leadId, triggerTag) {
+  const base = { checkedAt: new Date().toISOString(), leadId: leadId || null };
+  if (!leadId) {
+    return { ...base, ok: false, reason: "no lead has been pushed yet, so there's nothing to read back" };
+  }
+  try {
+    const res = await fetch(`https://api.lofty.com/v1.0/leads/${leadId}`, {
+      headers: { "Authorization": `token ${apiKey}` },
+      signal: AbortSignal.timeout(GOOGLE_PROBE_TIMEOUT_MS),
+    });
+    const text = await res.text().catch(() => "");
+    if (!res.ok) {
+      return { ...base, ok: false, httpStatus: res.status, body: text.slice(0, 200) };
+    }
+    let json = null;
+    try { json = JSON.parse(text); } catch (e) { json = null; }
+    const lead = (json && (json.data || json)) || {};
+    const readable = tagsFromLead(json);
+    return {
+      ...base,
+      ok: true,
+      httpStatus: res.status,
+      tagShape: describeTagShape(json),
+      // Null means lib/_notify.js will refuse to edit tags on this lead.
+      tagsReadable: readable !== null,
+      tagCount: Array.isArray(lead.tags) ? lead.tags.length : null,
+      hasTriggerTag: readable !== null ? readable.includes(triggerTag) : null,
+      // Only when the shape is one we DON'T understand, and trimmed hard -- this
+      // is the sample that lets the reader be fixed.
+      sample: readable === null && Array.isArray(lead.tags) && lead.tags.length
+        ? JSON.stringify(lead.tags[0]).slice(0, 120)
+        : null,
+    };
+  } catch (err) {
+    return { ...base, ok: false, httpStatus: "request failed", body: (err && err.message) || "" };
+  }
+}
+
+const GOOGLE_CHECK_TTL_MS = 10 * 60 * 1000;
+const GOOGLE_PROBE_TIMEOUT_MS = 6000;
+
+// "3 days" reads instantly; an ISO timestamp needs subtracting from today, which
+// is the arithmetic that lets a stale verdict pass for a current one.
+function describeAge(ms) {
+  const mins = Math.round(ms / 60000);
+  if (mins < 1) return "less than a minute";
+  if (mins < 60) return `${mins} minute${mins === 1 ? "" : "s"}`;
+  const hours = Math.round(mins / 60);
+  if (hours < 24) return `${hours} hour${hours === 1 ? "" : "s"}`;
+  const days = Math.round(hours / 24);
+  return `${days} day${days === 1 ? "" : "s"}`;
+}
+
+// ---------------------------------------------------------------------------
+// 2026-08-17 -- WHY THIS PAGE COULD NOT BE BELIEVED, AND WHAT CHANGED.
+//
+// Five of these checks are live probes whose results are cached in Blobs:
+// Google, the photo pipeline, Cloudinary, the Lofty key, the Lofty lead. All five
+// were gated behind ?probe=1. Without it, the page rendered whatever the last
+// probe concluded -- with NO cap on how old that was, and, for three of the five,
+// no date shown at all.
+//
+// Christine said "I feel like I already did the cloud thing yesterday". She had.
+// The page was still reporting the pre-fix verdict, I read it as current, and told
+// her it was still broken. Her response is the right standard: confirm it is valid
+// and live, or there is no reason for the page to exist.
+//
+// Three changes make that true:
+//
+//   1. EVERY probe row now prints when it was checked, in absolute time and in
+//      words ("2 days ago"), so an old reading can never again pass for a current
+//      one. Three of the five printed no date at all.
+//   2. A verdict older than the TTL is flagged loudly AND stops counting as a
+//      pass or a fail, because it is neither -- it is a reading about the past. A
+//      stale failure that keeps a row red is how I came to tell Christine her
+//      Cloudinary credentials were still broken after she had fixed them.
+//   3. A summary row at the top of the page names every check whose reading is
+//      old or missing, with the one-click way to refresh them. So the page is
+//      honest by default and live in one click.
+//
+//   WHAT THIS DELIBERATELY DOES NOT DO: probe on its own. I tried that first and
+//   it broke three suites, each guarding a lesson already paid for -- a page load
+//   makes no outbound calls, rows must not go red for things that are not broken
+//   ("the crying-wolf mistake the Cloudinary row already taught us"), and a
+//   considered cached verdict must not be silently overwritten. Probing was never
+//   the missing piece; disclosure was.
+//   2. The probes run in PARALLEL. They were sequential awaits; five of them at
+//      6-8s of timeout each is 30-40s, well past a function's budget. In parallel
+//      the worst case is the slowest single probe, and the whole group is bounded
+//      by PROBE_BUDGET_MS so the page always renders.
+//   3. Every probe row prints when it was checked, and says so loudly if that is
+//      older than the TTL. This is the backstop: a probe can still fail or time
+//      out, and then the page falls back to the cached value -- which must never
+//      again be presented as if it were current.
+// 2026-08-18. This was 6500ms while the photo probe's own steps allowed 6000ms to
+// resolve plus 8000ms to fetch an image -- up to 14 seconds for a budget of six and
+// a half. So the photo row could essentially never finish inside the group, and
+// Christine's page showed every other probe refreshed to the second while "Listing
+// photos load end to end" sat at a fifteen-hour-old reading, with no indication
+// that the row was structurally incapable of updating rather than merely unlucky.
+//
+// That is the one row that matters when photos are the problem, and it was the one
+// row that could not answer. Raised here, and the photo probe's own steps tightened
+// below so the whole chain fits: 3000 + 4500 = 7500 worst case, inside this budget,
+// inside Netlify's 10-second function ceiling.
+const PROBE_BUDGET_MS = 8500;
+
+
+function verdictAgeMs(v) {
+  return v && v.checkedAt ? Date.now() - Date.parse(v.checkedAt) : null;
+}
+
+// The one place that decides whether a cached verdict may be trusted, and
+// refreshes it when it may not. Never throws and never returns nothing: on any
+// probe failure the previous value is kept, and its age is what tells the reader
+// not to trust it.
+async function freshen(cached, { enabled, force, probe, key, store }) {
+  // Probes stay OPT-IN. I first made them refresh themselves, which broke three
+  // suites that each encode a lesson this codebase has already paid for:
+  //
+  //   - test-leadprobe.js: a plain page load makes no outbound calls at all.
+  //   - test-optional.js:  "the crying-wolf mistake the Cloudinary row already
+  //                        taught us" -- rows must not go red for things that are
+  //                        not actually broken. A probe firing in an environment
+  //                        where the call fails produces exactly that.
+  //   - test-tagsnotreturned.js: a considered cached verdict, overwritten.
+  //
+  // Christine's problem was never that the page failed to probe. It was that a
+  // verdict from the previous day was indistinguishable from one from this second.
+  // That is fixed by SAYING SO -- see ageNote() and the summary row -- which costs
+  // no quota, raises no false alarms, and leaves the page one click from live.
+  if (!enabled || !force) return cached;
+  const age = verdictAgeMs(cached);
+  if (age !== null && age < GOOGLE_CHECK_TTL_MS) return cached;
+  try {
+    const next = await probe();
+    if (next) {
+      await store.setJSON(key, next).catch(() => {});
+      return next;
+    }
+  } catch (err) {
+    console.warn(`site-health: probe for ${key} failed: ${err && err.message}`);
+  }
+  return cached;
+}
+
+// Renders the age of a probe verdict, plus a loud warning when it is old enough
+// that acting on it means possibly re-doing work already done.
+function ageNote(v) {
+  const age = verdictAgeMs(v);
+  const stale = age !== null && age > GOOGLE_CHECK_TTL_MS;
+  return {
+    age,
+    stale,
+    when: age !== null ? `Checked ${v.checkedAt} (${describeAge(age)} ago). ` : "",
+    warning: stale
+      ? "THIS READING IS OLD and may predate a fix you have already made — the live " +
+        "re-check did not complete, so reload with ?probe=1 before acting on it. "
+      : "",
+  };
+}
+
+// A real place and a point in Loveland — real inputs, so a success genuinely
+// proves the API works rather than proving a placeholder round-trips.
+// 2026-09-26: no longer her street address; she does not publish it anywhere.
+const GEOCODE_PROBE_ADDRESS = "Loveland, CO";
+const PLACES_PROBE_LATLNG = "40.3978,-105.0748";
+
+// Probes the two Google APIs this site actually uses. Returns a plain,
+// printable result per API: ok, Google's status, and Google's own message.
+async function probeGoogle(apiKey) {
+  const out = { checkedAt: new Date().toISOString() };
+
+  async function call(label, url) {
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(GOOGLE_PROBE_TIMEOUT_MS) });
+      if (!res.ok) return { ok: false, status: `HTTP ${res.status}`, message: "" };
+      const json = await res.json();
+      // Google returns 200 with a status field even when the key is wrong, which
+      // is exactly why checking the HTTP code alone tells you nothing.
+      const okStatuses = ["OK", "ZERO_RESULTS"];
+      return {
+        ok: okStatuses.includes(json.status),
+        status: json.status || "unknown",
+        message: json.error_message || "",
+      };
+    } catch (err) {
+      return { ok: false, status: "request failed", message: (err && err.message) || "" };
+    }
+  }
+
+  out.geocoding = await call(
+    "geocoding",
+    "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+      encodeURIComponent(GEOCODE_PROBE_ADDRESS) + "&key=" + encodeURIComponent(apiKey),
+  );
+  // Same legacy Places endpoint nearby-places.js and walkability.js use, so this
+  // tests the API those features actually call -- not a different Places
+  // product that might be enabled while theirs isn't.
+  out.places = await call(
+    "places",
+    "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
+      encodeURIComponent(PLACES_PROBE_LATLNG) + "&rankby=distance&type=cafe&key=" +
+      encodeURIComponent(apiKey),
+  );
+  return out;
+}
+
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+  ));
+}
+
+// ---- 2026-09-30 (API audit): no personal data on this page ------------------
+// /status and /site-health are public rewrites, and the Little Lady site's /status
+// is a pass-through to this same function. The page used to print the last lead's
+// email address, and ?format=json returned the raw push record plus the whole
+// retry queue -- up to 25 failed leads with name, email, phone and what they wrote.
+// The diagnosis never needed any of that: which form, when, the HTTP status and
+// which step failed say everything, and the leads themselves are safe in Lofty,
+// Netlify Forms and the alert email. So the rows name no one, free text from a
+// vendor is scrubbed of email addresses and phone numbers before it is shown, and
+// the JSON carries a whitelisted summary instead of the stored records.
+function redactPersonal(text) {
+  return String(text == null ? "" : text)
+    .replace(/[^\s@"'<>(),;:]+@[^\s@"'<>(),;:]+\.[a-z]{2,}/gi, "[email]")
+    .replace(/(?:\+?1[\s.-]?)?\(?\b\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}\b/g, "[phone]");
+}
+
+const PUBLIC_STEP_FIELDS = [
+  "attempted", "ok", "httpStatus", "step", "skipped", "reason", "leadMissing", "tagRestored",
+  "tagsSeen", "tagShape", "found", "via", "anyMatch", "tagField", "leadId", "taskId", "fields",
+  "fromFallback", "sender",
+];
+
+function publicStep(r) {
+  if (!r || typeof r !== "object") return r == null ? null : undefined;
+  const out = {};
+  for (const k of PUBLIC_STEP_FIELDS) if (r[k] !== undefined) out[k] = r[k];
+  // Vendor error text is kept for a failure only -- it is the diagnosis -- and
+  // scrubbed, because nobody controls what a vendor echoes back.
+  if (r.ok === false || r.error) {
+    const why = r.error || r.response;
+    if (why) out.error = redactPersonal(why).slice(0, 200);
+  }
+  return out;
+}
+
+// What ?format=json says about the last push: the same facts the rows use, and
+// nothing about the person.
+function publicPushRecord(p) {
+  if (!p || typeof p !== "object") return null;
+  const out = {
+    at: p.at || null, formName: p.formName || null, ok: !!p.ok, httpStatus: p.httpStatus,
+    payloadShape: p.payloadShape || null, leadId: p.leadId || null, inProgress: !!p.inProgress,
+  };
+  if (!p.ok && p.responseBody) out.responseBody = redactPersonal(p.responseBody).slice(0, 240);
+  for (const k of ["existing", "emailResult", "noteResult", "tagResult", "returningResult",
+    "fieldsResult", "inquiryResult"]) {
+    if (p[k] !== undefined) out[k] = publicStep(p[k]);
+  }
+  return out;
+}
+
+// The retry queue as counts and times only. Each entry stored for the retry
+// carries the whole lead, which is exactly why it must never be printed.
+function publicFailedQueue(queue) {
+  const list = Array.isArray(queue) ? queue : [];
+  return {
+    count: list.length,
+    entries: list.map((e) => ({
+      at: (e && e.at) || null, formName: (e && e.formName) || null,
+      httpStatus: e && e.httpStatus, lastRetryAt: (e && e.lastRetryAt) || null,
+    })),
+  };
+}
+
+const localHandler = async (event) => {
+  const store = getBlobStore(getStore);
+  const params = (event && event.queryStringParameters) || {};
+  const wantsJson = params.format === "json";
+
+  const [state, mine, suspension, cachedGoogle, loftyLast, loftyFailed, cachedLoftyKey,
+    cachedLoftyLead, cachedPhotoCheck, cachedCloudCheck] = await Promise.all([
+    store.get(SYNC_STATE_KEY, { type: "json" }),
+    store.get(MINE_LISTINGS_KEY, { type: "json" }),
+    store.get(SUSPENSION_KEY, { type: "json" }),
+    store.get(GOOGLE_CHECK_KEY, { type: "json" }).catch(() => null),
+    store.get(LOFTY_LAST_PUSH_KEY, { type: "json" }).catch(() => null),
+    store.get(LOFTY_FAILED_PUSH_KEY, { type: "json" }).catch(() => null),
+    store.get(LOFTY_CHECK_KEY, { type: "json" }).catch(() => null),
+    store.get(LOFTY_LEAD_CHECK_KEY, { type: "json" }).catch(() => null),
+    store.get(PHOTO_CHECK_KEY, { type: "json" }).catch(() => null),
+    store.get(CLOUDINARY_CHECK_KEY, { type: "json" }).catch(() => null),
+  ]);
+
+  // ---- Google key check (opt-in, cached) ----
+  const googleKey = process.env.GOOGLE_MAPS_API_KEY;
+  // ?probe=1 runs every live check; ?google=1 is kept working since that URL
+  // has already been handed to Christine.
+  const wantsProbe = params.probe === "1" || params.probe === "true" ||
+    params.google === "1" || params.google === "true" ||
+    params.lofty === "1" || params.lofty === "true";
+  const loftyApiKey = process.env.LOFTY_API_KEY;
+
+  // All five probes at once, each refreshing itself if its cached verdict has
+  // aged past the TTL, and the whole group bounded so the page always renders.
+  // See the note above freshen() for why this is no longer opt-in.
+  //
+  // Order here is the order of the destructure below; nothing depends on another's
+  // result, which is exactly why running them sequentially only ever cost time.
+  const probeGroup = Promise.all([
+    freshen(cachedGoogle, {
+      enabled: !!googleKey, force: wantsProbe, store, key: GOOGLE_CHECK_KEY,
+      probe: () => probeGoogle(googleKey),
+    }),
+    freshen(cachedPhotoCheck, {
+      enabled: true, force: wantsProbe, store, key: PHOTO_CHECK_KEY,
+      // (Little Lady copy) Lofty only; see the note where probePhotoPipeline was.
+      probe: () => probeLoftyPhoto(mine),
+    }),
+    freshen(cachedCloudCheck, {
+      enabled: isCloudinaryConfigured(), force: wantsProbe, store, key: CLOUDINARY_CHECK_KEY,
+      probe: () => probeCloudinaryUsage(),
+    }),
+    freshen(cachedLoftyKey, {
+      enabled: !!loftyApiKey, force: wantsProbe, store, key: LOFTY_CHECK_KEY,
+      probe: () => probeLoftyKey(loftyApiKey),
+    }),
+    // Reads the last lead back out of Lofty. Only ever a GET.
+    freshen(cachedLoftyLead, {
+      enabled: !!loftyApiKey, force: wantsProbe, store, key: LOFTY_LEAD_CHECK_KEY,
+      probe: () => probeLoftyLead(loftyApiKey, loftyLast && loftyLast.leadId, LOFTY_TRIGGER_TAG),
+    }),
+  ]);
+
+  // If the group overruns, fall back to the cached verdicts and let each row's
+  // age note say they are old. A slow third party must never turn this page into
+  // a timeout -- an unreachable health page is the least useful kind.
+  let probeTimer;
+  const [google, photoCheck, cloudCheck, loftyKeyCheck, loftyLeadCheck] = await Promise.race([
+    probeGroup,
+    new Promise((resolve) => {
+      probeTimer = setTimeout(() => resolve([
+        cachedGoogle, cachedPhotoCheck, cachedCloudCheck, cachedLoftyKey, cachedLoftyLead,
+      ]), PROBE_BUDGET_MS);
+    }),
+  ]);
+  clearTimeout(probeTimer);
+
+  const now = Date.now();
+  const lastRunAt = state && state.lastRunAt ? Date.parse(state.lastRunAt) : null;
+  const minutesSinceLastRun = lastRunAt ? Math.round((now - lastRunAt) / 60000) : null;
+  const suspendedUntil = suspension && suspension.suspendedUntil;
+  const isSuspended = !!(suspendedUntil && suspendedUntil > now);
+
+  const mineListings = Array.isArray(mine) ? mine : [];
+  const mineCount = mineListings.length;
+  const mineCloudinaryCount = mineListings.filter((l) => {
+    try { return !!(l.photo && new URL(l.photo).host.indexOf("cloudinary") !== -1); } catch (e) { return false; }
+  }).length;
+
+  // Prints what is actually configured, in the words someone comparing it against
+  // Cloudinary's console would need. Never prints the secret.
+  function describeCloudinaryConfig() {
+    let d;
+    try { d = cloudinaryDiagnostics(); } catch (err) { return ""; }
+    if (!d || !d.configured) return "";
+    const flags = [];
+    const bad = (name, c) => {
+      if (!c) return;
+      if (c.hasLeadingOrTrailingSpace) flags.push(`the ${name} has a leading or trailing space`);
+      if (c.hasWhitespaceInside) flags.push(`the ${name} contains a space or newline inside it`);
+      if (c.hasSmartQuoteOrNbsp) flags.push(`the ${name} contains a curly quote or non-breaking space from a copy-paste`);
+      else if (c.hasNonAscii) flags.push(`the ${name} contains an unusual character`);
+    };
+    bad("api_key", d.apiKeyChecks);
+    bad("secret", d.apiSecretChecks);
+    if (!d.apiKeyLooksNumeric) flags.push("the api_key is not the long number Cloudinary issues");
+    if (d.apiSecretLength && (d.apiSecretLength < 20 || d.apiSecretLength > 40)) {
+      flags.push(`the secret is ${d.apiSecretLength} characters, and Cloudinary's are about 27 — ` +
+        "so this looks truncated or partly pasted");
+    }
+    return `WHAT IS ACTUALLY SET (read from ${d.source}): api_key ${d.apiKey}, ` +
+      `cloud "${d.cloudName}", secret ${d.apiSecretLength} characters long. ` +
+      "An api_key is not secret — Cloudinary prints it in its own table — so compare that " +
+      `number against the API Keys page of cloud "${d.cloudName}". If it is not listed there, ` +
+      "the key belongs to a different Cloudinary account. " +
+      (flags.length ? `ALSO WORTH FIXING: ${flags.join("; ")}. ` : "") +
+      "Full detail at /site-health?format=json under cloudinaryConfig. ";
+  }
+
+  // Read before the rows are built: one blob sweep for the whole page rather than
+  // one per row. Never fatal -- a health page that cannot render because its own
+  // instrumentation failed is worse than one honest red row.
+  let mlsQuota;
+  try {
+    mlsQuota = await checkMlsQuota(store, { full: true });
+  } catch (err) {
+    mlsQuota = {
+      blocked: true, disabled: false,
+      reason: `usage log unreadable (${err && err.message})`,
+      hourRequests: 0, hourMB: 0, hourRequestBudget: 0, hourMBBudget: 0,
+    };
+  }
+
+  let areaAlertCount = 0;
+  let gridState = null;
+  if (LISTINGS_SOURCE === "lofty") {
+    const listed = await getBlobStore(getStore, "area-alerts").list().catch(() => null);
+    areaAlertCount = ((listed && listed.blobs) || []).length;
+    gridState = await store.get(MLSGRID_KEYS.SYNC_STATE_KEY, { type: "json" }).catch(() => null);
+  }
+  const checks = LISTINGS_SOURCE === "lofty" ? loftyListingRows(state, mineListings, now, areaAlertCount, gridState) : [
+    {
+      name: "Sync running on schedule",
+      ok: !isSuspended && minutesSinceLastRun !== null && minutesSinceLastRun < SYNC_LATE_AFTER_MINUTES,
+      detail: isSuspended
+        ? `MLS Grid rate-limit circuit breaker is OPEN — paused until ${new Date(suspendedUntil).toLocaleString("en-US")}`
+        : (lastRunAt != null
+          ? `Last ran ${minutesSinceLastRun} minute(s) ago (should be every ${SYNC_INTERVAL_MINUTES})`
+          : "Has never run yet"),
+    },
+    {
+      name: "No MLS Grid errors on last run",
+      ok: !state || !state.lastRunError,
+      detail: (state && state.lastRunError) || "none",
+    },
+    // 2026-08-18. The row that was missing for two days. Everything else on this
+    // page reports whether something WORKED; this reports what it COST, which is
+    // the question nobody could answer while three apps shared one token and the
+    // photos kept going grey. Full numbers at /.netlify/functions/mls-usage.
+    {
+      name: "MLS Grid usage inside our own budget",
+      ok: !mlsQuota.blocked,
+      detail: mlsQuota.disabled
+        ? "MLS Grid is switched OFF here (MLS_DISABLED is set) — no requests are being made at all"
+        : mlsQuota.blocked
+          ? `Requests are being REFUSED by our own guard: ${mlsQuota.reason}`
+          : `${mlsQuota.hourRequests} request(s) and ${mlsQuota.hourMB} MB this hour ` +
+            `(our budget: ${mlsQuota.hourRequestBudget} and ${mlsQuota.hourMBBudget} MB, ` +
+            `which is half of MLS Grid's real limit). ` +
+            `Last 24h: ${mlsQuota.dayRequests ?? "?"} request(s), ` +
+            `${mlsQuota.dayApi ?? "?"} API + ${mlsQuota.dayMedia ?? "?"} photo. ` +
+            `This site only — the account total across all three apps is on MLS Grid's usage tab.`,
+    },
+    {
+      optional: true,
+      name: "Initial catalog crawl (in progress is normal)",
+      ok: !!(state && state.bootstrapped),
+      detail: state
+        ? `${state.bootstrapped ? "Complete" : "Still in progress"} — ${state.totalListingsStored ?? "?"} listing(s) stored so far this pass`
+        : "Not started",
+    },
+    {
+      name: "Christine's own listings found",
+      ok: mineCount > 0,
+      detail: `${mineCount} listing(s) currently known to the site`,
+    },
+    {
+      // 2026-08-16: this row read a flat green "All three env vars present" on the
+      // same page where the account check said "cloud_name mismatch". Two rows
+      // contradicting each other is worse than one red row, because the reader has
+      // to work out which to believe. "Configured" was never the same claim as
+      // "working": all three vars ARE set, they just belong to different accounts.
+      // So it now says exactly that, and points at the row that knows.
+      optional: true,
+      name: "Cloudinary env vars set (optional)",
+      ok: isCloudinaryConfigured(),
+      // 2026-08-17: this row said "all three are present" and stopped there, which
+      // could not answer the question that actually mattered -- WHICH of Christine's
+      // two Cloudinary accounts the site points at. Printing the cloud name is what
+      // turned that from a guess into a fact, and it immediately caught a real
+      // mistake: the variable had been set to the API key's NAME ("Signature Property
+      // Collection") rather than the cloud name. "All three are present" was true of
+      // that too, which is exactly why it was a useless thing to report.
+      //
+      // The cloud name is safe to print: it is the first path segment of every
+      // res.cloudinary.com delivery URL, so it is already public wherever an image is
+      // served. The key and secret are never shown, only whether they are set.
+      //
+      // The correct value lives at Cloudinary → the "Listing Engine" account →
+      // Settings → API Keys, in the "Cloud name:" pill beside the heading. Deliberately
+      // NOT repeated here as a literal: a value hardcoded into a health check is a
+      // value that silently goes stale, and this row exists to report reality.
+      detail: isCloudinaryConfigured()
+        ? `Configured, on cloud name "${(cloudinaryCredentials() || {}).cloud_name}"` +
+          `${process.env.CLOUDINARY_URL ? " (from CLOUDINARY_URL)" : ""}. ` +
+          "PRESENT is not the same as WORKING — the \"Cloudinary account healthy\" row " +
+          "below is what actually tests them, and it names the specific problem when " +
+          "there is one. Two things to check against that row: the cloud name above " +
+          "should be the environment's identifier (lowercase, no spaces), NOT the name " +
+          "you gave an API key; and the key and secret must be a matched pair from the " +
+          "same key, since mixing one key's id with another key's secret reports as an " +
+          "api_secret mismatch."
+        : "CLOUDINARY_CLOUD_NAME / CLOUDINARY_API_KEY / CLOUDINARY_API_SECRET — one or more isn't set",
+    },
+    {
+      optional: true,
+      name: "Christine's own photos permanently cached (optional)",
+      ok: mineCount > 0 && mineCloudinaryCount === mineCount,
+      // Reworded 2026-08-15: "0 of 11 ... expiring MLS Grid links" was written when
+      // an expiring link meant a blank card. It doesn't anymore -- every listing
+      // photo is served through /listing-photo from this site's own domain, which
+      // resolves a fresh URL per request. A Cloudinary copy is now purely an
+      // optimization, so the row says that instead of implying the photos are down.
+      detail: `${mineCloudinaryCount} of ${mineCount} listing(s) have a permanent Cloudinary copy. ` +
+        // 2026-08-18: the old wording ("every listing photo is already served from
+        // this site's own domain, so photos work either way") read as "everything
+        // is backfilled" — Christine quoted it back believing exactly that. Served
+        // THROUGH this domain and STORED on it are different claims; a health page
+        // exists so nobody has to guess, so it must never blur them.
+        `This is an optimization, not a fault, and it covers ONLY her own listings' ` +
+        `Cloudinary copies. The wider catalogue's photos are stored on this site the ` +
+        `first time each is viewed, plus a slow rolling backfill (next row) — a photo ` +
+        `not yet stored is fetched from MLS Grid on demand, which is slower but works.`,
+    },
+    {
+      name: "Cover photo backfill (highest-priced first)",
+      ok: true,
+      optional: true,
+      detail: (state && typeof state.backfillCursor === "number")
+        ? `Cursor at listing ${state.backfillCursor.toLocaleString()} of ` +
+          `${Number(state.totalBackfillCandidates || 0).toLocaleString()} (price-descending); ` +
+          `${Number(state.lastRunCoversBackfilled || 0)} cover(s) stored last run. ` +
+          `~6 per 30-minute sync — 0.17% of the MLS Grid hourly budget — so the ` +
+          `listings people actually see become permanently fast first. First-ever ` +
+          `views still store photos on demand on top of this.`
+        : `Not started yet — begins on the first sync after the 2026-08-18 deploy.`,
+    },
+    {
+      optional: true,
+      name: "No Cloudinary errors on last run (optional)",
+      ok: !state || !state.lastCloudinaryError,
+      detail: (state && state.lastCloudinaryError) || "none",
+    },
+    {
+      // 2026-08-14: informational only (always ok) -- this is a nice-to-have
+      // speed optimization, not something required for the site to work
+      // correctly, so it never flips the overall "Everything looks clean"
+      // banner. If IRES rejects ListOfficeMlsId the same way it rejected a
+      // few other MLS Grid field names before, this just stays "not yet" --
+      // the existing agent-name-match walk is unaffected either way.
+      name: "Fast office-wide listing lookup",
+      ok: true,
+      detail: state && state.herOfficeMlsId
+        ? `Active (office ID ${state.herOfficeMlsId}) — ${state.lastRunNewlyDiscoveredByOffice ?? 0} newly discovered on the last run`
+        : "Not yet discovered — falls back to the slower regional-walk method (not a problem, just not optimized yet)",
+    },
+  ];
+
+  // 2026-09-28: whether visitors actually SEE listings. The IDX kill switch
+  // (lib/_idx-display.js) can hold them back while every row above is green, so
+  // this row says so plainly. Optional: display off is a decision, not a fault.
+  {
+    const gate = idxGate({ state });
+    const why = {
+      disabled: `OFF — IDX_DISPLAY isn't set to "on", so the search, listing pages, map pins and photos ` +
+        `show nothing and visitors are pointed to ${gate.searchUrl}. Set IDX_DISPLAY=on in Netlify to show them.`,
+      no_sync_record: "Held back — no complete refresh has been recorded yet, so the 12-hour freshness rule can't be met.",
+      stale: `Held back — the last complete refresh was ${gate.ageHours} hour(s) ago, past the 12-hour IDX limit.`,
+    };
+    const what = LISTINGS_SOURCE === "lofty" ? "your own listings are showing, from Lofty" : "listings are showing, from MLS Grid";
+    checks.push({
+      optional: true,
+      name: "Listings shown on the website (optional)",
+      ok: gate.allowed,
+      detail: gate.allowed
+        ? `ON — ${what}; last complete refresh ${gate.lastSuccessAt}.`
+        : (why[gate.reason] || `Held back (${gate.reason}).`),
+    });
+    checks.push(await recentActivityRow(wantsProbe, now));
+
+    // (Little Lady copy) Listings Christine confirmed are off the market
+    // (HIDE_LISTING_IDS, lib/_hidden-listings.js): named, so a hidden listing is
+    // a visible decision rather than one that quietly vanished.
+    const hiddenIds = [...hiddenListingIds()];
+    checks.push({
+      optional: true,
+      name: "Listings you have hidden (optional)",
+      ok: true,
+      detail: hiddenIds.length
+        ? `${hiddenIds.join(", ")} — never shown on this site (HIDE_LISTING_IDS), whatever Lofty reports. ` +
+          "Remove an id from HIDE_LISTING_IDS in Netlify and redeploy to show it again."
+        : "None (HIDE_LISTING_IDS is not set).",
+    });
+
+    // (Little Lady copy) Which of the functions moved from Signature answer on this
+    // site and which still pass through to it (lib/_backend-mode.js). Names only.
+    const backends = describeBackends();
+    const localNames = backends.filter((b) => b.local).map((b) => b.name);
+    const passing = backends.filter((b) => !b.local);
+    checks.push({
+      optional: true,
+      name: "Backend functions answering on this site (optional)",
+      ok: true,
+      detail: `${localNames.length} of ${backends.length} answer here${localNames.length ? `: ${localNames.join(", ")}` : ""}.` +
+        (passing.length ? ` Passing through to the Signature site: ${passing.map((b) => `${b.name} (${b.why})`).join("; ")}.` : ""),
+    });
+  }
+
+  // Google Maps: three separate rows, because "the key is set" and "the two
+  // APIs it needs are enabled" fail independently and have different fixes.
+  const googleAge = ageNote(google);
+  const googleDetail = (which) => {
+    if (!googleKey) return "GOOGLE_MAPS_API_KEY isn't set in Netlify.";
+    if (!google || !google[which]) {
+      return "Not tested yet — add ?probe=1 to this page's URL to ask Cloudinary about the account directly.";
+    }
+    const r = google[which];
+    // This row always printed its date, but never said whether that date was old
+    // enough to disbelieve. The age note supplies the part that was missing.
+    const head = googleAge.warning + googleAge.when;
+    if (r.ok) return `${head}Working — Google returned ${r.status}.`;
+    return `${head}Google says ${r.status}${r.message ? `: ${r.message}` : ""}.`;
+  };
+  checks.push({
+    name: "Google Maps key set",
+    ok: !!googleKey,
+    detail: googleKey
+      ? "GOOGLE_MAPS_API_KEY is present. Note it shows several deploy-context values in Netlify — the Production one is the one this page reads."
+      : "Not set. Add GOOGLE_MAPS_API_KEY in Netlify → Site configuration → Environment variables.",
+  });
+  checks.push({
+    name: "Geocoding API enabled",
+    // An untested probe isn't a failure, so it doesn't turn the page red.
+    ok: !googleKey ? false : (!google || !google.geocoding || googleAge.stale ? true : google.geocoding.ok),
+    detail: googleDetail("geocoding") +
+      (google && google.geocoding && !google.geocoding.ok
+        ? " → enable it at console.cloud.google.com/apis/library/geocoding-backend.googleapis.com"
+        : ""),
+  });
+  checks.push({
+    name: "Places API enabled",
+    ok: !googleKey ? false : (!google || !google.places || googleAge.stale ? true : google.places.ok),
+    detail: googleDetail("places") +
+      (google && google.places && !google.places.ok
+        ? " → enable it at console.cloud.google.com/apis/library/places-backend.googleapis.com"
+        : ""),
+  });
+
+  // ---- The photo chain, end to end ----
+  const photoAge = ageNote(photoCheck);
+  checks.push({
+    name: "Listing photos load end to end",
+    // Same rule as the other probe rows: a stale FAILURE is not evidence about
+    // now, so it must not keep the page red on its own.
+    ok: !photoCheck || photoAge.stale ? true : !!photoCheck.ok,
+    detail: photoCheck
+      ? photoAge.warning + photoAge.when + photoCheck.detail
+      : (LISTINGS_SOURCE === "lofty"
+        ? "Not tested yet — add ?probe=1 to this page's URL to fetch one of Christine's cover photos from Lofty's image server."
+        : "Not tested yet — add ?probe=1 to this page's URL to walk the whole photo chain " +
+          "(resolve the MLS media URLs, then actually fetch one) and see which step fails. " +
+          "Note this one spends the MLS Grid quota shared with your other two apps."),
+  });
+  // 2026-08-17. This row read as a live verdict and was not one. cloudCheck comes
+  // out of Blobs and is only re-probed when ?probe=1 is passed AND the cached copy
+  // is over GOOGLE_CHECK_TTL_MS old -- but the DISPLAY has never had a staleness
+  // cap, so a plain /status visit renders whatever the last probe concluded, for
+  // as long as nobody probes again. Fix the credentials and this row keeps
+  // reporting "cloud_name mismatch" forever.
+  //
+  // It also printed no timestamp, while the Lofty row immediately below has always
+  // printed "checked <date>". So the one row most likely to be out of date was the
+  // one giving no way to tell. Christine said "I feel like I already did the cloud
+  // thing yesterday" -- she was reading a verdict that may well predate her fix,
+  // and so was I when I repeated it back to her as current.
+  //
+  // Every branch now states when it was checked, and a reading older than the TTL
+  // says so in its first clause rather than burying it.
+  const cloudAge = ageNote(cloudCheck);
+
+  checks.push({
+    optional: true,
+    name: "Cloudinary account healthy (optional)",
+    // A stale FAILURE must not keep the page red: it is not evidence about now.
+    // A stale success is equally uninformative, but the honest reading of "we
+    // don't know" is the same as the never-tested case, which is already green
+    // with a "not tested yet" detail.
+    ok: !isCloudinaryConfigured() ? false : (!cloudCheck || cloudAge.stale ? true : !!cloudCheck.ok),
+    detail: !isCloudinaryConfigured()
+      ? "Cloudinary env vars aren't all set."
+      : (!cloudCheck
+        ? "Not tested yet — add ?probe=1 to this page's URL to ask Cloudinary about the account directly."
+        : cloudAge.warning + cloudAge.when + (cloudCheck.ok
+          ? `Cloudinary answered: plan "${cloudCheck.plan}"` +
+            `${cloudCheck.creditsUsed ? `, credits ${cloudCheck.creditsUsed}` : ""}.` +
+            " If credits are at or near 100%, that is what the upload 403 means."
+          : `Cloudinary refused the account check${cloudCheck.httpCode ? ` (HTTP ${cloudCheck.httpCode})` : ""}: ` +
+            `${cloudCheck.error}. Same credentials the photo uploads use. ` +
+            // 2026-08-17. Order matters: the media-optimization case was being caught
+            // by the generic "check your variables against the Dashboard" advice, which
+            // is the ONE thing that cannot fix it. The credentials are valid — Cloudinary
+            // authenticated them and then named the account type — so re-copying them
+            // from that account's Dashboard reproduces the same 403 exactly.
+            (/media optimization/i.test(String(cloudCheck.error))
+              ? "FIX: this site is pointed at the wrong one of Christine's TWO Cloudinary " +
+                "accounts. The credentials are valid — Cloudinary authenticated them and " +
+                "then named the account type — so re-copying them from THIS account's " +
+                "Dashboard cannot help. Media Optimization is delivery-only and has no " +
+                "upload API, which is exactly why photo uploads get a flat 403 and why a " +
+                "res.cloudinary.com fetch URL for this cloud name 404s. " +
+                "The other account is the one to use: cloud name \"listingengine\" " +
+                "(console.cloudinary.com → account switcher, top left → \"Listing Engine\"). " +
+                "It is a Programmable Media account — its sidebar has Assets, Image, Video " +
+                "and a Product environment settings → Upload section, none of which exist " +
+                "on the Media Optimization one. Open its Settings → API Keys and copy the " +
+                "cloud name, an API key and that key's secret into Netlify → Site " +
+                "configuration → Environment variables, replacing all three CLOUDINARY_* " +
+                "values here. Generating a key named for this site, rather than reusing " +
+                "Listing-Engine's, keeps the two revocable independently. " +
+                "NOTE FOR WHOEVER READS THIS NEXT: \"1 product environment (limit 1)\" on " +
+                "the Product Environments page counts environments in the account you are " +
+                "SIGNED INTO, not across accounts. Misreading that as \"she only has one\" " +
+                "is what made me wrongly declare this unfixable on 2026-08-17."
+              : /cloud_name mismatch/i.test(String(cloudCheck.error))
+                ? "FIX: the three CLOUDINARY_* variables in Netlify are not all from the same " +
+                  "Cloudinary account — the cloud name belongs to one account and the API key/secret " +
+                  "to another. Open cloudinary.com → Dashboard, copy Cloud name, API Key and API Secret " +
+                  "from that same page, and replace all three in Netlify → Environment variables."
+                : /api_secret mismatch/i.test(String(cloudCheck.error))
+                  ? "FIX, and it removes this whole class of mistake rather than " +
+                    "correcting one instance of it: the api_key and api_secret are " +
+                    "from DIFFERENT keys. That console lists several keys, each with " +
+                    "its own secret behind a reveal control, and nothing on the page " +
+                    "stops you combining two rows — so pairing them by hand is a " +
+                    "mistake waiting to recur. Instead copy Cloudinary's own " +
+                    "connection string, which carries all three values from ONE key " +
+                    "as a matched set: on the API Keys page it reads " +
+                    "cloudinary://<api_key>:<api_secret>@<cloud_name>. Add it in " +
+                    "Netlify as a single variable named CLOUDINARY_URL and redeploy. " +
+                    "This site prefers it over the three separate variables, so they " +
+                    "can be left alone or deleted, and a mismatch becomes impossible."
+                  // 2026-08-18. This said "check the three CLOUDINARY_* variables"
+                  // — advice that was already obsolete and, on the day Christine
+                  // moved the site to its own Cloudinary account, actively wrong:
+                  // she had just deleted those three on purpose, and the row sent
+                  // her back to look at variables that no longer exist.
+                  //
+                  // "unknown api_key" has one overwhelmingly common cause and it is
+                  // worth naming instead of describing a place to go: an API key
+                  // copied from one Cloudinary account pasted next to a DIFFERENT
+                  // account's cloud name. Both halves look right on their own.
+                  : `Cloudinary does not recognise this api_key on cloud ` +
+                    `"${(cloudinaryCredentials() || {}).cloud_name || "?"}". ` +
+                    // 2026-08-18: the facts, not another guess. Christine checked the
+                    // credentials and reported them correct, which is exactly when
+                    // advice stops helping and evidence starts. An api_key is the
+                    // PUBLIC half of the pair — Cloudinary prints it in its own table —
+                    // so it can be shown and compared by eye. The secret never is, but
+                    // its length is, because the failures that survive "I checked it"
+                    // are the invisible ones: a truncated paste, a trailing newline the
+                    // Netlify field does not render, a smart quote from a copy.
+                    describeCloudinaryConfig() +
+                    "The usual cause is a key from ONE Cloudinary account paired with " +
+                    "ANOTHER account's cloud name — each half looks correct by itself. " +
+                    "Open the API Keys page of that exact cloud, pick ONE row, and take " +
+                    "both the key and its revealed secret from that same row: " +
+                    "CLOUDINARY_URL = cloudinary://<api_key>:<api_secret>@<cloud_name>. " +
+                    "Then redeploy — environment changes do not reach functions until you do."))),
+  });
+
+  // ---- Lofty API key valid? ----
+  const loftyKeyAge = ageNote(loftyKeyCheck);
+  checks.push({
+    name: "Lofty API key valid",
+    ok: !process.env.LOFTY_API_KEY
+      ? false
+      : (!loftyKeyCheck || loftyKeyAge.stale ? true : loftyKeyCheck.ok),
+    detail: !process.env.LOFTY_API_KEY
+      ? "LOFTY_API_KEY isn't set in Netlify."
+      : (!loftyKeyCheck
+        ? "Not tested yet — add ?probe=1 to this page's URL to ask Cloudinary about the account directly."
+        : loftyKeyAge.warning + loftyKeyAge.when + (loftyKeyCheck.ok
+          ? `Lofty accepted the key (HTTP ${loftyKeyCheck.httpStatus}).`
+          : `Lofty REJECTED the key: HTTP ${loftyKeyCheck.httpStatus}. ${loftyKeyCheck.body || ""} ` +
+            "Create a key for this website in Lofty → Settings → Integrations → API, " +
+            "then replace LOFTY_API_KEY in Netlify with it.")),
+  });
+
+  // ---- Website leads reaching Lofty ----
+  const loftyKeySet = !!process.env.LOFTY_API_KEY;
+  const failedCount = Array.isArray(loftyFailed) ? loftyFailed.length : 0;
+  let loftyDetail;
+  let loftyOk;
+  if (!loftyKeySet) {
+    loftyOk = false;
+    loftyDetail = "LOFTY_API_KEY isn't set — website leads stay in Netlify Forms only.";
+  } else if (!loftyLast) {
+    loftyOk = true;
+    loftyDetail = "No website lead has been submitted since this check was added " +
+      "(2026-08-15). Submit any form once and this row will show exactly what Lofty said.";
+  } else if (loftyLast.ok) {
+    loftyOk = failedCount === 0;
+    // No email address here any more (2026-09-30): see redactPersonal above.
+    loftyDetail = `Last lead from "${loftyLast.formName}" reached Lofty at ${loftyLast.at}` +
+      `${loftyLast.leadId ? ` (lead ${loftyLast.leadId})` : ""}` +
+      `${loftyLast.payloadShape ? `, ${loftyLast.payloadShape} payload` : ""}.` +
+      (failedCount ? ` ${failedCount} earlier push(es) failed and are queued.` : "");
+  } else {
+    loftyOk = false;
+    loftyDetail = `Last lead from "${loftyLast.formName}" FAILED at ${loftyLast.at}: ` +
+      `Lofty returned HTTP ${loftyLast.httpStatus} (payload shape: ${loftyLast.payloadShape || "full"}). ` +
+      `Lofty said: ${redactPersonal(loftyLast.responseBody || "(empty response)").slice(0, 240)}. ` +
+      `${failedCount} lead(s) queued and recoverable — nothing is lost, the submissions are also in Netlify Forms.`;
+  }
+  checks.push({ name: "Website leads reaching Lofty", ok: loftyOk, detail: loftyDetail });
+
+  // ---- Is Christine actually being TOLD about the lead? --------------------
+  // 2026-08-15: added because the answer turned out to be no, twice, while the
+  // row above said the push was fine. Reaching the CRM and reaching HER are two
+  // different things, and only one of them loses business when it breaks.
+  // 2026-08-15 (Christine: "i dont think i already have resend - never used it -
+  // we cant use lofty to send?"). She's right on both counts, and I was wrong to
+  // present it as something she already had: sellerintelligence contains the
+  // digest CODE but there is no key in her Netlify env, no key in that repo's CI
+  // secrets, and no .env committed -- it was written and never switched on.
+  //
+  // So this row is OPTIONAL, not a failure. The Lofty route is the primary one
+  // and it is now genuinely fixed (see the tag re-add in submission-created.js),
+  // which is what the row below reports. This second, vendor-independent email is
+  // a belt-and-braces backup for the day Lofty itself is down -- worth having
+  // eventually, worth nobody's afternoon today. A red X here would be the same
+  // crying-wolf mistake the Cloudinary row made.
+  const emailKeySet = !!process.env.RESEND_API_KEY;
+  const lastEmail = loftyLast && loftyLast.emailResult;
+  let emailOk;
+  let emailDetail;
+  let emailOptional = false;
+  if (!emailKeySet) {
+    emailOk = false;
+    emailOptional = true;
+    emailDetail = "Not set up, and nothing is broken by that — your Lofty notification is the " +
+      "primary route and it works. This is only a backup for the day Lofty itself is down: " +
+      "a plain email straight from this site, needing no CRM automation to fire. " +
+      "If you ever want it, make a free key at resend.com/api-keys and add RESEND_API_KEY in " +
+      "Netlify → Site configuration → Environment variables. " +
+      "Optional extras: LEAD_ALERT_TO to change or add recipients, LEAD_ALERT_FROM once your " +
+      "own domain is verified in Resend. A simpler backup needing no signup at all: " +
+      "Netlify → Site configuration → Notifications → form submission email.";
+  } else if (!lastEmail || !lastEmail.attempted) {
+    emailOk = true;
+    emailDetail = "The key is set. No lead has come in since — submit any form once and this row " +
+      "will show whether the email actually left.";
+  } else if (lastEmail.ok) {
+    emailOk = true;
+    // 2026-09-30: says which sender was actually used (lib/_notify.js), instead of
+    // always blaming the test sender.
+    emailDetail = `Sent to you at ${loftyLast.at} for the lead from "${loftyLast.formName}". ` +
+      (lastEmail.sender === "custom"
+        ? "It went from your own verified sender (LEAD_ALERT_FROM)."
+        : lastEmail.fromFallback
+          ? "Resend REFUSED your LEAD_ALERT_FROM sender " +
+            `(HTTP ${(lastEmail.customFromRefused && lastEmail.customFromRefused.httpStatus) || "?"}), so it went ` +
+            "from the shared onboarding@resend.dev address instead — verify that domain in Resend " +
+            "(Domains) or correct LEAD_ALERT_FROM in Netlify."
+          : "If it isn't in your inbox, check spam — the default sender is Resend's shared " +
+            "onboarding@resend.dev address, which only delivers to the Resend account owner. " +
+            "Verify your domain in Resend and set LEAD_ALERT_FROM in Netlify to send from it.");
+  } else {
+    emailOk = false;
+    emailDetail = `The lead email FAILED at ${loftyLast.at}: ` +
+      `${lastEmail.httpStatus ? `HTTP ${lastEmail.httpStatus} — ` : ""}` +
+      `${redactPersonal(lastEmail.response || lastEmail.error || "(no detail)").slice(0, 240)}. ` +
+      "The lead itself is safe (Netlify Forms and Lofty both have it) — this is only the alert.";
+  }
+  // ---- What Lofty says about the last lead, read straight back ------------
+  // The row that exists so nobody has to relay a screenshot to find out.
+  //
+  // 2026-08-18: a merge has to be recognised from the EVIDENCE, not only from a
+  // flag. lib/_notify.js started stamping `leadMissing: true` on 2026-08-16, but
+  // Christine's most recent push predates it, so every record written before that
+  // date reads as an unexplained failure and paints this page red for a condition
+  // that is both expected and harmless. A record that carries the flag and one that
+  // merely carries Lofty's own 404 text are the same event.
+  const LOFTY_OWNER_HINT = "the site owner's own email address";
+  const mergeSignature = (body) => /errorCode=20006|Lead not exist/i.test(String(body || ""));
+  const lookupIsMerge = (r) =>
+    !!(r && r.httpStatus === 404 && mergeSignature(r.body != null ? r.body : r.response));
+  let leadRowOk;
+  let leadRowDetail;
+  if (!loftyApiKey) {
+    leadRowOk = false;
+    leadRowDetail = "LOFTY_API_KEY isn't set.";
+  } else if (!loftyLeadCheck) {
+    leadRowOk = true;
+    leadRowDetail = "Not run yet — add ?probe=1 to this page's URL and it will read your most " +
+      "recent website lead back out of Lofty and report exactly what came back. Read-only: " +
+      "it creates nothing and changes nothing.";
+  } else if (!loftyLeadCheck.leadId) {
+    leadRowOk = true;
+    leadRowDetail = loftyLeadCheck.reason || "No lead pushed yet.";
+  } else if (!loftyLeadCheck.ok && lookupIsMerge(loftyLeadCheck)) {
+    // 2026-08-18. This row said: "If this is a 404, then GET /leads/{id} isn't
+    // available on this account." That guess is disproved by this codebase's own
+    // evidence — lead 1147802441137106 read back with HTTP 200 (see addLoftyNote
+    // in lib/_notify.js). The endpoint works. What does NOT work is reading back a
+    // lead that MERGED into an existing contact: Lofty returns the absorbed record's
+    // id from the create call and never discloses the survivor's.
+    //
+    // The distinction is the whole point of this row. "Your CRM integration is
+    // broken" and "your own test used your own account-owner email, so it merged"
+    // demand completely different reactions, and only one of them is true.
+    leadRowOk = true;
+    leadRowDetail = `Lead ${loftyLeadCheck.leadId} does not resolve — 404 "Lead not exist". ` +
+      `That is the MERGE signature, not a broken integration: this submission matched an ` +
+      `existing Lofty contact, so Lofty absorbed it and returned the absorbed record's id ` +
+      `rather than the surviving contact's. The endpoint itself is fine (other leads read ` +
+      `back HTTP 200). ` +
+      `Every lead so far has come from ${LOFTY_OWNER_HINT}, which is the Lofty account ` +
+      `owner's own address and therefore merges every time. A genuinely new enquirer does ` +
+      `not merge, and reads back normally. Worth re-testing from an address that is not ` +
+      `already a contact before treating this as a fault.`;
+  } else if (!loftyLeadCheck.ok) {
+    leadRowOk = false;
+    leadRowDetail = `Lofty would NOT return lead ${loftyLeadCheck.leadId}: ` +
+      `${loftyLeadCheck.httpStatus}${loftyLeadCheck.body ? ` — ${redactPersonal(loftyLeadCheck.body).slice(0, 200)}` : ""}. ` +
+      "This is NOT the merge signature (a merge answers 404 with errorCode=20006 / " +
+      "\"Lead not exist\"), so it is worth looking at properly.";
+  } else if (/no 'tags' field/.test(loftyLeadCheck.tagShape || "")) {
+    // 2026-08-16: answered, so stop asking. Lofty's GET /leads/{id} returns no
+    // tags on this account, which means the tag can never be re-fired for a
+    // repeat enquiry. Not a fault on this side and not fixable from here, so it
+    // reads as a known limitation with the actual remedy attached.
+    leadRowOk = true;
+    leadRowDetail = `Read lead ${loftyLeadCheck.leadId} back from Lofty ✓ (HTTP 200) — and this ` +
+      `settles the notification question. Lofty's API does NOT return tags for a lead, so this site ` +
+      `cannot check or re-apply the "${LOFTY_TRIGGER_TAG}" tag. The tag sent when the lead is created ` +
+      `still lands, so a brand-new contact is fine; a RETURNING buyer whose contact already exists ` +
+      `cannot have the tag re-added, which is exactly what a "Tag Added" Smart Plan needs in order to ` +
+      `fire a second time. Nothing more can be done through Lofty's API here. The reliable fix is the ` +
+      `backup email row below — it does not depend on Lofty at all.`;
+  } else {
+    // The three answers, in one line, in plain words.
+    leadRowOk = loftyLeadCheck.tagsReadable !== false && loftyLeadCheck.hasTriggerTag !== false;
+    leadRowDetail = `Read lead ${loftyLeadCheck.leadId} back from Lofty ✓ (HTTP 200). ` +
+      `Tags: ${loftyLeadCheck.tagShape}. ` +
+      (loftyLeadCheck.tagsReadable === false
+        ? `This site can't safely edit tags in that shape, so it leaves them alone — ` +
+          `send me this line${loftyLeadCheck.sample ? ` including: ${loftyLeadCheck.sample}` : ""} and I'll fix the reader.`
+        : (loftyLeadCheck.hasTriggerTag
+          ? `"${LOFTY_TRIGGER_TAG}" IS on the lead ✓ — so the tag is reaching Lofty, and if your ` +
+            `Smart Plan still didn't run, the trigger inside the plan is what needs looking at.`
+          : `"${LOFTY_TRIGGER_TAG}" is NOT on the lead ✗ — Lofty accepted the lead but dropped the ` +
+            `tag, which is the reason a tag-triggered Smart Plan wouldn't fire.`));
+  }
+  // Same staleness contract as every other probe row: say when it was checked,
+  // and don't let an old failure stand as a current one.
+  const leadAge = ageNote(loftyLeadCheck);
+  checks.push({
+    name: "What Lofty says about your last lead",
+    ok: leadAge.stale ? true : leadRowOk,
+    detail: loftyLeadCheck ? leadAge.warning + leadAge.when + leadRowDetail : leadRowDetail,
+  });
+
+  // ---- "Tour It With Me" coverage, ranked -----------------------------------
+  // 2026-08-15 (Christine: "how do i view the highest count for tour it with me?
+  // ... for ex windsor town but mentions 3 in town places"). She'd spotted that a
+  // town page's prose can name three places while its Tour It With Me section
+  // pins none of them, and nothing on the site would tell her. This row is that
+  // answer: every town ranked by how many of her spots it carries, with the
+  // empty ones named explicitly. A coverage report that only lists what's done
+  // is a progress bar, not a to-do list.
+  const spotCounts = new Map();
+  for (const s of LOCAL_SPOTS.spots || []) {
+    // 2026-08-16: a spot can legitimately belong to more than one town PAGE without
+    // being more than one place. Windsor straddles Larimer and Weld and so has a
+    // page in each; alsoOnCityHrefs puts the Mill Tavern and Windsor Lake on both
+    // from a single record. Counting only cityHref would keep reporting the Larimer
+    // page as empty when it is not, which is exactly the wrong-in-a-reassuring-
+    // direction this row exists to prevent.
+    for (const href of [s.cityHref, ...(s.alsoOnCityHrefs || [])]) {
+      if (!href) continue;
+      const prev = spotCounts.get(href) || { city: s.city, count: 0, views: 0 };
+      prev.count += 1;
+      prev.views += (s.views || 0) + (s.reviewViews || 0);
+      spotCounts.set(href, prev);
+    }
+  }
+  const townPages = Array.isArray(LOCAL_SPOTS.townPages) ? LOCAL_SPOTS.townPages : [];
+  // Label each row by the TOWN PAGE, not by the first spot that happened to land
+  // on it. Several spots sit in one town but belong on another's page — Poudre
+  // Canyon is in Bellvue and Horsetooth Reservoir is in Fort Collins, and both
+  // are on the Fort Collins page. Reading the label off the first spot printed
+  // "Bellvue 2", which names a town that has no page at all.
+  const pageCity = new Map(townPages.map((t) => [t.href, t.city]));
+  // 2026-08-16: her report listed "Windsor, Windsor". Windsor straddles Larimer and
+  // Weld, so it genuinely has two town pages, and printing the bare city name twice
+  // looks like a bug in the report rather than the fact it is. Qualified by county
+  // so the two are distinguishable.
+  //
+  // Later the same day, and the reason this is now a shared function: the
+  // qualification was written inline in the EMPTY list only. The moment Windsor got
+  // spots on both pages it moved to the COVERED list, which had no such handling,
+  // and the report would have read "Windsor 2 · Windsor 2" -- the identical
+  // confusion, reintroduced by fixing something else. One label, both lists.
+  const townLabel = (href, fallbackCity) => {
+    const city = pageCity.get(href) || fallbackCity;
+    const county = (String(href).match(/^\/communities\/([^/]+)\//) || [])[1];
+    const dupe = townPages.filter((o) => o.city === city).length > 1;
+    return dupe && county ? `${city} (${county.replace(/-/g, " ")})` : city;
+  };
+  const covered = [...spotCounts.entries()]
+    .map(([href, v]) => ({ href, ...v, city: townLabel(href, v.city) }))
+    .sort((a, b) => (b.count - a.count) || (b.views - a.views));
+  const empty = [...new Set(townPages
+    .filter((t) => !spotCounts.has(t.href))
+    .map((t) => townLabel(t.href, t.city)))];
+  const ranked = covered
+    .map((t) => `${t.city} ${t.count}` + (t.views ? ` (${t.views.toLocaleString()} views)` : ""))
+    .join(" · ");
+  checks.push({
+    // Not a failure: an uncovered town is work to do, not something broken.
+    optional: empty.length > 0,
+    name: "Tour It With Me coverage" + (empty.length ? " (towns still empty)" : ""),
+    ok: empty.length === 0,
+    detail: (covered.length
+      ? `Ranked by number of spots — ${ranked}. `
+      : "No town has spots yet. ") +
+      (empty.length
+        ? `${empty.length} of ${townPages.length} town pages have NO spots yet: ${empty.join(", ")}. ` +
+          "Each of those pages already describes local places in its text; they just have nothing " +
+          "of yours pinned to them. Send a business name and town for any of them and it appears " +
+          "on both the town page and the county map."
+        : `All ${townPages.length} town pages have at least one spot.`),
+  });
+
+  checks.push({
+    optional: emailOptional,
+    name: emailOptional ? "Backup email alert, no CRM needed (optional)" : "New-lead email reaching you",
+    ok: emailOk,
+    detail: emailDetail,
+  });
+
+  // The two calls that make a MERGED lead visible in Lofty: a note of its own,
+  // and a tag that genuinely counts as newly added so a Smart Plan re-triggers.
+  const note = loftyLast && loftyLast.noteResult;
+  const tag = loftyLast && loftyLast.tagResult;
+  // 2026-09-29: a RETURNING lead now gets a call-back task + phone push instead
+  // of the tag re-fire Lofty's API can't do (lib/_lofty-returning.js), and a new
+  // contact gets the four website fields. Records written before today have
+  // neither, and read exactly as they did.
+  const returning = loftyLast && loftyLast.returningResult;
+  const fields = loftyLast && loftyLast.fieldsResult;
+  const returningHandled = !!(returning && returning.attempted);
+  // 2026-09-29 (second review): a returning lead whose task step never recorded
+  // (the function stopped first) must not read as a green "not attempted yet".
+  const returningUnconfirmed = !!(tag && tag.skipped === "returning-lead-task" && !returningHandled);
+  const lookup = loftyLast && loftyLast.existing;
+  // submission-created records the lead as soon as the email is out (inProgress)
+  // and rewrites the record as each later step finishes; a record still marked
+  // inProgress means the function stopped before the end.
+  const stoppedEarly = !!(loftyLast && loftyLast.inProgress && !returningHandled);
+  const emailLine = loftyLast && loftyLast.emailResult && loftyLast.emailResult.ok
+    ? "The backup email reached you." : "See the email row above for the backup email.";
+  // 2026-08-16, SETTLED WITH EVIDENCE, and it is the merge case rather than a
+  // fault. Christine submitted a real listing-inquiry at 13:50; the push
+  // succeeded and returned leadId 1147334685108095, and POST /notes for that very
+  // id came back 404 "Lead not exist" -- while an unrelated lead read back 200.
+  //
+  // Lofty hands back the id of the record it ABSORBED on a merge, never the
+  // survivor's. (2026-09-29: submission-created now looks the person up by exact
+  // email first and, on a match, sends the note and task to the survivor; this
+  // row is what's left when that lookup didn't match.) It only happens when the submitter is
+  // already in her CRM, which so far has only ever been Christine testing with
+  // her own account-owner address. A stranger creates a new contact, the id
+  // resolves, and note and tag both land.
+  //
+  // Rendered as informational for that reason. A red X here told her the lead
+  // pipeline was broken when the only thing that had happened was Lofty
+  // deduplicating her own email -- and a status page that overstates is one she
+  // stops trusting for the rows that do matter.
+  // Same evidence-not-flag rule as the lookup row above: records written before
+  // 2026-08-16 have no leadMissing flag, and rendering those as an outright failure
+  // is what put a red ❌ on this page for a test submission that behaved exactly as
+  // a merge is supposed to.
+  const leadMerged = !!(note && (note.leadMissing ||
+    (note.httpStatus === 404 && mergeSignature(note.response))));
+  const parts = [];
+  if (lookup) {
+    parts.push(lookup.found ? "Checked Lofty first: already a contact (matched by email)."
+      : lookup.anyMatch ? "Checked Lofty first: their phone matches an existing contact but the email " +
+        "doesn't, so the form's tags were added rather than replacing that contact's."
+      : lookup.ok ? "Checked Lofty first: a new contact."
+      : lookup.attempted === false ? "No usable email or phone on the form to check Lofty with, so the " +
+        "form's tags were added rather than replacing any."
+      : `Couldn't check Lofty first (${lookup.error || "no answer in time"}), so the form's tags were ` +
+        "added rather than replacing any a returning client already had.");
+  }
+  if (stoppedEarly) {
+    parts.push("The function stopped before it finished (Lofty was slow), so the steps after " +
+      "this point weren't recorded" +
+      (lookup && lookup.found ? " — including the call-back task and phone push" : "") +
+      `. ${emailLine} Check the contact in Lofty.`);
+  }
+  if (!note || !note.attempted) {
+    if (!stoppedEarly) parts.push("Timeline note: not attempted yet.");
+  } else if (note.ok) {
+    parts.push("Timeline note: written to the lead ✓.");
+  } else if (leadMerged) {
+    parts.push("This lead MERGED into a contact Lofty already had, and Lofty returns the " +
+      "id of the record it absorbed rather than the surviving contact's — so the timeline " +
+      "note had no id to attach to (404 \"Lead not exist\"). The email lookup before the push " +
+      "didn't match them (a different email, or Lofty didn't answer in time); a match by " +
+      "email sends the note, a call-back task and a phone push to the right contact instead. " +
+      (lookup && lookup.tagField === "tagsAdd"
+        ? "The form's tags were added to the surviving contact (never replacing theirs). "
+        : "The form's tags were sent with the lead. ") +
+      `${emailLine} This only happens for someone already in your CRM — ` +
+      "a new enquirer creates a new contact, and the note and tag land normally.");
+  } else {
+    parts.push(`Timeline note FAILED (${note.httpStatus || note.error || "unknown"}).`);
+  }
+  if (stoppedEarly) {
+    // Said once, above.
+  } else if (returningUnconfirmed) {
+    parts.push("They were already in Lofty, but the call-back task and phone push were NOT " +
+      `confirmed — the function stopped before recording them. ${emailLine} ` +
+      "Check their contact in Lofty for the task.");
+  } else if (returningHandled) {
+    // The tag isn't the mechanism for a returning lead any more; the task is.
+    parts.push(returning.ok
+      ? "They were already in Lofty, so instead of the Hot Lead tag (which can't fire twice) " +
+        "a call-back task was created on their contact and pushed to the assigned agent's phone ✓."
+      : `They were already in Lofty; the call-back ${returning.step === "task" ? "task" : "phone push"} FAILED ` +
+        `(${returning.httpStatus || returning.error || "unknown"}). ` +
+        (loftyLast.emailResult && loftyLast.emailResult.ok ? "The backup email still reached you." : emailLine));
+  } else if (leadMerged) {
+    // The tag call reads the same unresolvable id, so submission-created no
+    // longer spends a request on it. Saying so beats an unexplained gap.
+    parts.push("Trigger tag: not attempted, because it reads the same id and would fail " +
+      "the same way.");
+  } else if (!tag || !tag.attempted) {
+    parts.push("Trigger tag: not attempted yet.");
+  } else if (tag.ok) {
+    parts.push(tag.step === "refired"
+      ? `Trigger tag: removed and re-added, so "Hot Lead - Website" counts as a NEW tag and your Smart Plan fires even for a repeat enquiry ✓.`
+      : `Trigger tag: added to the lead ✓ (this lead already had ${tag.tagsSeen ?? "?"} other tag(s)).`);
+  } else if (tag.step === "read") {
+    // 2026-08-15: worth calling out separately. If Lofty won't let us READ the
+    // lead we just created, the tag can never be re-fired, and that is a
+    // different problem from the tag edit being refused.
+    parts.push(`Trigger tag: could NOT read the lead back from Lofty ` +
+      `(HTTP ${tag.httpStatus}${tag.response ? ` — ${redactPersonal(tag.response).slice(0, 120)}` : ""}). ` +
+      `The tag from the original push should still be on the lead, but it could not be re-fired.`);
+  } else if (tag.step === "unreadable-tags") {
+    parts.push(`Trigger tag: left alone on purpose — Lofty returned tags in a shape this code ` +
+      `doesn't recognise (${tag.tagShape || "unknown"}), and overwriting them could have deleted ` +
+      `tags on a real client's record. Nothing was changed. Send me this line and I'll fix the reader.`);
+  } else if (tag.tagRestored === false) {
+    parts.push(`Trigger tag: the re-add FAILED (${tag.httpStatus || tag.error || "unknown"}) — ` +
+      `the lead is currently missing "Hot Lead - Website". Add it by hand on that lead in Lofty.`);
+  } else {
+    parts.push(`Trigger tag: unchanged, Lofty refused the edit (${tag.httpStatus || tag.error || "unknown"}). ` +
+      "The tag from the original push is still there; only the re-trigger didn't happen.");
+  }
+  if (fields && fields.attempted) {
+    parts.push(fields.ok
+      ? `Website fields (${(fields.fields || []).join(", ")}) written to the new contact ✓.`
+      : `Website fields NOT written (${fields.httpStatus || fields.error || "unknown"}) — the same details are in the note.`);
+  }
+  // 2026-09-30: the buyer's search as Lofty inquiry fields (lib/_lofty-returning.js).
+  const inquiryStep = loftyLast && loftyLast.inquiryResult;
+  if (inquiryStep && inquiryStep.attempted) {
+    parts.push(inquiryStep.ok
+      ? `Their home search (${(inquiryStep.fields || []).join(", ")}) set on the new contact in Lofty ✓.`
+      : `Their home search was NOT set on the contact (${inquiryStep.httpStatus || inquiryStep.error || "unknown"}) — it is in the note.`);
+  }
+  checks.push({
+    // Named for what she cares about, not for the mechanism: this row is the
+    // primary notification path now that the tag genuinely changes.
+    optional: leadMerged && !returningHandled,
+    name: leadMerged && !returningHandled
+      ? "Lofty note on your last lead (it merged — expected)"
+      : "Your Lofty notification will fire",
+    ok: (stoppedEarly || returningUnconfirmed) ? false
+      : returningHandled ? (!!(note && note.ok) && !!returning.ok)
+      : leadMerged ? false
+      : (!note || !note.attempted) ? true
+      : (!!note.ok && (!tag || !tag.attempted || (tag.ok && tag.tagRestored !== false))),
+    detail: parts.join(" ") + (leadMerged || returningHandled ? "" :
+      " These are what make a lead that MERGED into an existing contact still show up — " +
+      "the case that hid your own test submissions, because they used your account-owner email."),
+  });
+
+  // 2026-08-15: some checks describe an OPTIONAL improvement rather than
+  // something broken. Cloudinary is the case that forced this: since the photo
+  // endpoint began serving every listing from this site's own domain, a
+  // Cloudinary copy is a nice-to-have (permanent URLs, fewer MLS Grid calls) and
+  // its absence breaks nothing a visitor can see. Leaving those rows as red X's
+  // told Christine the site was broken when it wasn't -- and a status page that
+  // cries wolf is worse than no status page, because the real red rows stop
+  // standing out.
+  // ---- Are the live readings on this page current? --------------------------
+  // 2026-08-17, and the whole point of the change. Five rows above are live
+  // probes whose results are cached, and they only re-run under ?probe=1. That is
+  // deliberate and stays -- but it means this page can be showing readings from
+  // days ago, and until now nothing said so. Christine fixed her Cloudinary
+  // credentials, the page kept reporting the old failure, and I relayed it to her
+  // as current. She said: confirm it is valid and live, or there is no reason for
+  // it. This row is that confirmation, stated once at the top instead of left for
+  // the reader to work out per row.
+  //
+  // Placed FIRST via unshift, because a note about the trustworthiness of the
+  // other rows is worthless below them. Marked optional so it can never turn the
+  // page red on its own -- "these readings are old" is not a site fault, and the
+  // crying-wolf lesson above applies to this row as much as to any other.
+  const probeRows = [
+    ["Google Maps APIs", google, !!googleKey],
+    ["Cloudinary account", cloudCheck, isCloudinaryConfigured()],
+    ["photo chain", photoCheck, true],
+    ["Lofty key", loftyKeyCheck, !!loftyApiKey],
+    ["last lead in Lofty", loftyLeadCheck, !!loftyApiKey],
+  ].filter(([, , applicable]) => applicable);
+
+  const staleRows = probeRows.filter(([, v]) => ageNote(v).stale).map(([n]) => n);
+  const neverRun = probeRows.filter(([, v]) => !v).map(([n]) => n);
+  const freshest = probeRows
+    .map(([, v]) => verdictAgeMs(v))
+    .filter((a) => a !== null)
+    .sort((a, b) => a - b)[0];
+
+  checks.unshift({
+    optional: true,
+    name: "Live checks are current",
+    ok: staleRows.length === 0 && neverRun.length === 0,
+    detail: (staleRows.length === 0 && neverRun.length === 0)
+      ? `All live checks on this page were run within the last ` +
+        `${Math.round(GOOGLE_CHECK_TTL_MS / 60000)} minutes` +
+        `${freshest !== undefined ? ` (most recent: ${describeAge(freshest)} ago)` : ""}. ` +
+        "Everything below reflects right now."
+      : "Some rows below are showing SAVED readings, not live ones — " +
+        (neverRun.length ? `never run: ${neverRun.join(", ")}. ` : "") +
+        (staleRows.length ? `older than ${Math.round(GOOGLE_CHECK_TTL_MS / 60000)} minutes: ${staleRows.join(", ")}. ` : "") +
+        "Add ?probe=1 to this page's URL to re-run them all against the real services " +
+        "before acting on anything they say. This page does not probe on its own, so " +
+        "loading it never spends API quota — the trade is that a reading can be old, " +
+        "and this row is here so that is never a surprise.",
+  });
+
+  const allOk = checks.every((c) => c.ok || c.optional);
+  const optionalIssues = checks.filter((c) => !c.ok && c.optional).length;
+
+  if (wantsJson) {
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
+      // cloudinaryConfig describes what is CONFIGURED, which is a different
+      // question from cloudCheck's "what did Cloudinary say about it" — and when
+      // the two disagree, the difference between them is the whole diagnosis.
+      // Contains no secret: the api_key is the public half of the pair, and the
+      // secret appears only as a length and a set of character-class flags.
+      body: JSON.stringify({
+        allOk, checks,
+        cloudinaryConfig: (() => { try { return cloudinaryDiagnostics(); } catch (e) { return { error: String(e && e.message) }; } })(),
+        // loftyLast / loftyFailed are summaries, never the stored records: those
+        // carry the lead's name, email, phone and message (see redactPersonal).
+        raw: {
+          state, suspension, mineCount, mineCloudinaryCount, google,
+          loftyLast: publicPushRecord(loftyLast), loftyFailed: publicFailedQueue(loftyFailed),
+          loftyKeyCheck, loftyLeadCheck, photoCheck, cloudCheck,
+        },
+      }, null, 2),
+    };
+  }
+
+  const rows = checks.map((c) => `
+    <tr>
+      <td style="padding:12px 16px;font-size:20px;text-align:center">${c.ok ? "✅" : (c.optional ? "ℹ️" : "❌")}</td>
+      <td style="padding:12px 16px;font-weight:600;white-space:nowrap">${esc(c.name)}</td>
+      <td style="padding:12px 16px;color:#555">${esc(c.detail)}</td>
+    </tr>`).join("");
+
+  const html = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Site Health — The Little Lady Sells Homes</title>
+<meta name="robots" content="noindex">
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:#f8f6f4; margin:0; padding:40px 20px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin-bottom:4px; color:#141415; }
+  .status-line { font-size:16px; margin-bottom:24px; font-weight:700; }
+  .ok { color:#2f6b45; } .bad { color:#a33; }
+  table { width:100%; border-collapse: collapse; background:#fff; border:1px solid #e4e4d8; border-radius:4px; overflow:hidden; }
+  tr + tr td { border-top:1px solid #eee; }
+  .refresh { font-size:12px; color:#888; margin-top:16px; }
+  code { background:#eee; padding:1px 5px; border-radius:3px; }
+</style>
+</head><body><div class="wrap">
+<h1>The Little Lady Sells Homes — Site Health</h1>
+<p class="status-line ${allOk ? "ok" : "bad"}">${allOk
+  ? (optionalIssues
+    ? `✅ Nothing is broken. ${optionalIssues} optional improvement(s) noted below (marked ℹ️) — the site works without them.`
+    : "✅ Everything looks clean.")
+  : "⚠️ Something needs attention — see below."}</p>
+<table>${rows}</table>
+<p class="refresh">Checked live just now — reload anytime. This page only reads stored status; it never calls MLS Grid or Cloudinary itself, so checking it is always free. Add <code>?probe=1</code> to live-test the Google APIs and the Lofty key (cached 10 minutes), or <code>?format=json</code> for raw data.</p>
+</div></body></html>`;
+
+  return {
+    statusCode: 200,
+    headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" },
+    body: html,
+  };
+};
+
+// (Little Lady copy) Answer here only when switched on; otherwise pass through to
+// the Signature site exactly as before. See lib/_backend-mode.js.
+const { backendSwitch } = require("./lib/_backend-mode");
+exports.localHandler = localHandler;
+exports.handler = backendSwitch("site-health", localHandler);
