@@ -29,20 +29,42 @@ const BACKEND = "https://signaturepropertycollection.com/.netlify/functions/";
 // content-encoding already undone by fetch) is dropped.
 const FORWARD = ["content-type", "cache-control", "etag", "last-modified", "location"];
 
-function makeProxy(name) {
+// 2026-09-30 (Signature move, part 1): the functions this file passes through
+// now also exist here (lib/_backend-mode.js decides which answers), and each one
+// still falls back to this pass-through until Christine switches it on. Two
+// callers need a little more than the original GET: listing-page (reached through
+// the /listing/:id rewrite, which used to proxy straight to Signature at the CDN
+// and so carried its X-Robots-Tag and Retry-After) and the two POST endpoints,
+// refresh-my-listings and area-alerts. Both are opt-in, so every existing
+// pass-through behaves exactly as before:
+//   opts.extraHeaders  -- more response headers to forward
+//   opts.forwardMethod -- send the request's method and body (POST), not a GET
+function makeProxy(name, opts) {
+  const o = opts || {};
+  const forward = FORWARD.concat(o.extraHeaders || []);
   return async (event) => {
     const qs = (event && event.rawQuery) || "";
     const url = BACKEND + name + (qs ? "?" + qs : "");
+    const init = {
+      headers: {
+        accept: (event && event.headers && event.headers.accept) || "*/*",
+        // The backend's logs should show who the traffic really serves.
+        "x-forwarded-host": "thelittleladysellshomes.com",
+      },
+      redirect: "manual",
+    };
+    const method = String((event && event.httpMethod) || "GET").toUpperCase();
+    if (o.forwardMethod && method !== "GET" && method !== "HEAD") {
+      init.method = method;
+      const type = event.headers && (event.headers["content-type"] || event.headers["Content-Type"]);
+      if (type) init.headers["content-type"] = type;
+      if (event.body != null) {
+        init.body = event.isBase64Encoded ? Buffer.from(event.body, "base64") : event.body;
+      }
+    }
     let res;
     try {
-      res = await fetch(url, {
-        headers: {
-          accept: (event && event.headers && event.headers.accept) || "*/*",
-          // The backend's logs should show who the traffic really serves.
-          "x-forwarded-host": "thelittleladysellshomes.com",
-        },
-        redirect: "manual",
-      });
+      res = await fetch(url, init);
     } catch (err) {
       return {
         statusCode: 502,
@@ -51,7 +73,7 @@ function makeProxy(name) {
       };
     }
     const headers = {};
-    for (const h of FORWARD) {
+    for (const h of forward) {
       const v = res.headers.get(h);
       if (v) headers[h] = v;
     }
