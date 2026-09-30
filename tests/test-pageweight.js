@@ -145,5 +145,82 @@ const outsideLiterals = (html) =>
     worst[1] < 250 * 1024);
 }
 
+// ---- 5. Budgets for the home page and every town page (2026-09-30) -------------
+// The page-speed audit (Signature vs this site) found the template pages already
+// lighter than Signature's, and the gap in the score coming from what a phone has
+// to fetch before first paint: 61.5KB of preloaded fonts, a 140-435KB hero photo
+// discovered late, and the extra layout of a bigger DOM. These are ceilings with
+// some headroom over today's numbers, so a regression has to be deliberate.
+{
+  const BUDGET = {
+    homeHtml: 130 * 1024, townHtml: 200 * 1024,
+    homeDom: 650, townDom: 900,
+    preloadFonts: 42 * 1024,        // Signature's figure; Chrome holds first paint for these
+    heroPhone: 120 * 1024, heroDesktop: 450 * 1024,
+    phoneCritical: 350 * 1024,      // HTML + preloaded fonts + the phone hero
+  };
+  const elements = (html) => (html.replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, "")
+    .match(/<[a-zA-Z][^>]*>/g) || []).length;
+  const fileSize = (url) => {
+    const f = path.join(SITE, url.split("?")[0]);
+    return fs.existsSync(f) ? fs.statSync(f).size : null;
+  };
+  const preloads = (html, as) => [...html.matchAll(/<link rel="preload"[^>]*>/g)].map((m) => m[0])
+    .filter((t) => t.includes(`as="${as}"`));
+  const hrefOf = (tag) => (tag.match(/href="([^"]+)"/) || [])[1];
+  const fontBytes = (html) => preloads(html, "font").reduce((n, t) => n + (fileSize(hrefOf(t)) || 0), 0);
+
+  // Town pages: /communities/<county>/<town>.html under a real county page (the
+  // Loveland neighbourhood folder has no county page, so it is not swept in).
+  const countyDir = path.join(SITE, "communities");
+  const towns = fs.readdirSync(countyDir, { withFileTypes: true })
+    .filter((d) => d.isDirectory() && fs.existsSync(path.join(countyDir, d.name + ".html")))
+    .flatMap((d) => fs.readdirSync(path.join(countyDir, d.name)).filter((f) => f.endsWith(".html"))
+      .map((f) => path.join(countyDir, d.name, f)));
+  check(`the town sweep found the town pages (${towns.length})`, towns.length >= 40);
+
+  check(`the homepage has at most ${BUDGET.homeDom} elements (${elements(home)})`,
+    elements(home) <= BUDGET.homeDom, "more nodes is more layout work inside the Total Blocking Time window");
+  check(`the homepage preloads at most ${kb(BUDGET.preloadFonts)} of fonts (${kb(fontBytes(home))})`,
+    fontBytes(home) <= BUDGET.preloadFonts, "Chrome holds first paint until preloaded fonts arrive");
+  check("every preloaded font exists", preloads(home, "font").every((t) => fileSize(hrefOf(t)) !== null));
+
+  const over = [];
+  let heroTowns = 0;
+  for (const f of towns) {
+    const html = fs.readFileSync(f, "utf8");
+    const rel = path.relative(SITE, f);
+    const n = Buffer.byteLength(html);
+    if (n > BUDGET.townHtml) over.push(`${rel} HTML ${kb(n)}`);
+    if (elements(html) > BUDGET.townDom) over.push(`${rel} ${elements(html)} elements`);
+    if (fontBytes(html) > BUDGET.preloadFonts) over.push(`${rel} preloads ${kb(fontBytes(html))} of fonts`);
+    const heroes = preloads(html, "image").filter((t) => /\/assets\/img\/communities\//.test(t));
+    const photo = (html.match(/class="county-hero hero-photo" style="([^"]*)"/) || [])[1];
+    if (!photo) { if (heroes.length) over.push(`${rel} preloads a hero it does not show`); continue; }
+    heroTowns++;
+    const big = (photo.match(/--hero-img:url\('([^']+)'\)/) || [])[1];
+    const small = (photo.match(/--hero-img-sm:url\('([^']+)'\)/) || [])[1];
+    const pre = (u) => heroes.find((t) => hrefOf(t) === u);
+    if (!big || !small) { over.push(`${rel} hero photo without both sizes`); continue; }
+    if (!pre(small) || !/fetchpriority="high"/.test(pre(small)) || !/media="\(max-width: 800px\)"/.test(pre(small)))
+      over.push(`${rel} phone hero not preloaded at high priority for (max-width: 800px)`);
+    if (!pre(big) || !/fetchpriority="high"/.test(pre(big)) || !/media="\(min-width: 801px\)"/.test(pre(big)))
+      over.push(`${rel} desktop hero not preloaded at high priority for (min-width: 801px)`);
+    const sb = fileSize(small), bb = fileSize(big);
+    if (sb === null || bb === null) { over.push(`${rel} hero file missing`); continue; }
+    if (sb > BUDGET.heroPhone) over.push(`${rel} phone hero ${kb(sb)}`);
+    if (bb > BUDGET.heroDesktop) over.push(`${rel} desktop hero ${kb(bb)}`);
+    if (n + fontBytes(html) + sb > BUDGET.phoneCritical)
+      over.push(`${rel} ${kb(n + fontBytes(html) + sb)} before a phone can paint`);
+  }
+  check(`every town page is inside its budget (HTML ${kb(BUDGET.townHtml)}, ${BUDGET.townDom} elements, `
+    + `fonts ${kb(BUDGET.preloadFonts)}, phone hero ${kb(BUDGET.heroPhone)})`,
+    over.length === 0, over.slice(0, 6).join("; "));
+  check(`the town hero photos are preloaded where they are the LCP (${heroTowns} towns)`, heroTowns >= 6);
+  const css = (home.match(/<style[^>]*>([\s\S]*?)<\/style>/) || [])[1] || "";
+  check("the CSS swaps in the phone hero at the same 800px breakpoint as the preload",
+    /@media \(max-width:800px\)\{\.county-hero\.hero-photo\{background-image:[^}]*var\(--hero-img-sm/.test(css));
+}
+
 console.log(failures === 0 ? "All checks passed" : `${failures} check(s) FAILED`);
 process.exit(failures === 0 ? 0 : 1);

@@ -865,6 +865,17 @@ form.lead-form label.consent > .consent-text { flex: 1 1 auto; min-width: 0; }
   color: var(--white);
 }
 .county-hero .eyebrow { color: var(--dusty-rose); }
+/* Town pages with a real photo (CITY_HERO_PHOTOS). The page sets --hero-img and
+   --hero-img-sm; build.py preloads the same two files under the same 800px
+   breakpoint, so each device fetches exactly one. */
+.county-hero.hero-photo {
+  background: linear-gradient(180deg, rgba(20,20,21,.5), rgba(20,20,21,.82)), var(--hero-img) center/cover no-repeat var(--charcoal);
+}
+@media (max-width: 800px) {
+  .county-hero.hero-photo {
+    background-image: linear-gradient(180deg, rgba(20,20,21,.5), rgba(20,20,21,.82)), var(--hero-img-sm, var(--hero-img));
+  }
+}
 .county-hero .lede { color: rgba(255,255,255,.85); }
 .city-pill-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 .city-pill { border: 1px solid rgba(255,255,255,.35); padding: 8px 16px; font-size: 13px; border-radius: 999px; display: inline-block; transition: background .15s ease, border-color .15s ease; }

@@ -6270,6 +6270,22 @@ TOWN_RELOCATION_VIDEOS = {
 }
 
 
+# Phones and desktops get different files, so each preload carries the same
+# media query as the CSS that paints it (style.css .county-hero.hero-photo) --
+# a phone never fetches the 1600px copy it will not use, and vice versa.
+TOWN_HERO_SMALL_MAX = 800
+
+
+def _town_hero_preload(data_slug):
+    base = f"/assets/img/communities/{data_slug}"
+    return (
+        f'<link rel="preload" as="image" href="{base}-{TOWN_HERO_SMALL_MAX}.webp" '
+        f'media="(max-width: {TOWN_HERO_SMALL_MAX}px)" fetchpriority="high">\n'
+        f'<link rel="preload" as="image" href="{base}.webp" '
+        f'media="(min-width: {TOWN_HERO_SMALL_MAX + 1}px)" fetchpriority="high">'
+    )
+
+
 def _relocation_video_block(data_slug, city_name):
     """Her own 'why I moved here' film, on the town page a relocating buyer lands on.
 
@@ -7497,6 +7513,8 @@ def build_city_pages():
                     f"matched to what you're looking for."
                 )
             hero_style = "padding:70px 0 50px"
+            hero_class = "county-hero"
+            hero_head = ""
             if data_slug in CITY_HERO_PHOTOS:
                 # 2026-08-14 (performance pass): these 6 city hero photos
                 # were 280-585KB unoptimized JPEGs -- re-encoded to WebP
@@ -7509,10 +7527,20 @@ def build_city_pages():
                 # background-image (not <img>), there's no <picture>
                 # fallback mechanism available anyway -- a straight format
                 # swap is the right call here, not a dual-format setup.
+                #
+                # 2026-09-30 (page speed): this photo is the LCP element on the
+                # six towns that have one, and a CSS background is only found
+                # once the stylesheet is parsed. It is now preloaded at high
+                # priority (_town_hero_preload), and phones get an 800px copy
+                # (41-114KB) instead of the 1600px one (140-435KB). The layers
+                # moved to .county-hero.hero-photo in style.css so the phone
+                # swap can be a media query; the page only names its files.
+                hero_class += " hero-photo"
                 hero_style += (
-                    ";background:linear-gradient(180deg, rgba(20,20,21,.5), rgba(20,20,21,.82)), "
-                    f"url('/assets/img/communities/{data_slug}.webp') center/cover no-repeat"
+                    f";--hero-img:url('/assets/img/communities/{data_slug}.webp')"
+                    f";--hero-img-sm:url('/assets/img/communities/{data_slug}-800.webp')"
                 )
+                hero_head = _town_hero_preload(data_slug)
             # 2026-08-13 (duplicate-content fix, body copy): the meta
             # description disambiguation above only fixed the <meta> tag --
             # a city that straddles two counties (currently just Windsor)
@@ -7542,7 +7570,7 @@ def build_city_pages():
                         f'the other side instead? See it here: {sibling_links}.</p>'
                     )
             body = f"""
-<section class="county-hero" style="{hero_style}">
+<section class="{hero_class}" style="{hero_style}">
   <div class="wrap">
     <span class="eyebrow"><a href="/communities/{c['slug']}.html" style="color:var(--dusty-rose)">&larr; {esc(c['name'])}</a></span>
     <h1 class="section-title" style="color:#fff">Living In {esc(city)}, Colorado</h1>
@@ -7687,6 +7715,7 @@ def build_city_pages():
                             disambiguate=city_county_counts[city] > 1),
                 meta,
                 f"/communities/{c['slug']}/{_city_url_slug(data_slug)}.html", "Communities", body,
+                extra_head=hero_head,
                 schema_extra=[breadcrumbs, faq_schema,
                               _town_place_schema(
                                   city, c["name"],
