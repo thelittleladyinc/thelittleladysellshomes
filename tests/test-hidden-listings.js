@@ -210,6 +210,10 @@ global.fetch = async (url, init) => {
   res = await load("listing-page").handler(ev({ id: "IRE1043314" }));
   check("/listing/IRE1043314 is this site's own 404, and Signature is not asked",
     res.statusCode === 404 && /no longer on the market/.test(res.body) && calls.length === 0, `${res.statusCode} / ${calls.length}`);
+  res = await load("listing-page").handler({ rawQuery: "fbclid=x", queryStringParameters: { id: "IRE1043314", fbclid: "x" },
+    headers: {}, httpMethod: "GET" });
+  check("...also from a shared link whose rawQuery is only ?fbclid=", res.statusCode === 404 && calls.length === 0,
+    `${res.statusCode} / ${calls.length}`);
   res = await load("listing-page").handler(ev({ id: "IRE1000004" }));
   check("a kept listing's page is still Signature's", res.statusCode === 200 &&
     /Signature's page/.test(Buffer.from(res.body, "base64").toString("utf8")));

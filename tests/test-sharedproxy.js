@@ -114,7 +114,8 @@ const SHARED = {
   const expectQuery = {
     "listings-search": "mine=true&site=thelittleladysellshomes",
     "home-search": "mine=true&noFloor=true&site=thelittleladysellshomes",
-    "listing-page": "mine=true&brand=tllsh",
+    // Signature's listing-page reads only id and brand; the old CDN rule sent those.
+    "listing-page": "brand=tllsh",
   };
   for (const name of MOVED) {
     fresh(SHARED);
@@ -128,6 +129,23 @@ const SHARED = {
     check(`${name}: same query as before`, !!u && u.search.slice(1) === (expectQuery[name] || "mine=true"), u && u.search);
     check(`${name}: said so (X-Backend: proxy), and opened no Blobs store`,
       res.headers["X-Backend"] === "proxy" && storesOpened === 0, `${res.headers["X-Backend"]} / ${storesOpened} store(s)`);
+  }
+  // /listing/<id> reaches the function through the rewrite's ?id=:id, which Netlify
+  // puts in queryStringParameters; rawQuery can be only the visitor's own query
+  // (a shared link's ?fbclid=, ?utm_...). The id must reach Signature regardless.
+  for (const [label, event] of [
+    ["a shared link's ?fbclid (rawQuery holds only the visitor's query)",
+      { rawQuery: "fbclid=x", queryStringParameters: { id: "IRE1", fbclid: "x" }, headers: {}, httpMethod: "GET" }],
+    ["a ?utm_ link (rawQuery holds both)",
+      { rawQuery: "id=IRE1&utm_source=fb", queryStringParameters: { id: "IRE1", utm_source: "fb" }, headers: {}, httpMethod: "GET" }],
+    ["only the path (/listing/IRE1)",
+      { rawQuery: "", queryStringParameters: {}, path: "/listing/IRE1", headers: {}, httpMethod: "GET" }],
+  ]) {
+    fresh(SHARED);
+    calls.length = 0;
+    await load("listing-page").handler(event);
+    const sent = calls[0] ? new URL(calls[0].url).search : "";
+    check(`listing-page, ${label}: Signature is asked for id=IRE1&brand=tllsh`, sent === "?id=IRE1&brand=tllsh", sent);
   }
   // The listing page used to be proxied by the CDN rule, which carried every header.
   fresh(SHARED);
