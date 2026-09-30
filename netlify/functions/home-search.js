@@ -8,30 +8,61 @@
 // Every "Search Homes" link and form on this site points at /search-homes.html,
 // most with filters in the query string (?cities=Loveland&maxPrice=650000&beds=3
 // from the home page's search). build.py routes that page here (a forced rewrite
-// in _redirects) and this passes the query to the shared Signature backend's
-// home-search function, which answers with a 302 to the same search on her Lofty
-// site. The address of her Lofty site is set once, on the Signature deployment
-// (IDX_SEARCH_URL), so moving it to its new domain touches neither site's code.
+// in _redirects), and this answers with a 302 to the same search on her Lofty
+// site (lib/_home-search.js). 302, not 301: where the search lives is a setting
+// (IDX_SEARCH_URL) that can change, and a browser that cached a permanent
+// redirect would keep going to the old one.
+//
+// 2026-09-30 (Signature move, part 1, docs/SIGNATURE-MOVE.md): the redirect used
+// to be built only by the Signature site's home-search function, which this one
+// passed the query to. That code now lives here too (lib/_home-search.js, copied
+// from the Signature repo) and answers here once Christine switches it on
+// (lib/_backend-mode.js). Until then it passes through to Signature exactly as
+// before. Either way the query is the same:
 //
 // This site searches every price, so the search is asked for with noFloor=true
-// unless the link already says otherwise -- without it the shared backend
-// applies Signature's $950K luxury floor.
+// unless the link already says otherwise -- without it the search applies
+// Signature's $950K luxury floor.
 "use strict";
 const { makeProxy } = require("./lib/_sig-proxy");
+const { homeSearchUrl } = require("./lib/_home-search");
+const { backendSwitch, queryOf, withQuery } = require("./lib/_backend-mode");
 
 const proxy = makeProxy("home-search");
 
 // 2026-09-29 (Christine approved: "lets do 1-5"): ?site=thelittleladysellshomes
-// tells the shared backend which site the search came from, so the Lofty link it
-// answers with carries utm_source=thelittleladysellshomes.com -- and a buyer who
-// registers on her Lofty site shows up in Lofty with this site as their source.
-// A query parameter, not a header: the backend's answers are cached by URL.
+// makes the Lofty link carry utm_source=thelittleladysellshomes.com -- so a buyer
+// who registers on her Lofty site shows up in Lofty with this site as their
+// source. A query parameter, not a header: the answers are cached by URL.
 const SITE = "thelittleladysellshomes";
 
-exports.handler = async (event) => {
-  const params = new URLSearchParams((event && event.rawQuery) || "");
+function thisSitesQuery(event) {
+  const params = queryOf(event);
   if (!params.has("noFloor")) params.set("noFloor", "true");
   params.set("site", SITE);
-  return proxy({ ...(event || {}), rawQuery: params.toString() });
-};
+  return params;
+}
+
+// The Signature repo's home-search handler, unchanged but for the query above.
+async function localHandler(event) {
+  const params = Object.fromEntries(thisSitesQuery(event));
+  const location = homeSearchUrl(params);
+  return {
+    statusCode: 302,
+    headers: {
+      Location: location,
+      "Cache-Control": "public, max-age=300",
+      "X-Robots-Tag": "noindex",
+    },
+    body: "",
+  };
+}
+
+async function proxyHandler(event) {
+  return proxy(withQuery(event, thisSitesQuery(event)));
+}
+
+exports.localHandler = localHandler;
+exports.proxyHandler = proxyHandler;
+exports.handler = backendSwitch("home-search", localHandler, { proxy: proxyHandler });
 exports.SITE = SITE;

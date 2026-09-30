@@ -32,6 +32,13 @@
 
 [functions]
   directory = "netlify/functions"
+  # 2026-09-30 (Signature move, part 1): listing-page.js now lives here too and
+  # renders into this site's generated shell (build.py write_listing_page_shell).
+  # Netlify's bundler ships what it can trace through require(); the shell is
+  # read with fs.readFileSync, which it cannot see, so it is declared here --
+  # without this line /listing/<id> crashed on Signature (2026-08-17).
+  # tests/test-bundledfiles.js pins it.
+  included_files = ["netlify/functions/lib/_listing-page-shell.html"]
 
 # 2026-09-30 (API audit): leads Lofty refused are queued by submission-created.js,
 # and nothing on this site ever retried them (only the Signature site's sync
@@ -130,6 +137,11 @@
   status = 200
 
 # ---- Shared MLS backend (2026-08-19) --------------------------------------
+# 2026-09-30: still true after the Signature move, part 1 -- the backend
+# functions now live in netlify/functions/ too, but none of them makes an MLS
+# Grid call without an MLSGRID_API_TOKEN, which this site does not have, and
+# none is scheduled. See docs/SIGNATURE-MOVE.md. The history below stands.
+#
 # This site carries NO MLS credentials, on purpose. One MLS Grid account
 # serves both of Christine's brands, and its rate budget is only safe with
 # ONE pacer and ONE photo cache -- the ones on the Signature deployment.
@@ -145,14 +157,17 @@
 # rule is unchanged: every MLS-touching request still funnels through the
 # Signature deployment.
 
-# Clean, shareable, indexable URL for one listing -- proxied to the shared
-# backend's listing-page function WITH brand=tllsh, which makes it render in
-# THIS site's shell (listing-page.js keeps a checked-in copy of our generated
-# lib/_listing-page-shell.html; refresh that copy after a redesign here).
-# Canonical stays on the Signature domain so the two sites never compete for
-# the same listing URL in search.
+# Clean, shareable, indexable URL for one listing.
+#
+# 2026-09-30 (Signature move, part 1, docs/SIGNATURE-MOVE.md): this used to
+# proxy straight to the Signature site's listing-page function with
+# brand=tllsh. It now goes to this site's own listing-page function, which does
+# exactly that same pass-through (brand=tllsh, same headers) until Christine
+# switches it on -- and then renders the page here, in this site's generated
+# shell (Google Analytics + Meta Pixel, canonical on this domain). Same pattern
+# the Signature site has always used for its own listings.
 [[redirects]]
   from = "/listing/:id"
-  to = "https://signaturepropertycollection.com/.netlify/functions/listing-page?id=:id&brand=tllsh"
+  to = "/.netlify/functions/listing-page?id=:id"
   status = 200
   force = false

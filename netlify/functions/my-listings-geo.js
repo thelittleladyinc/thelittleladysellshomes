@@ -1,5 +1,217 @@
-// Credential-free pass-through to the shared Signature backend -- see
-// lib/_sig-proxy.js for why this exists (reserved-path proxy rules never fire).
-// Serves Christine's geocoded active listings for the /explore map.
-"use strict";
-exports.handler = require("./lib/_sig-proxy").makeProxy("my-listings-geo");
+// ---- The Little Lady copy (2026-09-30, Signature move, part 1) --------------
+// Copied from the Signature repo (signature-property-collection, including its
+// 2026-09-30 audit fixes) under the SAME function name, because this site's pages,
+// its map and other apps call it by that name. It answers HERE only once Christine
+// switches it on -- lib/_backend-mode.js, docs/SIGNATURE-MOVE.md. Until then every
+// request passes through to the same function on the Signature site exactly as
+// before (lib/_sig-proxy.js). Below this block is the Signature code; anything
+// changed for this site is marked "(Little Lady copy)".
+// -----------------------------------------------------------------------------
+// Christine's OWN listings (11-12 records), geocoded — the layer that lets a
+// map show "homes I have for sale right now" as real pins.
+//
+// 2026-08-20 (Christine, on the Mapbox preview: "I have a lot of listings
+// right now - like 11 or 12. How do I make it not lack one feature?"). The
+// known blocker on mapping listings (§2.3 in NEXT-SESSION.md: the MLS feed
+// carries no coordinates, and geocoding 15,000+ listings is not affordable)
+// applies to the FULL regional catalogue, not to hers: mine-listings.json is
+// a handful of records, so geocoding them costs ~12 Google calls a month
+// under the same 30-day cache the sold-homes map already uses.
+//
+// Modeled directly on sold-homes-geocode.js — same key, same cache-TTL
+// reasoning (Google's terms cap cached Geocoding lat/lng at 30 consecutive
+// days; see that file's 2026-08-15 note), same bounded warming, same
+// "server-side key, public response" pattern. Reads the listing facts
+// (price, beds, status) fresh from the blob on every call, so a price change
+// or a pending flip shows up within one sync cycle even while the geocode
+// stays cached.
+//
+// CORS wildcard for the same reason local-spots.js and sold-homes-geocode.js
+// carry one: this is public, unauthenticated data the site already shows
+// every visitor, and the Mapbox preview page (a local file) needs to read it.
+const { getStore } = require("@netlify/blobs");
+const { getBlobStore, MINE_LISTINGS_KEY, SYNC_STATE_KEY } = require("./lib/_mls-shared");
+const { idxGate, UNAVAILABLE_CACHE_CONTROL } = require("./lib/_idx-display");
+const { geocodeAddress } = require("./lib/_geocode");
+const { withoutHidden, hiddenListingIds, editJsonResponse } = require("./lib/_hidden-listings");
+
+const GEOCODE_STORE_NAME = "my-listings-geocode-cache";
+// Google's ceiling for cached Geocoding coordinates, not a tuning knob.
+const GEOCODE_CACHE_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+const GEOCODE_CONCURRENCY = 4;
+const GEOCODE_TIMEOUT_MS = 4000;
+const GEOCODE_TIME_BUDGET_MS = 5000;
+
+function fullAddress(l) {
+  // City included so the API never guesses between same-named streets in
+  // different towns — the lesson sold-homes-geocode.js already carries.
+  return [l.address, l.city, l.state || "CO", l.zip].filter(Boolean).join(", ");
+}
+
+// 2026-09-30 (API audit): her listings come from Lofty now, and Lofty sends each
+// one's latitude and longitude (lib/_lofty-listings.js). Geocoding them again was
+// a paid lookup for coordinates already in hand -- and without GOOGLE_MAPS_API_KEY
+// the layer showed no pins at all. A listing that carries coordinates is pinned
+// from them; only one without is geocoded, exactly as before.
+function storedCoords(l) {
+  const lat = Number(l && l.latitude);
+  const lng = Number(l && l.longitude);
+  if (l == null || l.latitude == null || l.longitude == null) return null;
+  if (!Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) return null;
+  if (lat === 0 && lng === 0) return null;
+  return { lat, lng };
+}
+
+function normalizeAddressKey(address) {
+  return address.trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+
+async function mapWithConcurrency(items, limit, worker) {
+  const results = new Array(items.length);
+  let next = 0;
+  const runners = new Array(Math.min(limit, items.length)).fill(null).map(async () => {
+    while (next < items.length) {
+      const i = next++;
+      results[i] = await worker(items[i], i);
+    }
+  });
+  await Promise.all(runners);
+  return results;
+}
+
+function toPin(l, geo) {
+  return {
+    listingId: l.listingId,
+    address: l.address || null,
+    city: l.city || null,
+    price: l.price ?? null,
+    beds: l.beds ?? null,
+    baths: l.baths ?? null,
+    sqft: l.sqft ?? null,
+    status: l.status || null,
+    propertyType: l.propertyType || null,
+    url: l.listingId ? `/listing/${l.listingId}` : null,
+    lat: geo.lat,
+    lng: geo.lng,
+  };
+}
+
+function corsJson(payload, cacheControl) {
+  return {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": cacheControl,
+      "Access-Control-Allow-Origin": "*",
+    },
+    body: JSON.stringify(payload),
+  };
+}
+
+// 2026-09-28: IDX display gate (lib/_idx-display.js). Off or stale -> an empty
+// pin layer, same shape as "no listings yet", so the map simply shows no pins.
+function noPins(gate) {
+  return corsJson(
+    { pins: [], totalCount: 0, pending: false, idxUnavailable: true, reason: gate.reason,
+      message: gate.message, searchUrl: gate.searchUrl },
+    UNAVAILABLE_CACHE_CONTROL
+  );
+}
+
+const localHandler = async () => {
+  const switchGate = idxGate({ skipFreshness: true });
+  if (!switchGate.allowed) return noPins(switchGate);
+  try {
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+
+    const listingsStore = getBlobStore(getStore); // default: the mls-listings store
+    // Freshness: an unreadable state blob fails closed (no pins), never open.
+    const state = await listingsStore.get(SYNC_STATE_KEY, { type: "json" }).catch(() => null);
+    const freshGate = idxGate({ state });
+    if (!freshGate.allowed) return noPins(freshGate);
+    // (Little Lady copy) Listings Christine confirmed are off the market never get
+    // a pin (HIDE_LISTING_IDS, lib/_hidden-listings.js).
+    const mine = withoutHidden(await listingsStore.get(MINE_LISTINGS_KEY, { type: "json" }).catch(() => null));
+    // Sold/expired records don't belong on a "for sale right now" layer; an
+    // address is required because it is the only thing to geocode by.
+    const active = (Array.isArray(mine) ? mine : []).filter(
+      (l) => l && l.address && l.city && String(l.status || "").toLowerCase() !== "closed"
+    );
+    if (!active.length) {
+      return corsJson(
+        { pins: [], totalCount: 0, pending: false, note: "No active listings in the store yet." },
+        "no-store"
+      );
+    }
+    if (!apiKey && !process.env.MAPBOX_PUBLIC_TOKEN && !active.some(storedCoords)) {
+      return corsJson({ error: "not_configured", pins: [] }, "no-store");
+    }
+
+    const geoStore = getBlobStore(getStore, GEOCODE_STORE_NAME);
+    const startedAt = Date.now();
+
+    const pins = [];
+    let deferred = 0;
+    await mapWithConcurrency(active, GEOCODE_CONCURRENCY, async (l) => {
+      const coords = storedCoords(l);
+      if (coords) {
+        pins.push(toPin(l, coords));
+        return;
+      }
+      const key = normalizeAddressKey(fullAddress(l));
+      const cached = await geoStore.get(key, { type: "json" }).catch(() => null);
+      if (cached && cached.cachedAt && Date.now() - cached.cachedAt < GEOCODE_CACHE_TTL_MS) {
+        pins.push(toPin(l, cached));
+        return;
+      }
+      if (Date.now() - startedAt > GEOCODE_TIME_BUDGET_MS) {
+        deferred += 1;
+        return;
+      }
+      try {
+        const geo = await geocodeAddress(fullAddress(l), apiKey);
+        await geoStore.setJSON(key, { ...geo, cachedAt: Date.now() }).catch(() => {});
+        pins.push(toPin(l, geo));
+      } catch (err) {
+        console.error(`my-listings-geo: failed for "${fullAddress(l)}":`, err && err.message);
+      }
+    });
+
+    const pending = deferred > 0;
+    // Short edge cache even when complete: unlike a sold address, a listing's
+    // price and status genuinely change, and the facts here are read fresh
+    // from the blob each invocation. Five minutes keeps a page of visitors
+    // from stampeding the function without freezing a price flip for a day.
+    return corsJson(
+      { pins, totalCount: active.length, pending },
+      pending ? "no-store" : "public, max-age=300, stale-while-revalidate=3600"
+    );
+  } catch (err) {
+    console.error("my-listings-geo function error:", err);
+    return corsJson({ error: "exception", message: err && err.message, pins: [] }, "no-store");
+  }
+};
+
+// (Little Lady copy) Answer here only when switched on; otherwise pass through to
+// the Signature site exactly as before. See lib/_backend-mode.js.
+const { backendSwitch } = require("./lib/_backend-mode");
+const { makeProxy } = require("./lib/_sig-proxy");
+exports.localHandler = localHandler;
+// Passed through, the hide list still applies: the pins of hidden listings are
+// taken out of Signature's answer (the whole set is one response, so the count
+// stays exact).
+const passThrough = makeProxy("my-listings-geo");
+async function proxyWithoutHidden(event) {
+  const res = await passThrough(event);
+  if (!hiddenListingIds().size) return res;
+  return editJsonResponse(res, (data) => {
+    if (!data || !Array.isArray(data.pins)) return data;
+    const pins = withoutHidden(data.pins);
+    const removed = data.pins.length - pins.length;
+    const totalCount = typeof data.totalCount === "number" ? Math.max(0, data.totalCount - removed) : data.totalCount;
+    return { ...data, pins, totalCount };
+  });
+}
+exports.proxyHandler = proxyWithoutHidden;
+exports.handler = backendSwitch("my-listings-geo", localHandler, { proxy: proxyWithoutHidden });
