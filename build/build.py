@@ -8765,6 +8765,59 @@ def _tllsh_sellers_guide_sections():
     ]
 
 
+# 2026-09-30 (Signature move, part 2): the one part of Signature's luxury
+# buyer's and seller's guides this site's guides did not already cover -- what
+# changes above $950K -- as a chapter of each, instead of a second pair of
+# guides. Trimmed from Signature's _signature_*_guide_sections(): no conforming
+# loan limit or cost figures that go stale in a year, no named banks, no counts
+# nobody can verify, and no second brand's sign-off. Rendered by _lead_guide()
+# before each guide's "What This Looks Like With Me".
+def _luxury_buyers_chapter():
+    return [
+        {"h2": "If You Are Buying Above $950K", "paragraphs": [
+            "The top of the Northern Colorado market \u2014 roughly $950K and up in Loveland, Fort Collins, Windsor and Estes Park, and the acreage in between \u2014 does not move like the rest of it. Homes take longer to sell, and that is normal rather than a signal to lowball. The buyer pool is national rather than local, and the deal is more likely to turn on a private well, water rights, wildfire mitigation or a view corridor than on price per square foot. The tour list is shorter, the diligence is longer, and the offer is written differently.",
+        ]},
+        {"h3": "Financing At This Level", "paragraphs": [
+            "Above the county's conforming loan limit you are in jumbo territory, and the largest loans are portfolio products. The limit changes every year, so check the current figure for Larimer or Weld County rather than one printed in a guide. Jumbo underwriting is manual and slower, reserve requirements are stiffer \u2014 often several months of payments in liquid assets \u2014 and pricing on the same loan can differ a great deal between lenders, so get Loan Estimates from at least three, including your private bank if you have one.",
+            "Cash still wins close ties. If you have the liquidity, an all-cash close followed by delayed financing can give a seller the certainty they want while keeping your capital invested \u2014 ask your lender how its delayed-financing rules work before you rely on it.",
+        ]},
+        {"h3": "Where The Off-Market Homes Are", "paragraphs": [
+            "Pre-market and private sales happen more at this level than below it: sellers who want privacy, or want to test a price before the days-on-market clock starts. It is a small number of homes at any moment, and it moves through the agents who actually work this tier. When you start a search here, one of Christine's first calls is to that network, describing what you are looking for. Be skeptical of any agent claiming a large private-listing book without a track record you can check in your price range.",
+        ]},
+        {"h3": "Diligence That Scales With The Property", "paragraphs": [
+            "An inspection at this level is not a two-hour walk-through. Expect the general inspection plus a structural engineer where soils or construction call for one, specialists for multi-zone or geothermal heating, a sewer scope, radon, and inspectors for the pool, well, septic and anything unusual.",
+            "Water surprises out-of-state buyers most. In Colorado, water rights are separate from the land: owning the property does not mean owning the water on or under it. Wells have permits recorded with the Colorado Division of Water Resources, ditch shares are separate legal instruments, and many domestic wells need an augmentation plan. Ask what the water right is, whether it is decreed, what it allows, and how it conveys.",
+            "Foothills and mountain property sits in the wildland-urban interface, and insurers there are declining or conditioning cover. Get a homeowner's insurance quote in hand before you write the offer; at this level the premium can change your carrying cost materially.",
+        ]},
+        {"h3": "Writing The Offer", "paragraphs": [
+            "Price is one term of many. What separates two offers here: earnest money, the close date, financing type and a lender the seller has heard of, the appraisal contingency (often capped or waived at this tier), the inspection window, and any occupancy after closing the seller might want. Christine writes the offer with proof of funds for the close and reserves, and addresses the property's obvious diligence question up front, so the seller can see it comes from a prepared buyer.",
+        ]},
+    ]
+
+
+def _luxury_sellers_chapter():
+    return [
+        {"h2": "If You Are Selling Above $950K", "paragraphs": [
+            "At the top of the market, an overpriced listing does not sit for two extra weeks and close a little under. It sits for months, cycles through reductions, and usually closes below what the right price would have brought. The buyers are fewer, better informed and more patient: they watch the days-on-market clock and price a stale listing accordingly.",
+        ]},
+        {"h3": "Pricing When The Comparables Are Thin", "paragraphs": [
+            "Three passes, as with any listing, but with a longer look back: closed sales over the last twelve months rather than ninety days, because the volume is too thin for a shorter sample, adjusted for lot, view, condition and architecture. Then today's competition, feature by feature \u2014 water rights, views, the primary suite, the kitchen, the garage, the outbuildings. Then the ceiling test: the highest recent close, and whether there is a specific, defensible reason yours can beat it. If two agents give you very different numbers, ask each for the closed comparables and the adjustments, in writing.",
+        ]},
+        {"h3": "Presentation That Carries The Price", "paragraphs": [
+            "Buyers at this level make the first cut from photographs and video, not the listing text. That means architectural photography with twilight images, a cinematic walk-through with drone, and staging \u2014 partial or full \u2014 on a home that has been emptied or de-personalised. A printed brochure still matters here, because some of the right buyers and their advisers are reached on paper.",
+        ]},
+        {"h3": "Reaching The Buyer Who Is Actually Out There", "paragraphs": [
+            "The buyer for a foothills estate in Loveland is more likely to be relocating from California, Texas or metro Denver than moving across town. So the marketing is aimed where that buyer is: targeted digital advertising by region, the luxury broker network, private showings by appointment, and a property website of its own. Working out where the buyer is coming from is part of the pre-listing work, not an afterthought.",
+        ]},
+        {"h3": "Qualifying The Buyer", "paragraphs": [
+            "A pre-approval from a private-banking relationship and one from an online lender can show the same number and mean different things about reserves and intent to close. Christine asks, through the buyer's agent, about the institution and the loan officer before recommending you accept or counter. A cash offer needs recent statements or a written proof of funds from the institution holding them; until then, cash is a claim.",
+        ]},
+        {"h3": "Inspection And Appraisal", "paragraphs": [
+            "The inspection is longer at this level, and so is the objection list. Sort it into must-address (safety, structural, discoverable defects), reasonable (major systems with documented issues) and wish-list (cosmetic, wear and tear). When an appraisal comes in low, answer it with a reconsideration-of-value package prepared in advance: recent comparables, the adjustments, and any pending sales that support the price.",
+        ]},
+    ]
+
+
 def build_guides():
     for data_key, path, title, description in GUIDE_PAGES:
         g = GUIDES.get(data_key)
@@ -8869,10 +8922,12 @@ def build_guides():
          "How to write an offer that wins without overpaying",
          "Concessions, closing-cost math, and what to ask the seller to cover",
          "Inspection, appraisal, and title \u2014 the three deal-killers and how to survive them",
-         "Colorado-specific line items: wells, septic, HOA vs. metro district, radon, hail"],
+         "Colorado-specific line items: wells, septic, HOA vs. metro district, radon, hail",
+         "Buying above $950K: jumbo financing, off-market homes, water rights and the luxury offer"],
         form_name="buyers-guide",
         lede="Written for people actually shopping the Northern Colorado market right now \u2014 Loveland, Fort Collins, Windsor, Berthoud, Wellington and the towns in between. No filler. The order the steps actually go in, and what to do at each one.",
-        content_sections=_tllsh_buyers_guide_sections(),
+        content_sections=(_tllsh_buyers_guide_sections()[:-1] + _luxury_buyers_chapter()
+                          + _tllsh_buyers_guide_sections()[-1:]),
     )
     _lead_guide(
         "/guides/sellers-guide.html",
@@ -8885,10 +8940,12 @@ def build_guides():
          "Photography, video, and marketing that gets a NoCo house showing traffic",
          "Showings, feedback, and the price-adjustment triggers",
          "Offer review \u2014 what to negotiate besides price",
-         "Inspection and appraisal objections \u2014 what to concede and what to hold"],
+         "Inspection and appraisal objections \u2014 what to concede and what to hold",
+         "Selling above $950K: pricing on thin comparables, presentation, and qualifying the buyer"],
         form_name="sellers-guide",
         lede="For homeowners preparing to list in Northern Colorado \u2014 Loveland, Fort Collins, Windsor, Berthoud, Wellington and the surrounding towns. What the pre-listing weeks should actually look like, and what separates a house that sells fast at a strong number from one that doesn't.",
-        content_sections=_tllsh_sellers_guide_sections(),
+        content_sections=(_tllsh_sellers_guide_sections()[:-1] + _luxury_sellers_chapter()
+                          + _tllsh_sellers_guide_sections()[-1:]),
     )
     # 2026-08-16 (competitive audit, potterealty.com): the one thing the competing
     # NoCo site does that this one did not. His entire homepage funnels to a single
@@ -11153,6 +11210,62 @@ def _quiz_disclosure(intro):
 """
 
 
+# 2026-09-30 (Signature move, part 2): the $1M+ tier from Signature's market
+# report, the one part of it this site's report did not have. Those are SOLD
+# figures from one month (build/data/market_report.json, the June 2026 report),
+# and this site's feed carries no sold data, so they cannot be refreshed here.
+# CLAUDE.md, Market-report truthfulness: they are shown as what they are -- a
+# dated snapshot with its source and window, set apart from the live asking-price
+# figures above, never as "right now". Delete the `luxury` block from the JSON
+# (or the file) and the section disappears.
+def _luxury_tier_snapshot_html():
+    try:
+        mr = _load_json("market_report.json")
+    except Exception:
+        return ""
+    lux = (mr or {}).get("luxury") or {}
+    if not lux.get("closings") or not mr.get("month_label"):
+        return ""
+
+    def _stat(value, label):
+        return (f'<div class="mr-stat"><span class="mr-figure">{esc(value)}</span>'
+                f'<span class="mr-label">{esc(label)}</span></div>')
+
+    stats = "".join(x for x in [
+        _stat(f"{lux['closings']}", "Homes closed at $1M+"),
+        _stat(f"${lux['median_price']:,}", "Median $1M+ sale price") if lux.get("median_price") else "",
+        _stat(f"{lux['median_days_on_market']:g} days", "Median days on market")
+        if lux.get("median_days_on_market") else "",
+        _stat(f"{lux['avg_pct_of_list']:g}%", "Average share of list price") if lux.get("avg_pct_of_list") else "",
+    ] if x)
+    top = ""
+    if lux.get("top_sale_price"):
+        detail = ", ".join(x for x in [
+            f"{lux['top_sale_beds']} bd" if lux.get("top_sale_beds") else None,
+            f"{lux['top_sale_sqft']:,} sq ft" if lux.get("top_sale_sqft") else None] if x)
+        where = f" in {lux['top_sale_town']}" if lux.get("top_sale_town") else ""
+        top = (f'<p class="lede" style="margin-top:24px">The highest close in that window was '
+               f'${lux["top_sale_price"]:,}{esc(where)}{esc(f" ({detail})" if detail else "")} '
+               f'&mdash; address held privately, in respect of the sellers.</p>')
+    month, source, window = mr["month_label"], mr.get("source") or "IRES MLS", mr.get("window") or ""
+    return f"""<section class="tight">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Homes Over $1 Million</span>
+    <h2 class="section-title">The $1M+ Tier: The {esc(month)} Snapshot</h2>
+    <p class="lede">Sold figures for the top of the market, from the {esc(month)} report
+    &mdash; a dated snapshot, not the live asking-price figures above, and not updated since.
+    At this level days on market run longer because buyers are deliberate rather than
+    hesitant, and pricing precision decides whether a home trades inside two months or sits
+    for six.</p>
+    <div class="mr-stats">{stats}</div>
+    {top}
+    <p class="mr-asof" style="margin-top:18px">Source: {esc(source)}{esc(f", {window}" if window else "")},
+    as published in the {esc(month)} report. For the current $1M+ figures in your town and
+    price band, <a href="/contact.html">ask Christine</a>.</p>
+  </div>
+</section>"""
+
+
 def build_nav_pages():
     """The remaining pages from the original site's nav — real intro copy
     carried over from the live site (notes/extracted/nav-*.txt) plus a
@@ -11200,6 +11313,36 @@ def build_nav_pages():
     <div class="btn-row" style="justify-content:flex-start;margin-top:40px">
       <a class="btn btn-primary" href="{RELOCATION_GUIDE_PATH}">Get The Free Relocation Guide</a>
       <a class="btn btn-outline" style="border-color:#141415;color:#141415" href="/communities/index.html">Explore Communities</a>
+    </div>
+  </div>
+</section>
+"""
+    # 2026-09-30 (Signature move, part 2): Signature's relocation page was the
+    # executive and luxury version of this one. One relocation page, not two: its
+    # process is folded in here as its own section for the buyers it was written
+    # for, and the Signature page will redirect here (phase e). Christine only --
+    # its "Christine or Kendra will reach out" line is not carried over.
+    exec_steps = [
+        ("Confidential Consultation", "A private conversation about timing, discretion, the terms of a corporate relocation package, and whether the search should include off-market homes or run publicly. Nothing is shared anywhere until you decide it should be."),
+        ("Estate Neighborhoods That Fit", "A short list of the communities that actually fit \u2014 Mariana Butte, the Boyd Lake waterfront, Namaqua Hills, Kinston at Centerra, Estes Park's estate corridors and Fort Collins acreage among them \u2014 mapped against your commute, schools and privacy."),
+        ("Private Showings, Wherever You Are", "Cinematic walkthroughs, live video showings for buyers who are still out of state, and pre-public homes when the fit warrants it. You see what belongs in your search, not everything in the price band."),
+        ("The Specialists This Move Needs", "Introductions to jumbo and private-bank lenders, private moving crews, estate attorneys, well and septic consultants, wildfire and insurance advisers, and designers who know the local trades."),
+        ("Negotiation That Protects The Move", "Offers written with the leverage the market actually gives you \u2014 including a sale-contingent bridge when your current home is in another market, and an appraisal plan when the comparable sales are thin."),
+        ("One Point Of Contact", f"{SITE['agent'].split()[0]} herself, from the first call through closing, and local introductions on your terms once you are here."),
+    ]
+    exec_html = "\n      ".join(
+        f'''<div class="card"><h3>{esc(t)}</h3><p>{esc(d)}</p></div>''' for t, d in exec_steps
+    )
+    body += f"""
+<section class="tight">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Executive &amp; Luxury Relocation</span>
+    <h2 class="section-title">Relocating Into Northern Colorado&rsquo;s Estate Market</h2>
+    <p class="lede">For executives, out-of-state buyers and families moving into the estate and
+    acreage tier, the same process runs quieter and deeper: private tours, a confidential
+    search, and the specialists a larger transaction needs.</p>
+    <div class="grid-3">
+      {exec_html}
     </div>
   </div>
 </section>
@@ -11405,6 +11548,29 @@ def build_nav_pages():
     <p class="lede">Good negotiation is disciplined. We evaluate buyer financial strength,
     probability of closing, contingency structure, timeline control, and privacy. The
     strongest offer is the one that closes cleanly while protecting your leverage and position.</p>
+  </div>
+</section>
+<section class="tight">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Homes Over $1 Million</span>
+    <h2 class="section-title">When The Expired Listing Is A Luxury Home</h2>
+    <p class="lede">An expired luxury listing is almost never a bad house. It is usually a
+    price set against too few true comparables, photography that did not carry the price, or a
+    marketing plan built for a $400,000 home and applied to a $1.4 million one. At this level
+    the relaunch changes accordingly:</p>
+    <div class="grid-3" style="margin-top:28px">
+      <div class="card"><h3>Pricing On Thin Comparables</h3><p>A twelve-month look back
+      instead of ninety days, adjusted for lot, view, architecture and condition, and a ceiling
+      test against the highest recent close &mdash; so the new price has a defensible reason
+      behind it.</p></div>
+      <div class="card"><h3>Media That Carries The Price</h3><p>Architectural and twilight
+      photography, a cinematic walk-through with drone, staging where the home needs it, and a
+      printed brochure &mdash; because luxury buyers make their first cut from the pictures.</p></div>
+      <div class="card"><h3>Private, Targeted Exposure</h3><p>Showings by appointment for
+      qualified buyers, the luxury broker network, and advertising aimed at the regions the
+      buyer for your home is most likely moving from &mdash; not a louder version of the first
+      launch.</p></div>
+    </div>
   </div>
 </section>
 {_trust_ribbon_html()}
@@ -11620,6 +11786,7 @@ def build_nav_pages():
     # stale, and past TOWN_MARKET_STALE_DAYS it degrades to the qualitative version
     # rather than publishing numbers that have gone off.
     snap = _live_market_snapshot()
+    lux_html = _luxury_tier_snapshot_html()
 
     def _stat(value, label, note=None):
         if value is None:
@@ -11760,6 +11927,7 @@ def build_nav_pages():
     </div>
   </div>
 </section>
+{lux_html}
 {mr_faq_html}
 {archive_html}
 <section class="tight">
@@ -11817,6 +11985,7 @@ def build_nav_pages():
     </div>
   </div>
 </section>
+{lux_html}
 {mr_faq_html}
 {archive_html}
 """
