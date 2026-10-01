@@ -60,8 +60,10 @@ ATTR_INPUTS = attr_inputs()
 CONSENT = """<label class="consent">
   <input type="checkbox" name="sms_consent" value="yes" style="width:auto">
   I agree to receive marketing communication via email, call, text, or similar automated means
-  from The Little Lady Sells Homes. Consent is not a condition of purchase. Msg/data rates may
-  apply. Reply STOP to unsubscribe.
+  from The Little Lady Sells Homes. Consent is not a condition of purchase. Message frequency
+  varies. Msg/data rates may apply. Reply STOP to unsubscribe, HELP for help. See our
+  <a href="/privacy-policy.html">Privacy Policy</a> and
+  <a href="/terms-of-service.html">Terms of Service</a>.
 </label>"""
 
 
