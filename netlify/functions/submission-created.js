@@ -66,6 +66,7 @@ const { postLead, recordPush } = require("./lib/_lofty");
 const { addLoftyNote, refireLoftyTag, sendLeadAlertEmail } = require("./lib/_notify");
 const { newsletterFromEvent } = require("./lib/_flodesk");
 const { homeValueProperty } = require("./lib/_lead-address");
+const { smsConsentFromForm, applyTextingPreference } = require("./lib/_lofty-consent");
 const {
   findExistingLead, alertReturningLead, websiteFieldValues, ensureWebsiteFields, setWebsiteFields,
   leadIdFromResponse, inquiryFromForm, placeInquiry,
@@ -217,6 +218,12 @@ async function handleLead(event) {
     if (data.email) body.emails = [data.email];
     if (data.phone) body.phones = [data.phone];
     body.source = SOURCE_LABELS[formName] || `The Little Lady Sells Homes - ${formName}`;
+    // 2026-09-30 (consent fix): every lead is created with texting OFF. Texting
+    // goes on only after the create, and only on an explicit yes whose number is
+    // every phone on the lead (lib/_lofty-consent.js; lib/_lofty.js enforces
+    // this on every create, the queue replay included).
+    body.cannotText = true;
+    const consent = smsConsentFromForm(data);
     // 2026-08-15 (Christine: "make sure that when the new lead comes in or if it
     // merges that i am still notified some how in lofty with a hot lead or
     // something of hte sort"). Her 16:48 test DID reach Lofty -- lead
@@ -379,13 +386,28 @@ async function handleLead(event) {
     // browser's own required check -- a direct POST, a bot, or a form that
     // predates this change. That is called out explicitly rather than left blank,
     // because the safe reading of "no record" is DO NOT TEXT.
-    if (data.sms_consent) {
+    //
+    // 2026-09-30: the YES below is now the same test that decides texting in
+    // Lofty (lib/_lofty-consent.js), so a value that isn't a yes is not written
+    // up as one; the ROI funnels' required `consent` box is named for what it is.
+    if (consent.given) {
       body.notes += "\n\nCONSENT (TCPA)" +
         "\nSMS/call consent: YES \u2014 box ticked at submit" +
         "\nAgreed to: \"I agree to receive marketing communication via call, text, or " +
         "similar automated means from The Little Lady Sells Homes. Consent is not a " +
         "condition of purchase. Message frequency varies. Msg/data rates may apply. " +
         "Reply STOP to unsubscribe, HELP for help.\"";
+    } else if (consent.answered) {
+      body.notes += "\n\nCONSENT (TCPA)" +
+        "\n!! SMS consent NOT given on this submission (the sms_consent field was not a yes). " +
+        "Texting is off for this lead in Lofty. Do NOT text or auto-dial this lead until consent " +
+        "is obtained and logged.";
+    } else if (data.consent) {
+      body.notes += "\n\nCONSENT (TCPA)" +
+        "\n!! No texting consent on this submission. This form's consent box is REQUIRED to " +
+        "submit, so ticking it is not a free choice and is not counted as agreeing to texts. " +
+        "Texting is off for this lead in Lofty. Do NOT text or auto-dial this lead until consent " +
+        "is obtained and logged.";
     } else {
       body.notes += "\n\nCONSENT (TCPA)" +
         "\n!! NO CONSENT RECORD on this submission \u2014 the sms_consent field was " +
@@ -409,6 +431,20 @@ async function handleLead(event) {
     // instead of the absorbed record a merge hands back. Never throws; if Lofty
     // can't answer in time, everything below runs exactly as before.
     const existing = await findExistingLead(data.email, data.phone, apiKey);
+    if (existing.manualReview) {
+      const held = { ok: false, attempted: false, manualReview: true,
+        payloadShape: "held for identity review", responseBody: existing.error };
+      const emailResult = await sendLeadAlertEmail({
+        name: data.name, email: data.email, phone: data.phone,
+        source: SOURCE_LABELS[formName] || formName, sourceShort: formName,
+        noteText: `${body.notes}\n\nMANUAL REVIEW: ${existing.error}. No Lofty contact changed.`,
+        leadId: null, stamp: `${stamp} MT`,
+      });
+      let store = null;
+      try { store = getBlobStore(getStore, DIAG_STORE); } catch (e) { store = null; }
+      if (store) await recordPush(store, { ...held, emailResult }, formName, body);
+      return { statusCode: 200, body: "ok (captured; Lofty identity needs manual review)" };
+    }
     // A known contact keeps its own tags. `tags` on the create call REPLACES the
     // tag set of the contact a submission merges into ("All existing tags will be
     // updated based on this call" -- Lofty's create-lead reference); `tagsAdd`
@@ -466,7 +502,8 @@ async function handleLead(event) {
       // Forms, and -- new as of this change -- has already been emailed to her.
       // Still returns 200: failing here would not help the visitor, whose
       // submission already succeeded.
-      if (store) await recordPush(store, { ...result, emailResult }, formName, body);
+      // smsConsent rides with the queued lead, so the replay applies the same rule.
+      if (store) await recordPush(store, { ...result, emailResult, smsConsent: consent.given }, formName, body);
       return { statusCode: 200, body: "ok (lofty push failed — see /site-health)" };
     }
 
@@ -492,6 +529,18 @@ async function handleLead(event) {
     // 2026-09-29: to the existing contact when there is one (see above).
     const noteTarget = existing.leadId || leadId;
     const noteResult = noteTarget ? await addLoftyNote(noteTarget, body.notes, apiKey) : { attempted: false };
+    // 2026-09-30 (consent fix): texting on, only for an explicit yes, and only if
+    // every phone on the lead is the number the yes came with -- the lead is read
+    // first and its tags merged, never replaced (lib/_lofty-consent.js). Before
+    // the tag re-add below, so the Smart Plan it starts sees the right switch.
+    // Without a yes nothing runs: texting stays off and no tag is touched.
+    const consentTarget = existing.leadId || leadIdFromResponse(result.responseBody) || leadId;
+    const consentResult = consentTarget ? await applyTextingPreference(consentTarget, data.phone, consent.given, apiKey)
+      : { attempted: false, textingEnabled: false, textingNotEnabled: "no lead id to apply the consent to; texting left off" };
+    if (consentResult.textingNotEnabled) {
+      console.warn(`Lofty lead from "${formName}": said yes to texts, but texting not turned on -- ` +
+        `${consentResult.textingNotEnabled || consentResult.reason || consentResult.error || "not applied"}.`);
+    }
     // And make the trigger tag a real CHANGE, so the Smart Plan fires on a
     // returning buyer's second enquiry and not only their first.
     //
@@ -516,8 +565,8 @@ async function handleLead(event) {
     // those run the function out of time.
     if (store) {
       await recordPush(store, {
-        ...result, leadId, emailResult, noteResult, tagResult, existing: existingSummary,
-        inProgress: !!existing.leadId,
+        ...result, leadId, emailResult, noteResult, consentResult, tagResult, existing: existingSummary,
+        smsConsent: consent.given, inProgress: !!existing.leadId,
       }, formName, body);
     }
 
@@ -556,8 +605,8 @@ async function handleLead(event) {
 
     if (store) {
       await recordPush(store, {
-        ...result, leadId, emailResult, noteResult, tagResult, existing: existingSummary,
-        returningResult, fieldsResult, inquiryResult,
+        ...result, leadId, emailResult, noteResult, consentResult, tagResult, existing: existingSummary,
+        smsConsent: consent.given, returningResult, fieldsResult, inquiryResult,
       }, formName, body);
     }
     return { statusCode: 200, body: "ok" };

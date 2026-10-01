@@ -99,8 +99,9 @@ def validate(src: str) -> None:
         for field in roi.ATTR_FIELDS:
             if f'name="{field}"' not in html:
                 errors.append(f"{path.name}: static attribution field missing: {field}")
-        if 'name="consent"' not in html:
-            errors.append(f"{path.name}: consent missing")
+        funnel = [f for f in actual_lead_forms(html) if f'name="{form_name}"' in f]
+        if len(funnel) != 1 or not roi.optional_sms_consent(funnel[0]):
+            errors.append(f"{path.name}: expected one optional SMS consent field")
         if html.count(src) != 1:
             errors.append(f"{path.name}: ROI JS not exactly once")
 
