@@ -66,7 +66,7 @@ const { postLead, recordPush } = require("./lib/_lofty");
 const { addLoftyNote, refireLoftyTag, sendLeadAlertEmail } = require("./lib/_notify");
 const { newsletterFromEvent } = require("./lib/_flodesk");
 const { homeValueProperty } = require("./lib/_lead-address");
-const { smsConsentFromForm, applyTextingConsent } = require("./lib/_lofty-consent");
+const { smsConsentFromForm, applyTextingPreference } = require("./lib/_lofty-consent");
 const {
   findExistingLead, alertReturningLead, websiteFieldValues, ensureWebsiteFields, setWebsiteFields,
   leadIdFromResponse, inquiryFromForm, placeInquiry,
@@ -431,6 +431,20 @@ async function handleLead(event) {
     // instead of the absorbed record a merge hands back. Never throws; if Lofty
     // can't answer in time, everything below runs exactly as before.
     const existing = await findExistingLead(data.email, data.phone, apiKey);
+    if (existing.manualReview) {
+      const held = { ok: false, attempted: false, manualReview: true,
+        payloadShape: "held for identity review", responseBody: existing.error };
+      const emailResult = await sendLeadAlertEmail({
+        name: data.name, email: data.email, phone: data.phone,
+        source: SOURCE_LABELS[formName] || formName, sourceShort: formName,
+        noteText: `${body.notes}\n\nMANUAL REVIEW: ${existing.error}. No Lofty contact changed.`,
+        leadId: null, stamp: `${stamp} MT`,
+      });
+      let store = null;
+      try { store = getBlobStore(getStore, DIAG_STORE); } catch (e) { store = null; }
+      if (store) await recordPush(store, { ...held, emailResult }, formName, body);
+      return { statusCode: 200, body: "ok (captured; Lofty identity needs manual review)" };
+    }
     // A known contact keeps its own tags. `tags` on the create call REPLACES the
     // tag set of the contact a submission merges into ("All existing tags will be
     // updated based on this call" -- Lofty's create-lead reference); `tagsAdd`
@@ -521,10 +535,9 @@ async function handleLead(event) {
     // the tag re-add below, so the Smart Plan it starts sees the right switch.
     // Without a yes nothing runs: texting stays off and no tag is touched.
     const consentTarget = existing.leadId || leadIdFromResponse(result.responseBody) || leadId;
-    const consentResult = !consent.given ? { attempted: false, reason: consent.answered ? "consent not given" : "no consent on this form" }
-      : consentTarget ? await applyTextingConsent(consentTarget, data.phone, apiKey)
+    const consentResult = consentTarget ? await applyTextingPreference(consentTarget, data.phone, consent.given, apiKey)
       : { attempted: false, textingEnabled: false, textingNotEnabled: "no lead id to apply the consent to; texting left off" };
-    if (consent.given && !consentResult.textingEnabled) {
+    if (consentResult.textingNotEnabled) {
       console.warn(`Lofty lead from "${formName}": said yes to texts, but texting not turned on -- ` +
         `${consentResult.textingNotEnabled || consentResult.reason || consentResult.error || "not applied"}.`);
     }

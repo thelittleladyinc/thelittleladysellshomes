@@ -8,6 +8,7 @@ and a deploy-time regression gate to the finished site.
 from __future__ import annotations
 
 import hashlib
+from html.parser import HTMLParser
 import re
 import sys
 from pathlib import Path
@@ -57,11 +58,28 @@ def attr_inputs() -> str:
 
 ATTR_INPUTS = attr_inputs()
 CONSENT = """<label class="consent">
-  <input type="checkbox" name="consent" value="yes" required style="width:auto">
+  <input type="checkbox" name="sms_consent" value="yes" style="width:auto">
   I agree to receive marketing communication via email, call, text, or similar automated means
   from The Little Lady Sells Homes. Consent is not a condition of purchase. Msg/data rates may
   apply. Reply STOP to unsubscribe.
 </label>"""
+
+
+def optional_sms_consent(html: str) -> bool:
+    class Inputs(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.fields = []
+
+        def handle_starttag(self, tag, attrs):
+            attrs = dict(attrs)
+            if tag == "input" and attrs.get("name") == "sms_consent":
+                self.fields.append(attrs)
+
+    parser = Inputs()
+    parser.feed(html)
+    return len(parser.fields) == 1 and parser.fields[0].get("type") == "checkbox" \
+        and parser.fields[0].get("value") == "yes" and "required" not in parser.fields[0]
 
 
 def form_shell(name: str, fields: str, button: str, form_id: str) -> str:
@@ -542,7 +560,10 @@ def validate(src: str) -> None:
         if html.count(f'id="{marker}"') != 1: errors.append(f"{path.name}: expected one {marker}")
         if f'name="{form_name}"' not in html: errors.append(f"{path.name}: missing {form_name}")
         if f'action="/thank-you.html?from={form_name}"' not in html: errors.append(f"{path.name}: wrong thank-you action")
-        if 'name="consent"' not in html: errors.append(f"{path.name}: consent missing")
+        forms = re.findall(r"<form\b[^>]*>.*?</form>", html, re.I | re.S)
+        funnel = [f for f in forms if f'name="{form_name}"' in f]
+        if len(funnel) != 1 or not optional_sms_consent(funnel[0]):
+            errors.append(f"{path.name}: expected one optional SMS consent field")
         if html.count(src) != 1: errors.append(f"{path.name}: ROI JS not exactly once")
 
     land = read(TARGETS["land"])

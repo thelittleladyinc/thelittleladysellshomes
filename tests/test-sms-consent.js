@@ -120,7 +120,7 @@ const newLead = (extra) => ({ phones: ["+1 970-555-0100"], emails: ["pat@example
   let rec = await run(f, person());
   check("no consent box: the create sends cannotText:true", f.posts.length === 1 && f.posts[0].cannotText === true, JSON.stringify(f.posts[0]));
   check("no consent box: nothing turns texting on or adds the consent tag", !textingOn(f).length && !tagged(f).length, JSON.stringify(f.puts));
-  check("no consent box: no extra read of the lead for consent (only the tag re-add's)", f.calls.filter((c) => c === `GET /v1.0/leads/${NEWID}`).length === 1, JSON.stringify(f.calls));
+  check("no consent box: a safety read precedes the tag re-add", f.calls.filter((c) => c === `GET /v1.0/leads/${NEWID}`).length === 2, JSON.stringify(f.calls));
 
   f = fakeLofty({ leads: { [NEWID]: newLead() } });
   await run(f, person({ sms_consent: "no" }));
