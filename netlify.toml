@@ -38,7 +38,9 @@
   # read with fs.readFileSync, which it cannot see, so it is declared here --
   # without this line /listing/<id> crashed on Signature (2026-08-17).
   # tests/test-bundledfiles.js pins it.
-  included_files = ["netlify/functions/lib/_listing-page-shell.html"]
+  # 2026-09-30 (part 2): and the Collection's shell, for a listing from $950K.
+  included_files = ["netlify/functions/lib/_listing-page-shell.html",
+                    "netlify/functions/lib/_listing-page-shell-collection.html"]
 
 # 2026-09-30 (API audit): leads Lofty refused are queued by submission-created.js,
 # and nothing on this site ever retried them (only the Signature site's sync

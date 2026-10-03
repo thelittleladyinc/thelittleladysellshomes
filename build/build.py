@@ -1859,7 +1859,10 @@ def _idx_off_js():
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
       });
     };
-    return '<a class="btn btn-dark" href="' + e(url) + '" rel="noopener">' + e(msg) + ' &rarr;</a>';
+    // 2026-09-30: what the search can't filter for, when the link asked for it.
+    var note = (data && typeof data.note === 'string' && data.note)
+      ? '<p class="search-note">' + e(data.note) + ' <a href="/contact.html">Ask Christine</a></p>' : '';
+    return '<a class="btn btn-dark" href="' + e(url) + '" rel="noopener">' + e(msg) + ' &rarr;</a>' + note;
   }
 """
 
@@ -3450,7 +3453,10 @@ def _real_estate_agent_schema():
         "@id": AGENT_ID,
         "name": SITE["agent"],
         "url": SITE["domain"] + "/",
-        "image": SITE["domain"] + "/assets/img/logo-full.png",
+        # 2026-09-30: was logo-full.png, the Signature Property Collection logo
+        # (byte-identical to Signature's). This site now has its own mark; the
+        # Signature logo belongs to the Collection's Brand node only.
+        "image": SITE["domain"] + "/assets/img/logo-little-lady.png",
         "telephone": SITE["phone"],
         "email": SITE["email"],
         # Luxury-only positioning (per Christine, 2026-08-14). Published
@@ -3665,7 +3671,7 @@ def _organization_schema():
         "@id": ORG_ID,
         "name": SITE["name"],
         "url": SITE["domain"] + "/",
-        "logo": SITE["domain"] + "/assets/img/logo-full.png",
+        "logo": SITE["domain"] + "/assets/img/logo-little-lady.png",
         "telephone": SITE["phone"],
         "email": SITE["email"],
         "founder": {"@id": AGENT_ID},
@@ -3914,8 +3920,10 @@ def _fit_description(desc):
 #
 # 404.html is handled separately -- it is excluded from `paths` by the drift guard,
 # which is where a page that must never be listed at all belongs.
-NOINDEX_PATHS = {"/thank-you.html"}
-
+NOINDEX_PATHS = {"/thank-you.html",
+                 # 2026-09-30: registers the retired Signature site's form names
+                 # (build/collection_pages.py) -- plumbing, not a page to find.
+                 "/signature-property-collection/form-definitions.html"}
 
 
 # 2026-08-20 (mobile PSI 87, "render-blocking requests, est. 680 ms"): after
@@ -4174,6 +4182,205 @@ CROSS_BRAND_CANONICAL_TO_SIGNATURE = frozenset([
 ])
 
 
+# ---- The Little Lady's Signature Property Collection (2026-09-30) ---------
+# Signature Property Collection is retiring as a separate brand and its luxury
+# tier moves in here, under /signature-property-collection/ (Signature move,
+# part 2 -- docs/SIGNATURE-MOVE.md). The pages themselves are built by
+# build/collection_pages.py; this block is what the shared template needs to
+# know about them.
+#
+# Canonicals, until each old Signature URL is redirected here (phase e, with
+# Christine's OK): a Collection page names the Signature URL it stands in for
+# as its canonical. Signature still serves that page with 200 and holds its
+# ranking, so the two copies must not both ask to be indexed -- the same
+# arrangement as the 11 subdivisions above, in the other direction. The sitemap
+# step leaves out any page whose canonical names another URL, and the video
+# sitemap, llms.txt, the blog index, the RSS feed and "more from the blog"
+# follow the same list, so none of these pages is announced anywhere yet.
+# Flipping a page to self-canonical in phase (e) is deleting its line here.
+COLLECTION_NAME = "The Little Lady's Signature Property Collection"
+COLLECTION_SHORT = "Signature Collection"
+COLLECTION_DIR = "/signature-property-collection"
+COLLECTION_HUB = COLLECTION_DIR + "/index.html"
+COLLECTION_ID = SITE["domain"] + COLLECTION_DIR + "/#collection"
+COLLECTION_TIER = "signature-collection"   # body class suffix, GA content_group, utm_campaign
+LUXURY_PRICE_FLOOR = 950000                 # same floor as the shared backend (_mls-shared.js)
+COLLECTION_CANONICAL_TO_SIGNATURE = {
+    COLLECTION_HUB: "/index.html",
+    f"{COLLECTION_DIR}/buyers.html": "/buyers.html",
+    f"{COLLECTION_DIR}/sellers.html": "/sellers.html",
+    f"{COLLECTION_DIR}/luxury-market.html": "/luxury-market.html",
+    f"{COLLECTION_DIR}/concierge-experience.html": "/concierge-experience.html",
+    f"{COLLECTION_DIR}/luxury-home-tours.html": "/luxury-home-tours.html",
+    f"{COLLECTION_DIR}/loveland-luxury-homes.html": "/loveland-luxury-homes.html",
+    f"{COLLECTION_DIR}/fort-collins-luxury-homes.html": "/fort-collins-luxury-homes.html",
+    f"{COLLECTION_DIR}/windsor-luxury-homes.html": "/windsor-luxury-homes.html",
+    f"{COLLECTION_DIR}/estes-park-luxury-homes.html": "/estes-park-luxury-homes.html",
+    f"{COLLECTION_DIR}/northern-colorado-horse-property.html": "/northern-colorado-horse-property.html",
+    f"{COLLECTION_DIR}/northern-colorado-riverfront-homes.html": "/northern-colorado-riverfront-homes.html",
+    f"{COLLECTION_DIR}/northern-colorado-golf-course-homes.html": "/northern-colorado-golf-course-homes.html",
+    f"{COLLECTION_DIR}/vail-co-buyers-agent.html": "/vail-co-buyers-agent.html",
+    f"{COLLECTION_DIR}/breckenridge-co-buyers-agent.html": "/breckenridge-co-buyers-agent.html",
+    f"{COLLECTION_DIR}/steamboat-springs-co-buyers-agent.html": "/steamboat-springs-co-buyers-agent.html",
+    f"{COLLECTION_DIR}/winter-park-co-buyers-agent.html": "/winter-park-co-buyers-agent.html",
+    f"{COLLECTION_DIR}/selling-a-luxury-home-northern-colorado-2026.html":
+        "/guides/selling-a-luxury-home-northern-colorado-2026.html",
+    # Retitled: the Signature guide was "Best Luxury Real Estate Agent in
+    # Northern Colorado", and CLAUDE.md rules out self-nominating titles.
+    f"{COLLECTION_DIR}/how-to-choose-a-luxury-real-estate-agent.html":
+        "/guides/best-luxury-real-estate-agent-northern-colorado.html",
+    # The page printed books and letters reach through /expiredlisting/ (on
+    # Signature that 301s to /expired-listings.html). See printed-books notes in
+    # build/collection_pages.py.
+    f"{COLLECTION_DIR}/expired-listings.html": "/expired-listings.html",
+    # The three luxury blog posts, moved into this site's one blog.
+    "/blog/june-2026-northern-colorado-luxury-market-report.html":
+        "/blog/june-2026-northern-colorado-luxury-market-report.html",
+    "/blog/psychology-of-pricing-luxury-homes-northern-colorado.html":
+        "/blog/psychology-of-pricing-luxury-homes-northern-colorado.html",
+    "/blog/wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest.html":
+        "/blog/wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest.html",
+}
+# Blog posts in the Collection (tier look, content_group), whatever their canonical.
+COLLECTION_BLOG_SLUGS = frozenset([
+    "june-2026-northern-colorado-luxury-market-report",
+    "psychology-of-pricing-luxury-homes-northern-colorado",
+    "wildfires-and-colorados-luxury-real-estate-market-lessons-from-marshall-waldo-high-park-and-black-forest",
+])
+
+
+def _collection_pending(path):
+    """True while a Collection page still canonicalises to its Signature URL."""
+    return path in COLLECTION_CANONICAL_TO_SIGNATURE
+
+
+def _listed_blog():
+    """The blog posts this site announces: BLOG minus the moved Collection posts
+    that still canonicalise to Signature. Used by the blog index, "more from the
+    blog", the RSS feed, llms.txt and the market-report archive; every post in
+    BLOG still gets its page."""
+    return [p for p in BLOG if not _collection_pending(f"/blog/{p['slug']}.html")]
+
+
+# The Collection's type, loaded ONLY on its pages: Libre Baskerville (headings),
+# Poppins (text) and Corinthia (the script eyebrow). Made with fontTools from
+# Google Fonts' own files as latin subsets with the same unicode-range as the
+# rest of the site -- 117KB for all nine, against Signature's 216KB for ten.
+# Signature's "libre-baskerville-700" was a byte-identical copy of the 400 file,
+# so bold headings downloaded the regular weight twice and never rendered bold;
+# this 700 is the real bold instance (tests/test-collection.js checks it).
+# Every other page declares none of these faces, so none of them is fetched.
+_FONT_RANGE = ("U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,"
+               "U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD")
+COLLECTION_FONTS = [
+    # (family, style, weight, file)
+    ("Libre Baskerville", "normal", 400, "libre-baskerville-400-latin.woff2"),
+    ("Libre Baskerville", "italic", 400, "libre-baskerville-400-italic-latin.woff2"),
+    ("Libre Baskerville", "normal", 700, "libre-baskerville-700-latin.woff2"),
+    ("Poppins", "normal", 300, "poppins-300-latin.woff2"),
+    ("Poppins", "normal", 400, "poppins-400-latin.woff2"),
+    ("Poppins", "normal", 500, "poppins-500-latin.woff2"),
+    ("Poppins", "normal", 600, "poppins-600-latin.woff2"),
+    ("Poppins", "normal", 700, "poppins-700-latin.woff2"),
+    ("Corinthia", "normal", 400, "corinthia-400-latin.woff2"),
+]
+# Preloaded on tier pages, in place of the site's own preloads (which render
+# nothing there): the heading face and the text face, ~26KB.
+COLLECTION_PRELOAD_FONTS = ("libre-baskerville-400-latin.woff2", "poppins-400-latin.woff2")
+
+
+def _collection_font_css():
+    return "".join(
+        f"@font-face{{font-family:'{fam}';font-style:{style};font-weight:{weight};"
+        f"font-display:swap;src:url(/assets/fonts/{f}) format('woff2');unicode-range:{_FONT_RANGE}}}"
+        for fam, style, weight, f in COLLECTION_FONTS)
+
+
+_SITE_FONT_PRELOAD = re.compile(r'<link rel="preload" href="/assets/fonts/[^"]+" as="font"[^>]*>\n?')
+
+
+_COLLECTION_CSS = None
+
+
+def _collection_css():
+    """build/assets/css/collection.css, minified: the tier's tokens and its few
+    components. Inlined on the Collection's pages only (_collection_head), after
+    the site's stylesheet, so no other page carries it."""
+    global _COLLECTION_CSS
+    if _COLLECTION_CSS is None:
+        p = os.path.join(os.path.dirname(__file__), "assets", "css", "collection.css")
+        _COLLECTION_CSS = _minify_css(open(p, encoding="utf-8").read())
+    return _COLLECTION_CSS
+
+
+def _collection_head(html):
+    """A tier page's <head>: the Collection's font preloads and faces instead of
+    the site's, and its stylesheet after the site's. Done on the finished head so
+    the site's own preload list stays in one place (head()) and a tier page can
+    never inherit a stale copy."""
+    preloads = "".join(
+        f'<link rel="preload" href="/assets/fonts/{f}" as="font" type="font/woff2" crossorigin>\n'
+        for f in COLLECTION_PRELOAD_FONTS)
+    html = _SITE_FONT_PRELOAD.sub("", html)
+    start = html.index("<style>")
+    end = html.index("</style>", start) + len("</style>")
+    return (html[:start] + preloads + f"<style>{_collection_font_css()}</style>\n"
+            + html[start:end] + f"\n<style>{_collection_css()}</style>" + html[end:])
+
+
+def _collection_brand_schema():
+    """The Collection as its own node in the one entity graph: a Brand that this
+    site's Organization (ORG_ID) and Christine (AGENT_ID) both carry. One @id for
+    Christine across both brands -- Signature's separate #christine-gwinnup
+    entity is not carried over. The two references are bare @id nodes, so they
+    add the brand to the full nodes the site already publishes without
+    restating them."""
+    return json.dumps({
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Brand",
+                "@id": COLLECTION_ID,
+                "name": COLLECTION_NAME,
+                "alternateName": "Signature Property Collection",
+                "url": SITE["domain"] + COLLECTION_HUB,
+                "logo": SITE["domain"] + "/assets/img/signature-collection/logo.png",
+                "image": SITE["domain"] + "/assets/img/signature-collection/og-card.png",
+                "slogan": ("Estate homes, acreage and architecturally significant property "
+                           "across Northern Colorado"),
+            },
+            {"@id": ORG_ID, "brand": {"@id": COLLECTION_ID}},
+            {"@id": AGENT_ID, "brand": {"@id": COLLECTION_ID}},
+        ],
+    }, indent=None)
+
+
+COLLECTION_NAV = [
+    ("The Collection", COLLECTION_HUB),
+    ("Buying", f"{COLLECTION_DIR}/buyers.html"),
+    ("Selling", f"{COLLECTION_DIR}/sellers.html"),
+    ("Homes Over $1M", f"{COLLECTION_DIR}/luxury-market.html"),
+    ("Home Tours", f"{COLLECTION_DIR}/luxury-home-tours.html"),
+    ("Concierge", f"{COLLECTION_DIR}/concierge-experience.html"),
+]
+
+
+def _collection_bar(path):
+    """The Collection's own sub-header under the site header on tier pages: its
+    name, and a short row of its pages. The site's header, call strip and footer
+    stay the same everywhere -- one site, one chrome."""
+    current = ' aria-current="page"'
+    links = "".join(
+        f'<a href="{href}"{current if href == path else ""}>{esc(label)}</a>'
+        for label, href in COLLECTION_NAV)
+    return f"""<nav class="collection-bar" aria-label="{esc(COLLECTION_NAME)}">
+  <div class="wrap">
+    <a class="collection-bar-name" href="{COLLECTION_HUB}"><span>The Little Lady&rsquo;s</span> Signature Property Collection</a>
+    <div class="collection-bar-links">{links}</div>
+  </div>
+</nav>"""
+
+
 YT_HINTS = (
     '<link rel="dns-prefetch" href="https://www.youtube-nocookie.com">\n'
     '<link rel="dns-prefetch" href="https://i.ytimg.com">\n'
@@ -4182,7 +4389,7 @@ YT_HINTS = (
 
 
 def head(title, description, path="/", canonical_extra="", schema_extra="",
-         canonical_path=None, has_video=False):
+         canonical_path=None, has_video=False, tier=None):
     title = _fit_title(title)
     description = _fit_description(description)
     # canonical_path lets a page declare a DIFFERENT page as the indexable
@@ -4193,13 +4400,24 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
     # (see CROSS_BRAND_CANONICAL_TO_SIGNATURE at module scope).
     if canonical_path is None and path in CROSS_BRAND_CANONICAL_TO_SIGNATURE:
         canonical = _SIGNATURE_URL + path
+    # 2026-09-30: Collection pages point at the Signature URL they stand in for
+    # until it redirects here (COLLECTION_CANONICAL_TO_SIGNATURE).
+    if canonical_path is None and path in COLLECTION_CANONICAL_TO_SIGNATURE:
+        canonical = _SIGNATURE_URL + COLLECTION_CANONICAL_TO_SIGNATURE[path]
     # 2026-08-18: was logo-full.png — a 1400x523 wide logo on TRANSPARENT
     # ground, which share platforms crop unpredictably and render on whatever
     # background they like (black in iMessage dark mode). og-card.png is a
     # designed 1200x630 (the og standard): the logo on the site's cream with
     # the rose keyline. Regenerate with build/tools/make-og-card.py.
-    og_image = SITE["domain"] + "/assets/img/og-card.png"
-    return f"""<!doctype html>
+    #
+    # 2026-09-30: og-card.png turned out to be byte-identical to Signature's
+    # card -- every link to this site previewed as "Signature Property
+    # Collection". This site now shares its own card (og-card-little-lady.png,
+    # rendered from build/tools/share-cards/), and Collection pages share the
+    # Collection's. og-card.png itself is left in place for caches.
+    og_image = SITE["domain"] + ("/assets/img/signature-collection/og-card.png" if tier
+                                 else "/assets/img/og-card-little-lady.png")
+    html = f"""<!doctype html>
 <html lang="en-US">
 <head>
 <meta charset="UTF-8">
@@ -4289,10 +4507,11 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
 <script type="application/ld+json">{_real_estate_agent_schema()}</script>
 {_schema_scripts(schema_extra)}
 {_gsc_verification_tag()}
-{_analytics_tag()}
+{_analytics_tag(content_group=COLLECTION_TIER if tier else None)}
 {_meta_pixel_tag()}
 {canonical_extra}
 </head>"""
+    return _collection_head(html) if tier else html
 
 
 def header_html(active=None):
@@ -4597,6 +4816,9 @@ def _auto_breadcrumbs(title, path):
     items = [("Home", "/index.html")]
     if path.startswith("/guides/"):
         items.append(("Guides", "/guides/buyers-guide.html"))
+    # 2026-09-30: Home > Signature Collection > page, for the Collection's pages.
+    if path.startswith(COLLECTION_DIR + "/") and path != COLLECTION_HUB:
+        items.append((COLLECTION_SHORT, COLLECTION_HUB))
     items.append((name, None))
     return _breadcrumb_schema(items)
 
@@ -4802,8 +5024,12 @@ def _gsc_verification_tag():
     return f'<meta name="google-site-verification" content="{esc(token)}">'
 
 
-def _analytics_tag():
-    """The gtag.js snippet, or "" when GA_MEASUREMENT_ID isn't set."""
+def _analytics_tag(content_group=None):
+    """The gtag.js snippet, or "" when GA_MEASUREMENT_ID isn't set.
+
+    content_group (2026-09-30): "signature-collection" on the Collection's pages,
+    so GA4 can report the luxury tier on its own (and BCCC can read Signature's
+    old numbers from this property) without a second property or stream."""
     if not GA_MEASUREMENT_ID:
         return ""
     # Guarded because a wrong-shaped value fails silently in the browser -- GA
@@ -4816,12 +5042,14 @@ def _analytics_tag():
             "your web stream). A UA-... id is Universal Analytics, which Google shut down."
         )
     gid = GA_MEASUREMENT_ID
+    config = (f"gtag('config','{gid}',{{content_group:'{content_group}'}});" if content_group
+              else f"gtag('config','{gid}');")
     return (
         f'<script async src="https://www.googletagmanager.com/gtag/js?id={gid}"></script>\n'
         "<script>window.dataLayer=window.dataLayer||[];"
         "function gtag(){{dataLayer.push(arguments);}}"
-        "gtag('js',new Date());"
-        f"gtag('config','{gid}');</script>".replace("{{", "{").replace("}}", "}")
+        "gtag('js',new Date());".replace("{{", "{").replace("}}", "}")
+        + config + "</script>"
     )
 
 
@@ -4900,7 +5128,11 @@ def _meta_pixel_tag():
 
 
 def page(title, description, path, active, body, extra_head="", schema_extra="",
-         canonical_path=None):
+         canonical_path=None, tier=None):
+    """tier="signature-collection" (2026-09-30) renders a page of The Little
+    Lady's Signature Property Collection: body.tier-signature (the Collection's
+    colours and type, style.css), its fonts instead of the site's, its share
+    card, its sub-header, its Brand node, and GA4 content_group."""
     # Auto-fill breadcrumbs only when the caller hasn't supplied its own.
     _existing = schema_extra if isinstance(schema_extra, list) else (
         [schema_extra] if schema_extra else [])
@@ -4939,6 +5171,10 @@ def page(title, description, path, active, body, extra_head="", schema_extra="",
                 f"covering Northern Colorado real estate.",
             )]
         schema_extra = _existing
+    if tier:
+        schema_extra = (schema_extra if isinstance(schema_extra, list) else _existing) + [
+            _collection_brand_schema()]
+        _existing = schema_extra
     if not any("BreadcrumbList" in str(s) for s in _existing):
         _auto = _auto_breadcrumbs(title, path)
         if _auto:
@@ -4949,12 +5185,13 @@ def page(title, description, path, active, body, extra_head="", schema_extra="",
     # and machines had no explicit main-content boundary -- which also
     # affects how cleanly an AI extractor separates page content from the
     # nav/trust-ribbon/footer furniture that repeats on every page.
-    html = f"""{head(title, description, path, canonical_extra=extra_head, schema_extra=schema_extra, canonical_path=canonical_path, has_video=bool(_embedded))}
-<body>
+    html = f"""{head(title, description, path, canonical_extra=extra_head, schema_extra=schema_extra, canonical_path=canonical_path, has_video=bool(_embedded), tier=tier)}
+<body{' class="tier-signature"' if tier else ''}>
 <a class="skip-link" href="#main">Skip to main content</a>
 {header_html(active)}
 {_call_strip_html()}
 {_trust_ribbon_html()}
+{_collection_bar(path) if tier else ''}
 <main id="main">
 {body}
 </main>
@@ -7971,100 +8208,6 @@ def build_press():
     )
 
 
-# ------------------------------------------------- CONCIERGE EXPERIENCE ---
-# 2026-08-14: the second of Christine's three picks. Buyers/Sellers/home
-# copy has referenced "private showings," "off-market access," "white-glove
-# relocation," and "concierge" repeatedly (see build_buyers()'s hero and the
-# homepage services grid) without ever having one real page that actually
-# walks through what that means -- a luxury buyer/seller comparing agents
-# reads exactly this kind of page. Deliberately stays inside claims already
-# established elsewhere on the site (staging, cinematic/drone marketing,
-# private showings, single point of contact, VA loan familiarity,
-# negotiation credentials) rather than inventing new specific promises
-# (guaranteed timelines, named vendors) that aren't backed up anywhere.
-def build_concierge():
-    body = f"""
-<section class="hero" style="padding:100px 0 70px">
-  <div class="wrap">
-    <span class="eyebrow" style="color:var(--dusty-rose)">White-Glove, By Design</span>
-    <h1>The Concierge Experience</h1>
-    <p class="lede">Estate homes, acreage, and architecturally significant properties deserve
-    a process built for them &mdash; not a generic transaction. Here's what that actually
-    looks like.</p>
-  </div>
-</section>
-<section>
-  <div class="wrap">
-    <span class="eyebrow">What Sets It Apart</span>
-    <h2 class="section-title">Three Things Every Client Gets</h2>
-    <div class="grid-3">
-      <div class="card">
-        <h3>Private Showings &amp; Off-Market Access</h3>
-        <p>A focused, private search &mdash; including off-market and pre-public inventory
-        &mdash; instead of the same public listings every buyer sees on Zillow.</p>
-      </div>
-      <div class="card">
-        <h3>Luxury Marketing &amp; Staging</h3>
-        <p>Cinematic video, drone footage, and print campaigns built for $1M+ listings,
-        paired with professional staging so the home photographs the way it actually
-        lives.</p>
-      </div>
-      <div class="card">
-        <h3>One Point Of Contact</h3>
-        <p>Relocation and out-of-state logistics, trusted local vendors, and a single
-        person &mdash; not a rotating cast &mdash; from first call to closing.</p>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="tight">
-  <div class="wrap">
-    <span class="eyebrow" style="color:var(--dusty-rose)">The Process</span>
-    <h2 class="section-title">What Working Together Looks Like</h2>
-    <div class="grid-3">
-      <div class="card"><h3>01 &middot; Discovery</h3><p>A real conversation about what
-      you're looking for (or what your home is worth) &mdash; no cookie-cutter
-      questionnaire.</p></div>
-      <div class="card"><h3>02 &middot; Strategy</h3><p>Pricing, positioning, and marketing
-      built around your specific property or search, informed by Certified Negotiation
-      Specialist and Luxury Home Marketing Expert training.</p></div>
-      <div class="card"><h3>03 &middot; Showings &amp; Offers</h3><p>Private tours or
-      showings, and a well-crafted offer or listing strategy &mdash; including VA loan
-      expertise for veteran buyers.</p></div>
-      <div class="card"><h3>04 &middot; Negotiation</h3><p>Earnest money, inspection, and
-      negotiation handled directly &mdash; not handed off.</p></div>
-      <div class="card"><h3>05 &middot; Closing</h3><p>Radon testing, final walkthrough,
-      and a coordinated path to closing day.</p></div>
-      <div class="card"><h3>06 &middot; After The Close</h3><p>The relationship doesn't end
-      at closing &mdash; ask any of the clients in our reviews.</p></div>
-    </div>
-  </div>
-</section>
-<section>
-  <div class="wrap grid-2">
-    <div>
-      <h2 class="section-title">See The Credentials Behind It</h2>
-      <p class="lede">RealTrends Verified, BBB A+, real press coverage &mdash; the track
-      record behind this process.</p>
-      <div class="btn-row" style="justify-content:flex-start;margin-top:16px">
-        <a class="btn btn-outline" style="border-color:#141415;color:#141415" href="/press-recognition.html">Press &amp; Recognition &rarr;</a>
-      </div>
-    </div>
-    {_tool_lead_form("concierge-page-inquiry", "Start The Conversation",
-        '<textarea name="message" rows="3" placeholder="Tell us what you are looking for (optional)"></textarea>')}
-  </div>
-</section>
-"""
-    breadcrumbs = _breadcrumb_schema([("Home", "/index.html"), ("Concierge Experience", None)])
-    page(
-        f"The Concierge Experience | {SITE['agent']} | The Little Lady Sells Homes",
-        f"What working with {SITE['agent']} actually looks like &mdash; private showings, "
-        f"off-market access, luxury marketing, and a single point of contact from first "
-        f"call to closing.",
-        "/concierge-experience.html", None, body, schema_extra=[breadcrumbs],
-    )
-
-
 # 2026-08-17. FAQ content on the three funnel pages — the last item on the ROI
 # list that did not need a login. Set expectations honestly: Google dropped FAQ
 # rich results for everyone and removed the report and Rich Results Test support
@@ -8622,6 +8765,59 @@ def _tllsh_sellers_guide_sections():
     ]
 
 
+# 2026-09-30 (Signature move, part 2): the one part of Signature's luxury
+# buyer's and seller's guides this site's guides did not already cover -- what
+# changes above $950K -- as a chapter of each, instead of a second pair of
+# guides. Trimmed from Signature's _signature_*_guide_sections(): no conforming
+# loan limit or cost figures that go stale in a year, no named banks, no counts
+# nobody can verify, and no second brand's sign-off. Rendered by _lead_guide()
+# before each guide's "What This Looks Like With Me".
+def _luxury_buyers_chapter():
+    return [
+        {"h2": "If You Are Buying Above $950K", "paragraphs": [
+            "The top of the Northern Colorado market \u2014 roughly $950K and up in Loveland, Fort Collins, Windsor and Estes Park, and the acreage in between \u2014 does not move like the rest of it. Homes take longer to sell, and that is normal rather than a signal to lowball. The buyer pool is national rather than local, and the deal is more likely to turn on a private well, water rights, wildfire mitigation or a view corridor than on price per square foot. The tour list is shorter, the diligence is longer, and the offer is written differently.",
+        ]},
+        {"h3": "Financing At This Level", "paragraphs": [
+            "Above the county's conforming loan limit you are in jumbo territory, and the largest loans are portfolio products. The limit changes every year, so check the current figure for Larimer or Weld County rather than one printed in a guide. Jumbo underwriting is manual and slower, reserve requirements are stiffer \u2014 often several months of payments in liquid assets \u2014 and pricing on the same loan can differ a great deal between lenders, so get Loan Estimates from at least three, including your private bank if you have one.",
+            "Cash still wins close ties. If you have the liquidity, an all-cash close followed by delayed financing can give a seller the certainty they want while keeping your capital invested \u2014 ask your lender how its delayed-financing rules work before you rely on it.",
+        ]},
+        {"h3": "Where The Off-Market Homes Are", "paragraphs": [
+            "Pre-market and private sales happen more at this level than below it: sellers who want privacy, or want to test a price before the days-on-market clock starts. It is a small number of homes at any moment, and it moves through the agents who actually work this tier. When you start a search here, one of Christine's first calls is to that network, describing what you are looking for. Be skeptical of any agent claiming a large private-listing book without a track record you can check in your price range.",
+        ]},
+        {"h3": "Diligence That Scales With The Property", "paragraphs": [
+            "An inspection at this level is not a two-hour walk-through. Expect the general inspection plus a structural engineer where soils or construction call for one, specialists for multi-zone or geothermal heating, a sewer scope, radon, and inspectors for the pool, well, septic and anything unusual.",
+            "Water surprises out-of-state buyers most. In Colorado, water rights are separate from the land: owning the property does not mean owning the water on or under it. Wells have permits recorded with the Colorado Division of Water Resources, ditch shares are separate legal instruments, and many domestic wells need an augmentation plan. Ask what the water right is, whether it is decreed, what it allows, and how it conveys.",
+            "Foothills and mountain property sits in the wildland-urban interface, and insurers there are declining or conditioning cover. Get a homeowner's insurance quote in hand before you write the offer; at this level the premium can change your carrying cost materially.",
+        ]},
+        {"h3": "Writing The Offer", "paragraphs": [
+            "Price is one term of many. What separates two offers here: earnest money, the close date, financing type and a lender the seller has heard of, the appraisal contingency (often capped or waived at this tier), the inspection window, and any occupancy after closing the seller might want. Christine writes the offer with proof of funds for the close and reserves, and addresses the property's obvious diligence question up front, so the seller can see it comes from a prepared buyer.",
+        ]},
+    ]
+
+
+def _luxury_sellers_chapter():
+    return [
+        {"h2": "If You Are Selling Above $950K", "paragraphs": [
+            "At the top of the market, an overpriced listing does not sit for two extra weeks and close a little under. It sits for months, cycles through reductions, and usually closes below what the right price would have brought. The buyers are fewer, better informed and more patient: they watch the days-on-market clock and price a stale listing accordingly.",
+        ]},
+        {"h3": "Pricing When The Comparables Are Thin", "paragraphs": [
+            "Three passes, as with any listing, but with a longer look back: closed sales over the last twelve months rather than ninety days, because the volume is too thin for a shorter sample, adjusted for lot, view, condition and architecture. Then today's competition, feature by feature \u2014 water rights, views, the primary suite, the kitchen, the garage, the outbuildings. Then the ceiling test: the highest recent close, and whether there is a specific, defensible reason yours can beat it. If two agents give you very different numbers, ask each for the closed comparables and the adjustments, in writing.",
+        ]},
+        {"h3": "Presentation That Carries The Price", "paragraphs": [
+            "Buyers at this level make the first cut from photographs and video, not the listing text. That means architectural photography with twilight images, a cinematic walk-through with drone, and staging \u2014 partial or full \u2014 on a home that has been emptied or de-personalised. A printed brochure still matters here, because some of the right buyers and their advisers are reached on paper.",
+        ]},
+        {"h3": "Reaching The Buyer Who Is Actually Out There", "paragraphs": [
+            "The buyer for a foothills estate in Loveland is more likely to be relocating from California, Texas or metro Denver than moving across town. So the marketing is aimed where that buyer is: targeted digital advertising by region, the luxury broker network, private showings by appointment, and a property website of its own. Working out where the buyer is coming from is part of the pre-listing work, not an afterthought.",
+        ]},
+        {"h3": "Qualifying The Buyer", "paragraphs": [
+            "A pre-approval from a private-banking relationship and one from an online lender can show the same number and mean different things about reserves and intent to close. Christine asks, through the buyer's agent, about the institution and the loan officer before recommending you accept or counter. A cash offer needs recent statements or a written proof of funds from the institution holding them; until then, cash is a claim.",
+        ]},
+        {"h3": "Inspection And Appraisal", "paragraphs": [
+            "The inspection is longer at this level, and so is the objection list. Sort it into must-address (safety, structural, discoverable defects), reasonable (major systems with documented issues) and wish-list (cosmetic, wear and tear). When an appraisal comes in low, answer it with a reconsideration-of-value package prepared in advance: recent comparables, the adjustments, and any pending sales that support the price.",
+        ]},
+    ]
+
+
 def build_guides():
     for data_key, path, title, description in GUIDE_PAGES:
         g = GUIDES.get(data_key)
@@ -8726,10 +8922,12 @@ def build_guides():
          "How to write an offer that wins without overpaying",
          "Concessions, closing-cost math, and what to ask the seller to cover",
          "Inspection, appraisal, and title \u2014 the three deal-killers and how to survive them",
-         "Colorado-specific line items: wells, septic, HOA vs. metro district, radon, hail"],
+         "Colorado-specific line items: wells, septic, HOA vs. metro district, radon, hail",
+         "Buying above $950K: jumbo financing, off-market homes, water rights and the luxury offer"],
         form_name="buyers-guide",
         lede="Written for people actually shopping the Northern Colorado market right now \u2014 Loveland, Fort Collins, Windsor, Berthoud, Wellington and the towns in between. No filler. The order the steps actually go in, and what to do at each one.",
-        content_sections=_tllsh_buyers_guide_sections(),
+        content_sections=(_tllsh_buyers_guide_sections()[:-1] + _luxury_buyers_chapter()
+                          + _tllsh_buyers_guide_sections()[-1:]),
     )
     _lead_guide(
         "/guides/sellers-guide.html",
@@ -8742,10 +8940,12 @@ def build_guides():
          "Photography, video, and marketing that gets a NoCo house showing traffic",
          "Showings, feedback, and the price-adjustment triggers",
          "Offer review \u2014 what to negotiate besides price",
-         "Inspection and appraisal objections \u2014 what to concede and what to hold"],
+         "Inspection and appraisal objections \u2014 what to concede and what to hold",
+         "Selling above $950K: pricing on thin comparables, presentation, and qualifying the buyer"],
         form_name="sellers-guide",
         lede="For homeowners preparing to list in Northern Colorado \u2014 Loveland, Fort Collins, Windsor, Berthoud, Wellington and the surrounding towns. What the pre-listing weeks should actually look like, and what separates a house that sells fast at a strong number from one that doesn't.",
-        content_sections=_tllsh_sellers_guide_sections(),
+        content_sections=(_tllsh_sellers_guide_sections()[:-1] + _luxury_sellers_chapter()
+                          + _tllsh_sellers_guide_sections()[-1:]),
     )
     # 2026-08-16 (competitive audit, potterealty.com): the one thing the competing
     # NoCo site does that this one did not. His entire homepage funnels to a single
@@ -9927,589 +10127,6 @@ def _subdivision_photo(sub):
 </section>"""
 
 
-
-
-MONEY_PAGES = [
-    ("/loveland-luxury-homes.html", "Loveland Luxury Homes"),
-    ("/fort-collins-luxury-homes.html", "Fort Collins Luxury Homes"),
-    ("/windsor-luxury-homes.html", "Windsor Luxury Homes"),
-    ("/northern-colorado-horse-property.html", "Horse Property & Acreage"),
-    ("/northern-colorado-riverfront-homes.html", "Riverfront & Waterfront"),
-    ("/northern-colorado-golf-course-homes.html", "Golf Course Homes"),
-]
-
-
-def _money_pages_row(current_path):
-    """Cross-links between the dedicated money pages, so authority pools
-    instead of fragmenting — the one part of kennarealestate.com's link mesh
-    worth borrowing, at four links instead of forty-five."""
-    pills = "\n      ".join(
-        f'<a class="city-pill" href="{path}">{esc(label)}</a>'
-        for path, label in MONEY_PAGES if path != current_path
-    )
-    return f"""
-<section class="tight">
-  <div class="wrap">
-    <span class="eyebrow eyebrow-clear" style="color:var(--dusty-rose)">More Northern Colorado Markets</span>
-    <div class="city-pills" style="margin-top:14px">
-      {pills}
-    </div>
-  </div>
-</section>
-"""
-
-
-def build_loveland_luxury_page():
-    """/loveland-luxury-homes.html — the dedicated money page for the query
-    this site had no answer to.
-
-    2026-08-18. Persona test (a $2.3M Loveland buyer): Google's results for
-    "luxury homes for sale loveland colorado" are the portals plus exactly one
-    brokerage — kennarealestate.com's /loveland/loveland-luxury-homes/ page —
-    proving an agent site CAN rank for the money query with a dedicated page.
-    Ours targeted "living in Loveland" (relocation intent, correctly) and
-    nothing targeted the ready-to-buy phrase. Christine pasted Kenna's page:
-    a three-sentence intro, an IDX feed, and a link farm. This page beats it
-    on substance — named micro-markets that link to real neighborhood guides,
-    the move-up path (this persona has a home to sell), and the live feed —
-    without the farm.
-
-    Every claim here is checkable: the micro-markets are the site's own
-    subdivision guides plus lake/golf geography, and no market statistics are
-    asserted (the live feed shows the real count and prices; a hand-typed
-    "Avg DOM" goes stale the day it ships — that is Kenna's weakness, not a
-    feature to copy)."""
-    intro = ("Luxury in Loveland doesn't mean one neighborhood — it means lakefront on Boyd Lake and "
-             "Horseshoe Lake, golf-course homes at Mariana Butte, foothills acreage out west toward "
-             "Masonville, custom builds in Dakota Glen, and modern estates on the Centerra side. "
-             "Every active $950K+ listing in the city is live on this page, straight from IRES.")
-    paragraphs = [
-        "What Luxury Actually Means In Loveland",
-        "Loveland's top of the market runs differently than Denver's or Boulder's. Here, the luxury tier "
-        "generally starts around $950K and runs past $2.5M — and what that buys is the interesting part: "
-        "real lakefront, real acreage, real custom construction, at prices that would get a nice townhouse "
-        "closer to Denver. That's exactly why so many of my luxury buyers are arriving from somewhere more "
-        "expensive.",
-        "The Micro-Markets That Matter",
-        "The lakes first: homes on and around [Boyd Lake](/communities/loveland/boyd-lake-north-loveland.html) "
-        "and Horseshoe Lake are the closest thing Northern Colorado has to true waterfront living, and they "
-        "trade accordingly. West of town, the [Buckhorn corridor](/communities/loveland/buckhorn-subdivisions-loveland.html) "
-        "and the foothills subdivisions — Bonnell West, Sedona Hills, up toward Masonville — are where acreage, "
-        "views, and horse setups live. Mariana Butte wraps the golf course on the west side. "
-        "[Downtown](/communities/loveland/downtown-loveland-real-estate.html) has quietly added genuine "
-        "high-end condos above the galleries and restaurants. And on the east side, "
-        "[Kinston and the Centerra area](/communities/loveland/kinston-centerra-loveland.html) carry the newest "
-        "construction — beautiful homes, and the part of town where you should read my "
-        "[metro-district tax guide](/blog/colorado-metro-districts-what-your-property-tax-bill-wont-tell-you.html) "
-        "before you write an offer, because the real tax bill on a newer build can differ sharply from the listing's.",
-        "Buying At This Level While Selling Your Current Home",
-        "Most of my luxury buyers aren't first-timers — they're moving up, and the real puzzle isn't finding "
-        "the next house, it's sequencing the sale of the current one. There are more ways to solve that than "
-        "most people think: contingent offers done credibly, bridge financing, HELOC strategies — I wrote out "
-        "the honest pros and cons in [Bridge Loans, HELOCs & Creative Ways To Buy Before You Sell]"
-        "(/blog/bridge-loans-helocs-more-creative-ways-to-buy-before-you-sell.html). If you want to know what "
-        "your current home would actually bring, ask me for a real valuation — not an algorithm's guess — and "
-        "we'll build the sequence from there.",
-        "Why Work With A Loveland Luxury Specialist",
-        "I live here, I list here, and I've sold over 150 homes personally across exactly "
-        "these neighborhoods. At this price point, the difference between a good outcome and a great one is "
-        "made in preparation, positioning, and negotiation, not in luck. If you're weighing Loveland against "
-        "the other towns first, start with [the honest town-by-town comparison](/blog/moving-to-northern-colorado-which-town-actually-fits.html) "
-        "or the full guide to [living in Loveland](/communities/larimer/loveland.html).",
-    ]
-    body_html = "\n      ".join(
-        f'<h2 class="article-subhead" style="margin-top:32px">{esc(x)}</h2>'
-        if len(x) < 70 and not x.endswith((".", "!", "?", ":", ","))
-        else f"<p>{_blog_para_html(x)}</p>"
-        for x in paragraphs
-    )
-    faq_html, faq_schema = _faq_block([
-        ("What price range counts as a luxury home in Loveland?",
-         "The luxury tier in Loveland generally begins around $950,000 — which is the floor this page's "
-         "live feed uses — and the top of the current market reaches past $2.5 million. What distinguishes "
-         "the tier here is less the number than what it buys: lakefront, acreage, golf-course frontage, or "
-         "true custom construction."),
-        ("Which Loveland neighborhoods have luxury homes?",
-         "The lakefront streets around Boyd Lake and Horseshoe Lake, the Mariana Butte golf community, the "
-         "foothills and acreage subdivisions west of town (Bonnell West, the Buckhorn corridor, toward "
-         "Masonville), Dakota Glen, downtown Loveland's newer high-end condos, and the newest construction "
-         "in Kinston and the Centerra area on the east side."),
-        ("Can I buy a Loveland luxury home before selling my current house?",
-         "Often, yes — through a credible contingent offer, bridge financing, or a HELOC strategy, depending "
-         "on your equity and timeline. Christine walks move-up buyers through the honest pros and cons of "
-         "each and helps sequence the sale and purchase so neither transaction holds the other hostage."),
-    ])
-    feed_html = _live_feed_widget(
-        "loveland_luxury_feed",
-        {"cities": "loveland"},
-        empty_note="the luxury market here moves quickly,",
-    )
-    # Wave 5 P0.2: three Loveland-relevant videos off the luxury playlist,
-    # mirroring Signature's page. Two Olde Course tours plus Christine's own
-    # "moved back to Loveland" story — all page-topic-honest.
-    loveland_videos_html = f"""
-<section class="tight section-dark">
-  <div class="wrap">
-    <span class="eyebrow eyebrow-clear" style="color:var(--dusty-rose)">From Christine's Channel</span>
-    <h2 class="section-title" style="color:#fff">Loveland Luxury, On Video</h2>
-    <div class="video-grid" style="grid-template-columns:repeat(3,1fr)">
-      <div>{_yt_embed("2WJPuQvlhxM", "The Ultimate Golf Course Dream Home Tour in Loveland Colorado")}
-        <p class="video-embed-caption" style="color:#e8e5e0">The Olde Course — what a Loveland
-        golf-course home looks like inside.</p></div>
-      <div>{_yt_embed("Jz4kQHtpfzM", "Why Loveland Buyers Love The Olde Course")}
-        <p class="video-embed-caption" style="color:#e8e5e0">The Olde Course neighborhood and
-        why buyers keep choosing it, in under a minute.</p></div>
-      <div>{_yt_embed("2jNGXw5lzAM", "I Moved Away From Loveland, CO... And Here's Why I'm Back")}
-        <p class="video-embed-caption" style="color:#e8e5e0">Christine's own move-back story —
-        the honest case for planting roots here.</p></div>
-    </div>
-    <div class="btn-row" style="margin-top:28px">
-      <a class="btn" style="background:#B86F7A;color:#F8F6F4" href="{LUXURY_PLAYLIST_URL}"
-         target="_blank" rel="noopener">Watch The Full Luxury Playlist &rsaquo;</a>
-    </div>
-  </div>
-</section>
-"""
-    body = f"""
-<section class="hero" style="padding:90px 0 60px">
-  <div class="wrap">
-    <span class="eyebrow eyebrow-clear" style="color:var(--dusty-rose)">Lakefront &middot; Golf &middot; Foothills Acreage &middot; Custom Builds</span>
-    <h1>Loveland CO Luxury Homes For Sale</h1>
-    <p class="lede">{esc(intro)}</p>
-  </div>
-</section>
-<section class="tight">
-  <div class="wrap">
-    <span class="eyebrow eyebrow-clear" style="color:var(--dusty-rose)">Live, Active IRES MLS Listings</span>
-    <h2 class="section-title">Every Active Luxury Listing In Loveland Right Now</h2>
-    {feed_html}
-  </div>
-</section>
-{loveland_videos_html}
-<section>
-  <div class="wrap" style="max-width:780px">
-    {body_html}
-    <div class="btn-row" style="justify-content:flex-start;margin-top:40px">
-      <a class="btn btn-dark" href="/contact.html">Talk To {esc(SITE['agent'].split()[0])} About Loveland Luxury</a>
-      <a class="btn btn-outline" style="border-color:#141415;color:#141415" href="/search-homes.html?cities=loveland">Refine This Search</a>
-    </div>
-  </div>
-</section>
-{_money_pages_row("/loveland-luxury-homes.html")}
-{faq_html}
-"""
-    page(
-        "Loveland CO Luxury Homes For Sale | Lakefront & Foothills Estates",
-        "Every active $950K+ listing in Loveland, live from IRES — lakefront on Boyd Lake, Mariana Butte "
-        "golf homes, foothills acreage, and Centerra custom builds, with a local luxury specialist.",
-        "/loveland-luxury-homes.html", None, body,
-        schema_extra=[faq_schema, _luxury_playlist_schema()],
-    )
-
-
-
-def build_money_pages():
-    """The Fort Collins, Windsor, and horse-property money pages — stamped from
-    the Loveland-luxury pattern the day after it shipped, at Christine's "lets
-    do all of them."
-
-    Targeting is data-backed, not guessed: "fort collins real estate" measures
-    ~4,700/mo at competition 11, Windsor's relocation cluster ~9,000/mo, and
-    "horse property" ~5,200/mo — bigger than any single Loveland term, and it
-    is HER declared specialty (the homepage sells Investment & Acreage
-    Advisory) with an equestrian search filter already built. The horse page
-    also carries her two real ag/acreage videos, per her: "I also have an ag
-    video that would work well." No hand-typed market stats anywhere — the
-    live feeds ARE the current market."""
-    pages = [
-        {
-            "path": "/fort-collins-luxury-homes.html",
-            "title": "Fort Collins CO Luxury Homes For Sale | Old Town To The Foothills",
-            "meta": "Every active $950K+ Fort Collins listing, live from IRES — Old Town's historic blocks, "
-                    "the west-side foothills near Horsetooth, and the Harmony corridor, with a local luxury specialist.",
-            "h1": "Fort Collins CO Luxury Homes For Sale",
-            "eyebrow": "Old Town Historic &middot; Foothills &amp; Horsetooth &middot; Harmony Corridor",
-            "intro": "Fort Collins luxury splits into distinct personalities: meticulously kept historic homes "
-                     "in and around Old Town, foothills properties out west toward Horsetooth with the views that "
-                     "justify the drive, and newer executive homes along the Harmony corridor on the south side. "
-                     "Every active $950K+ listing in the city is live on this page, straight from IRES.",
-            "feed_id": "fort_collins_luxury_feed",
-            "feed_params": {"cities": "fort collins"},
-            "feed_heading": "Every Active Luxury Listing In Fort Collins Right Now",
-            # Wave 5 P0.2: matches the Signature site — one Fort Collins-shot
-            # video from the luxury playlist. Only true-Fort-Collins entry.
-            "videos_eyebrow": "From Christine's Channel",
-            "videos_heading": "Fort Collins, On Video",
-            "videos": [
-                ("YvIPzWebofA", "Is This The Best Lake In Fort Collins?",
-                 "Christine on one of the west-side lakes that shapes Fort Collins luxury — "
-                 "the water and foothills story a listing sheet can't tell."),
-            ],
-            "paragraphs": [
-                "Where Fort Collins Luxury Actually Lives",
-                "Old Town first: the historic blocks near downtown carry homes a century old that have been "
-                "brought to modern standards, and they trade on scarcity — there is a fixed supply of them and "
-                "no way to build more. West of town, the foothills toward Horsetooth Reservoir are where acreage, "
-                "elevation, and views live; these properties often come with wells and rural considerations, so "
-                "read [the acreage homework guide](/blog/buying-acreage-in-northern-colorado-wells-water-septic.html) "
-                "before you fall for one. South, the Harmony corridor's newer executive neighborhoods put you "
-                "close to the tech employers and the airport run.",
-                "Weighing Fort Collins Against Its Neighbors",
-                "Plenty of buyers at this level are deciding between Fort Collins and somewhere quieter — "
-                "[Windsor's newer construction](/windsor-luxury-homes.html), [Loveland's lakes and foothills]"
-                "(/loveland-luxury-homes.html), or Timnath a few minutes east. The honest comparison is in "
-                "[the town-by-town guide](/blog/moving-to-northern-colorado-which-town-actually-fits.html), and "
-                "the full picture of daily life is on the [living in Fort Collins page]"
-                "(/communities/larimer/fort-collins.html).",
-                "Buying At This Level While Selling Your Current Home",
-                "Most luxury buyers here are moving up, and the sequencing question — buy first or sell first — "
-                "matters more than any single house. The honest options are laid out in [Bridge Loans, HELOCs & "
-                "Creative Ways To Buy Before You Sell](/blog/bridge-loans-helocs-more-creative-ways-to-buy-before-you-sell.html), "
-                "and a real valuation of your current home is the place to start.",
-            ],
-            "faq": [
-                ("What price range counts as a luxury home in Fort Collins?",
-                 "The luxury tier in Fort Collins generally begins around $950,000 — the floor this page's live "
-                 "feed uses. What that buys varies sharply by area: a restored historic home near Old Town, "
-                 "acreage with views in the west-side foothills, or a large newer executive home along the "
-                 "Harmony corridor."),
-                ("Which Fort Collins areas have luxury homes?",
-                 "The historic blocks in and around Old Town, the foothills west of town toward Horsetooth "
-                 "Reservoir, and the newer executive neighborhoods along the Harmony corridor in south Fort "
-                 "Collins. Acreage properties sit mainly on the west and north edges."),
-                ("Does Christine Gwinnup work in Fort Collins?",
-                 "Yes — Christine represents buyers and sellers across Larimer County, including Fort Collins, "
-                 "with 150+ homes sold personally across Northern Colorado's Front Range."),
-            ],
-        },
-        {
-            "path": "/windsor-luxury-homes.html",
-            "title": "Windsor CO Luxury Homes For Sale | Lakes, Golf & New Construction",
-            "meta": "Every active $950K+ Windsor listing, live from IRES — lake communities, golf-course homes, "
-                    "and Northern Colorado's newest luxury construction, with the metro-district homework included.",
-            "h1": "Windsor CO Luxury Homes For Sale",
-            "eyebrow": "Lake Communities &middot; Golf Course Living &middot; New Construction",
-            "intro": "Windsor is where Northern Colorado's newest luxury construction lives — master-planned "
-                     "lake and golf communities like Water Valley and RainDance, custom builds, and modern "
-                     "floor plans you simply can't find in the older towns. Every active $950K+ Windsor listing "
-                     "is live on this page, straight from IRES.",
-            "feed_id": "windsor_luxury_feed",
-            "feed_params": {"cities": "windsor"},
-            "feed_heading": "Every Active Luxury Listing In Windsor Right Now",
-            "paragraphs": [
-                "Why Luxury Buyers Keep Choosing Windsor",
-                "The honest answer: newness and water. Windsor's master-planned communities — Water Valley and "
-                "Pelican Lakes around the golf course and lakes, RainDance with its own national golf course — "
-                "deliver the modern-build experience at prices that surprise buyers arriving from Denver or "
-                "either coast. Add the I-25 position splitting the Fort Collins and Greeley commutes, and the "
-                "town's growth story explains itself. The full daily-life picture is on the "
-                "[living in Windsor page](/communities/larimer/windsor.html).",
-                "The One Thing To Check Before You Offer On A Newer Build",
-                "Most of Windsor's newer neighborhoods sit inside metro districts, which change the real "
-                "property-tax math — the figure on the listing is often years out of date, and the real bill "
-                "can differ by thousands. Read [the metro-district guide](/blog/colorado-metro-districts-what-your-property-tax-bill-wont-tell-you.html) "
-                "before you write an offer; it takes fifteen minutes and it is the single most valuable "
-                "homework in this market.",
-                "Weighing Windsor Against Its Neighbors",
-                "Windsor versus [Fort Collins](/fort-collins-luxury-homes.html) is the classic comparison — "
-                "newer and quieter versus established and walkable. [Loveland](/loveland-luxury-homes.html) "
-                "adds lakes and foothills to the mix, and Timnath sits between. The town-by-town honest "
-                "version is in [the comparison guide](/blog/moving-to-northern-colorado-which-town-actually-fits.html).",
-            ],
-            "faq": [
-                ("What price range counts as a luxury home in Windsor?",
-                 "The luxury tier in Windsor generally begins around $950,000 — the floor this page's live feed "
-                 "uses — and runs well past $2 million for custom lakefront and golf-course homes in the "
-                 "master-planned communities."),
-                ("Which Windsor neighborhoods have luxury homes?",
-                 "Water Valley and Pelican Lakes around the lakes and golf course, RainDance with its national "
-                 "golf course, and the custom and semi-custom builds throughout Windsor's newer master-planned "
-                 "areas. Many sit inside metro districts, which affects the real tax bill — worth checking "
-                 "before you offer."),
-                ("Do Windsor's new-construction homes have extra taxes?",
-                 "Many newer Windsor neighborhoods sit inside metro districts — special taxing districts that "
-                 "repay infrastructure bonds through an additional property-tax levy, often for 20-30 years. "
-                 "The listing's tax figure frequently predates the full levy. Christine checks the parcel's "
-                 "actual taxing authorities for every buyer before an offer is written."),
-            ],
-        },
-        {
-            "path": "/northern-colorado-horse-property.html",
-            "title": "Northern Colorado Horse Property For Sale | Equestrian & Acreage",
-            "meta": "Live equestrian and acreage listings across Northern Colorado — plus the well, water, and "
-                    "zoning homework that decides whether a horse property actually works, from an agent who "
-                    "specializes in exactly this.",
-            "h1": "Northern Colorado Horse Property For Sale",
-            "eyebrow": "Equestrian &middot; Acreage &middot; Barns, Shops &amp; Water",
-            "intro": "Horse property is its own market with its own rules — the land, the water, the zoning, "
-                     "and the outbuildings matter as much as the house. This page carries live equestrian and "
-                     "acreage listings across Northern Colorado, and the homework that separates a working "
-                     "horse setup from an expensive disappointment.",
-            "feed_id": "horse_property_feed",
-            "feed_params": {"equestrian": "true", "noFloor": "true"},
-            "feed_heading": "Live Equestrian & Horse-Ready Listings Right Now",
-            "feed_note_extra": True,
-            "videos": [
-                ("NBR-GFs9y8c", "Livestock & Business Land in Colorado: Not What It Seems",
-                 "Christine on why livestock and business-use land is never quite what the listing suggests — "
-                 "the zoning and use questions to ask first."),
-                ("N57_J3llZCQ", "45 Acres + 40x60 Heated Shop | Custom Colorado Ranch (No HOA)",
-                 "How Christine markets an acreage listing — a real tour she filmed for a 45-acre ranch with a "
-                 "heated shop and no HOA."),
-                # Wave 5 P0.2: Nunn 4+ acre tour — Weld County acreage, on-topic
-                # for a page that already names Nunn in its neighborhoods paragraph.
-                ("kAr4BH8C-JA", "4,200 Sq Ft Home on 4+ Acres in Nunn, Colorado",
-                 "A 4,200 sq ft home on 4+ acres in Nunn — the Weld County acreage market the paragraph "
-                 "above names, in a real tour."),
-            ],
-            "paragraphs": [
-                "The Three Questions That Decide Every Horse Property",
-                "First, the well: nearly every rural well operates under a state permit that says exactly what "
-                "it may legally be used for, and two identical wells can carry completely different rights — one "
-                "allowing livestock watering, the other restricted to household use only. Second, the water: "
-                "irrigation rights convey separately from the land, and a ditch crossing the property proves "
-                "nothing. Third, the zoning: what the county allows decides whether you can board horses, build "
-                "the arena, or add the second dwelling — not the listing description. The full homework is in "
-                "[the acreage guide: wells, water, and septic](/blog/buying-acreage-in-northern-colorado-wells-water-septic.html).",
-                "Where The Horse Properties Are",
-                "West of the towns: the Masonville and [Buckhorn corridor](/communities/loveland/buckhorn-subdivisions-loveland.html) "
-                "foothills carry acreage with views minutes from Loveland. North and east: [Berthoud]"
-                "(/communities/larimer/berthoud.html) quietly holds some of the region's best equestrian "
-                "inventory, Wellington and north Fort Collins offer working acreage, and Weld County — Eaton, "
-                "Ault, Nunn, Pierce — is where the serious land is, at prices Larimer can't match.",
-                "How The Search On This Page Works",
-                "The equestrian filter reads each listing's own MLS description and features — so a property "
-                "the listing agent never described as horse-ready won't appear here even if it is. That cuts "
-                "both ways, and it is why the best horse properties often come through an agent who knows what "
-                "a listing actually is, not just what it says. Tell Christine what you're after — arena, "
-                "boarding income, pasture for two horses — and she'll search it directly, including properties "
-                "that never show up under the filter.",
-            ],
-            "faq": [
-                ("What should I check before buying horse property in Colorado?",
-                 "Three things decide most rural deals: the well permit (its permitted uses are a legal matter "
-                 "of record — livestock watering is not automatic), the water rights (they convey separately "
-                 "from the land and must be named in the contract), and county zoning (which decides boarding, "
-                 "arenas, and outbuildings). A septic inspection at transfer is part of closing in this region."),
-                ("Where is the best horse property in Northern Colorado?",
-                 "The foothills west of Loveland (Masonville, the Buckhorn corridor), Berthoud's acreage "
-                 "properties, Wellington and north Fort Collins, and the Weld County towns — Eaton, Ault, Nunn, "
-                 "and Pierce — where larger parcels trade at prices Larimer County can't match."),
-                ("Why don't all horse properties show in the equestrian search?",
-                 "The filter reads each listing's own MLS description and features. A property the listing agent "
-                 "never described as equestrian won't appear, no matter how good its horse setup is. Christine "
-                 "searches beyond the filter for her buyers — including pocket listings that are not on any "
-                 "website."),
-            ],
-        },
-        {
-            # 2026-08-18, Christine: "Go ahead and do the golf course one I have
-            # videos on erie and old course." Northern Colorado has an unusual
-            # concentration of real golf communities — TPC Colorado in Berthoud
-            # is nationally known and no local money page owns it. Honesty
-            # note: this site's MLS filters have no golf-frontage flag (the
-            # equestrian flag was built from remarks at sync time; remarks for
-            # the existing 24k listings are already discarded, and re-crawling
-            # for one flag is not worth MLS quota). So instead of pretending,
-            # the page tours the actual courses and links each one's real area
-            # page and feed, with a regional luxury feed across the golf towns.
-            "path": "/northern-colorado-golf-course-homes.html",
-            "title": "Northern Colorado Golf Course Homes For Sale | TPC To Olde Course",
-            "meta": "Golf community living across Northern Colorado — TPC Colorado in Berthoud, RainDance and "
-                    "Pelican Lakes in Windsor, Mariana Butte and the Olde Course in Loveland, Harmony Club in "
-                    "Timnath, Colorado National in Erie — with live luxury listings and real video tours.",
-            "h1": "Golf Course Homes In Northern Colorado",
-            "eyebrow": "TPC Colorado &middot; RainDance &middot; Mariana Butte &middot; The Olde Course",
-            "intro": "Northern Colorado quietly holds one of the state's best collections of golf communities — "
-                     "from TPC Colorado's tournament pedigree in Berthoud to Loveland's beloved municipal "
-                     "courses with real neighborhoods wrapped around them. Here's the course-by-course tour, "
-                     "with live luxury listings across the golf towns below.",
-            "feed_id": "golf_towns_feed",
-            "feed_params": {"cities": "loveland,windsor,berthoud,timnath,erie,fort collins"},
-            "feed_heading": "Live Luxury Listings Across The Golf Towns",
-            "videos_eyebrow": "From Christine's Channel",
-            "videos_heading": "Golf-Course Living, On Video",
-            "videos": [
-                ("2WJPuQvlhxM", "The Ultimate Golf Course Dream Home Tour in Loveland Colorado",
-                 "Christine tours a home on The Olde Course — what golf-course living in Loveland actually "
-                 "looks like from the back patio."),
-                ("Jz4kQHtpfzM", "Why Loveland Buyers Love The Olde Course",
-                 "The Olde Course at Loveland and the neighborhood around it, in under a minute."),
-                ("JFfx8G9OxP0", "Why Everyone Loves Living in Erie Colorado",
-                 "Erie — home of Colorado National Golf Club — and why buyers keep landing there."),
-            ],
-            "paragraphs": [
-                "The Course-By-Course Tour",
-                "Berthoud: TPC Colorado is the region's marquee name — a tournament course with newer custom "
-                "and semi-custom neighborhoods around it, in a small town that kept its main street. Start with "
-                "[living in Berthoud](/communities/larimer/berthoud.html). Windsor: RainDance National and "
-                "Pelican Lakes at Water Valley anchor two master-planned communities where the golf, the lakes, "
-                "and the newest construction come as a package — the full picture is on the "
-                "[Windsor luxury page](/windsor-luxury-homes.html), including the metro-district homework newer "
-                "builds deserve. Timnath: Harmony Club wraps a private course with custom homes minutes from "
-                "Fort Collins — see [living in Timnath](/communities/larimer/timnath.html).",
-                "Loveland's Two Courses, And Why Locals Love Them",
-                "Loveland's golf living is municipal and proud of it. [Mariana Butte]"
-                "(/communities/loveland/mariana-butte-loveland.html) wraps homes, patio homes, and condos "
-                "around the city-owned course above the Big Thompson on the west side. The Olde Course in "
-                "northwest Loveland is the mature-trees classic, with a neighborhood that holds its value — "
-                "Christine's video tours of it are below. Fort Collins adds Ptarmigan's championship course on "
-                "the city's south side, and Erie rounds out the region with Colorado National — "
-                "[living in Erie](/communities/weld/erie.html) covers the town.",
-                "How To Shop Golf Property Here",
-                "One honest note about searching: MLS listings describe golf frontage in their remarks, not in "
-                "a clean filter — so no website's 'golf homes' feed is truly complete, including this one. The "
-                "live feed below carries every luxury listing across the golf towns; for course-specific "
-                "inventory — fairway frontage versus a course community versus a view of the green — tell "
-                "Christine which course and which side of it, and she'll pull the real list, including homes "
-                "whose listings never mention the course at all.",
-            ],
-            "faq": [
-                ("Which golf communities are in Northern Colorado?",
-                 "TPC Colorado in Berthoud, RainDance National and Pelican Lakes at Water Valley in Windsor, "
-                 "Harmony Club in Timnath, Mariana Butte and The Olde Course in Loveland, Ptarmigan in south "
-                 "Fort Collins, and Colorado National in Erie — each with residential neighborhoods around or "
-                 "beside the course."),
-                ("Do golf course homes cost more in Northern Colorado?",
-                 "Course frontage generally carries a premium over the same floor plan off the course, and the "
-                 "newer master-planned golf communities often sit inside metro districts that affect the real "
-                 "property-tax bill. Christine checks both — the premium and the parcel's taxing authorities — "
-                 "before her buyers write an offer."),
-                ("Can I search golf course homes directly on this site?",
-                 "Partially — MLS listings describe golf frontage in their remarks rather than a filterable "
-                 "field, so no automated feed is complete. The feed on this page covers the golf towns' luxury "
-                 "inventory; for true course-specific inventory, contact Christine and she'll pull it "
-                 "directly."),
-            ],
-        },
-        {
-            # 2026-08-18, Christine: "or riverfront property that i live on?"
-            # The one money page where her authority is literal — she lives on
-            # riverfront property herself, which is the kind of first-hand
-            # experience Google's quality guidelines explicitly reward and no
-            # competitor page can copy. The waterfront filter existed only as
-            # a search parameter; this gives it a rankable home.
-            "path": "/northern-colorado-riverfront-homes.html",
-            "title": "Northern Colorado Riverfront & Waterfront Homes For Sale",
-            "meta": "Live riverfront and waterfront listings across Northern Colorado — from an agent who "
-                    "lives on riverfront property herself and knows what river ownership actually involves: "
-                    "the water rights, the floodplain questions, and the mornings that make it worth it.",
-            "h1": "Riverfront & Waterfront Homes In Northern Colorado",
-            "eyebrow": "Big Thompson &middot; Poudre &middot; Lakes &amp; Water Frontage",
-            "intro": "I live on riverfront property myself — so this page isn't theory. Riverfront ownership "
-                     "in Colorado is a specific kind of wonderful with a specific set of homework, and both "
-                     "halves belong in the open. Below: every live waterfront and riverfront listing across "
-                     "Northern Colorado, and the questions I'd ask before buying on the water.",
-            "feed_id": "riverfront_feed",
-            "feed_params": {"waterfront": "true", "noFloor": "true"},
-            "feed_heading": "Live Riverfront & Waterfront Listings Right Now",
-            "paragraphs": [
-                "What Living On The River Is Actually Like",
-                "The honest version, from someone who does it: mornings on the water change how a house feels "
-                "to live in, and no photo captures it. The Big Thompson west of Loveland, the Poudre corridor "
-                "toward Fort Collins, and the lake communities in between each offer a different version — "
-                "canyon-mouth river frontage, cottonwood-lined stretches in town, or [true lakefront at Boyd "
-                "Lake](/communities/loveland/waterfront-at-boyd-lake-loveland.html). The Big Thompson's "
-                "quieter west side has its own guide: [West Loveland & Big Thompson river frontage]"
-                "(/communities/loveland/west-loveland-riverfront-homes.html).",
-                "The Homework Water Demands",
-                "Three things to settle before you fall in love. Floodplain status: river parcels often carry "
-                "flood-zone designations that shape insurance costs and what you can build — the FEMA map for "
-                "the specific parcel is a five-minute check that changes offers. Water rights: owning land "
-                "along a river does not mean owning rights to its water — in Colorado those convey separately, "
-                "and the contract has to name them. And the riverbank itself: maintenance, erosion, and what "
-                "the county allows you to do at the water's edge vary by parcel. The broader rural checklist "
-                "is in [the acreage guide](/blog/buying-acreage-in-northern-colorado-wells-water-septic.html).",
-                "How The Search On This Page Works",
-                "The waterfront filter reads each listing's own MLS description and features — a property the "
-                "listing agent never described as riverfront won't appear here, and 'waterfront' in a listing "
-                "can mean anything from true river frontage to a seasonal ditch view. I read these listings "
-                "differently because I live this — tell me what you actually want from the water, and I'll "
-                "tell you which listings deliver it and which just photographed well.",
-            ],
-            "faq": [
-                ("What should I check before buying riverfront property in Colorado?",
-                 "Three things: the parcel's FEMA floodplain status (it shapes insurance and building rules), "
-                 "the water rights (in Colorado they convey separately from the land — riverfront ownership "
-                 "does not automatically include rights to the water), and the practical riverbank questions: "
-                 "erosion, maintenance, and what the county permits at the water's edge."),
-                ("Where are the riverfront homes in Northern Colorado?",
-                 "The Big Thompson River corridor west of Loveland and up the canyon toward Estes Park, the "
-                 "Cache la Poudre corridor through and west of Fort Collins, and the lake communities — Boyd "
-                 "Lake in east Loveland, Water Valley and Pelican Lakes in Windsor — for true lakefront."),
-                ("Does 'waterfront' in a listing always mean river frontage?",
-                 "No — in MLS listings it can mean anything from genuine river frontage to a pond view or "
-                 "irrigation ditch. Christine lives on riverfront property herself and reads these listings "
-                 "accordingly; ask her which ones deliver the real thing."),
-            ],
-        },
-    ]
-
-    for pg in pages:
-        body_html = "\n      ".join(
-            f'<h2 class="article-subhead" style="margin-top:32px">{esc(x)}</h2>'
-            if len(x) < 70 and not x.endswith((".", "!", "?", ":", ","))
-            else f"<p>{_blog_para_html(x)}</p>"
-            for x in pg["paragraphs"]
-        )
-        faq_html, faq_schema = _faq_block(pg["faq"])
-        feed_html = _live_feed_widget(pg["feed_id"], pg["feed_params"],
-                                      empty_note="this market moves quickly,")
-        videos_html = ""
-        if pg.get("videos"):
-            # Wave 5 P0.2: per-page heading/eyebrow so each money page reads
-            # honestly instead of every one saying "Ag & Acreage, Straight
-            # Talk On Video." Column count follows video count.
-            vids = pg["videos"]
-            cols = 2 if len(vids) <= 2 else 3
-            cards = "\n      ".join(
-                f'<div>{_yt_embed(vid, vtitle)}<p class="video-embed-caption">{esc(vcap)}</p></div>'
-                for vid, vtitle, vcap in vids
-            )
-            videos_heading = pg.get("videos_heading", "Ag &amp; Acreage, Straight Talk On Video")
-            videos_eyebrow = pg.get("videos_eyebrow", "From Christine's Channel")
-            videos_html = f"""
-<section class="tight">
-  <div class="wrap">
-    <span class="eyebrow eyebrow-clear" style="color:var(--dusty-rose)">{videos_eyebrow}</span>
-    <h2 class="section-title">{videos_heading}</h2>
-    <div class="video-grid" style="grid-template-columns:repeat({cols},1fr)">
-      {cards}
-    </div>
-  </div>
-</section>
-"""
-        body = f"""
-<section class="hero" style="padding:90px 0 60px">
-  <div class="wrap">
-    <span class="eyebrow eyebrow-clear" style="color:var(--dusty-rose)">{pg["eyebrow"]}</span>
-    <h1>{esc(pg["h1"])}</h1>
-    <p class="lede">{esc(pg["intro"])}</p>
-  </div>
-</section>
-<section class="tight">
-  <div class="wrap">
-    <span class="eyebrow eyebrow-clear" style="color:var(--dusty-rose)">Live, Active IRES MLS Listings</span>
-    <h2 class="section-title">{pg["feed_heading"]}</h2>
-    {feed_html}
-  </div>
-</section>
-{videos_html}
-<section>
-  <div class="wrap" style="max-width:780px">
-    {body_html}
-    <div class="btn-row" style="justify-content:flex-start;margin-top:40px">
-      <a class="btn btn-dark" href="/contact.html">Talk To {esc(SITE['agent'].split()[0])}</a>
-      <a class="btn btn-outline" style="border-color:#141415;color:#141415" href="/search-homes.html">Search All Listings</a>
-    </div>
-  </div>
-</section>
-{_money_pages_row(pg["path"])}
-{faq_html}
-"""
-        page(pg["title"], pg["meta"], pg["path"], None, body, schema_extra=[faq_schema])
-
-
 def build_subdivision_pages():
     """One page per Loveland subdivision/area guide — see SUBDIVISION_PAGES
     above for the sourcing note. Modeled on build_market_topic_pages()'s
@@ -10706,7 +10323,8 @@ def build_blog():
       <p>{esc(excerpt)}</p>
     </a>"""
 
-    cards_html = "\n      ".join(_card(p) for p in BLOG)
+    listed = _listed_blog()
+    cards_html = "\n      ".join(_card(p) for p in listed)
 
     # ---- Most-read guides from the migrated iHouseWeb archive -------------
     # The legacy posts live at their original ROOT urls (keep-what-ranks), so
@@ -10744,7 +10362,7 @@ def build_blog():
     <span class="eyebrow" style="color:var(--dusty-rose)">The Journal</span>
     <h1>Northern Colorado Real Estate Blog</h1>
     <p class="lede">Straight-talk buyer and seller advice, market notes, and local
-    insight from {esc(SITE['agent'])} — {len(BLOG)} articles and counting.
+    insight from {esc(SITE['agent'])} — {len(listed)} articles and counting.
     <a href="/feed.xml" style="text-decoration:underline">Subscribe via RSS &rarr;</a></p>
   </div>
 </section>
@@ -10763,16 +10381,20 @@ def build_blog():
     page(
         "Northern Colorado Real Estate Blog | The Little Lady Sells Homes",
         f"Buyer and seller advice, market notes, and local insight from {SITE['agent']} — "
-        f"{len(BLOG)} articles on Northern Colorado real estate.",
+        f"{len(listed)} articles on Northern Colorado real estate.",
         "/blog/index.html", None, index_body, extra_head=rss_link_tag,
         schema_extra=[breadcrumbs],
     )
 
     # ---- individual posts ----
-    for i, post in enumerate(BLOG):
+    for post in BLOG:
         body_html = _blog_body_html(post["paragraphs"])
-        # simple "more from the blog" — next 3 posts in the list (wraps around)
-        related = [BLOG[(i + k) % len(BLOG)] for k in (1, 2, 3) if len(BLOG) > 3]
+        # simple "more from the blog" — next 3 posts in the list (wraps around).
+        # 2026-09-30: drawn from the listed posts only, so no page links to a moved
+        # Collection post before its canonical flips; a Collection post suggests
+        # the newest ones.
+        i = listed.index(post) if post in listed else -1
+        related = [listed[(i + k) % len(listed)] for k in (1, 2, 3) if len(listed) > 3]
         related_html = "\n      ".join(
             f'<li><a href="/blog/{r["slug"]}.html">{esc(r["title"])}</a></li>' for r in related
         )
@@ -10843,6 +10465,7 @@ def build_blog():
             post.get("meta") or post["title"],
             f"/blog/{post['slug']}.html", None, body,
             schema_extra=[breadcrumbs, _blog_posting_schema(post)],
+            tier=COLLECTION_TIER if post["slug"] in COLLECTION_BLOG_SLUGS else None,
         )
 
 
@@ -11075,282 +10698,6 @@ _QUIZ_BUDGET_PARAMS = {
     "upper": "minPrice=1200000",
     "luxury": "minPrice=2000000",
 }
-
-
-# ------------------------------------------------- LUXURY MARKET PAGE ----
-# 2026-08-15 (Christine): "what people are actually searching for? who the
-# sellers are and who the buyers are at this price point."
-#
-# This also closes a gap the README has flagged since the discoverability
-# audit: nothing on the site stated a price threshold, even though "homes over
-# $1,000,000 [city]" is literally what people type, and nothing addressed
-# "best negotiator real estate agent" either. Both are handled here.
-#
-# ON FACTS: the buyer/seller profiles below are qualitative and reflect who
-# actually transacts at this level in Larimer/Weld -- deliberately NOT dressed
-# up with appreciation rates or days-on-market figures. The only numbers on the
-# page that come from outside the business are the equestrian-acreage
-# aggregates, which are attributed and dated inline so they can be checked and
-# refreshed rather than quietly aging into fiction. Everything else is either
-# Christine's own verified track record or a statement that needs no source.
-def build_luxury_market():
-    buyers = [
-        ("Relocating from Denver, Boulder, or out of state",
-         "The single most common call I get at this price. Someone sells in "
-         "Boulder or Denver, looks at what the same money buys an hour north, "
-         "and realizes it's a different house entirely — more land, newer "
-         "build, mountain views, and a commute they actually chose. They are "
-         "rarely in a hurry and almost always doing it for the lifestyle "
-         "rather than the spreadsheet."),
-        ("Move-up buyers using equity from their first Northern Colorado home",
-         "People who bought here years ago, watched their equity build, and are "
-         "now trading up rather than leaving. They know the towns already, so "
-         "the conversation is about specific streets and specific builders, not "
-         "an introduction to the region."),
-        ("Acreage, horse, and ranch buyers",
-         "Land is the whole point for this group — fenced pasture, an arena, "
-         "outbuildings, water, and the room to keep animals. What they want "
-         "sits outside town limits, which means well and septic, access, "
-         "zoning, and water rights matter as much as the house does. This is "
-         "the part of the market with the fewest agents who genuinely know it."),
-        ("Buyers who want new construction in a premier community",
-         "Golf-course and lakefront communities, and the master-planned "
-         "neighborhoods around Centerra and Windsor. They want finish quality "
-         "and amenities without a renovation, and they need someone who will "
-         "read a builder contract properly before they sign it."),
-        ("Privacy-first buyers",
-         "Executives, physicians, and business owners who care more about a "
-         "long driveway and a discreet process than about a marketing "
-         "campaign. Private showings, no sign in the yard where possible, and "
-         "as few people in the transaction as it can be run with."),
-    ]
-    sellers = [
-        ("Empty nesters right-sizing and releasing equity",
-         "The biggest seller group at this level, and the one where timing "
-         "genuinely matters. The house did its job for twenty years, the "
-         "equity in it is now a retirement asset, and the decision is "
-         "financial as much as it is emotional. Most of them are not leaving "
-         "Northern Colorado — they are moving four miles into something "
-         "single-level with less roof to maintain."),
-        ("Owners of large acreage who no longer want the upkeep",
-         "Twenty acres is wonderful at fifty and a lot of work at seventy. "
-         "These sales need a buyer who wants the land for what it is, which is "
-         "a narrower pool and a different marketing approach than an in-town "
-         "listing."),
-        ("Relocating professionals and job transfers",
-         "Usually on somebody else's timeline, which changes the strategy — "
-         "pricing has to be right the first time because there isn't room for "
-         "a long correction."),
-        ("Families settling an estate or a trust",
-         "Often several people in different states making one decision "
-         "together, sometimes a property that hasn't been updated in decades. "
-         "The work here is as much coordination and patience as it is real "
-         "estate."),
-        ("Sellers who tried already and didn't sell",
-         "An expired luxury listing is almost never a bad house. It is usually "
-         "pricing, photography, or a marketing plan built for a $400,000 home "
-         "and applied to a $1.4M one."),
-    ]
-    searches = [
-        ("&ldquo;Homes over $1,000,000&rdquo; and &ldquo;luxury homes for sale&rdquo; in a specific town",
-         "Search by price the way you actually think about it — there's no "
-         "artificial floor on my search, so you'll see everything above your "
-         "number instead of only what an IDX widget decided to show.",
-         "/search-homes.html?minPrice=1000000"),
-        ("&ldquo;Horse property&rdquo; and &ldquo;acreage for sale&rdquo;",
-         "This is the highest-intent search in Northern Colorado and the one "
-         "generic sites handle worst, because acreage doesn't reduce to beds "
-         "and baths. Ask me about a specific parcel and you'll get water, "
-         "zoning, and access, not a photo gallery.",
-         "/search-homes.html?minPrice=1000000"),
-        ("&ldquo;Best negotiator real estate agent&rdquo;",
-         "A fair thing to search for, and hard to verify from a website. I'm a "
-         "Certified Real Estate Negotiator (CREN), and the more useful proof is the "
-         "track record and what past sellers said about how their deal was "
-         "handled.",
-         "/testimonials.html"),
-        ("&ldquo;What is my home worth&rdquo; at the top of the market",
-         "Automated estimates are least reliable exactly where homes are most "
-         "unusual — custom builds and acreage are what they get most wrong. "
-         "At this price the number needs a person who has walked comparable "
-         "properties.",
-         "/free-home-valuation.html"),
-        ("&ldquo;Homes with a view&rdquo;, &ldquo;lakefront&rdquo;, and &ldquo;golf course homes&rdquo;",
-         "Lifestyle-first searches, and the ones where local knowledge shows "
-         "up fastest — which streets actually hold the mountain view, and "
-         "which back to a fairway you'd rather not back to.",
-         "/lifestyle-search.html"),
-    ]
-
-    def block(items, kind):
-        return "\n".join(
-            f'''      <div class="profile-row">
-        <h3>{title}</h3>
-        <p>{body}</p>
-      </div>'''
-            for title, body in items
-        )
-
-    search_rows = "\n".join(
-        f'''      <div class="profile-row">
-        <h3>{q}</h3>
-        <p>{a} <a href="{href}" class="cta" style="display:inline-block;margin-top:6px">Start there &rarr;</a></p>
-      </div>'''
-        for q, a, href in searches
-    )
-
-    faq_html, faq_schema = _faq_block([
-        ("What counts as a luxury home in Northern Colorado?",
-         "There is no single number, and the honest answer is that it moves by "
-         "town — the line sits meaningfully lower in Greeley or Loveland than "
-         "in Fort Collins or Windsor. What matters more for a buyer coming from "
-         "Denver or Boulder is that $1,000,000 here is not the same house it is "
-         "there: it usually means more land, a newer build, or a view that "
-         "would cost double an hour south."),
-        ("Who is buying homes over $1 million in Northern Colorado?",
-         "Mostly people relocating from Denver, Boulder, or out of state; local "
-         "move-up buyers using equity from a first home here; acreage and horse "
-         "property buyers; and buyers who want new construction in a "
-         "golf-course, lakefront, or master-planned community. Privacy is a "
-         "recurring theme across all of them."),
-        ("Who is selling homes at this price point?",
-         "Most often empty nesters right-sizing and turning home equity into a "
-         "retirement asset, owners of large acreage who no longer want the "
-         "upkeep, relocating professionals on a set timeline, families settling "
-         "an estate, and sellers whose luxury listing already expired once with "
-         "another agent."),
-        (f"Does {SITE['agent']} handle acreage and horse properties?",
-         "Yes — farm, ranch, and acreage work is a specific part of the "
-         "practice rather than an occasional exception, which matters because "
-         "these transactions turn on well and septic, zoning, access, and water "
-         "rights rather than on square footage."),
-    ])
-
-    lead_form = _tool_lead_form("luxury-market", "Start A Private Conversation")
-
-    body = f"""
-<section class="hero" style="padding:150px 0 110px">
-  <div class="wrap">
-    <span class="eyebrow" style="color:var(--dusty-rose)">Over A Million</span>
-    <h1>Northern Colorado Homes Over $1 Million</h1>
-    <p class="lede" style="margin-left:auto;margin-right:auto">A million dollars here is not the
-    same house it is in Boulder or Denver. It usually means land, or a view, or a build quality
-    you would pay double for an hour south. Here is who is buying at this level, who is selling,
-    and what they type into Google before they ever call me.</p>
-    <div class="btn-row" style="justify-content:center">
-      <a class="btn btn-primary" href="/search-homes.html?minPrice=1000000">See Homes Over $1M</a>
-      <a class="btn btn-outline" href="/contact.html">Talk To {esc(SITE['agent'].split()[0])}</a>
-    </div>
-  </div>
-</section>
-
-<section class="tight">
-  <div class="wrap">
-    <span class="eyebrow" style="color:var(--dusty-rose)">The Buyers</span>
-    <h2 class="section-title">Who Is Buying At This Price</h2>
-    <p class="lede">Five groups, and they want genuinely different things. Knowing which one you
-    are is most of what makes the search efficient.</p>
-    <div class="profile-list">
-{block(buyers, 'buyer')}
-    </div>
-  </div>
-</section>
-
-<section class="section-dark tight">
-  <div class="wrap">
-    <span class="eyebrow">The Sellers</span>
-    <h2 class="section-title">Who Is Selling At This Price</h2>
-    <p class="lede">Almost every seller above a million is solving a problem that isn't really
-    about the house. The strategy follows the problem.</p>
-    <div class="profile-list profile-list-dark">
-{block(sellers, 'seller')}
-    </div>
-  </div>
-</section>
-
-<section class="tight">
-  <div class="wrap">
-    <span class="eyebrow" style="color:var(--dusty-rose)">The Searches</span>
-    <h2 class="section-title">What People Actually Search For</h2>
-    <p class="lede">These are the searches that bring people to a page like this one, and what
-    I'd tell you about each if you asked me directly.</p>
-    <div class="profile-list">
-{search_rows}
-    </div>
-  </div>
-</section>
-
-<section class="tight">
-  <div class="wrap">
-    <span class="eyebrow" style="color:var(--dusty-rose)">Acreage &amp; Equestrian</span>
-    <h2 class="section-title">The Land Market, In Numbers</h2>
-    <p class="lede">Equestrian and acreage property is where this market gets specific. As a
-    rough sense of scale: equestrian listings around Fort Collins have recently averaged about
-    24 acres, with a median asking price near $1.28M and an average closer to $1.57M
-    <span class="fine-note">(aggregated listing data, LandSearch, August 2026 &mdash; a snapshot of
-    what is listed, not what closed)</span>. Land pricing swings hard on water, zoning, and
-    access, so treat any average as a starting point and ask about the actual parcel.</p>
-    <div class="btn-row">
-      <a class="btn btn-dark" href="/contact.html">Ask About A Parcel</a>
-      <a class="btn btn-outline" style="border-color:#141415;color:#141415" href="/sold-homes-map.html">See The Track Record</a>
-    </div>
-  </div>
-</section>
-
-{faq_html}
-
-<!-- Wave 5 P0.2: same three-video cross-section as the Signature site so
-     both brands present the same curated luxury video collection, tied to
-     one ItemList schema block. The luxury-market page is one of two on
-     TLLSH where the luxury framing is honest — the general-market homepage
-     stays focused on the broader brand. -->
-<section class="tight section-dark">
-  <div class="wrap">
-    <span class="eyebrow" style="color:var(--dusty-rose)">From Christine's Channel</span>
-    <h2 class="section-title" style="color:#fff">The Luxury Market, On Video</h2>
-    <p class="lede" style="color:#e8e5e0;max-width:780px">A cross-section of the $1M+ market
-    across Northern Colorado: an in-town estate tour, a golf-course home, and a Weld County
-    acreage tour — three distinct slices of the same tier, filmed by our team.</p>
-    <div class="video-grid" style="grid-template-columns:repeat(3,1fr);margin-top:24px">
-      <div>{_yt_embed("e-_3Qs3liQ0", "Inside a $1.35M Luxury Home in Small-Town Colorado")}
-        <p class="video-embed-caption" style="color:#e8e5e0">Erie — 913 Green Mountain Dr. A
-        Signature listing, tour top-to-bottom.</p></div>
-      <div>{_yt_embed("2WJPuQvlhxM", "The Ultimate Golf Course Dream Home Tour in Loveland Colorado")}
-        <p class="video-embed-caption" style="color:#e8e5e0">The Olde Course — what golf-course
-        luxury looks like in Loveland.</p></div>
-      <div>{_yt_embed("kAr4BH8C-JA", "4,200 Sq Ft Home on 4+ Acres in Nunn, Colorado")}
-        <p class="video-embed-caption" style="color:#e8e5e0">Weld County acreage — 4,200 sq ft on
-        4+ acres in Nunn.</p></div>
-    </div>
-    <div class="btn-row" style="margin-top:28px">
-      <a class="btn" style="background:#B86F7A;color:#F8F6F4" href="{LUXURY_PLAYLIST_URL}"
-         target="_blank" rel="noopener">Watch All 14 Luxury Home Tours &rsaquo;</a>
-    </div>
-  </div>
-</section>
-
-<section class="tight">
-  <div class="wrap" style="max-width:720px">
-    <span class="eyebrow" style="color:var(--dusty-rose)">No Obligation</span>
-    <h2 class="section-title">Start A Private Conversation</h2>
-    <p class="lede">Whether you are two years out or two weeks out. Nothing here is a hard sell,
-    and I would rather tell you to wait than list something that isn't ready.</p>
-    {lead_form}
-  </div>
-</section>
-"""
-    breadcrumbs = _breadcrumb_schema([
-        ("Home", "/index.html"),
-        ("Homes Over $1 Million", None),
-    ])
-    page(
-        "Northern Colorado Homes Over $1 Million | Luxury Buyers & Sellers | The Little Lady Sells Homes",
-        f"Who buys and who sells homes over $1 million in Northern Colorado, what they search "
-        f"for, and how {SITE['agent']} handles luxury, acreage, and equestrian property across "
-        f"Larimer, Weld, and Boulder counties.",
-        "/luxury-market.html", None, body,
-        schema_extra=[breadcrumbs, faq_schema, _luxury_playlist_schema()],
-    )
 
 
 # --------------------------------------------------------- SOLD MAP ----
@@ -11863,6 +11210,62 @@ def _quiz_disclosure(intro):
 """
 
 
+# 2026-09-30 (Signature move, part 2): the $1M+ tier from Signature's market
+# report, the one part of it this site's report did not have. Those are SOLD
+# figures from one month (build/data/market_report.json, the June 2026 report),
+# and this site's feed carries no sold data, so they cannot be refreshed here.
+# CLAUDE.md, Market-report truthfulness: they are shown as what they are -- a
+# dated snapshot with its source and window, set apart from the live asking-price
+# figures above, never as "right now". Delete the `luxury` block from the JSON
+# (or the file) and the section disappears.
+def _luxury_tier_snapshot_html():
+    try:
+        mr = _load_json("market_report.json")
+    except Exception:
+        return ""
+    lux = (mr or {}).get("luxury") or {}
+    if not lux.get("closings") or not mr.get("month_label"):
+        return ""
+
+    def _stat(value, label):
+        return (f'<div class="mr-stat"><span class="mr-figure">{esc(value)}</span>'
+                f'<span class="mr-label">{esc(label)}</span></div>')
+
+    stats = "".join(x for x in [
+        _stat(f"{lux['closings']}", "Homes closed at $1M+"),
+        _stat(f"${lux['median_price']:,}", "Median $1M+ sale price") if lux.get("median_price") else "",
+        _stat(f"{lux['median_days_on_market']:g} days", "Median days on market")
+        if lux.get("median_days_on_market") else "",
+        _stat(f"{lux['avg_pct_of_list']:g}%", "Average share of list price") if lux.get("avg_pct_of_list") else "",
+    ] if x)
+    top = ""
+    if lux.get("top_sale_price"):
+        detail = ", ".join(x for x in [
+            f"{lux['top_sale_beds']} bd" if lux.get("top_sale_beds") else None,
+            f"{lux['top_sale_sqft']:,} sq ft" if lux.get("top_sale_sqft") else None] if x)
+        where = f" in {lux['top_sale_town']}" if lux.get("top_sale_town") else ""
+        top = (f'<p class="lede" style="margin-top:24px">The highest close in that window was '
+               f'${lux["top_sale_price"]:,}{esc(where)}{esc(f" ({detail})" if detail else "")} '
+               f'&mdash; address held privately, in respect of the sellers.</p>')
+    month, source, window = mr["month_label"], mr.get("source") or "IRES MLS", mr.get("window") or ""
+    return f"""<section class="tight">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Homes Over $1 Million</span>
+    <h2 class="section-title">The $1M+ Tier: The {esc(month)} Snapshot</h2>
+    <p class="lede">Sold figures for the top of the market, from the {esc(month)} report
+    &mdash; a dated snapshot, not the live asking-price figures above, and not updated since.
+    At this level days on market run longer because buyers are deliberate rather than
+    hesitant, and pricing precision decides whether a home trades inside two months or sits
+    for six.</p>
+    <div class="mr-stats">{stats}</div>
+    {top}
+    <p class="mr-asof" style="margin-top:18px">Source: {esc(source)}{esc(f", {window}" if window else "")},
+    as published in the {esc(month)} report. For the current $1M+ figures in your town and
+    price band, <a href="/contact.html">ask Christine</a>.</p>
+  </div>
+</section>"""
+
+
 def build_nav_pages():
     """The remaining pages from the original site's nav — real intro copy
     carried over from the live site (notes/extracted/nav-*.txt) plus a
@@ -11910,6 +11313,36 @@ def build_nav_pages():
     <div class="btn-row" style="justify-content:flex-start;margin-top:40px">
       <a class="btn btn-primary" href="{RELOCATION_GUIDE_PATH}">Get The Free Relocation Guide</a>
       <a class="btn btn-outline" style="border-color:#141415;color:#141415" href="/communities/index.html">Explore Communities</a>
+    </div>
+  </div>
+</section>
+"""
+    # 2026-09-30 (Signature move, part 2): Signature's relocation page was the
+    # executive and luxury version of this one. One relocation page, not two: its
+    # process is folded in here as its own section for the buyers it was written
+    # for, and the Signature page will redirect here (phase e). Christine only --
+    # its "Christine or Kendra will reach out" line is not carried over.
+    exec_steps = [
+        ("Confidential Consultation", "A private conversation about timing, discretion, the terms of a corporate relocation package, and whether the search should include off-market homes or run publicly. Nothing is shared anywhere until you decide it should be."),
+        ("Estate Neighborhoods That Fit", "A short list of the communities that actually fit \u2014 Mariana Butte, the Boyd Lake waterfront, Namaqua Hills, Kinston at Centerra, Estes Park's estate corridors and Fort Collins acreage among them \u2014 mapped against your commute, schools and privacy."),
+        ("Private Showings, Wherever You Are", "Cinematic walkthroughs, live video showings for buyers who are still out of state, and pre-public homes when the fit warrants it. You see what belongs in your search, not everything in the price band."),
+        ("The Specialists This Move Needs", "Introductions to jumbo and private-bank lenders, private moving crews, estate attorneys, well and septic consultants, wildfire and insurance advisers, and designers who know the local trades."),
+        ("Negotiation That Protects The Move", "Offers written with the leverage the market actually gives you \u2014 including a sale-contingent bridge when your current home is in another market, and an appraisal plan when the comparable sales are thin."),
+        ("One Point Of Contact", f"{SITE['agent'].split()[0]} herself, from the first call through closing, and local introductions on your terms once you are here."),
+    ]
+    exec_html = "\n      ".join(
+        f'''<div class="card"><h3>{esc(t)}</h3><p>{esc(d)}</p></div>''' for t, d in exec_steps
+    )
+    body += f"""
+<section class="tight">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Executive &amp; Luxury Relocation</span>
+    <h2 class="section-title">Relocating Into Northern Colorado&rsquo;s Estate Market</h2>
+    <p class="lede">For executives, out-of-state buyers and families moving into the estate and
+    acreage tier, the same process runs quieter and deeper: private tours, a confidential
+    search, and the specialists a larger transaction needs.</p>
+    <div class="grid-3">
+      {exec_html}
     </div>
   </div>
 </section>
@@ -12115,6 +11548,29 @@ def build_nav_pages():
     <p class="lede">Good negotiation is disciplined. We evaluate buyer financial strength,
     probability of closing, contingency structure, timeline control, and privacy. The
     strongest offer is the one that closes cleanly while protecting your leverage and position.</p>
+  </div>
+</section>
+<section class="tight">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Homes Over $1 Million</span>
+    <h2 class="section-title">When The Expired Listing Is A Luxury Home</h2>
+    <p class="lede">An expired luxury listing is almost never a bad house. It is usually a
+    price set against too few true comparables, photography that did not carry the price, or a
+    marketing plan built for a $400,000 home and applied to a $1.4 million one. At this level
+    the relaunch changes accordingly:</p>
+    <div class="grid-3" style="margin-top:28px">
+      <div class="card"><h3>Pricing On Thin Comparables</h3><p>A twelve-month look back
+      instead of ninety days, adjusted for lot, view, architecture and condition, and a ceiling
+      test against the highest recent close &mdash; so the new price has a defensible reason
+      behind it.</p></div>
+      <div class="card"><h3>Media That Carries The Price</h3><p>Architectural and twilight
+      photography, a cinematic walk-through with drone, staging where the home needs it, and a
+      printed brochure &mdash; because luxury buyers make their first cut from the pictures.</p></div>
+      <div class="card"><h3>Private, Targeted Exposure</h3><p>Showings by appointment for
+      qualified buyers, the luxury broker network, and advertising aimed at the regions the
+      buyer for your home is most likely moving from &mdash; not a louder version of the first
+      launch.</p></div>
+    </div>
   </div>
 </section>
 {_trust_ribbon_html()}
@@ -12330,6 +11786,7 @@ def build_nav_pages():
     # stale, and past TOWN_MARKET_STALE_DAYS it degrades to the qualitative version
     # rather than publishing numbers that have gone off.
     snap = _live_market_snapshot()
+    lux_html = _luxury_tier_snapshot_html()
 
     def _stat(value, label, note=None):
         if value is None:
@@ -12340,7 +11797,7 @@ def build_nav_pages():
                 + "</div>")
 
     # Dated archive: every market-report post already in the blog, newest first.
-    archive = [b for b in BLOG if "market-report" in b["slug"] or "market report" in b["title"].lower()]
+    archive = [b for b in _listed_blog() if "market-report" in b["slug"] or "market report" in b["title"].lower()]
     archive_html = ""
     if archive:
         rows_html = "\n      ".join(
@@ -12470,6 +11927,7 @@ def build_nav_pages():
     </div>
   </div>
 </section>
+{lux_html}
 {mr_faq_html}
 {archive_html}
 <section class="tight">
@@ -12527,6 +11985,7 @@ def build_nav_pages():
     </div>
   </div>
 </section>
+{lux_html}
 {mr_faq_html}
 {archive_html}
 """
@@ -13861,7 +13320,13 @@ def build_legal():
     "west-greeley-inquiry": "{esc(first)} will send over what is actually available in West Greeley right now, including anything new construction that has not hit the big portals yet.",
     "ault-area-inquiry": "{esc(first)} knows the small towns around Ault well and will get back to you the same day with what is actually on the market out there.",
     "newsletter-signup": "You are on the list \\u2014 look for your first Little Lady newsletter in your inbox soon.",
-    "loveland-buyers-guide": "Your Loveland Buyer\\u0027s Guide is on the way. {esc(first)} will also check in once \\u2014 no pressure, just in case you have a question the guide does not answer."
+    "loveland-buyers-guide": "Your Loveland Buyer\\u0027s Guide is on the way. {esc(first)} will also check in once \\u2014 no pressure, just in case you have a question the guide does not answer.",
+    "signature-buyers-inquiry": "{esc(first)} will look at what you described against the luxury inventory she knows of, including homes a public search does not show, and get back to you personally within one business day.",
+    "signature-resort-buyer-inquiry": "{esc(first)} will get back to you personally about the mountain purchase \\u2014 and, if there is a Front Range home to sell first, about sequencing the two.",
+    "signature-sellers-inquiry": "{esc(first)} will prepare a confidential valuation from real comparable sales for a home like yours, and walk you through it herself. Nothing is shared or listed without your say-so.",
+    "signature-expired-inquiry": "{esc(first)} will review your property and what the market was signalling the first time, and call you with a straight second opinion. No pressure, and nothing is shared.",
+    "signature-concierge-inquiry": "{esc(first)} will read this herself and get back to you \\u2014 usually the same day.",
+    "signature-luxury-market": "{esc(first)} will read this herself and get back to you \\u2014 usually the same day, and never with a hard sell."
   }};
   try {{
     var from = new URLSearchParams(window.location.search).get("from");
@@ -13950,7 +13415,7 @@ def build_rss_feed():
         return d.strftime("%a, %d %b %Y 00:00:00 +0000")
 
     items = []
-    for post in BLOG:
+    for post in _listed_blog():
         link = f"{SITE['domain']}/blog/{post['slug']}.html"
         excerpt = _truncate_words(
             post.get("meta") or " ".join(post.get("paragraphs", [])), 280
@@ -13999,6 +13464,10 @@ def build_video_sitemap():
     for fp in html_files:
         rel = "/" + os.path.relpath(fp, OUT).replace(os.sep, "/")
         if rel == "/404.html":
+            continue
+        # 2026-09-30: a Collection page still canonicalised to Signature joins
+        # this sitemap when its canonical flips (COLLECTION_CANONICAL_TO_SIGNATURE).
+        if _collection_pending(rel):
             continue
         try:
             with open(fp, "r", encoding="utf-8") as f:
@@ -14103,8 +13572,12 @@ def build_redirects_and_meta(extra_paths=None):
     paths += [p for _, p, _, _ in GUIDE_PAGES]
     paths += [f"/guides/{t['slug']}.html" for t in MARKET_TOPIC_PAGES]
     paths += [f"/communities/loveland/{s['slug']}.html" for s in SUBDIVISION_PAGES]
-    # Brand split: the luxury money pages and concierge/$1M+ pages are not
-    # built on this site (see the __main__ roster), so they are not listed.
+    # 2026-09-30: the luxury pages are built here now, as The Little Lady's
+    # Signature Property Collection (build/collection_pages.py). Listed so the
+    # "not in the sitemap" guard below knows them; while they canonicalise to
+    # Signature (COLLECTION_CANONICAL_TO_SIGNATURE) the canonical check right
+    # after this leaves them out, and each joins when its canonical flips.
+    paths += [p for p in COLLECTION_CANONICAL_TO_SIGNATURE if p.startswith(COLLECTION_DIR + "/")]
     paths += ["/blog/index.html"] + [f"/blog/{p['slug']}.html" for p in BLOG]
     paths += list(extra_paths or [])
     paths += ["/relocation.html", "/expired-listings.html", "/free-home-valuation.html",
@@ -14334,6 +13807,14 @@ def build_redirects_and_meta(extra_paths=None):
             f"{_p}  /.netlify/functions/home-search  200!"
             for _p in ("/search-homes.html", "/search-homes/", "/search-homes")
         ]
+        # 2026-09-30: the Collection's own search. Same hand-off, but the tier
+        # keeps the $950K floor (unless a link names its own minimum) and tags
+        # the Lofty link utm_campaign=signature-collection (home-search.js).
+        redirect_lines += [
+            f"{_p}  /.netlify/functions/home-search?tier={COLLECTION_TIER}  200!"
+            for _p in (f"{COLLECTION_DIR}/search-homes.html", f"{COLLECTION_DIR}/search-homes/",
+                       f"{COLLECTION_DIR}/search-homes")
+        ]
     # 2026-08-17: a redirect pointing at a page that does not exist is worse than
     # the 404 it replaced -- it looks deliberate, and Google reports it as a soft
     # 404 rather than as a missing page. Every destination is checked against the
@@ -14490,7 +13971,7 @@ def build_llms_txt(paths):
     def _blog_line(p):
         suffix = f" — {p['date']}" if p.get("date") else ""
         return f"- [{p['title']}](/blog/{p['slug']}.html){suffix}"
-    blog_lines = "\n".join(_blog_line(p) for p in BLOG)
+    blog_lines = "\n".join(_blog_line(p) for p in _listed_blog())
     tool_lines = "\n".join([
         "- [Search Homes — Live IRES MLS Listings](/search-homes.html)",
         f"- [Explore Northern Colorado — {SITE['agent']}'s Interactive Map: Her Listings, "
@@ -14540,7 +14021,7 @@ def build_llms_txt(paths):
 ## Loveland subdivision guides
 {subdivision_lines}
 
-## Blog ({len(BLOG)} articles)
+## Blog ({len(_listed_blog())} articles)
 {blog_lines}
 
 ## Tools & services
@@ -14628,41 +14109,49 @@ def write_listing_page_shell():
     """
     out_dir = os.path.abspath(os.path.join(HERE, "..", "netlify", "functions", "lib"))
     os.makedirs(out_dir, exist_ok=True)
-    # head() hardcodes its own canonical/og:image from the path, which is right
-    # for static pages and wrong here (one shell, many listings), so those two
-    # lines are re-opened as placeholders.
-    shell_head = head("{{TITLE}}", "{{DESCRIPTION}}", "/listing/", schema_extra="{{SCHEMA}}")
-    shell_head = shell_head.replace(
-        f'<link rel="canonical" href="{SITE["domain"]}/listing/">',
-        '<link rel="canonical" href="{{CANONICAL}}">',
-    ).replace(
-        f'<meta property="og:url" content="{SITE["domain"]}/listing/">',
-        '<meta property="og:url" content="{{CANONICAL}}">',
-    ).replace(
-        f'<meta property="og:image" content="{SITE["domain"]}/assets/img/og-card.png">',
-        # The listing's own cover photo, so texting the link shows the house.
-        '<meta property="og:image" content="{{OG_IMAGE}}">\n'
-        '<meta name="twitter:image" content="{{OG_IMAGE}}">',
-    )
-    shell = f"""{shell_head}
-<body>
+    # 2026-09-30: two shells. listing-page.js renders a listing at or above
+    # LUXURY_PRICE_FLOOR ($950K) into the Collection's (body.tier-signature, its
+    # fonts, its sub-header and GA4 content_group), everything else into this
+    # site's own -- one function, one URL pattern, two looks chosen by the data.
+    for name, tier in (("_listing-page-shell.html", None),
+                       ("_listing-page-shell-collection.html", COLLECTION_TIER)):
+        # head() hardcodes its own canonical/og:image from the path, which is right
+        # for static pages and wrong here (one shell, many listings), so those two
+        # lines are re-opened as placeholders.
+        shell_head = head("{{TITLE}}", "{{DESCRIPTION}}", "/listing/", schema_extra="{{SCHEMA}}",
+                          tier=tier)
+        shell_head = shell_head.replace(
+            f'<link rel="canonical" href="{SITE["domain"]}/listing/">',
+            '<link rel="canonical" href="{{CANONICAL}}">',
+        ).replace(
+            f'<meta property="og:url" content="{SITE["domain"]}/listing/">',
+            '<meta property="og:url" content="{{CANONICAL}}">',
+        )
+        shell_head = re.sub(
+            r'<meta property="og:image" content="[^"]*">',
+            # The listing's own cover photo, so texting the link shows the house.
+            '<meta property="og:image" content="{{OG_IMAGE}}">\n'
+            '<meta name="twitter:image" content="{{OG_IMAGE}}">', shell_head, count=1)
+        shell = f"""{shell_head}
+<body{' class="tier-signature"' if tier else ''}>
 {header_html("Current Listings")}
 {_call_strip_html()}
 {_trust_ribbon_html()}
+{_collection_bar("/listing/") if tier else ''}
 {{{{BODY}}}}
 {footer_html()}
 {_scroll_reveal_script()}
 </body>
 </html>"""
-    path = os.path.join(out_dir, "_listing-page-shell.html")
-    with open(path, "w") as f:
-        f.write(_strip_html_comments(shell))
-    for token in ("{{TITLE}}", "{{DESCRIPTION}}", "{{CANONICAL}}", "{{OG_IMAGE}}",
-                  "{{SCHEMA}}", "{{BODY}}"):
-        if token not in shell:
-            raise SystemExit(f"listing page shell is missing {token} — check head()/page() "
-                             f"for a change that broke the placeholder substitution")
-    print(f"  listing page shell: {len(shell):,} bytes, all placeholders present")
+        path = os.path.join(out_dir, name)
+        with open(path, "w") as f:
+            f.write(_strip_html_comments(shell))
+        for token in ("{{TITLE}}", "{{DESCRIPTION}}", "{{CANONICAL}}", "{{OG_IMAGE}}",
+                      "{{SCHEMA}}", "{{BODY}}"):
+            if token not in shell:
+                raise SystemExit(f"listing page shell {name} is missing {token} — check "
+                                 f"head()/page() for a change that broke the placeholder substitution")
+        print(f"  listing page shell {name}: {len(shell):,} bytes, all placeholders present")
 
 
 def fingerprint_assets():
@@ -14764,6 +14253,8 @@ def fingerprint_assets():
                 targets.append(os.path.join(root, name))
     targets.append(os.path.join(HERE, "..", "netlify", "functions", "lib",
                                 "_listing-page-shell.html"))
+    targets.append(os.path.join(HERE, "..", "netlify", "functions", "lib",
+                                "_listing-page-shell-collection.html"))
 
     touched = 0
     for fp in targets:
@@ -14885,12 +14376,6 @@ if __name__ == "__main__":
     build_city_pages()
     build_about()
     build_press()
-    # Brand split (Christine's standing rule): luxury intent lives on
-    # signaturepropertycollection.com, general "homes for sale" intent lives
-    # here. The four luxury-only builders the Signature engine ships with --
-    # concierge, the Loveland luxury page, the luxury money pages, and the
-    # $1M+ market page -- are deliberately NOT built on this site. This
-    # site's money pages are the iHouseWeb term pages instead.
     build_buyers()
     build_sellers()
     build_testimonials()
@@ -14909,6 +14394,14 @@ if __name__ == "__main__":
     build_explore()
     build_legal()
     build_404()
+    # 2026-09-30 (Signature move, part 2): the luxury tier is built here now, as
+    # The Little Lady's Signature Property Collection under
+    # /signature-property-collection/ -- Signature's money, resort, market,
+    # concierge and tours builders, ported into build/collection_pages.py. This
+    # replaces the "brand split" that kept luxury intent on Signature (the four
+    # dormant copies of those builders that lived in this file are gone).
+    import collection_pages as _collection
+    _collection.build_collection_pages(sys.modules[__name__])
     # Legacy iHouseWeb URL coverage (see build/legacy_pages.py): every URL the
     # old site ranked with either renders at its exact address or 301s to its
     # engine successor. Runs after the engine pages so its exists-check can

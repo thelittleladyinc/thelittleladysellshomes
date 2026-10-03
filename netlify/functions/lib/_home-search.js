@@ -66,6 +66,23 @@
 // header would let one site's cached answer be served to the other's visitors.
 // Nothing about the visitor or the page they were on is added: the page-level
 // view lives in each site's own Google Analytics (home_search_handoff).
+//
+// THE COLLECTION TIER (2026-09-30, Signature move, part 2). A search from The
+// Little Lady's Signature Property Collection (/signature-property-collection/
+// search-homes.html, ?tier=signature-collection) keeps the $950K floor and says
+// so in utm_campaign=signature-collection, so Lofty and GA4 can tell a luxury
+// search from the site's general one (utm_campaign=home-search, no floor).
+//
+// THE FILTERS LOFTY CANNOT APPLY (2026-09-30). The site's links also carry
+// subdivision, waterfront, equestrian (and "subdivision=Equestrian" on the town
+// pages' horse-property buttons) and land/farm property types. None of them is
+// mapped, for the reasons above, and until now they were dropped without a
+// word: a visitor who tapped "horse property in Eaton" landed on every home in
+// Eaton. unappliedFilters() names them and homeSearchNote() says so in one
+// sentence, which the hand-off shows (home-search.js, listings-search.js) --
+// with an offer to have Christine pull the real list. When a Lofty key for one
+// of them is confirmed on her Lofty site, map it in conditionFor() and drop it
+// from unappliedFilters().
 "use strict";
 
 const { idxSearchUrl } = require("./_idx-display");
@@ -105,6 +122,16 @@ const SITE_SOURCES = {
 const DEFAULT_SITE = "thelittleladysellshomes";
 const UTM_MEDIUM = "website";
 const UTM_CAMPAIGN = "home-search";
+const COLLECTION_TIER = "signature-collection";
+const UTM_CAMPAIGN_COLLECTION = "signature-collection";
+
+function isCollectionTier(params) {
+  return String((params || {}).tier || "").toLowerCase() === COLLECTION_TIER;
+}
+
+function campaignFor(params) {
+  return isCollectionTier(params) ? UTM_CAMPAIGN_COLLECTION : UTM_CAMPAIGN;
+}
 
 function utmSourceFor(params) {
   const site = String((params || {}).site || "").toLowerCase();
@@ -187,8 +214,42 @@ function homeSearchUrl(params, opts) {
   if (sort) u.searchParams.set("listingSort", sort);
   u.searchParams.set("utm_source", utmSourceFor(p));
   u.searchParams.set("utm_medium", UTM_MEDIUM);
-  u.searchParams.set("utm_campaign", UTM_CAMPAIGN);
+  u.searchParams.set("utm_campaign", campaignFor(p));
   return u.toString();
+}
+
+// The filters in these params that the Lofty search does not apply, as the
+// words a visitor would use for them. Empty when everything asked for is applied.
+function unappliedFilters(params) {
+  const p = params || {};
+  const out = [];
+  const sub = String(p.subdivision || "").replace(/[^A-Za-z0-9 .'&-]/g, "").trim().slice(0, 60);
+  const horse = p.equestrian === "true" || /^equestrian$/i.test(sub);
+  if (horse) out.push("horse property");
+  if (p.waterfront === "true") out.push("waterfront");
+  if (sub && !/^equestrian$/i.test(sub)) out.push(`the ${sub} neighborhood`);
+  const cat = String(p.propertyCategory || "").toLowerCase();
+  if (cat === "land") out.push("land");
+  if (cat === "farm") out.push("farm and ranch property");
+  return out;
+}
+
+function listWords(items) {
+  if (items.length <= 1) return items.join("");
+  return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
+}
+
+// One sentence for the hand-off, or "" when every filter is applied.
+function homeSearchNote(params) {
+  const missing = unappliedFilters(params);
+  if (!missing.length) return "";
+  const towns = townsFrom(params);
+  const where = towns.length === 1 ? `every home in ${towns[0]}`
+    : towns.length ? "every home in these towns" : "every Northern Colorado home";
+  const min = minPriceFor(params);
+  const from = min ? ` from ${money(min)}` : "";
+  return `The home-search site can't filter for ${listWords(missing)}, so this shows ${where}${from}. ` +
+    "Ask Christine and she will pull the ones that fit.";
 }
 
 function money(n) {
@@ -208,6 +269,8 @@ function homeSearchLabel(params) {
 }
 
 module.exports = {
-  homeSearchUrl, homeSearchLabel, conditionFor, townsFrom, defaultCounties, utmSourceFor,
+  homeSearchUrl, homeSearchLabel, homeSearchNote, unappliedFilters, conditionFor, townsFrom,
+  defaultCounties, utmSourceFor, campaignFor, isCollectionTier,
   DEFAULT_COUNTIES, SORTS, PROPERTY_TYPES, SITE_SOURCES, UTM_MEDIUM, UTM_CAMPAIGN,
+  COLLECTION_TIER, UTM_CAMPAIGN_COLLECTION,
 };

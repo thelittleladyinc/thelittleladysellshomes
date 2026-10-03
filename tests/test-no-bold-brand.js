@@ -29,6 +29,9 @@ function walk(dir, out = []) {
 
 const files = walk(path.join(ROOT, "site"));
 files.push(path.join(ROOT, "netlify", "functions", "lib", "_listing-page-shell.html"));
+// 2026-09-30: and the Collection's listing shell (a listing from $950K).
+const colShell = path.join(ROOT, "netlify", "functions", "lib", "_listing-page-shell-collection.html");
+if (fs.existsSync(colShell)) files.push(colShell);
 
 const BOLD_DOMAIN = /(?:the)?boldcollectivehomes\.com/i;
 const BOLD_BRAND = /\bbold\s+collective\b/i;
