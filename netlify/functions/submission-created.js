@@ -503,7 +503,9 @@ async function handleLead(event) {
       // Still returns 200: failing here would not help the visitor, whose
       // submission already succeeded.
       // smsConsent rides with the queued lead, so the replay applies the same rule.
-      if (store) await recordPush(store, { ...result, emailResult, smsConsent: consent.given }, formName, body);
+      // formData rides along too, so the replay can set the website fields and
+      // the inquiry exactly as a first-try create would.
+      if (store) await recordPush(store, { ...result, emailResult, smsConsent: consent.given, formData: data }, formName, body);
       return { statusCode: 200, body: "ok (lofty push failed — see /site-health)" };
     }
 
