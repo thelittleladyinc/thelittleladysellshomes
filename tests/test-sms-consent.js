@@ -144,9 +144,19 @@ const newLead = (extra) => ({ phones: ["+1 970-555-0100"], emails: ["pat@example
   check("/status records it without the phone number", rec.consentResult && rec.consentResult.textingEnabled === true &&
     !JSON.stringify(rec.consentResult).includes("555"), JSON.stringify(rec.consentResult));
 
+  // 2026-10-03: Lofty's real GET answers { lead: {...} }. Both shapes must now
+  // produce exactly the same writes -- the consent write AND the Hot Lead
+  // remove/re-add that starts the Smart Plan (which never ran on the { lead }
+  // shape before, because the tag reader only looked at the top level / data).
+  const fData = fakeLofty({ leads: { [NEWID]: newLead() } });
+  await run(fData, person({ sms_consent: "yes" }));
   f = fakeLofty({ leads: { [NEWID]: newLead() }, wrap: "lead" });
   await run(f, person({ sms_consent: "yes" }));
-  check("a read that wraps the lead as { lead } is read the same way", textingOn(f).length === 1 && tagged(f).length === 1, JSON.stringify(f.puts));
+  check("a read that wraps the lead as { lead } is read the same way",
+    textingOn(f).length === 1 && JSON.stringify(f.puts) === JSON.stringify(fData.puts), JSON.stringify(f.puts));
+  check("...including the Hot Lead re-add that starts the Smart Plan",
+    f.puts.some((p) => Array.isArray(p.body.tags) && !p.body.tags.includes(HOT)) &&
+    f.leads[NEWID].tags.includes(HOT), JSON.stringify(f.puts));
 
   console.log("\n3. A yes, but the lead has another phone number");
   f = fakeLofty({ leads: { [NEWID]: newLead({ phones: ["970-555-0100", "303-555-0199"] }) } });
