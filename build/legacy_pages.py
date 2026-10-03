@@ -185,6 +185,189 @@ def _localize_media(html_text):
     return s
 
 
+# ---- page-speed cleanup of the imported markup (2026-09-30) ---------------
+# The imported pages were the heaviest URLs on either site: 26 of them shipped
+# the iHouseWeb originals (2.6MB PNGs, 5.2MB on one page, a 1.9MB PNG loaded
+# eagerly), images pinned to desktop pixel sizes (960x640 on a 412px phone, so
+# they stretched), and 18 live YouTube/Wistia players that load ~600KB of
+# player script and set third-party cookies before anyone presses play. This
+# pass runs on the finished body of every imported page:
+#   - YouTube and Wistia iframes become the click-to-play facade the engine
+#     pages already use (build.py _yt_embed);
+#   - a rehosted image points at its WebP copy (build/data/
+#     legacy_media_webp.json, at most 1200px wide) and carries width/height
+#     from the real file, so its box is reserved at the right shape;
+#   - every image loads lazily unless the page marked it as its LCP image;
+#   - pixel widths/heights and big margins in inline styles, the ?width=
+#     query strings (ignored by a static host) and the srcset pairs go. The
+#     width attribute keeps the old display size as a MAXIMUM, and
+#     `.blog-article img{height:auto}` lets it shrink on a phone.
+# Copy is untouched: only the tags that load media change.
+_WEBP = None
+
+
+def _webp_manifest():
+    global _WEBP
+    if _WEBP is None:
+        p = os.path.join(os.path.dirname(__file__), "data", "legacy_media_webp.json")
+        try:
+            with open(p) as f:
+                _WEBP = json.load(f).get("files") or {}
+        except (OSError, ValueError):
+            _WEBP = {}
+    return _WEBP
+
+
+_TAG_ATTR = re.compile(r"""([^\s=/>]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?""")
+
+
+def _parse_tag(tag):
+    m = re.match(r"<(\w+)([\s\S]*?)/?>$", tag)
+    attrs = []
+    for a in _TAG_ATTR.finditer(m.group(2)):
+        v = next((g for g in a.groups()[1:] if g is not None), None)
+        attrs.append([a.group(1), v])
+    return m.group(1), attrs
+
+
+def _render_tag(name, attrs):
+    return "<" + name + "".join(
+        f" {k}" if v is None else f' {k}="{v}"' for k, v in attrs) + ">"
+
+
+def _set(attrs, key, value):
+    for a in attrs:
+        if a[0].lower() == key:
+            a[1] = value
+            return
+    attrs.append([key, value])
+
+
+def _px(style, prop):
+    m = re.search(r"(?:^|;)\s*" + prop + r"\s*:\s*([\d.]+)px", style or "", re.I)
+    return float(m.group(1)) if m else None
+
+
+def _int_or_none(v):
+    try:
+        return int(float(v))
+    except (TypeError, ValueError):
+        return None
+
+
+def _responsive_style(style):
+    keep = []
+    for decl in (style or "").split(";"):
+        d = decl.strip()
+        if not d:
+            continue
+        prop = d.split(":", 1)[0].strip().lower()
+        if prop in ("width", "height", "min-width", "max-width", "min-height", "max-height") \
+                and re.search(r"\d\s*px", d):
+            continue
+        # margin-left:200px / margin-bottom:900px were the old editor's way of
+        # placing a picture on a wide desktop column; on a phone they push the
+        # picture off the page or open a screen of blank space.
+        if prop.startswith("margin") and any(float(n) > 40 for n in re.findall(r"([\d.]+)px", d)):
+            continue
+        keep.append(d)
+    return "; ".join(keep)
+
+
+def _legacy_img(tag):
+    name, attrs = _parse_tag(tag)
+    get = {k.lower(): v for k, v in attrs}
+    src = get.get("src") or ""
+    path, _, query = src.partition("?")
+    style = get.get("style")
+    shown_w = _px(style, "width") or _int_or_none(get.get("width"))
+    shown_h = _px(style, "height") or _int_or_none(get.get("height"))
+    if shown_w is None:
+        qw = re.search(r"(?:^|&(?:amp;)?)width=(\d+)", query)
+        qh = re.search(r"(?:^|&(?:amp;)?)height=(\d+)", query)
+        shown_w = int(qw.group(1)) if qw else None
+        shown_h = int(qh.group(1)) if qw and qh else None
+    ent = _webp_manifest().get(os.path.basename(path)) \
+        if path.startswith("/assets/legacy-media/") else None
+    crop = ""
+    if ent:
+        _set(attrs, "src", "/assets/legacy-media/" + (ent.get("webp") or os.path.basename(path)))
+        attrs[:] = [a for a in attrs if a[0].lower() != "srcset"]
+        w = int(shown_w or ent.get("ww") or ent["w"])
+        h = max(1, round(w * ent["h"] / ent["w"]))
+        if shown_w and shown_h and abs(shown_h - h) > 0.02 * h:
+            # The old editor pinned a box of a different shape (iHouseWeb's
+            # CDN cropped to it; a plain file stretches). Keep the author's
+            # box and crop to it instead of distorting.
+            h = int(shown_h)
+            crop = f"aspect-ratio: {w} / {h}; object-fit: cover"
+        _set(attrs, "width", str(w))
+        _set(attrs, "height", str(h))
+    elif shown_w and shown_h:
+        # A hotlinked picture whose file we do not have: the old box still
+        # gives the browser the shape to reserve.
+        _set(attrs, "width", str(int(shown_w)))
+        _set(attrs, "height", str(int(shown_h)))
+    if style is not None or crop:
+        cleaned = "; ".join(x for x in (_responsive_style(style), crop) if x)
+        if cleaned:
+            _set(attrs, "style", cleaned)
+        else:
+            attrs[:] = [a for a in attrs if a[0].lower() != "style"]
+    if "alt" not in get:
+        _set(attrs, "alt", "")
+    if (get.get("fetchpriority") or "").lower() != "high":
+        _set(attrs, "loading", "lazy")
+    _set(attrs, "decoding", "async")
+    return _render_tag(name, attrs)
+
+
+def _legacy_iframe(tag, B, page_h1):
+    _, attrs = _parse_tag(re.match(r"<iframe\b[^>]*>", tag, re.I).group(0))
+    get = {k.lower(): v for k, v in attrs}
+    src = _html.unescape(get.get("src") or "")
+    own = _html.unescape(get.get("title") or "").strip()
+    if own.lower() == "youtube video player":
+        own = ""
+    yt = re.search(r"youtube(?:-nocookie)?\.com/embed/([A-Za-z0-9_-]{6,})", src)
+    if yt:
+        vid = yt.group(1)
+        title = B._EMBED_TITLES.get(vid) or own
+        if title:
+            return B._yt_embed(vid, title)
+        # No real title anywhere: still a facade, but page() must not publish
+        # a VideoObject with a name we made up (see _EMBED_TITLES in build.py).
+        facade = B._yt_embed(vid, f"Video on {page_h1}")
+        B._EMBED_TITLES.pop(vid, None)
+        return facade
+    if re.search(r"(^|//)[\w.-]*wistia\.(com|net)/", src):
+        # Same facade look; the player is built by the button itself, so the
+        # sitewide header script (window.__ytPlay, YouTube-only) is untouched.
+        label = B.esc(own or f"Video on {page_h1}")
+        play = ("var f=document.createElement('iframe');"
+                "f.src=this.getAttribute('data-embed-src');f.title=this.getAttribute('data-title');"
+                "f.setAttribute('allow','autoplay; fullscreen');f.setAttribute('allowfullscreen','');"
+                "this.replaceWith(f)")
+        return (f'<div class="video-embed"><button type="button" class="yt-facade" '
+                f'data-embed-src="{B.esc(src)}" data-title="{label}" '
+                f'aria-label="Play video: {label}" onclick="{play}"></button></div>')
+    if "loading" not in get:
+        return tag.replace("<iframe", '<iframe loading="lazy"', 1)
+    return tag
+
+
+def _speed_pass(body_html, B, page_h1):
+    """Apply the cleanup above outside <script>/<style> blocks (the live-feed
+    widget builds its cards from <img> strings inside its own script)."""
+    parts = re.split(r"(<script\b[\s\S]*?</script>|<style\b[\s\S]*?</style>)", body_html, flags=re.I)
+    for i in range(0, len(parts), 2):
+        s = re.sub(r"<img\b[^>]*>", lambda m: _legacy_img(m.group(0)), parts[i], flags=re.I)
+        s = re.sub(r"<iframe\b[^>]*>(?:[^<]*</iframe>)?",
+                   lambda m: _legacy_iframe(m.group(0), B, page_h1), s, flags=re.I)
+        parts[i] = s
+    return "".join(parts)
+
+
 def _strip_doc_wrapper(body_html):
     """Post bodies were stored as full HTML documents. Keep only the body's
     inner content, drop scripts, styles, and document-level tags.
@@ -864,7 +1047,7 @@ def build_legacy_pages(B):
 
         B.page(title, meta or _first_words(_authored_html(content_rec.get("blocks")), 24) or
                f"{h1} — {B.SITE['name']}.",
-               url + ".html", None, "\n".join(body_parts),
+               url + ".html", None, _speed_pass("\n".join(body_parts), B, h1),
                schema_extra=[enh_schema] if enh_schema else "")
         # 2026-08-23 (Wave 4): the previous behaviour rewrote the .html
         # canonical to the extensionless legacy iHouseWeb URL so "canonical

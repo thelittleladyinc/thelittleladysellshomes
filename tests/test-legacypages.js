@@ -67,6 +67,61 @@ check("rehosted media shipped with the site",
   fs.existsSync(path.join(SITE, "assets", "legacy-media")) &&
   fs.readdirSync(path.join(SITE, "assets", "legacy-media")).length > 100);
 
+// Page speed on the imported pages (2026-09-30). They were the heaviest URLs on
+// the site: multi-megabyte originals, desktop pixel sizes, live players.
+{
+  const ours = JSON.parse(fs.readFileSync(path.join(ROOT, "build", "data", ".legacy_outputs.json"), "utf8"))
+    .map((u) => path.join(SITE, u)).filter((f) => fs.existsSync(f));
+  const bodyOf = (html) => (html.match(/<main id="main">([\s\S]*)<\/main>/) || [, html])[1]
+    .replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, "");
+  const players = [], unsized = [], eager = [], pinned = [], srcsets = [], missing = [];
+  let legacyImgs = 0;
+  for (const f of ours) {
+    const body = bodyOf(fs.readFileSync(f, "utf8"));
+    const rel = path.relative(SITE, f);
+    for (const t of body.match(/<iframe\b[^>]*>/gi) || []) {
+      if (/youtube(-nocookie)?\.com\/embed|wistia\.(com|net)/i.test(t)) players.push(rel);
+      else if (!/loading="lazy"/.test(t)) eager.push(`${rel} iframe`);
+    }
+    for (const t of body.match(/<img\b[^>]*>/gi) || []) {
+      if (!/\/assets\/legacy-media\//.test(t)) continue;
+      legacyImgs++;
+      const src = (t.match(/\ssrc="([^"]+)"/) || [])[1] || "";
+      if (!/\swidth="\d+"/.test(t) || !/\sheight="\d+"/.test(t)) unsized.push(rel);
+      if (!/loading="lazy"/.test(t) && !/fetchpriority="high"/.test(t)) eager.push(rel);
+      if (/style="[^"]*(?:^|[;\s])(?:max-|min-)?(?:width|height)\s*:\s*\d+px/i.test(t)) pinned.push(rel);
+      if (/\ssrcset=/.test(t) || src.includes("?")) srcsets.push(rel);
+      if (!fs.existsSync(path.join(SITE, src))) missing.push(`${rel} ${src}`);
+    }
+  }
+  check(`no imported page loads a YouTube or Wistia player before a click (${ours.length} pages)`,
+    players.length === 0, [...new Set(players)].slice(0, 5).join(", "));
+  check(`every rehosted image has width and height (${legacyImgs})`, unsized.length === 0,
+    [...new Set(unsized)].slice(0, 5).join(", "));
+  check("every rehosted image and remaining embed loads lazily (unless marked as the LCP image)",
+    eager.length === 0, [...new Set(eager)].slice(0, 5).join(", "));
+  check("no rehosted image is pinned to a pixel width or height", pinned.length === 0,
+    [...new Set(pinned)].slice(0, 5).join(", ") + " -- a 960px box on a 412px phone stretches");
+  check("no rehosted image carries the old ?width= query or srcset pairs", srcsets.length === 0,
+    [...new Set(srcsets)].slice(0, 5).join(", "));
+  check("every rehosted image a page names exists", missing.length === 0, missing.slice(0, 3).join(", "));
+  const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, "build", "data", "legacy_media_webp.json"), "utf8")).files;
+  const absent = Object.values(manifest).filter((e) => e.webp
+    && !fs.existsSync(path.join(ROOT, "build", "assets", "legacy-media", e.webp)));
+  check("every WebP copy the manifest names exists", absent.length === 0,
+    absent.map((e) => e.webp).slice(0, 3).join(", "));
+  // The two pages that measured 5.2MB each.
+  for (const [rel, cap] of [["northern-colorado-downsizing-guide.html", 600], ["day-trips-from-loveland-co.html", 900]]) {
+    const html = fs.readFileSync(path.join(SITE, rel), "utf8");
+    const bytes = [...bodyOf(html).matchAll(/<img\b[^>]*\ssrc="(\/assets\/legacy-media\/[^"]+)"/g)]
+      .reduce((n, m) => n + fs.statSync(path.join(SITE, m[1])).size, 0);
+    check(`${rel} images weigh ${Math.round(bytes / 1024)}KB (under ${cap}KB; it was 5.2MB)`, bytes < cap * 1024);
+  }
+  const css = (fs.readFileSync(path.join(SITE, "index.html"), "utf8").match(/<style[^>]*>([\s\S]*?)<\/style>/) || [])[1] || "";
+  check("article images shrink with the column instead of stretching (.blog-article img{height:auto})",
+    /\.blog-article img\{height:auto\}/.test(css));
+}
+
 // Discovery: the directory de-orphans the long tail and the footer reaches it.
 const dir = fs.readFileSync(path.join(SITE, "site-directory.html"), "utf8");
 check("the site directory exists and is substantial",

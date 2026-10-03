@@ -4230,8 +4230,15 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
      top of style.css.
 
        abril-fatface  --font-display  .hero h1        (the LCP element)
-       open-sans      --font-sans     body text
+       open-sans-400  --font-sans     body text, the hero lede
+       open-sans-600  --font-sans     call strip, trust ribbon, labels
        yellowtail     --font-script   .brand-mark, .eyebrow
+
+     2026-09-30: Open Sans was one 48KB variable file (61.5KB preloaded in
+     all). Chrome holds first paint until preloaded fonts land, so those bytes
+     sat directly on FCP/LCP. It is now one ~11KB static file per weight
+     (style.css), and only the two weights above the fold are preloaded:
+     ~36KB in all, under Signature's 42KB. 300/500/700 load when used.
 
      2026-08-25: yellowtail is deliberately NOT here, and this is the second
      time that has needed deciding, so here is the measurement. A Lighthouse
@@ -4254,7 +4261,8 @@ def head(title, description, path="/", canonical_extra="", schema_extra="",
      the fold, and they are the two heaviest files (39KB each) -- preloading
      them is exactly the 150KB stampede this comment warns about. -->
 <link rel="preload" href="/assets/fonts/abril-fatface-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/open-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/open-sans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/open-sans-600-latin.woff2" as="font" type="font/woff2" crossorigin>
 <!-- Wave 5 P0.5: preconnect hints, revised 2026-08-26.
      These were unconditional preconnects to youtube-nocookie.com and
      i.ytimg.com on all 752 pages, and PageSpeed flagged both as "Unused
@@ -5232,7 +5240,9 @@ def build_home():
      brand for the estate/luxury tier (Signature Property Collection). The
      footer sameAs schema and buyer-page paragraph mention it, but the
      homepage had no visible bridge. This gives luxury-intent visitors a
-     clean single-hop to the right brand instead of bouncing. -->
+     clean single-hop to the right brand instead of bouncing.
+     2026-09-30 (WCAG): the button is charcoal on the light rose (6.2:1), the
+     same fix as the 3D-map button; cream on #B86F7A was 3.48:1. -->
 <section class="tight" style="padding-top:0">
   <div class="wrap">
     <div class="cross-brand-callout" style="background:#141415;color:#F8F6F4;padding:32px 28px;border-radius:12px;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between">
@@ -5245,7 +5255,7 @@ def build_home():
         for that specific market.</p>
       </div>
       <div style="flex-shrink:0">
-        <a class="btn" style="background:#B86F7A;color:#F8F6F4;padding:14px 24px;font-weight:600;border-radius:8px;text-decoration:none;display:inline-block" href="{_SIGNATURE_URL}/" rel="noopener">Visit Signature Property Collection &rsaquo;</a>
+        <a class="btn" style="background:#E57373;color:#141415;padding:14px 24px;font-weight:600;border-radius:8px;text-decoration:none;display:inline-block" href="{_SIGNATURE_URL}/" rel="noopener">Visit Signature Property Collection &rsaquo;</a>
       </div>
     </div>
   </div>
@@ -6260,6 +6270,22 @@ TOWN_RELOCATION_VIDEOS = {
 }
 
 
+# Phones and desktops get different files, so each preload carries the same
+# media query as the CSS that paints it (style.css .county-hero.hero-photo) --
+# a phone never fetches the 1600px copy it will not use, and vice versa.
+TOWN_HERO_SMALL_MAX = 800
+
+
+def _town_hero_preload(data_slug):
+    base = f"/assets/img/communities/{data_slug}"
+    return (
+        f'<link rel="preload" as="image" href="{base}-{TOWN_HERO_SMALL_MAX}.webp" '
+        f'media="(max-width: {TOWN_HERO_SMALL_MAX}px)" fetchpriority="high">\n'
+        f'<link rel="preload" as="image" href="{base}.webp" '
+        f'media="(min-width: {TOWN_HERO_SMALL_MAX + 1}px)" fetchpriority="high">'
+    )
+
+
 def _relocation_video_block(data_slug, city_name):
     """Her own 'why I moved here' film, on the town page a relocating buyer lands on.
 
@@ -6798,7 +6824,7 @@ def town_market_report_body(city, state, page_url):
     the multiple listing service rather than an aggregator's estimate.</p>
     <div class="btn-row" style="justify-content:flex-start;margin-top:24px">
       <a class="btn btn-dark" href="/contact.html">Get {esc(city)} Numbers</a>
-      <a class="btn btn-outline" style="border-color:#141415;color:#141415" href="{esc(search_link)}">Search {esc(city)} Homes</a>
+      <a class="btn btn-outline" href="{esc(search_link)}">Search {esc(city)} Homes</a>
     </div>
   </div>
 </section>
@@ -7487,6 +7513,8 @@ def build_city_pages():
                     f"matched to what you're looking for."
                 )
             hero_style = "padding:70px 0 50px"
+            hero_class = "county-hero"
+            hero_head = ""
             if data_slug in CITY_HERO_PHOTOS:
                 # 2026-08-14 (performance pass): these 6 city hero photos
                 # were 280-585KB unoptimized JPEGs -- re-encoded to WebP
@@ -7499,10 +7527,20 @@ def build_city_pages():
                 # background-image (not <img>), there's no <picture>
                 # fallback mechanism available anyway -- a straight format
                 # swap is the right call here, not a dual-format setup.
+                #
+                # 2026-09-30 (page speed): this photo is the LCP element on the
+                # six towns that have one, and a CSS background is only found
+                # once the stylesheet is parsed. It is now preloaded at high
+                # priority (_town_hero_preload), and phones get an 800px copy
+                # (41-114KB) instead of the 1600px one (140-435KB). The layers
+                # moved to .county-hero.hero-photo in style.css so the phone
+                # swap can be a media query; the page only names its files.
+                hero_class += " hero-photo"
                 hero_style += (
-                    ";background:linear-gradient(180deg, rgba(20,20,21,.5), rgba(20,20,21,.82)), "
-                    f"url('/assets/img/communities/{data_slug}.webp') center/cover no-repeat"
+                    f";--hero-img:url('/assets/img/communities/{data_slug}.webp')"
+                    f";--hero-img-sm:url('/assets/img/communities/{data_slug}-800.webp')"
                 )
+                hero_head = _town_hero_preload(data_slug)
             # 2026-08-13 (duplicate-content fix, body copy): the meta
             # description disambiguation above only fixed the <meta> tag --
             # a city that straddles two counties (currently just Windsor)
@@ -7532,7 +7570,7 @@ def build_city_pages():
                         f'the other side instead? See it here: {sibling_links}.</p>'
                     )
             body = f"""
-<section class="county-hero" style="{hero_style}">
+<section class="{hero_class}" style="{hero_style}">
   <div class="wrap">
     <span class="eyebrow"><a href="/communities/{c['slug']}.html" style="color:var(--dusty-rose)">&larr; {esc(c['name'])}</a></span>
     <h1 class="section-title" style="color:#fff">Living In {esc(city)}, Colorado</h1>
@@ -7677,6 +7715,7 @@ def build_city_pages():
                             disambiguate=city_county_counts[city] > 1),
                 meta,
                 f"/communities/{c['slug']}/{_city_url_slug(data_slug)}.html", "Communities", body,
+                extra_head=hero_head,
                 schema_extra=[breadcrumbs, faq_schema,
                               _town_place_schema(
                                   city, c["name"],
