@@ -26,6 +26,20 @@ for (const [src, dst] of Object.entries(dup)) {
   check(new RegExp('^\\s*' + esc(src) + '\\s+' + esc(dst) + '\\s+301!?\\s*$', 'm').test(redirects), `missing duplicate redirect ${src}`);
   check(!sitemap.includes(`<loc>https://www.thelittleladysellshomes.com${src}</loc>`), `duplicate still in sitemap ${src}`);
 }
+// A "Right now there are N active listings ... as of <date>" card is rewritten
+// into dated-snapshot wording by build/postprocess_traffic_growth.py (is_stale)
+// once its date is more than 3 calendar days old. This gate used to measure the
+// age in fractional days from midnight UTC of the snapshot date, so for the whole
+// third calendar day after a refresh -- every Sunday after Thursday's data, every
+// Thursday morning after Monday's -- the postprocessor still called the card
+// fresh while this check called it stale, and CI went red with no change in the
+// repo (2026-10-04). Count the way the postprocessor does: whole calendar days.
+function daysOld(iso) {
+  const now = new Date();
+  const todayUtc = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  return Math.round((todayUtc - Date.parse(iso + 'T00:00:00Z')) / 86400000);
+}
+
 for (const p of walk(site)) {
   const h = fs.readFileSync(p, 'utf8');
   const rel = path.relative(site, p).replace(/\\/g, '/');
@@ -36,13 +50,11 @@ for (const p of walk(site)) {
     check(!/Who is (?:the )?(?:best|top)[^<"]*real estate agent/i.test(h), `${rel} has self-nominating FAQ`);
     const staleCard = /Right now there are [\d,]+ active listings[\s\S]{0,300}?IRES MLS feed as of (\d{4}-\d{2}-\d{2})/i.exec(h);
     if (staleCard) {
-      const age = (Date.now() - Date.parse(staleCard[1] + 'T00:00:00Z')) / 86400000;
-      check(age <= 3, `${rel} has stale static "Right now" market claim`);
+      check(daysOld(staleCard[1]) <= 3, `${rel} has stale static "Right now" market claim`);
     }
     const staleFaq = /As of (\d{4}-\d{2}-\d{2})[\s\S]{0,350}?That is live IRES MLS inventory/i.exec(h);
     if (staleFaq) {
-      const age = (Date.now() - Date.parse(staleFaq[1] + 'T00:00:00Z')) / 86400000;
-      check(age <= 3, `${rel} has stale FAQ live-inventory claim`);
+      check(daysOld(staleFaq[1]) <= 3, `${rel} has stale FAQ live-inventory claim`);
     }
   }
 }

@@ -6573,11 +6573,20 @@ TOWN_GEO = (_load_json("town_geo.json") or {}).get("towns") or {}
 # How old the figures may get before the pages stop showing them. Active inventory
 # turns over fast; a median from two months ago is not "slightly old", it is wrong,
 # and it would be wrong on the one block whose entire job is to look current. The
-# A calendar-age cutoff of three keeps the next day's build from presenting
-# a more-than-three-day-old snapshot as current. Future dates are withheld too.
-# The monthly market report gets 45 days because it is explicitly a monthly snapshot
+# monthly market report gets 45 days because it is explicitly a monthly snapshot
 # and says so on its face -- this block claims to describe inventory right now.
-TOWN_MARKET_STALE_DAYS = 3
+#
+# 2026-10-04: this was cut to 3 for one deploy (#58) and put back the same day.
+# The figures refresh every Monday and Thursday, so a 3-day cutoff hid the town
+# figures, the FAQ median-price answer and the market report's live block on any
+# deploy made on a Sunday, a Monday morning or a Thursday morning (that morning's
+# production deploy did exactly that), and the Northern Colorado market report
+# and 15 town market-report pages were re-dated to the deploy date because the
+# vanished block was their only change. The honest path for
+# ageing figures already exists: build/postprocess_traffic_growth.py re-words a
+# card more than 3 days old as a dated MLS snapshot (CLAUDE.md, Market-report
+# truthfulness rule 1). A future date is still withheld.
+TOWN_MARKET_STALE_DAYS = 21
 
 
 def _town_market_stats(city):
@@ -6600,7 +6609,7 @@ def _town_market_stats(city):
                - datetime.date.fromisoformat(generated)).days
     except ValueError:
         return None
-    if age < 0 or age >= TOWN_MARKET_STALE_DAYS:
+    if age < 0 or age > TOWN_MARKET_STALE_DAYS:
         return None
     return {**stats, "generated_at": generated, "age_days": age}
 
@@ -6616,7 +6625,7 @@ def _town_market_stats(city):
 # So the page now reports what the feed DOES carry, live: active inventory.
 # Asking prices answer a different question than sale prices and the page says
 # so in as many words -- but this version refreshes itself with every build off
-# town_market.json, and can never quietly rot. Same three-day staleness rule and
+# town_market.json, and can never quietly rot. Same 21-day staleness rule and
 # same degrade-to-qualitative path as the town pages (_town_market_stats).
 def _live_market_snapshot():
     """Region-wide active-inventory stats, or None when we shouldn't quote numbers.
@@ -6635,7 +6644,7 @@ def _live_market_snapshot():
                - datetime.date.fromisoformat(generated)).days
     except (TypeError, ValueError):
         return None
-    if age < 0 or age >= TOWN_MARKET_STALE_DAYS:
+    if age < 0 or age > TOWN_MARKET_STALE_DAYS:
         return None
 
     # Explicitly the three counties this site calls Northern Colorado (same
