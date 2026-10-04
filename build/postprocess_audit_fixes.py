@@ -192,7 +192,16 @@ def _normalize_for_change_detection(text: str) -> str:
                       (re.search(r"youtube(?:-nocookie)?\.com/embed/([\w-]{6,})", m.group(1)) or [None, None])[1]
                       or _html_unescape(m.group(1))), text)
     text = re.sub(r'<img\b[^>]*>', _image_identity, text)
+    text = _normalize_market_search_button_style(text)
     return text
+
+def _normalize_market_search_button_style(text: str) -> str:
+    """Ignore only the retired market-search button color override."""
+    return re.sub(
+        r'(<a class="btn btn-outline") style="border-color:#141415;color:#141415"'
+        r'( href="[^"]*">Search [^<]+ Homes</a>)',
+        r'\1\2', text)
+
 
 
 def _html_unescape(s: str) -> str:
