@@ -66,6 +66,7 @@ function resp(status, body) {
   const route = (existingLeads, inquiryStatus = 200) => {
     const calls = [];
     const inquiries = [];
+    const notes = [];
     const f = async (url, init = {}) => {
       const s = String(url); const m = init.method || "GET";
       calls.push(`${m} ${s.replace(/^https:\/\/api\.(lofty|resend)\.com/, "")}`.split("?")[0]);
@@ -73,7 +74,7 @@ function resp(status, body) {
       if (m === "GET" && /\/v1\.0\/leads\?/.test(s)) return resp(200, { leads: existingLeads });
       if (m === "POST" && /\/v1\.0\/leads$/.test(s)) return resp(200, `{"data":{"leadId": ${existingLeads.length ? EXISTING : NEWID}}}`);
       if (/\/inquiry$/.test(s)) { inquiries.push({ url: s, body: JSON.parse(init.body) }); return resp(inquiryStatus, inquiryStatus === 200 ? "{}" : "nope"); }
-      if (/\/notes$/.test(s)) return resp(200, "{}");
+      if (/\/notes$/.test(s)) { notes.push(String(init.body || "")); return resp(200, "{}"); }
       if (/\/v2\.0\/tasks$/.test(s)) return resp(200, `{"taskId": 77}`);
       if (/send-task-reminder$/.test(s)) return resp(200, { message: "ok" });
       if (/listCustomField/.test(s)) return resp(200, { data: R.WEBSITE_FIELDS.map((n) => ({ attributeName: n })) });
@@ -81,13 +82,18 @@ function resp(status, body) {
       if (m === "PUT") return resp(200, "{}");
       return resp(404, "unexpected " + s);
     };
-    return { f, calls, inquiries };
+    return { f, calls, inquiries, notes };
   };
 
   let rt = route([]);
   global.fetch = rt.f;
   await handler(event("new.buyer@example.com"));
   let rec = pushes[pushes.length - 1];
+  // 2026-10-04 (re-audit): the note's "Reproduce this search" link pointed at the
+  // Signature domain since this function was copied from there.
+  check("the note's \"Reproduce this search\" link is this site's own search page",
+    rt.notes.some((n) => n.includes("Reproduce this search: https://www.thelittleladysellshomes.com/search-homes.html?cities=Loveland")) &&
+    !rt.notes.some((n) => /signaturepropertycollection\.com/.test(n)), rt.notes.join(" | ").slice(0, 400));
   check("new contact: the search is set on the new lead", rt.inquiries.length === 1 &&
     rt.inquiries[0].url.endsWith(`/v1.0/leads/${NEWID}/inquiry`) &&
     JSON.stringify(rt.inquiries[0].body) === JSON.stringify({ locations: [{ city: "Loveland", state: "CO" }], priceMin: 950000, bedroomsMin: 3 }),

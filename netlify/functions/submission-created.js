@@ -241,6 +241,10 @@ async function handleLead(event) {
     const payload = JSON.parse(event.body);
     const data = (payload && payload.payload && payload.payload.data) || {};
     const formName = (payload && payload.payload && payload.payload.form_name) || "website";
+    // Netlify's own id for this submission: the handle /status shows for a lead
+    // held for identity review, so it can be found in the Forms inbox by id --
+    // never by name, email or phone, because /status is public.
+    const submissionId = payload && payload.payload && payload.payload.id ? String(payload.payload.id) : null;
 
     const { firstName, lastName } = splitName(data.name);
     const body = {};
@@ -309,7 +313,9 @@ async function handleLead(event) {
       // also goes onto the contact as Lofty's own inquiry fields (price, beds,
       // baths, towns) -- see placeInquiry below. The note and tags stay as they are.
       body.notes = `${banner}\nWants email alerts for new listings matching: ${data.alert_criteria || "(no filters — all new listings)"}` +
-        (data.alert_query ? `\nReproduce this search: https://signaturepropertycollection.com/search-homes.html?${data.alert_query}` : "") +
+        // 2026-10-04 (re-audit): this site's own search page, on its canonical
+        // host. It pointed at the Signature domain since the function was copied.
+        (data.alert_query ? `\nReproduce this search: https://www.thelittleladysellshomes.com/search-homes.html?${data.alert_query}` : "") +
         (data.message ? `\nAlso said: "${data.message}"` : "");
       body.tags.push("Property Alert Request", "Saved Search");
     } else if (data.listing_address) {
@@ -483,7 +489,11 @@ async function handleLead(event) {
       });
       let store = null;
       try { store = getBlobStore(getStore, DIAG_STORE); } catch (e) { store = null; }
-      if (store) await recordPush(store, { ...held, emailResult }, formName, body);
+      // 2026-10-04 (re-audit): until now this lead existed only in that email.
+      // recordPush keeps a held lead under its own key (lib/_lofty.js
+      // MANUAL_REVIEW_KEY) with the whole submission and the reason, where
+      // nothing replays it and /status counts it by submission id.
+      if (store) await recordPush(store, { ...held, emailResult, submissionId, smsConsent: consent.given, formData: data }, formName, body);
       return { statusCode: 200, body: "ok (captured; Lofty identity needs manual review)" };
     }
     // A known contact keeps its own tags. `tags` on the create call REPLACES the
@@ -539,14 +549,15 @@ async function handleLead(event) {
 
     if (!result.ok) {
       console.error(`Lofty API ${result.httpStatus} (payload shape "${result.payloadShape}"): ${result.responseBody}`);
-      // The lead is queued for retry by the next sync run, is sitting in Netlify
+      // The lead is queued for retry by the next scheduled drain
+      // (lofty-queue-drain.js), is sitting in Netlify
       // Forms, and -- new as of this change -- has already been emailed to her.
       // Still returns 200: failing here would not help the visitor, whose
       // submission already succeeded.
       // smsConsent rides with the queued lead, so the replay applies the same rule.
       // formData rides along too, so the replay can set the website fields and
       // the inquiry exactly as a first-try create would.
-      if (store) await recordPush(store, { ...result, emailResult, smsConsent: consent.given, formData: data }, formName, body);
+      if (store) await recordPush(store, { ...result, emailResult, submissionId, smsConsent: consent.given, formData: data }, formName, body);
       return { statusCode: 200, body: "ok (lofty push failed — see /site-health)" };
     }
 
