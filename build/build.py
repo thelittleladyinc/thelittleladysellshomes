@@ -6580,8 +6580,9 @@ TOWN_GEO = (_load_json("town_geo.json") or {}).get("towns") or {}
 # The figures refresh every Monday and Thursday, so a 3-day cutoff hid the town
 # figures, the FAQ median-price answer and the market report's live block on any
 # deploy made on a Sunday, a Monday morning or a Thursday morning (that morning's
-# production deploy did exactly that), and the Northern Colorado market report and 13 town market-report pages and /greeleymarket-report-and-trends.html, /timnath-co-market-report-and-trends-2.html were re-dated to the deploy
-# date because the vanished block was their only change. The honest path for
+# production deploy did exactly that), and the Northern Colorado market report
+# and 15 town market-report pages were re-dated to the deploy date because the
+# vanished block was their only change. The honest path for
 # ageing figures already exists: build/postprocess_traffic_growth.py re-words a
 # card more than 3 days old as a dated MLS snapshot (CLAUDE.md, Market-report
 # truthfulness rule 1). A future date is still withheld.
