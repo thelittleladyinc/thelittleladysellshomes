@@ -106,7 +106,7 @@ const PUBLISHED_URL = process.env.TOWN_MARKET_URL ||
   "https://raw.githubusercontent.com/thelittleladyinc/signature-property-collection/master/build/data/town_market.json";
 // build.py's TOWN_MARKET_STALE_DAYS: older figures would be suppressed anyway,
 // so copying them only to have them hidden is pointless.
-const STALE_DAYS = 21;
+const STALE_DAYS = 3;
 
 function median(values) {
   if (!values.length) return null;
@@ -156,7 +156,7 @@ function validatePublished(pub, current, now) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(gen) || Number.isNaN(Date.parse(gen))) return `generated_at "${gen}" is not a date`;
   if (gen > today) return `generated_at ${gen} is in the future`;
   const ageDays = Math.round((Date.parse(today) - Date.parse(gen)) / 86400000);
-  if (ageDays > STALE_DAYS) return `generated_at ${gen} is ${ageDays} days old (limit ${STALE_DAYS})`;
+  if (ageDays >= STALE_DAYS) return `generated_at ${gen} is ${ageDays} days old (limit ${STALE_DAYS})`;
   const mine = current && String(current.generated_at || "");
   if (mine && /^\d{4}-\d{2}-\d{2}$/.test(mine) && gen < mine) return `generated_at ${gen} is older than this repo's ${mine}`;
   return null;

@@ -23,13 +23,14 @@ console.log("\n1. What the published file must look like before it is used");
 check("a current file is accepted", tool.validatePublished(good, { generated_at: "2026-09-15" }, NOW) === null);
 check("the same date as ours is accepted (a no-op)", tool.validatePublished(good, { generated_at: "2026-09-28" }, NOW) === null);
 check("an older file than ours is refused", /older than/.test(tool.validatePublished(good, { generated_at: "2026-09-29" }, NOW) || ""));
-check("a file past the 21-day limit is refused", /days old/.test(tool.validatePublished({ ...good, generated_at: "2026-09-01" }, null, NOW) || ""));
+check("a file past the three-day limit is refused", /days old/.test(tool.validatePublished({ ...good, generated_at: "2026-09-01" }, null, NOW) || ""));
+check("a file exactly three calendar days old is refused", /days old/.test(tool.validatePublished({ ...good, generated_at: "2026-09-27" }, null, NOW) || ""));
 check("a future date is refused", /future/.test(tool.validatePublished({ ...good, generated_at: "2026-10-09" }, null, NOW) || ""));
 check("no towns is refused", /no towns/.test(tool.validatePublished({ ...good, towns: {} }, null, NOW) || ""));
 check("a town without figures is refused", /no figures/.test(tool.validatePublished({ ...good, towns: { X: { active: 3 } } }, null, NOW) || ""));
 check("a missing date is refused", /not a date/.test(tool.validatePublished({ ...good, generated_at: undefined }, null, NOW) || ""));
-check("the limit matches build.py's", tool.STALE_DAYS === 21 &&
-  /TOWN_MARKET_STALE_DAYS = 21\b/.test(fs.readFileSync(path.join(ROOT, "build", "build.py"), "utf8")));
+check("the limit matches build.py's", tool.STALE_DAYS === 3 &&
+  /TOWN_MARKET_STALE_DAYS = 3\b/.test(fs.readFileSync(path.join(ROOT, "build", "build.py"), "utf8")));
 
 console.log("\n2. Where the numbers come from");
 check("the Blobs path reads the MLS Grid whole-market copy, not the Lofty keys",

@@ -10,6 +10,10 @@ for t in tests/test-*.js; do
   if printf '%s' "$out" | grep -q "All checks passed"; then echo "ok"
   else echo "FAILED"; printf '%s\n' "$out" | grep -E "FAIL" | head -5; fail=1; fi
 done
+for t in tests/test-market-button-freshness.py tests/test-market-freshness-cutoff.py; do
+  printf "%-28s " "$(basename "$t" .py)"
+  if python3 "$t"; then echo "ok"; else echo "FAILED"; fail=1; fi
+done
 [ "$fail" -eq 0 ] && echo "All suites passed." || echo "Some suites FAILED."
 
 # Ground truth, printed rather than trusted.

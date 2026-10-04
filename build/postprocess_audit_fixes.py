@@ -174,7 +174,49 @@ def _normalize_for_change_detection(text: str) -> str:
     # restamp the archive with the deploy date. Both renderings collapse to one.
     text = text.replace('<span class="mls-source-badge">Source: IRES MLS</span> via MLS Grid &middot;',
                         '<span class="mls-source-badge">Source: IRES MLS</span> &middot;')
+    # 2026-09-30: the page-speed pass changes how pages LOAD, not what they say:
+    # font and hero preload hints on every page, the town hero's CSS hook, and on
+    # the imported pages each picture's file (its WebP copy), size attributes and
+    # lazy loading, and live YouTube/Wistia players turned into click-to-play
+    # facades. Same rule as the CSS above (Freshness rule 2). Pictures and videos
+    # still count by identity -- alt text and file name, video id or player URL --
+    # so adding, removing or swapping one is still an edit.
+    text = re.sub(r'<link rel="preload"[^>]*>\n?', '', text)
+    text = text.replace('<section class="county-hero hero-photo"', '<section class="county-hero"')
+    text = re.sub(r'(<section class="county-hero") style="[^"]*"', r'\1', text)
+    text = re.sub(r'<div class="video-embed">\s*<button type="button" class="yt-facade"[^>]*?'
+                  r'(?:data-yt="([^"]+)"|data-embed-src="([^"]+)")[^>]*>[\s\S]*?</button>\s*</div>',
+                  lambda m: f"VIDEO({m.group(1) or _html_unescape(m.group(2))})", text)
+    text = re.sub(r'<iframe\b[^>]*?\ssrc="([^"]+)"[^>]*>(?:[^<]*</iframe>)?',
+                  lambda m: "VIDEO(%s)" % (
+                      (re.search(r"youtube(?:-nocookie)?\.com/embed/([\w-]{6,})", m.group(1)) or [None, None])[1]
+                      or _html_unescape(m.group(1))), text)
+    text = re.sub(r'<img\b[^>]*>', _image_identity, text)
+    text = _normalize_market_search_button_style(text)
     return text
+
+def _normalize_market_search_button_style(text: str) -> str:
+    """Ignore only the retired market-search button color override."""
+    return re.sub(
+        r'(<a class="btn btn-outline") style="border-color:#141415;color:#141415"'
+        r'( href="[^"]*">Search [^<]+ Homes</a>)',
+        r'\1\2', text)
+
+
+
+def _html_unescape(s: str) -> str:
+    import html
+    return html.unescape(s)
+
+
+def _image_identity(m: "re.Match[str]") -> str:
+    """An <img> reduced to what it shows: its alt text and its file (a WebP copy
+    of legacy-media/X.png at legacy-media/webp/X-1200w.webp is still X)."""
+    tag = m.group(0)
+    alt = (re.search(r'\salt="([^"]*)"', tag) or [None, ""])[1]
+    src = (re.search(r'\ssrc="([^"]*)"', tag) or [None, ""])[1].split("?")[0]
+    stem = re.sub(r"(-\d+w)?\.[A-Za-z0-9]+$", "", src.rsplit("/", 1)[-1])
+    return f"IMG({alt}|{stem})"
 
 
 # (old, new) pairs applied to build/data/legacy_content/*.json and

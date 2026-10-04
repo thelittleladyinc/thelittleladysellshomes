@@ -7,9 +7,22 @@
    (see build.py) start the font fetch on the FIRST connection. Variable
    fonts cover the same weights the old css2 URL requested. If a font is
    ever updated, give the file a NEW name — /assets/fonts/* is cached
-   immutable for a year (netlify.toml). */
+   immutable for a year (netlify.toml).
+
+   2026-09-30 (page speed): Open Sans is five static latin subsets, one per
+   weight the stylesheet uses (300-700, ~11KB each), instead of the 48KB
+   variable file. Chrome holds first paint for preloaded fonts, so preload
+   bytes sit on FCP/LCP: head() now preloads 400 and 600 (with Abril, ~36KB,
+   down from 61.5KB). A page downloads only the weights it renders.
+   open-sans-latin.woff2 stays in /assets/fonts/ for pages cached before this
+   change. Made from Google Fonts' OpenSans[wdth,wght].ttf at wdth 100 with
+   fontTools (instancer + subset, same unicode-range, hinting dropped). */
 @font-face{font-family:'Abril Fatface';font-style:normal;font-weight:400;font-display:swap;src:url(/assets/fonts/abril-fatface-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
-@font-face{font-family:'Open Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/assets/fonts/open-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Open Sans';font-style:normal;font-weight:300;font-display:swap;src:url(/assets/fonts/open-sans-300-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Open Sans';font-style:normal;font-weight:400;font-display:swap;src:url(/assets/fonts/open-sans-400-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Open Sans';font-style:normal;font-weight:500;font-display:swap;src:url(/assets/fonts/open-sans-500-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Open Sans';font-style:normal;font-weight:600;font-display:swap;src:url(/assets/fonts/open-sans-600-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Open Sans';font-style:normal;font-weight:700;font-display:swap;src:url(/assets/fonts/open-sans-700-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:'Playfair Display';font-style:italic;font-weight:400 700;font-display:swap;src:url(/assets/fonts/playfair-display-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 700;font-display:swap;src:url(/assets/fonts/playfair-display-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:'Yellowtail';font-style:normal;font-weight:400;font-display:swap;src:url(/assets/fonts/yellowtail-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
@@ -82,7 +95,13 @@
   --hairline-rose: rgba(179,0,0,.22);
 
   /* legacy aliases so nothing silently breaks if referenced elsewhere */
-  --dusty-rose: var(--rose);
+  /* 2026-09-30 (WCAG): --dusty-rose is the colour ~100 inline eyebrows and
+     captions in build.py ask for (style="color:var(--dusty-rose)"). It used to
+     alias --rose, which is tuned for DARK grounds -- on cream and white it is
+     2.77:1 and 2.99:1, and 572 eyebrows on 167 pages failed contrast. It now
+     follows the ground it sits on: the deep token here (5.2:1 on cream), and
+     --rose again inside the dark grounds listed under "Dark grounds" below. */
+  --dusty-rose: var(--deep-mauve);
   /* 2026-08-18 (WCAG): --deep-mauve was aliased to --mauve (#DEA5A5), which is
      LIGHTER than the rose — 2.92:1 against white, failing contrast both as a
      button background under white text and as label text on white, i.e. every
@@ -149,6 +168,11 @@ body {
   line-height: 1.6;
 }
 img { max-width: 100%; display: block; }
+/* 2026-09-30: imported (iHouseWeb) article images carry width/height attributes
+   so the browser reserves their box; height:auto lets that box shrink with the
+   width on a phone instead of stretching (build/legacy_pages.py _speed_pass). */
+.blog-article img { height: auto; }
+.blog-article .video-embed { margin: 1.4em 0; }
 a { color: inherit; text-decoration: none; }
 /* 2026-08-23 (Christine, luxury air): padding was a flat 24px which felt
    tight on wider screens. Clamp lets it grow to 48px on desktop for a
@@ -375,8 +399,13 @@ nav.primary-nav a:hover { text-decoration: underline; text-decoration-color: cur
 }
 .btn-primary { background: var(--deep-mauve); color: var(--white); }
 .btn-primary:hover { background: #8B0000; }
-.btn-outline { border-color: var(--white); color: var(--white); background: transparent; }
-.btn-outline:hover { background: var(--white); color: var(--charcoal); }
+/* 2026-09-30 (WCAG): the outline button was white-on-transparent everywhere, so
+   on a light section it was invisible (1.08:1) -- "Plan Your Move To <town>" on
+   every town page with a relocation film, "What Is My Neighborhood Already
+   Worth?" on /about.html, and 19 more. Charcoal by default; white only on the
+   dark grounds, where it was designed to sit. */
+.btn-outline { border-color: var(--charcoal); color: var(--charcoal); background: transparent; }
+.btn-outline:hover { background: var(--charcoal); color: var(--white); }
 .btn-dark { background: var(--charcoal); color: var(--white); }
 .btn-dark:hover { background: #000; }
 
@@ -478,6 +507,27 @@ h2.section-title {
 }
 .section-dark .lede { color: rgba(255,255,255,.78); }
 .section-dark .eyebrow { color: var(--dusty-rose); }
+
+/* ---------- Dark grounds (2026-09-30, WCAG) ----------
+   The sections that paint charcoal. Inside them the accent is the light rose
+   (6.16:1 on charcoal) and the outline button is white; everywhere else the
+   accent is the deep token and the outline button is charcoal (see :root and
+   .btn-outline). A white .card inside a dark section is a light ground again:
+   its text inherited the section's white and "Faster Ways To Reach Me" on the
+   homepage was white on white (1:1). */
+.site-header, .call-strip, .hero, .county-hero, .section-dark, .site-footer, .mr-stats-dark {
+  --dusty-rose: var(--rose);
+}
+.hero .eyebrow { color: var(--dusty-rose); }
+.hero .btn-outline, .county-hero .btn-outline, .section-dark .btn-outline, .site-footer .btn-outline {
+  border-color: var(--white); color: var(--white);
+}
+.hero .btn-outline:hover, .county-hero .btn-outline:hover, .section-dark .btn-outline:hover, .site-footer .btn-outline:hover {
+  background: var(--white); color: var(--charcoal);
+}
+.section-dark .card { color: var(--charcoal); --dusty-rose: var(--deep-mauve); }
+.section-dark .card .btn-outline { border-color: var(--charcoal); color: var(--charcoal); }
+.section-dark .card .btn-outline:hover { background: var(--charcoal); color: var(--white); }
 
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 52px; }
 /* 2026-08-14 (Christine's request: equal size regardless of photo/video,
@@ -820,6 +870,17 @@ form.lead-form label.consent > .consent-text { flex: 1 1 auto; min-width: 0; }
   color: var(--white);
 }
 .county-hero .eyebrow { color: var(--dusty-rose); }
+/* Town pages with a real photo (CITY_HERO_PHOTOS). The page sets --hero-img and
+   --hero-img-sm; build.py preloads the same two files under the same 800px
+   breakpoint, so each device fetches exactly one. */
+.county-hero.hero-photo {
+  background: linear-gradient(180deg, rgba(20,20,21,.5), rgba(20,20,21,.82)), var(--hero-img) center/cover no-repeat var(--charcoal);
+}
+@media (max-width: 800px) {
+  .county-hero.hero-photo {
+    background-image: linear-gradient(180deg, rgba(20,20,21,.5), rgba(20,20,21,.82)), var(--hero-img-sm, var(--hero-img));
+  }
+}
 .county-hero .lede { color: rgba(255,255,255,.85); }
 .city-pill-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 .city-pill { border: 1px solid rgba(255,255,255,.35); padding: 8px 16px; font-size: 13px; border-radius: 999px; display: inline-block; transition: background .15s ease, border-color .15s ease; }
@@ -1609,6 +1670,9 @@ h2.widget-title {
 /* The "as of" line is a credibility statement, not fine print -- it is what separates
    this from a national aggregator's guess, so it stays legible. */
 .mr-asof { font-size: 14px; line-height: 1.7; color: var(--slate-soft); margin-top: 18px; max-width: 70ch; }
+/* 2026-09-30 (WCAG): on the market-report pages the as-of line sits in the dark
+   hero, where slate is 2.65:1. */
+.hero .mr-asof, .county-hero .mr-asof, .section-dark .mr-asof { color: rgba(255,255,255,.78); }
 
 
 /* 2026-08-18: YouTube facade — the real thumbnail plus a play button, so the
