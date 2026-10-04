@@ -42,7 +42,7 @@ const { getStore } = require("@netlify/blobs");
 const fs = require("fs");
 const path = require("path");
 const {
-  LISTINGS_KEY, SYNC_STATE_KEY, getBlobStore, AGENT_SURNAME, LISTINGS_SOURCE,
+  LISTINGS_KEY, SYNC_STATE_KEY, getBlobStore, AGENT_SURNAME, LISTINGS_SOURCE, LUXURY_PRICE_FLOOR,
 } = require("./lib/_mls-shared");
 const {
   isLoftyPhoto, sizedPhoto, CARD_PHOTO_WIDTH, LARGE_PHOTO_WIDTH,
@@ -65,6 +65,13 @@ const GALLERY_PHOTOS = 60;
 // Meta Pixel (production builds), header and footer -- and the canonical is on
 // this site. One site, one shell: the Signature brand=tllsh copy is not needed.
 const SHELL_PATH = path.join(__dirname, "lib", "_listing-page-shell.html");
+// 2026-09-30 (Signature move, part 2): a listing from LUXURY_PRICE_FLOOR ($950K)
+// renders in The Little Lady's Signature Property Collection shell -- the same
+// page with the Collection's look, fonts, sub-header and GA4 content_group
+// (build.py write_listing_page_shell). Also declared in netlify.toml
+// included_files. If it is ever missing, the listing still renders in the site
+// shell rather than the bare fallback.
+const COLLECTION_SHELL_PATH = path.join(__dirname, "lib", "_listing-page-shell-collection.html");
 const SITE_DOMAIN = "https://www.thelittleladysellshomes.com";
 const AGENT_NAME = "Christine Gwinnup";
 const AGENT_PHONE = "303-709-4262";
@@ -109,6 +116,46 @@ function shell() {
     }
   }
   return _shell;
+}
+
+let _collectionShell = null;
+function collectionShell() {
+  if (_collectionShell == null) {
+    try {
+      _collectionShell = fs.readFileSync(COLLECTION_SHELL_PATH, "utf8");
+    } catch (err) {
+      console.error(
+        `listing-page: Collection shell missing at ${COLLECTION_SHELL_PATH} ` +
+        `(${err && err.code}) — using the site shell. Check included_files in netlify.toml.`
+      );
+      _collectionShell = "";
+    }
+  }
+  return _collectionShell || shell();
+}
+
+// A listing from the Collection's floor gets the Collection's shell.
+function isCollectionListing(l) {
+  return Number(l && l.price) >= LUXURY_PRICE_FLOOR;
+}
+
+// 2026-09-30: GA4's view_item on a listing page, so listing views can be counted
+// and compared by town and tier. Only the MLS number, the price and the town are
+// sent -- never the street address. Guarded on gtag existing, so it is a no-op
+// wherever GA4 is not configured.
+function viewItemScript(l) {
+  const item = {
+    item_id: String(l.listingId || ""),
+    item_category: String(l.city || ""),
+    item_category2: isCollectionListing(l) ? "signature-collection" : "listing",
+  };
+  const price = Number(l.price);
+  if (Number.isFinite(price) && price > 0) item.price = price;
+  const params = { currency: "USD", items: [item] };
+  if (item.price) params.value = item.price;
+  const json = JSON.stringify(params).replace(/</g, "\\u003c");
+  return `<script>(function(){try{if(typeof window.gtag==="function")` +
+    `window.gtag("event","view_item",${json});}catch(e){}})();</script>`;
 }
 
 function brandName() {
@@ -737,13 +784,13 @@ const localHandler = async (event) => {
         // price change or status flip surfaces within the hour.
         "Cache-Control": "public, max-age=600, stale-while-revalidate=3600",
       },
-      body: render(shell(), {
+      body: render(isCollectionListing(l) ? collectionShell() : shell(), {
         TITLE: title,
         DESCRIPTION: description,
         CANONICAL: canonical,
         OG_IMAGE: ogImage,
         SCHEMA: `<script type="application/ld+json">${listingSchema(l, canonical, ogImage)}</script>`,
-        BODY: listingBody(l, state && (state.lastSuccessAt || state.lastRunAt)),
+        BODY: listingBody(l, state && (state.lastSuccessAt || state.lastRunAt)) + viewItemScript(l),
       }),
     };
   } catch (err) {
@@ -757,6 +804,8 @@ const localHandler = async (event) => {
 const { backendSwitch, queryOf, withQuery } = require("./lib/_backend-mode");
 const { makeProxy } = require("./lib/_sig-proxy");
 exports.localHandler = localHandler;
+exports.viewItemScript = viewItemScript;
+exports.isCollectionListing = isCollectionListing;
 // Passed through, the page is Signature's, rendered in its copy of this site's
 // shell (brand=tllsh) -- exactly what the /listing/:id rewrite in netlify.toml used
 // to fetch from Signature directly, with its noindex and Retry-After headers. A

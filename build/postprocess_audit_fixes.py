@@ -166,6 +166,18 @@ def _normalize_for_change_detection(text: str) -> str:
     # Realty. That is a business-name swap like the address change above, not
     # an edit to any article, so it must not restamp blog dates.
     text = _normalize_bold_retirement(text)
+    # 2026-09-30 (Signature move, part 2): this site's share card and its
+    # schema logo were Signature Property Collection's artwork (og-card.png is
+    # byte-identical to Signature's; logo-full.png is Signature's logo). Every
+    # page now names its own (og-card-little-lady.png, logo-little-lady.png).
+    # A brand-asset swap in the <head>, not an edit to any page's content, so
+    # it must not restamp ~750 pages with the deploy date. The live-listing
+    # widget's hand-off script (build.py _idx_off_js, now able to show what a
+    # search can't filter for) is plumbing in the same sense.
+    text = text.replace('/assets/img/og-card-little-lady.png', '/assets/img/og-card.png')
+    text = re.sub(r'("(?:image|logo)": "https://www\.thelittleladysellshomes\.com/assets/img/)'
+                  r'logo-little-lady\.png"', r'\1logo-full.png"', text)
+    text = re.sub(r'function idxOffHtml\(data\) \{[\s\S]*?\n  \}', 'function idxOffHtml(data) {IDX_OFF}', text)
     # 2026-09-28: listings now reach these sites through Lofty, not MLS Grid, so
     # the listing widgets' source line reads "Source: IRES MLS" instead of
     # "Source: IRES MLS via MLS Grid" (build.py _VIA_GRID). That line sits in the
@@ -641,7 +653,11 @@ function send(name,params){if(typeof window.gtag==='function'){window.gtag('even
 function formName(f){return (f&&f.getAttribute&&f.getAttribute('name'))||'unknown';}
 document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.matches)return;if(f.classList.contains('lead-form')){send('lead_form_attempt',{form_name:formName(f)});return;}var id=(f.id||'')+' '+(f.className||'')+' '+(f.getAttribute('action')||'');if(/search|filter|home/i.test(id)){send('home_search_submit',{form_id:f.id||'unknown'});}},true);
 // Contact events are owned by build.py's shared contact bar listener.
-document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href]');if(!a)return;var raw=a.getAttribute('href')||'';if(/^\/listing\//.test(raw)||a.closest('.listing-card')){send('listing_click',{link_path:raw.split('?')[0].slice(0,180)});}try{var u=new URL(a.href,location.href);if(u.origin!==location.origin){var d=u.hostname.replace(/^www\./,'');if(/jotform\.com$/.test(d)){send('external_form_click',{destination_domain:d});}if(['signaturepropertycollection.com','owninnoco.com'].indexOf(d)!==-1){send('brand_site_click',{destination_domain:d});}}}catch(_){}} ,true);
+// collection_click (2026-09-30, Signature move part 2): a click into The Little
+// Lady's Signature Property Collection -- its pages here, from any other page, or
+// the Signature site while it still exists -- replaces brand_site_click for that
+// domain, so GA4 counts the luxury tier's pull whichever address it lives at.
+document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href]');if(!a)return;var raw=a.getAttribute('href')||'';if(/^\/listing\//.test(raw)||a.closest('.listing-card')){send('listing_click',{link_path:raw.split('?')[0].slice(0,180)});}try{var u=new URL(a.href,location.href);if(u.origin!==location.origin){var d=u.hostname.replace(/^www\./,'');if(/jotform\.com$/.test(d)){send('external_form_click',{destination_domain:d});}if(d==='signaturepropertycollection.com'){send('collection_click',{destination_domain:d,link_path:u.pathname.slice(0,180)});}else if(d==='owninnoco.com'){send('brand_site_click',{destination_domain:d});}}else if(/^\/signature-property-collection\//.test(u.pathname)&&!/^\/signature-property-collection\//.test(location.pathname)){send('collection_click',{link_path:u.pathname.slice(0,180)});}}catch(_){}} ,true);
 if(/^\/listing\//.test(location.pathname)){send('listing_detail_view',{listing_path:location.pathname.slice(0,180)});}
 })();"""
     digest = hashlib.sha256(js.encode()).hexdigest()[:12]

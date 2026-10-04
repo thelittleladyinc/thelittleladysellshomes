@@ -245,3 +245,90 @@ while any pass-through remains, an alias would make each one call itself.
   `submission-created.js` (Signature's search applies its $950K floor), and the
   page-level links, schema `sameAs`, cross-domain canonicals and redirects that
   part 2 and the redirect phases handle.
+
+---
+
+# Signature move, part 2: The Little Lady's Signature Property Collection
+
+Written 2026-09-30. The luxury tier's pages, built here under
+`/signature-property-collection/` by `build/collection_pages.py` (called from
+`build.py` `main()`), plus what they need around them. **Nothing a visitor of
+this site sees changes yet**: no existing page links to the Collection, and every
+Collection page is canonical to the Signature URL it stands in for, so none is in
+the sitemap. Phase (e) points Signature's URLs here, with Christine's OK.
+
+## What is where
+
+| Thing | Where |
+| --- | --- |
+| The pages (hub, 7 market pages, 4 resort pages, buyers, sellers, concierge, homes over $1M, home tours, two guides, the book landing, the hidden form page) | `build/collection_pages.py` |
+| Canonical → Signature URL for each page and moved post | `COLLECTION_CANONICAL_TO_SIGNATURE` in `build.py` |
+| The look: `body.tier-signature` tokens, the sub-header | `build/assets/css/collection.css`, inlined on tier pages only |
+| Fonts (Libre Baskerville 400/400i/700, Poppins 300–700, Corinthia; latin subsets, 117 KB) | `build/assets/fonts/`, declared and preloaded on tier pages only (`_collection_head`) |
+| Share card and logo, the Collection's and this site's own | `build/assets/img/signature-collection/`, `og-card-little-lady.png`, `logo-little-lady.png`; templates in `build/tools/share-cards/` (render the HTML at the size in its `body` rule) |
+| The three moved posts | `build/data/blog.json`, rendered on tier pages, left out of the blog index, RSS and llms.txt (`_listed_blog`) until phase (e) |
+| Listing pages from $950K | `_listing-page-shell-collection.html` (written by `write_listing_page_shell`), chosen in `listing-page.js` |
+
+## Forms (Lofty labels in `submission-created.js`)
+
+New names, each tagged **Signature Collection**: `signature-buyers-inquiry`,
+`signature-sellers-inquiry`, `signature-concierge-inquiry`,
+`signature-luxury-market`, `signature-resort-buyer-inquiry`,
+`signature-expired-inquiry` (the book landing; its note also carries the printed
+piece's `src`/`mid`/`gap`).
+
+Every form name the Signature site used (16) is registered on the noindex
+`/signature-property-collection/form-definitions.html` with the fields its markup
+sent, so a Signature page still open in a browser after phase (f) posts here
+instead of being dropped. `luxury-market` and `concierge-page-inquiry` exist only
+there, so their labels now say they came from the Signature site.
+
+## Search
+
+`/signature-property-collection/search-homes.html` is a forced rewrite to
+`home-search?tier=signature-collection`: it keeps the $950K floor and is tagged
+`utm_campaign=signature-collection` (also when the answer comes from Signature,
+whose Location is re-tagged). The site's own search is unchanged (no floor,
+`utm_campaign=home-search`).
+
+Filters the Lofty search cannot apply (horse property, waterfront, a named
+neighbourhood, land and farm types) are no longer dropped silently: the hand-off
+says what will and won't be applied (`homeSearchNote`), on a one-screen note page
+for a `/search-homes.html` link and under the button in a live-listing widget.
+When a Lofty condition key for one of them is confirmed on her Lofty site, map it
+in `conditionFor()` and drop it from `unappliedFilters()`.
+
+## Analytics and schema
+
+- GA4 `content_group: 'signature-collection'` on tier pages and the Collection
+  listing shell; `view_item` (MLS number, price, town; never the address) on
+  every listing page; `collection_click` for a click into the Collection, here or
+  on the Signature domain (replaces `brand_site_click` for that domain).
+- One Christine (`AGENT_ID`); a `Brand` node for the Collection (`#collection`)
+  that her node and the Organization carry. Collection pages' VideoObjects join
+  `sitemap-videos.xml` when their canonicals move here (phase e).
+
+## Merged into existing pages (no links to the Collection yet)
+
+- `/relocation.html`: an executive & luxury relocation section.
+- `/northern-colorado-market-report.html`: the $1M+ tier, from
+  `build/data/market_report.json` (`luxury`), shown as the dated June 2026 snapshot
+  it is, with source and window. Delete that block to retire it.
+- `/expired-listings.html`: a "$1M+ homes" block.
+- `/guides/buyers-guide.html`, `/guides/sellers-guide.html`: an "above $950K"
+  chapter each.
+- The about-page partnership section was **not** merged: Christine is a solo agent
+  on this site. `tests/test-no-kendra.js` fails the build on the second agent's
+  name or number anywhere in the output.
+
+## Phase (e) checklist (with Christine's OK)
+
+1. Point each Signature URL to its Collection page (page-by-page redirects on the
+   Signature site), then change that page's entry in
+   `COLLECTION_CANONICAL_TO_SIGNATURE` so its canonical is its own URL. The
+   sitemap, video sitemap, blog index and RSS pick it up automatically.
+2. Link the Collection from this site: navigation, the market report's
+   "Luxury?" button and the home page callout (both still point at the Signature
+   domain), and the merged sections above.
+3. Point printed-piece traffic (`/expiredlisting/` on the Signature domain) at
+   `/signature-property-collection/expired-listings.html`.

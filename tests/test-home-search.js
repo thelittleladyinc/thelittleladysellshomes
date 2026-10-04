@@ -142,6 +142,25 @@ console.log("\n8. Answered on this site (the moved home-search, 2026-09-30)");
   check("a link that asks for a floor keeps it", JSON.parse(new URL(r3.headers.Location).searchParams.get("condition")).price === "950000,");
   check("never indexed", /noindex/.test(r.headers["X-Robots-Tag"]));
 
+  console.log("\n9. The Collection tier, and the filters Lofty can't apply (2026-09-30)");
+  const t = await hs.localHandler({ path: "/signature-property-collection/search-homes.html", rawQuery: "cities=Loveland",
+    queryStringParameters: { cities: "Loveland", tier: "signature-collection" } });
+  const tl = new URL(t.headers.Location);
+  check("?tier=signature-collection keeps the $950K floor", JSON.parse(tl.searchParams.get("condition")).price === "950000,");
+  check("and says so in utm_campaign=signature-collection", tl.searchParams.get("utm_campaign") === "signature-collection");
+  check("the site's own search is still utm_campaign=home-search", loc.searchParams.get("utm_campaign") === "home-search");
+  check("an unknown tier is the site's search", H.campaignFor({ tier: "platinum" }) === "home-search");
+  check("horse property, waterfront, a neighbourhood and land are named as not applied",
+    JSON.stringify(H.unappliedFilters({ equestrian: "true", waterfront: "true", subdivision: "Mariana Butte", propertyCategory: "land" })) ===
+    '["horse property","waterfront","the Mariana Butte neighborhood","land"]');
+  check("the town pages' subdivision=Equestrian reads as horse property, not a neighbourhood",
+    JSON.stringify(H.unappliedFilters({ subdivision: "Equestrian" })) === '["horse property"]');
+  check("the note says what the search shows instead",
+    H.homeSearchNote({ city: "Eaton", subdivision: "Equestrian", noFloor: "true" }) ===
+    "The home-search site can't filter for horse property, so this shows every home in Eaton. Ask Christine and she will pull the ones that fit.");
+  check("no note when every filter is applied", H.homeSearchNote({ city: "Loveland", beds: "3", propertyCategory: "condo" }) === "");
+  check("markup in a subdivision name never reaches the note", !/[<>"]/.test(H.homeSearchNote({ subdivision: '<b>"x"</b>' })));
+
   console.log(failures === 0 ? "\nAll checks passed.\n" : `\n${failures} FAILED\n`);
   process.exit(failures ? 1 : 0);
 })().catch((e) => { console.error(e); process.exit(1); });

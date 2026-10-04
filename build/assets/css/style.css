@@ -1731,3 +1731,8 @@ a.ra-link:focus-visible { outline: 2px solid var(--deep-mauve); outline-offset: 
 @media (max-width: 1000px) { .ra-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .ra-grid { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .ra-link { transition: none; } }
+
+/* A home-search hand-off's note: what the search can't filter for, when the link
+   asked for it -- under a live-listing widget's hand-off button (build.py
+   _idx_off_js) and on the Collection's pages. */
+.search-note { margin-top: 14px; font-size: 14px; line-height: 1.6; color: var(--slate-soft); max-width: 70ch; }

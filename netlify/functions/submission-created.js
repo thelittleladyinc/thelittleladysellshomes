@@ -151,8 +151,15 @@ const SOURCE_LABELS = {
   // lead from the luxury page arrived in Lofty labelled "luxury-market", which
   // sorts and reads like a bug rather than a source. Worth their own labels
   // especially: two of the three are the highest-intent pages on the site.
-  "luxury-market": "The Little Lady Sells Homes - Luxury Market Page",
-  "concierge-page-inquiry": "The Little Lady Sells Homes - Concierge Page Inquiry",
+  //
+  // 2026-09-30 (Signature move, part 2): neither of these two is rendered on this
+  // site any more -- its own luxury and concierge pages retired in favour of the
+  // Signature site's, and now of the Collection pages below. They are kept (and
+  // registered on /signature-property-collection/form-definitions.html) for the
+  // Signature site's own forms of the same name, which post here once that domain
+  // is an alias, so their label says where the lead really came from.
+  "luxury-market": "The Little Lady's Signature Property Collection - Luxury Market Page (Signature site form)",
+  "concierge-page-inquiry": "The Little Lady's Signature Property Collection - Concierge Page Inquiry (Signature site form)",
   "testimonials-page-inquiry": "The Little Lady Sells Homes - Testimonials Page Inquiry",
   // 2026-08-21: five more thin/no-content pages built out with real copy and their
   // own lead forms (market conditions, West Greeley, Ault, newsletter, Loveland guide).
@@ -167,6 +174,30 @@ const SOURCE_LABELS = {
   "land-property-review": "The Little Lady Sells Homes - Land / Acreage Property Review",
   "land-due-diligence-checklist": "The Little Lady Sells Homes - Land & Acreage Due-Diligence Checklist",
   "loveland-market-seller": "The Little Lady Sells Homes - Loveland Market Seller Inquiry",
+  // 2026-09-30 (Signature move, part 2): The Little Lady's Signature Property
+  // Collection, the luxury tier under /signature-property-collection/. Named for
+  // the Collection so a luxury lead reads as one in Lofty, and tagged
+  // "Signature Collection" below (COLLECTION_TAGS) so it can be filtered.
+  "signature-buyers-inquiry": "The Little Lady's Signature Property Collection - Buyer Inquiry",
+  "signature-sellers-inquiry": "The Little Lady's Signature Property Collection - Seller Inquiry (confidential valuation)",
+  "signature-concierge-inquiry": "The Little Lady's Signature Property Collection - Concierge Inquiry",
+  "signature-luxury-market": "The Little Lady's Signature Property Collection - Homes Over $1M Page",
+  "signature-resort-buyer-inquiry": "The Little Lady's Signature Property Collection - Mountain Resort Buyer Inquiry",
+  "signature-expired-inquiry": "The Little Lady's Signature Property Collection - Expired Listing Second Opinion (printed book or letter)",
+};
+
+// 2026-09-30: tags for the Collection's forms (and the two old Signature form
+// names that only the Signature site sends), so every luxury lead carries
+// "Signature Collection" -- a smart list and a Smart Plan trigger in Lofty.
+const COLLECTION_TAGS = {
+  "signature-buyers-inquiry": ["Signature Collection", "Buyer Lead"],
+  "signature-sellers-inquiry": ["Signature Collection", "Seller Lead"],
+  "signature-concierge-inquiry": ["Signature Collection"],
+  "signature-luxury-market": ["Signature Collection"],
+  "signature-resort-buyer-inquiry": ["Signature Collection", "Buyer Lead", "Mountain Resort"],
+  "signature-expired-inquiry": ["Signature Collection", "Seller Lead", "Expired Listing"],
+  "luxury-market": ["Signature Collection"],
+  "concierge-page-inquiry": ["Signature Collection"],
 };
 
 // 2026-09-29 (second review): the Lofty create -- both attempts -- must finish
@@ -247,6 +278,7 @@ async function handleLead(event) {
       "loveland-market-seller": ["Seller Lead", "Loveland"],
     };
     if (ROI_TAGS[formName]) body.tags.push(...ROI_TAGS[formName]);
+    if (COLLECTION_TAGS[formName]) body.tags.push(...COLLECTION_TAGS[formName]);
     // Every note starts with this, so even a merged lead's activity timeline shows
     // at a glance that a NEW website enquiry came in and when.
     const stamp = new Date().toLocaleString("en-US", {
@@ -364,6 +396,15 @@ async function handleLead(event) {
       data.utm_term && `term=${data.utm_term}`,
     ].filter(Boolean);
     if (utmBits.length) journey.push(`UTM: ${utmBits.join(" | ")}`);
+    // 2026-09-30: the printed expired-listing books and letters carry src, mid
+    // and gap (the Collection's book landing page keeps them in three hidden
+    // fields), which say which printed piece produced this lead.
+    const printBits = [
+      data.print_source && `src=${data.print_source}`,
+      data.print_mid && `mid=${data.print_mid}`,
+      data.print_gap && `gap=${data.print_gap}`,
+    ].filter(Boolean);
+    if (printBits.length) journey.push(`Printed piece: ${printBits.join(" | ")}`);
     if (journey.length) body.notes += `\n\nWEBSITE JOURNEY\n${journey.join("\n")}`;
 
     // ---- TCPA consent record (2026-09-15) ------------------------------------

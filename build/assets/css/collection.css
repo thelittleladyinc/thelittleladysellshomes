@@ -1,0 +1,51 @@
+/* ==========================================================================
+   The Little Lady's Signature Property Collection -- the luxury tier
+   (2026-09-30, Signature move part 2; pages in build/collection_pages.py)
+
+   Only on the Collection's pages: build.py _collection_head() inlines this file
+   (minified) after the site's own stylesheet on those pages and nowhere else, so
+   no other page carries a byte of it. It is not a second design: every
+   component in style.css renders in the Collection's look because its pages
+   carry body.tier-signature, which re-points the tokens to Signature's palette
+   and type. The faces are declared on those pages only, too.
+
+   Contrast, on the real values: --deep-mauve #8f5560 is 5.3:1 on cream and
+   5.8:1 under white text (buttons); the light rose #B86F7A is 4.9:1 on
+   charcoal, so it is the accent only inside the dark grounds, exactly as the
+   site's own red is (tests/test-collection.js recomputes these).
+   ========================================================================== */
+body.tier-signature {
+  --rose: #B86F7A;
+  --mauve: #BA8C84;
+  --peach: #DEB3A5;
+  --hairline-rose: rgba(184,111,122,.28);
+  --deep-mauve: #8f5560;
+  --dusty-rose: var(--deep-mauve);
+  --font-serif: 'Libre Baskerville', Georgia, serif;
+  --font-display: 'Libre Baskerville', Georgia, serif;
+  --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-script: 'Corinthia', cursive;
+}
+.tier-signature .site-header, .tier-signature .call-strip, .tier-signature .hero,
+.tier-signature .county-hero, .tier-signature .section-dark, .tier-signature .site-footer,
+.tier-signature .collection-bar {
+  --dusty-rose: var(--rose);
+}
+.tier-signature .hero .eyebrow, .tier-signature .section-dark .eyebrow { color: var(--dusty-rose); }
+.tier-signature .section-dark .card { color: var(--charcoal); --dusty-rose: var(--deep-mauve); }
+.tier-signature .eyebrow { font-size: 30px; }
+.tier-signature .eyebrow-clear { font-size: 12px; }
+.tier-signature .hero h1 { font-weight: 400; letter-spacing: -.005em; }
+
+/* The Collection's sub-header, under the site's header on its pages. */
+.collection-bar { background: var(--charcoal); border-top: 1px solid rgba(255,255,255,.08); color: var(--white); }
+.collection-bar .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 28px; padding-top: 12px; padding-bottom: 12px; }
+.collection-bar-name { color: var(--white); font-family: var(--font-serif); font-size: 16px; letter-spacing: .02em; text-decoration: none; }
+.collection-bar-name span { font-family: var(--font-sans); font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--dusty-rose); margin-right: 6px; }
+.collection-bar-links { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+.collection-bar-links a { color: rgba(255,255,255,.82); font-size: 13px; text-decoration: none; padding: 6px 0; }
+.collection-bar-links a:hover, .collection-bar-links a[aria-current="page"] { color: var(--white); text-decoration: underline; text-underline-offset: 4px; }
+/* A search hand-off on a Collection page: the button, and the honest note
+   (.search-note, style.css) when the home-search site cannot filter for what
+   the page is about. */
+.collection-search { margin-top: 18px; }

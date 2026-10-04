@@ -80,7 +80,7 @@ function idxUnavailable(gate) {
 const {
   isLoftyPhoto, sizedPhoto, isHers, CARD_PHOTO_WIDTH, LARGE_PHOTO_WIDTH,
 } = require("./lib/_lofty-listings");
-const { homeSearchUrl, homeSearchLabel } = require("./lib/_home-search");
+const { homeSearchUrl, homeSearchLabel, homeSearchNote } = require("./lib/_home-search");
 
 // 2026-09-28 (Christine, approving it: "lets do it!!!"): with Lofty as the
 // source, this site keeps HER listings and her Lofty site does the home search
@@ -103,6 +103,10 @@ function homeSearchHandoff(params) {
       reason: "home_search",
       message: homeSearchLabel(params),
       searchUrl: homeSearchUrl(params),
+      // 2026-09-30: the filters asked for that the Lofty search can't apply
+      // (horse property, waterfront, a neighbourhood, land), in one sentence the
+      // widget shows under the button -- instead of dropping them silently.
+      note: homeSearchNote(params) || undefined,
       listings: [],
       totalCount: 0,
       photos: [],
