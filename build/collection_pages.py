@@ -883,8 +883,8 @@ RESORT_PAGES = [
             "second-home and investment intent, more properties that change hands before they're widely "
             "marketed. What a buyer's agent contributes here is preparation — financing or proof of funds "
             "ready, your criteria sharp enough to move in days, and a clear-eyed read on what a property "
-            "is worth against what it's listed for. That's the same discipline I bring to $2M+ purchases "
-            "on the Front Range, pointed up the hill.",
+            "is worth against what it's listed for. The preparation should fit the property and the "
+            "buyer's goals, wherever the search takes them.",
             "Short-Term Rentals: Verify Before You Offer",
             "If your Vail purchase depends on rental income, know that the Town of Vail and Eagle County "
             "each regulate short-term rentals with their own registration and zoning rules, and they "
@@ -1521,19 +1521,18 @@ def build_luxury_market(B):
          "as few people in the transaction as it can be run with."),
     ]
     sellers = [
-        ("Empty nesters right-sizing and releasing equity",
-         "The biggest seller group at this level, and the one where timing genuinely matters. The house did "
-         "its job for twenty years, the equity in it is now a retirement asset, and the decision is financial "
-         "as much as it is emotional. Most of them are not leaving Northern Colorado — they are moving four "
-         "miles into something single-level with less roof to maintain."),
+        ("Owners considering a different layout or less upkeep",
+         "The next home may need a different layout, less maintenance, or a different location. "
+         "Start with the property requirements and the sale-and-purchase sequence rather than "
+         "assuming why an owner wants to move."),
         ("Owners of large acreage who no longer want the upkeep",
-         "Twenty acres is wonderful at fifty and a lot of work at seventy. These sales need a buyer who wants "
+         "Acreage brings maintenance, access, and land-use considerations. These sales need a buyer who wants "
          "the land for what it is, which is a narrower pool and a different marketing approach than an "
          "in-town listing."),
         ("Relocating professionals and job transfers",
          "Usually on somebody else's timeline, which changes the strategy — pricing has to be right the first "
          "time because there isn't room for a long correction."),
-        ("Families settling an estate or a trust",
+        ("Owners selling an estate or trust property",
          "Often several people in different states making one decision together, sometimes a property that "
          "hasn't been updated in decades. The work here is as much coordination and patience as it is real "
          "estate."),
@@ -1585,9 +1584,9 @@ def build_luxury_market(B):
          "a golf-course, lakefront, or master-planned community. Privacy is a recurring theme across all of "
          "them."),
         ("Who is selling homes at this price point?",
-         "Most often empty nesters right-sizing and turning home equity into a retirement asset, owners of "
-         "large acreage who no longer want the upkeep, relocating professionals on a set timeline, families "
-         "settling an estate, and sellers whose luxury listing already expired once with another agent."),
+         "Reasons for selling can include a different layout or maintenance needs, a change of location, "
+         "an estate or trust sale, or revisiting a listing that did not sell. The property and the "
+         "owner's actual goals should guide the plan."),
         (f"Does {B.SITE['agent']} handle acreage and horse properties?",
          "Yes — farm, ranch, and acreage work is a specific part of the practice rather than an occasional "
          "exception, which matters because these transactions turn on well and septic, zoning, access, and "
