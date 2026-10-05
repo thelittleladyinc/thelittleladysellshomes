@@ -205,6 +205,12 @@ def _normalize_for_change_detection(text: str) -> str:
                       or _html_unescape(m.group(1))), text)
     text = re.sub(r'<img\b[^>]*>', _image_identity, text)
     text = _normalize_market_search_button_style(text)
+    # 2026-10-05: the town card's "as of" stamp is a data date, not copy (see
+    # _town_card_asof). Blanked here so a refresh that moved only the stamp does
+    # not look like an edit; the figures themselves still count, and are then
+    # dated by that stamp rather than by the deploy.
+    text = _TOWN_CARD_ASOF.sub(r'\1DATE', text)
+    text = _TOWN_FAQ_ASOF.sub(r'\1DATE\3', text)
     return text
 
 def _normalize_market_search_button_style(text: str) -> str:
@@ -431,22 +437,70 @@ def _market_asof(text: str) -> dt.date | None:
     return None
 
 
+# 2026-10-05: the 39 community pages carry a town card ("Right now there are 624
+# active listings in Loveland, at a median asking price of $525,000. ... Straight
+# from the IRES MLS feed as of 2026-09-15 ...") and a FAQ answer that repeats it
+# ("As of 2026-09-15, the median asking price across the 624 active listings in
+# Loveland is $525,000 ..."), both from build/data/town_market.json, which the
+# town-market workflow refreshes every Monday and Thursday without committing
+# site/. Only the market report's "last refreshed" wording was read as a data
+# date (_market_asof), so these pages fell to the committed-copy comparison and
+# were dated TODAY on every deploy: committed loveland.html said as of
+# 2026-09-15 while the data said 2026-10-05. The card dates itself out loud, so
+# it is treated the way the market report is: a page whose figures moved with
+# the snapshot is dated by that snapshot, not by the deploy that carried it, and
+# a page where only the stamp moved keeps its date (_normalize_for_change_detection).
+# Any other change on the page still counts as an edit.
+_TOWN_CARD_ASOF = re.compile(r'(Straight from the IRES MLS feed as of )(\d{4}-\d{2}-\d{2})')
+_TOWN_FAQ_ASOF = re.compile(r'(As of )(\d{4}-\d{2}-\d{2})(, the median asking price across the )')
+_TOWN_FIGURES = [
+    re.compile(r'(Right now there are )[\d,]+( active listings in [^,<]+, at a median asking price of )'
+               r'\$[\d,]+(\.)(?: That works out to about \$[\d,]+ per square foot\.)?'),
+    re.compile(r'(the median asking price across the )[\d,]+( active listings in [^,<]+ is )'
+               r'\$[\d,]+(?:, or about \$[\d,]+ per square foot)?(\.)'),
+]
+
+
+def _town_card_asof(text: str) -> dt.date | None:
+    m = _TOWN_CARD_ASOF.search(text)
+    try:
+        return dt.date.fromisoformat(m.group(2)) if m else None
+    except ValueError:
+        return None
+
+
+def _blank_town_figures(text: str) -> str:
+    """The town card and its FAQ answer with their figures blanked (the stamp
+    is already blanked by _normalize_for_change_detection)."""
+    for pattern in _TOWN_FIGURES:
+        text = pattern.sub(r'\1N\2$N\3', text)
+    return text
+
+
 def _meaningful_date(path: Path, current: str) -> dt.date:
     market_date = _market_asof(current)
     if market_date:
         return market_date
 
     previous = _committed_text(path)
-    if previous is not None and _normalize_for_change_detection(previous) == _normalize_for_change_detection(current):
-        # BlogPosting already carries the article's real content date.  Prefer it
-        # to the previously build-stamped meta date when the article itself did
-        # not change in this deploy.
-        blog_date = _extract_blogposting_date(current)
-        if blog_date:
-            return blog_date
-        old = _extract_meta_date(previous)
-        if old:
-            return old
+    if previous is not None:
+        before = _normalize_for_change_detection(previous)
+        after = _normalize_for_change_detection(current)
+        if before == after:
+            # BlogPosting already carries the article's real content date.  Prefer it
+            # to the previously build-stamped meta date when the article itself did
+            # not change in this deploy.
+            blog_date = _extract_blogposting_date(current)
+            if blog_date:
+                return blog_date
+            old = _extract_meta_date(previous)
+            if old:
+                return old
+        # The town card's figures moved with the IRES snapshot and nothing else
+        # on the page did: the snapshot date the card shows is the page's date.
+        card_date = _town_card_asof(current)
+        if card_date and _blank_town_figures(before) == _blank_town_figures(after):
+            return card_date
     return TODAY
 
 
