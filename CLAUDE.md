@@ -87,6 +87,26 @@ The site has many lead forms. A browser `submit` event is **not** proof of a lea
 8. Lead attribution/context is CRM/email context, not an analytics license. The Netlify submission handler may place website journey data in the Lofty/Resend note, but do not forward buyer/seller form content to GA4/Meta.
 9. Attribution fields that must survive a Netlify submission must exist in static deployed form markup before the browser fills their values. Do not move them to JavaScript-only field creation.
 
+## Website forms start their Lofty nurture plan (2026-10-06)
+
+`netlify/functions/lib/_form-plans.js` (byte-identical in the Signature repo; `tests/test-form-plans.js` checks the copy) says which Lofty Smart Plan each form starts. All plan tags live in its `PLAN_TAGS` — a renamed tag in Lofty is a one-line edit there. "–" is U+2013 EN DASH; S2's "-" is ASCII.
+
+| Plan (tag) | Lead type | Forms |
+|---|---|---|
+| B1 `TOF – Website Buyer` | Buyer (2) | listing-inquiry, listing-alert-request, neighborhood-quiz, buyers-page-inquiry, relocation, lifestyle-search, buyers-guide, relocation-guide, windsor-commute, eaton-relocation, eaton-dining, dream-home-finder, open-house-list, foreclosure-list-larimer/-weld, loveland-buyers-guide, west-greeley-inquiry, ault-area-inquiry, multigenerational-search, land-property-review, land-due-diligence-checklist, teacher-homebuying, signature-buyers/-resort-buyer/-concierge-inquiry, signature-luxury-market, luxury-market, concierge-page-inquiry; home-lead "buy" |
+| B1 `TOF – First Time Buyer` | Buyer | first-time-homebuyer |
+| B1 `TOF – VA Buyer` | Buyer | veteran-home-purchase |
+| S1 `TOF – Seller Ready to List` | Seller (1) | sellers-guide, seller-local-proof, loveland-market-seller, sellers-page-inquiry; home-lead "sell"/"both" |
+| S2 `S2 - Seller Options` | Seller | free-home-valuation, cash-offer; home-lead "value" |
+| SPC-S `TOF – Luxury / Signature` | Seller | signature-sellers-inquiry, signature-expired-inquiry (and, on the Signature site only, sellers-page-inquiry, sellers-guide, seller-local-proof, free-home-valuation) |
+| DS1 `TOF – Downsizing` | Seller | noco-retirement |
+| `Agent Recruit` | none | lpt-join, lpt-join-co, co-license-guide, agent-coaching |
+| no plan | — | contact, testimonials-page-inquiry, newsletter-signup, market-conditions-inquiry, home-lead "invest", any unknown form, and **rent-to-own-options (goes to another agent; untouched)** |
+
+How `submission-created.js` applies it — **only for a contact proven new** (both Lofty lookups found nobody and the create's own id took the note): the lead type rides on the create (`leadTypes`, also on the minimal retry); the plan tag is **never** in the create's tags, because a "Tag Changed → tag added" Smart Plan does not fire for a tag sent on the create — it is added afterwards by `lib/_notify.js addPlanTags` (read the lead's tags, keep them all, add the plan tag in one PUT; refuse to write when the tags can't be read), right after the "Hot Lead - Website" re-add. Returning contacts, phone-only matches and lookups that can't answer get no lead type and no plan tag (a returning contact still gets its Call task). A queued lead carries its `plan`; the replay (`lib/_lofty.js`) re-decides "new" on its own lookup and adds the tag in `finishReplay` (step `planTags`).
+
+**Lofty setting needed:** `TOF – Website Buyer` enrolls nobody until it is added to B1's start (trigger) tags in Lofty. Each plan also enrolls only the lead types in its scope.
+
 ## Analytics events
 
 Business funnel events should be privacy-safe and useful, not noisy.

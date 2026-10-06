@@ -63,7 +63,8 @@
 const { getStore } = require("@netlify/blobs");
 const { getBlobStore } = require("./lib/_mls-shared");
 const { postLead, recordPush } = require("./lib/_lofty");
-const { addLoftyNote, refireLoftyTag, sendLeadAlertEmail } = require("./lib/_notify");
+const { addLoftyNote, refireLoftyTag, addPlanTags, sendLeadAlertEmail } = require("./lib/_notify");
+const { planForSubmission } = require("./lib/_form-plans");
 const { newsletterFromEvent } = require("./lib/_flodesk");
 const { homeValueProperty } = require("./lib/_lead-address");
 const { smsConsentFromForm, applyTextingPreference } = require("./lib/_lofty-consent");
@@ -210,6 +211,32 @@ function splitName(fullName) {
   if (parts.length === 0) return { firstName: undefined, lastName: undefined };
   if (parts.length === 1) return { firstName: parts[0], lastName: undefined };
   return { firstName: parts[0], lastName: parts.slice(1).join(" ") };
+}
+
+// 2026-10-06: why a form's nurture plan was not started on this submission, in
+// words for the function log and /status.
+function planSkipReason(existing, newLeadId, leadId, noteResult) {
+  if (existing.leadId) return "returning contact: keeps its own plans and lead type (gets the Call task instead)";
+  if (existing.anyMatch) return "this phone or email is already on a Lofty contact";
+  if (!existing.ok) return "the contact lookup could not answer, so this may be an existing contact";
+  if (!newLeadId || newLeadId !== String(leadId)) return "the create did not return this contact's own id";
+  if (!noteResult || !noteResult.ok) return "the new contact did not take the note, so its id is unconfirmed";
+  return "not a proven-new contact";
+}
+
+// One log line per submission: which plan, and what happened to it.
+function planLogLine(formName, plan, planResult, leadTypeSent) {
+  if (!plan.plan) return `Nurture plan for "${formName}": none for this form.`;
+  const type = !plan.leadTypes.length ? "this plan has no lead type"
+    : leadTypeSent ? `lead type ${plan.leadTypes.join(",")} sent on the create` : "lead type not sent";
+  if (planResult.skipped) return `Nurture plan ${plan.plan} for "${formName}": skipped -- ${planResult.skipped} (${type}).`;
+  if (planResult.ok) {
+    return `Nurture plan ${plan.plan} for "${formName}": ` +
+      (planResult.added && planResult.added.length ? `added tag "${planResult.added.join('", "')}"` : "tag already on the lead") +
+      ` after the create (${type}).`;
+  }
+  return `Nurture plan ${plan.plan} for "${formName}": tag NOT added -- ` +
+    `${planResult.step || planResult.error || "failed"}${planResult.httpStatus ? ` (HTTP ${planResult.httpStatus})` : ""} (${type}).`;
 }
 
 // 2026-09-24: newsletter sign-ups also go to Flodesk (lib/_flodesk.js). Started
@@ -381,6 +408,13 @@ async function handleLead(event) {
       body.tags.push("Recruiting", "Agent Prospect");
     }
 
+    // 2026-10-06: the nurture plan this form starts (lib/_form-plans.js) -- a lead
+    // type on the create and the plan's tag added AFTER it, both only for a
+    // contact proven new (below). The plan tag never rides on the create: Lofty
+    // does not fire a "Tag Changed" Smart Plan for a tag that arrives with the lead.
+    const plan = planForSubmission(formName, data, { site: "main" });
+    body.tags = body.tags.filter((t) => !plan.planTags.includes(t));
+
     // A form with nothing but a name and email (the guide downloads) matches none
     // of the branches above, and a lead with no note at all is the easiest one to
     // miss. The banner alone is still worth having.
@@ -507,6 +541,10 @@ async function handleLead(event) {
       body.tagsAdd = body.tags;
       delete body.tags;
     }
+    // 2026-10-06: the plan's lead type, on the same rule -- sent only for a contact
+    // PROVEN new, so a returning client (or one the lookup couldn't rule out)
+    // keeps the lead type they already have.
+    if (plan.leadTypes.length && existing.ok && !existing.anyMatch) body.leadTypes = plan.leadTypes.slice();
 
     // Both attempts at the create finish by this deadline, so the backup email
     // below always has time to go out (lib/_lofty.js MIN_RETRY_MS).
@@ -556,8 +594,9 @@ async function handleLead(event) {
       // submission already succeeded.
       // smsConsent rides with the queued lead, so the replay applies the same rule.
       // formData rides along too, so the replay can set the website fields and
-      // the inquiry exactly as a first-try create would.
-      if (store) await recordPush(store, { ...result, emailResult, submissionId, smsConsent: consent.given, formData: data }, formName, body);
+      // the inquiry exactly as a first-try create would -- and so does the plan,
+      // so a replayed new contact starts the same nurture plan (lib/_lofty.js).
+      if (store) await recordPush(store, { ...result, emailResult, submissionId, smsConsent: consent.given, formData: data, plan }, formName, body);
       return { statusCode: 200, body: "ok (lofty push failed — see /site-health)" };
     }
 
@@ -614,12 +653,27 @@ async function handleLead(event) {
       : noteResult.leadMissing
         ? { attempted: false, skipped: "lead-missing", tagRestored: true }
         : await refireLoftyTag(leadId, TRIGGER_TAG, apiKey);
+
+    // 2026-10-06: then the form's nurture plan (lib/_form-plans.js) -- its tag added
+    // in its own PUT now that the lead exists, so Lofty records "Tag Added" and the
+    // plan starts. Only on a contact PROVEN new (the same test the website fields
+    // below use: both searches found nobody and the create's own id took the note),
+    // never on a returning one, which keeps its own plans and gets the Call task.
+    // addPlanTags keeps every tag already on the lead and changes nothing when it
+    // can't read them.
+    const newLeadId = leadIdFromResponse(result.responseBody);
+    const provenNew = !!(existing.ok && !existing.anyMatch && newLeadId && newLeadId === String(leadId) &&
+        noteResult.ok && noteTarget === leadId);
+    const planResult = !plan.planTags.length ? { attempted: false, skipped: "no plan for this form" }
+      : !provenNew ? { attempted: false, skipped: planSkipReason(existing, newLeadId, leadId, noteResult), planTags: plan.planTags }
+      : await addPlanTags(newLeadId, plan.planTags, apiKey);
+    console.log(planLogLine(formName, plan, planResult, Array.isArray(body.leadTypes)));
     // Recorded again before the optional steps below (a returning lead's task,
     // a new contact's fields), so /status keeps the note and tag results even if
     // those run the function out of time.
     if (store) {
       await recordPush(store, {
-        ...result, leadId, emailResult, noteResult, consentResult, tagResult, existing: existingSummary,
+        ...result, leadId, emailResult, noteResult, consentResult, tagResult, planResult, existing: existingSummary,
         smsConsent: consent.given, inProgress: !!existing.leadId,
       }, formName, body);
     }
@@ -637,10 +691,8 @@ async function handleLead(event) {
     // not through JSON.parse) took the note. An update's effect on a client's
     // other custom fields is undocumented, so an existing record is never touched.
     // This is CRM data, like the note; nothing here goes to GA4 or Meta.
+    // (newLeadId and provenNew are worked out above, before the plan tag.)
     let fieldsResult = { attempted: false };
-    const newLeadId = leadIdFromResponse(result.responseBody);
-    const provenNew = !!(existing.ok && !existing.anyMatch && newLeadId && newLeadId === String(leadId) &&
-        noteResult.ok && noteTarget === leadId);
     if (provenNew) {
       const ensured = await ensureWebsiteFields(store, apiKey);
       fieldsResult = ensured.ok
@@ -659,7 +711,7 @@ async function handleLead(event) {
 
     if (store) {
       await recordPush(store, {
-        ...result, leadId, emailResult, noteResult, consentResult, tagResult, existing: existingSummary,
+        ...result, leadId, emailResult, noteResult, consentResult, tagResult, planResult, existing: existingSummary,
         smsConsent: consent.given, returningResult, fieldsResult, inquiryResult,
       }, formName, body);
     }
