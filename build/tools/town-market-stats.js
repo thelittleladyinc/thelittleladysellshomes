@@ -40,6 +40,8 @@
 //   node build/tools/town-market-stats.js            (no credentials needed;
 //                                                     .github/workflows/town-market.yml)
 //   BLOBS_SITE_ID=... BLOBS_TOKEN=... node build/tools/town-market-stats.js
+//   node build/tools/town-market-stats.js --source hub   (HUB_API_URL + HUB_APP_KEY;
+//                                                         or TOWN_STATS_SOURCE=hub)
 //
 // TWO SOURCES, ONE DATASET (2026-09-15). The Blobs path above needs a Netlify
 // Personal Access Token for the SIGNATURE project, because that is the
@@ -78,6 +80,21 @@
 // .github/workflows/town-market.yml here runs it after Signature's run. The
 // Blobs path reads the MLS Grid keys, with the same 48-hour freshness guard as
 // the Signature script.
+//
+// A THIRD SOURCE, OFF BY DEFAULT (2026-10-06, shared data hub, phase P4).
+// `--source hub`, or the setting TOWN_STATS_SOURCE=hub, takes the same figures
+// from the hub's GET /v1/market/towns instead of from the Signature repo. The hub
+// reads the one MLS Grid copy that now feeds every app, and answers with EXACTLY
+// the JSON in build/data/town_market.json, so build.py needs no change. It needs
+// HUB_API_URL (the hub's base address) and HUB_APP_KEY (this site's key, sent as
+// the x-hub-key header). Anything else -- unset, "github" -- is the path above,
+// untouched. The hub's answer goes through the same checks as the Signature file
+// (shape, generated_at a real date that is neither future nor past the 21-day
+// window nor older than the file already here) plus two of its own: no town below
+// the MIN_SAMPLE floor, and not materially fewer towns than the committed file. On
+// ANY failure it exits non-zero and leaves the committed file untouched, naming
+// the settings involved and never their values. docs/HUB-TOWN-STATS.md has the
+// switch-on and rollback steps.
 //
 // Writes build/data/town_market.json. build/build.py READS that file and never
 // runs this one: the generator stays offline, deterministic and unable to fail
@@ -177,7 +194,221 @@ async function fetchPublished() {
   throw new Error("could not read " + PUBLISHED_URL + ": " + (lastErr && lastErr.message));
 }
 
+// ---- SOURCE 3: the hub (off unless asked for) -----------------------------
+//
+// Contract (docs/HUB-TOWN-STATS.md): GET ${HUB_API_URL}/v1/market/towns with the
+// header `x-hub-key: ${HUB_APP_KEY}` answers 200 and the same JSON as
+// build/data/town_market.json. Everything below takes its inputs as arguments so
+// tests/test-townmarket-hub.js can drive it with a fake fetch and a temp file.
+const HUB_PATH = "/v1/market/towns";
+const HUB_TIMEOUT_MS = 15000;
+// Network errors, timeouts and 5xx are tried again; an answer such as 401 or 404
+// will not change on a retry, so those stop at once.
+const HUB_ATTEMPTS = 3;
+// The real answer is a few tens of KB. Anything this large is not it.
+const HUB_MAX_BYTES = 5 * 1024 * 1024;
+// A town sitting just above MIN_SAMPLE can drop out between two runs, so the hub
+// may legitimately list a few fewer towns than the file already here. Losing more
+// than this share (never fewer than 2) means the hub is returning a partial set.
+const TOWN_COUNT_TOLERANCE = 0.05;
+const TOWN_COUNT_TOLERANCE_MIN = 2;
+// How the file says it came from the hub. A path, never the address.
+const HUB_COPIED_FROM = "hub:" + HUB_PATH;
+
+// Which source to use. The flag wins over the setting. Unset, empty or "github" is
+// today's behaviour; an unknown value is refused rather than guessed at.
+function resolveSource(argv, env) {
+  let raw;
+  const args = Array.isArray(argv) ? argv : [];
+  for (let i = 0; i < args.length; i += 1) {
+    const a = String(args[i]);
+    if (a === "--source") {
+      raw = i + 1 < args.length ? String(args[i + 1]) : "";
+      i += 1;
+    } else if (a.startsWith("--source=")) {
+      raw = a.slice("--source=".length);
+    }
+  }
+  let from = "--source";
+  if (raw === undefined) {
+    raw = env && env.TOWN_STATS_SOURCE;
+    from = "TOWN_STATS_SOURCE";
+  }
+  const v = String(raw === undefined || raw === null ? "" : raw).trim().toLowerCase();
+  if (v === "" && from === "TOWN_STATS_SOURCE") return { source: "github" };
+  if (v === "github" || v === "hub") return { source: v };
+  return { error: `${from} must be "github" or "hub"` };
+}
+
+class HubError extends Error {}
+
+// Never put an error's own message in the output: a failed connection's message
+// carries the address it tried. The class and the system code say enough.
+function describeFetchError(err) {
+  if (err && (err.name === "TimeoutError" || err.name === "AbortError")) {
+    return `no answer within ${HUB_TIMEOUT_MS / 1000} seconds`;
+  }
+  const code = err && ((err.cause && err.cause.code) || err.code);
+  return typeof code === "string" && /^[A-Z0-9_]{3,40}$/.test(code)
+    ? `the connection failed (${code})`
+    : "the connection failed";
+}
+
+// Resolve the endpoint from HUB_API_URL, or say what is wrong with the setting.
+// HTTPS only (the key travels in a header), except a loopback address for tests.
+function hubEndpoint(rawBase) {
+  let u;
+  try { u = new URL(rawBase); } catch (e) { throw new HubError("HUB_API_URL is not a valid URL"); }
+  const loopback = ["localhost", "127.0.0.1", "[::1]"].includes(u.hostname);
+  if (u.protocol !== "https:" && !(u.protocol === "http:" && loopback)) {
+    throw new HubError("HUB_API_URL must start with https://");
+  }
+  if (u.username || u.password) throw new HubError("HUB_API_URL must not carry a user name or password");
+  u.pathname = u.pathname.replace(/\/+$/, "") + HUB_PATH;
+  u.search = "";
+  u.hash = "";
+  return u.toString();
+}
+
+async function fetchHub({ env, fetchImpl, sleep }) {
+  const base = String((env && env.HUB_API_URL) || "").trim();
+  const key = String((env && env.HUB_APP_KEY) || "").trim();
+  const missing = [];
+  if (!base) missing.push("HUB_API_URL");
+  if (!key) missing.push("HUB_APP_KEY");
+  if (missing.length) throw new HubError(`${missing.join(" and ")} ${missing.length > 1 ? "are" : "is"} not set`);
+  const endpoint = hubEndpoint(base);
+
+  let lastReason = "no attempt was made";
+  for (let attempt = 1; attempt <= HUB_ATTEMPTS; attempt += 1) {
+    if (attempt > 1) await sleep(1000 * (attempt - 1));
+    let text;
+    try {
+      const res = await fetchImpl(endpoint, {
+        method: "GET",
+        headers: { "x-hub-key": key, accept: "application/json" },
+        // Never follow a redirect: it would carry the key to wherever it points.
+        redirect: "manual",
+        signal: AbortSignal.timeout(HUB_TIMEOUT_MS),
+      });
+      if (res.status >= 500) {
+        lastReason = `the hub answered HTTP ${res.status}`;
+        continue;
+      }
+      if (res.status !== 200) {
+        const hint = res.status === 401 || res.status === 403 ? " (check HUB_APP_KEY)"
+          : res.status === 404 ? " (check HUB_API_URL)" : "";
+        throw new HubError(`the hub answered HTTP ${res.status}, expected 200${hint}`);
+      }
+      text = await res.text();
+    } catch (err) {
+      if (err instanceof HubError) throw err;
+      lastReason = describeFetchError(err);
+      continue;
+    }
+    if (typeof text !== "string" || text.length > HUB_MAX_BYTES) throw new HubError("the hub's answer is too large to be the town figures");
+    try {
+      return JSON.parse(text);
+    } catch (e) {
+      throw new HubError("the hub's answer was not JSON");
+    }
+  }
+  throw new HubError(`${lastReason} after ${HUB_ATTEMPTS} attempts`);
+}
+
+// The checks the Signature file goes through (validatePublished), plus the two
+// the hub's answer needs. Returns a reason, or null when it may be written.
+function validateHub(pub, current, now) {
+  const base = validatePublished(pub, current, now);
+  if (base) return base;
+  if (Array.isArray(pub.towns)) return "towns is a list, not an object keyed by town";
+  if (pub.min_sample !== undefined && !(typeof pub.min_sample === "number" && pub.min_sample >= MIN_SAMPLE)) {
+    return `min_sample is below the floor of ${MIN_SAMPLE}`;
+  }
+  for (const [city, t] of Object.entries(pub.towns)) {
+    if (!Number.isInteger(t.active) || t.active < MIN_SAMPLE) {
+      return `town "${city}" has fewer than ${MIN_SAMPLE} active listings`;
+    }
+    if (!(t.median_list > 0) || !Number.isFinite(t.median_list)) return `town "${city}" has no usable median_list`;
+    const ppsf = t.median_price_per_sqft;
+    if (ppsf !== undefined && ppsf !== null && !(typeof ppsf === "number" && ppsf > 0 && Number.isFinite(ppsf))) {
+      return `town "${city}" has no usable median_price_per_sqft`;
+    }
+  }
+  const have = Object.keys(pub.towns).length;
+  const had = current && current.towns && typeof current.towns === "object" ? Object.keys(current.towns).length : 0;
+  const allowed = Math.max(TOWN_COUNT_TOLERANCE_MIN, Math.floor(had * TOWN_COUNT_TOLERANCE));
+  if (had && have < had - allowed) {
+    return `${have} towns, but the file already here has ${had} (at most ${allowed} fewer is tolerated)`;
+  }
+  return null;
+}
+
+// One hub run. Never throws and never exits: it returns { ok, ... } and prints
+// through the two sinks, so the caller decides the exit code. The committed file
+// is not opened for writing until every check has passed, and the write is a
+// rename, so a failure at any point leaves it exactly as it was.
+async function runHub(opts) {
+  const o = opts || {};
+  const env = o.env || process.env;
+  const outPath = o.outPath || OUT_PATH;
+  const fetchImpl = o.fetchImpl || fetch;
+  const sleep = o.sleep || ((ms) => new Promise((r) => setTimeout(r, ms)));
+  const log = o.log || ((m) => console.log(m));
+  const errLog = o.errLog || ((m) => console.error(m));
+  // Belt and braces: nothing here prints the key or the address, but if a future
+  // edit ever did, it would still not reach the log.
+  const secrets = [env.HUB_APP_KEY, env.HUB_API_URL].map((v) => String(v || "").trim()).filter((v) => v.length >= 6);
+  const scrub = (m) => secrets.reduce((acc, v) => acc.split(v).join("[hidden]"), String(m));
+  const say = (m) => log(scrub(m));
+  const refuse = (reason) => {
+    errLog(scrub("!! The hub's figures were not used: " + reason + "."));
+    errLog("!! Not writing a file — the pages keep their current figures until they expire.");
+    return { ok: false, reason: scrub(reason) };
+  };
+
+  say("TOWN_STATS_SOURCE=hub — taking the town figures from the hub (HUB_API_URL, HUB_APP_KEY): GET " + HUB_PATH);
+  let pub;
+  try {
+    pub = await fetchHub({ env, fetchImpl, sleep });
+  } catch (err) {
+    return refuse(err instanceof HubError ? err.message : "unexpected " + ((err && err.name) || "error"));
+  }
+  let current = null;
+  try { current = JSON.parse(fs.readFileSync(outPath, "utf8")); } catch (e) { current = null; }
+  const problem = validateHub(pub, current, o.now);
+  if (problem) return refuse(problem);
+
+  // The committed file's own note on how it must be treated survives a hub answer
+  // that carries none.
+  const keepReadme = !pub._README && current && current._README ? { _README: current._README } : {};
+  const out = { ...keepReadme, ...pub, via: "hub", copied_from: HUB_COPIED_FROM };
+  const tmp = outPath + ".tmp-" + process.pid;
+  try {
+    fs.writeFileSync(tmp, JSON.stringify(out, null, 2) + "\n");
+    fs.renameSync(tmp, outPath);
+  } catch (err) {
+    try { fs.unlinkSync(tmp); } catch (e) { /* nothing to remove */ }
+    return refuse("the file could not be written (" + ((err && err.code) || "error") + ")");
+  }
+  const rel = path.relative(process.cwd(), outPath);
+  say(`wrote ${rel}: ${Object.keys(pub.towns).length} towns, generated ${pub.generated_at} by the hub`);
+  return { ok: true, towns: Object.keys(pub.towns).length, generated_at: pub.generated_at };
+}
+
 async function main() {
+  // Today's behaviour is everything below this block. Only an explicit request for
+  // the hub (--source hub, or TOWN_STATS_SOURCE=hub) goes anywhere else.
+  const choice = resolveSource(process.argv.slice(2), process.env);
+  if (choice.error) {
+    console.error("!! " + choice.error + ". Not writing a file.");
+    process.exit(2);
+  }
+  if (choice.source === "hub") {
+    const result = await runHub();
+    process.exit(result.ok ? 0 : 1);
+  }
+
   let listings;
   let via;
 
@@ -308,4 +539,9 @@ if (require.main === module) {
   });
 }
 
-module.exports = { listingsFromBlob, median, validatePublished, MIN_SAMPLE, STALE_DAYS };
+module.exports = {
+  listingsFromBlob, median, validatePublished, MIN_SAMPLE, STALE_DAYS,
+  // the hub source
+  resolveSource, validateHub, runHub, HUB_PATH, HUB_ATTEMPTS, HUB_TIMEOUT_MS,
+  TOWN_COUNT_TOLERANCE, TOWN_COUNT_TOLERANCE_MIN,
+};

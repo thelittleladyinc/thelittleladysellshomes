@@ -16,6 +16,15 @@
 #
 # No secrets needed: the Signature repo is public, and the commit uses this
 # workflow's own GITHUB_TOKEN.
+#
+# OPTIONAL PATH, OFF BY DEFAULT (2026-10-06, shared data hub, phase P4). When the
+# repository VARIABLE TOWN_STATS_SOURCE is exactly "hub", the figures come from the
+# hub's GET /v1/market/towns instead of the Signature repo's file, with the same
+# checks, and everything after that step is identical. It needs the repository
+# variable HUB_API_URL and the repository secret HUB_APP_KEY (names only here; the
+# values are set in GitHub, never in this file). Unset, or anything else, this
+# workflow is exactly what it was. Rollback: delete the variable TOWN_STATS_SOURCE
+# (or set it to "github"). See docs/HUB-TOWN-STATS.md.
 name: town market data
 
 on:
@@ -46,7 +55,18 @@ jobs:
           node-version: "24"
 
       - name: Take the figures the Signature repo published
+        if: ${{ vars.TOWN_STATS_SOURCE != 'hub' }}
         run: node build/tools/town-market-stats.js
+
+      # OPTIONAL, off unless the variable TOWN_STATS_SOURCE is "hub". On any failure
+      # the tool exits non-zero and leaves the committed file as it was, so this
+      # job stops here and nothing is committed.
+      - name: Take the figures from the hub (only when TOWN_STATS_SOURCE is hub)
+        if: ${{ vars.TOWN_STATS_SOURCE == 'hub' }}
+        env:
+          HUB_API_URL: ${{ vars.HUB_API_URL }}
+          HUB_APP_KEY: ${{ secrets.HUB_APP_KEY }}
+        run: node build/tools/town-market-stats.js --source hub
 
       - name: Anything new?
         id: diff
@@ -66,12 +86,19 @@ jobs:
 
       - name: Commit the data file
         if: steps.diff.outputs.changed == 'true'
+        env:
+          TOWN_STATS_SOURCE: ${{ vars.TOWN_STATS_SOURCE }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add build/data/town_market.json
-          git commit -q -m "Refresh town market figures from the Signature copy" \
-            -m "Copied by .github/workflows/town-market.yml from the Signature repo's build/data/town_market.json (generated from the MLS Grid copy by its town-market-stats.js). No figure in this commit was typed by hand."
+          if [ "$TOWN_STATS_SOURCE" = "hub" ]; then
+            git commit -q -m "Refresh town market figures from the hub" \
+              -m "Copied by .github/workflows/town-market.yml from the hub's GET /v1/market/towns (the same schema as build/data/town_market.json). No figure in this commit was typed by hand."
+          else
+            git commit -q -m "Refresh town market figures from the Signature copy" \
+              -m "Copied by .github/workflows/town-market.yml from the Signature repo's build/data/town_market.json (generated from the MLS Grid copy by its town-market-stats.js). No figure in this commit was typed by hand."
+          fi
           # The build rewrote site/; only the data file is published from here.
           git reset -q --hard HEAD
           git clean -fdq site

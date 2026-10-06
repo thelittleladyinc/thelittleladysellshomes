@@ -232,7 +232,9 @@ while any pass-through remains, an alias would make each one call itself.
   the Signature site is ever deleted (phase g).
 - Cloudinary re-hosting (`spc-listings/`) and the MLS Grid photo path.
 - `town-market.yml` in the Signature repo, which regenerates the town figures from
-  the market copy; this site's own workflow takes that file.
+  the market copy; this site's own workflow takes that file. (Since 2026-10-06 this
+  site can instead read the shared data hub, off until `TOWN_STATS_SOURCE=hub`:
+  docs/HUB-TOWN-STATS.md. That change does not touch Signature.)
 - Signature's own pages, forms (and their Netlify Forms inbox), domain, email
   (MX), GA4 stream and Search Console property.
 - Callers that still use the Signature domain: noco-newsletter (`my-listings-geo`,
