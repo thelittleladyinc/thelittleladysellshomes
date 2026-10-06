@@ -10,6 +10,15 @@ for t in tests/test-*.js; do
   if printf '%s' "$out" | grep -q "All checks passed"; then echo "ok"
   else echo "FAILED"; printf '%s\n' "$out" | grep -E "FAIL" | head -5; fail=1; fi
 done
+# 2026-10-06: the node:test suites (tests/test-*.cjs) were run by nothing -- the
+# glob above is .js only -- so the texting-preference suite (and the DNC
+# regression suite that includes it) was never in CI. The Signature repo closed
+# the same gap in PR #80. `node --test` exits non-zero when any test fails.
+for t in tests/test-*.cjs; do
+  printf "%-28s " "$(basename "$t" .cjs)"
+  if node --test "$t" >/dev/null 2>&1; then echo "ok"
+  else echo "FAILED"; node --test "$t" 2>&1 | grep -E "^not ok" | head -5; fail=1; fi
+done
 for t in tests/test-market-button-freshness.py tests/test-market-freshness-cutoff.py tests/test-town-card-freshness.py; do
   printf "%-28s " "$(basename "$t" .py)"
   if python3 "$t"; then echo "ok"; else echo "FAILED"; fail=1; fi
@@ -37,6 +46,6 @@ print(f"\nCurrent: {html_files} html files on disk · {len(spots)} local spots o
       f"{town_pages} town pages ({town_names} distinct town names) "
       f"· {views:,} video views + {reviews:,} review views "
       f"· {tours} listing tours on {tour_pages} town pages "
-      f"· {len(glob.glob('tests/test-*.js'))} test suites")
+      f"· {len(glob.glob('tests/test-*.js')) + len(glob.glob('tests/test-*.cjs'))} test suites")
 PYEOF
 exit "$fail"
