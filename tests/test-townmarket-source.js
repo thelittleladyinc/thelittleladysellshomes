@@ -41,7 +41,9 @@ check("the credential-free path reads the Signature repo's published file",
   /signature-property-collection\/master\/build\/data\/town_market\.json/.test(src));
 check("and no longer harvests the listings-search endpoint", !/listings-search\?|SEARCH_PATH/.test(src));
 const data = JSON.parse(fs.readFileSync(path.join(ROOT, "build", "data", "town_market.json"), "utf8"));
-check("the committed figures say where they came from", ["signature-published", "netlify-blobs"].includes(data.via), data.via);
+// "hub" is the opt-in source (TOWN_STATS_SOURCE=hub, docs/HUB-TOWN-STATS.md): once
+// it is switched on, the file it commits says so.
+check("the committed figures say where they came from", ["signature-published", "netlify-blobs", "hub"].includes(data.via), data.via);
 
 console.log("\n3. Something actually runs it");
 const wfPath = path.join(ROOT, ".github", "workflows", "town-market.yml");

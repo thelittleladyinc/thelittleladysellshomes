@@ -55,6 +55,26 @@ if [ -f "$REQS" ]; then
   fi
 fi
 
+# 1b. OPTIONAL, OFF BY DEFAULT (2026-10-06, shared data hub, phase P4): the town
+# figures from the hub. Only when the setting TOWN_STATS_SOURCE is exactly "hub"
+# (plus HUB_API_URL and HUB_APP_KEY, which the tool reads itself) does the build
+# fetch GET /v1/market/towns into build/data/town_market.json before generating.
+# Unset, or any other value, this block does nothing and the build is what it
+# always was. A hub that cannot answer must not hold up a deploy: the tool exits
+# non-zero without touching the committed file, and the build carries on with the
+# figures already committed, which build.py withholds once they are 21 days old.
+# The tool prints the reason, naming settings and never their values.
+# docs/HUB-TOWN-STATS.md has the switch-on and rollback.
+if [ "${TOWN_STATS_SOURCE:-}" = "hub" ]; then
+  echo "--- netlify-build: TOWN_STATS_SOURCE=hub, refreshing build/data/town_market.json from the hub"
+  if node build/tools/town-market-stats.js --source hub; then
+    echo "--- netlify-build: town figures refreshed from the hub"
+  else
+    echo "!! netlify-build: the hub's town figures were NOT used (reason above)."
+    echo "!! Building with the committed build/data/town_market.json instead."
+  fi
+fi
+
 # 2. Generator failures are real defects and stop deployment.
 echo "--- netlify-build: regenerating site/ from $BUILD"
 if ! "$PY" "$BUILD"; then
