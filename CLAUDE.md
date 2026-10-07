@@ -107,6 +107,10 @@ How `submission-created.js` applies it — **only for a contact proven new** (bo
 
 **Lofty setting needed:** `TOF – Website Buyer` enrolls nobody until it is added to B1's start (trigger) tags in Lofty. Each plan also enrolls only the lead types in its scope.
 
+## Lead-form consent boxes (2026-10-07, 10DLC)
+
+Every lead form carries exactly two checkboxes, in Lofty's compliance wording, character for character: a REQUIRED `terms_agree` ("By checking this box, I agree to the Terms of Service and Privacy Policy of this website.", the two phrases linking to `/terms-of-service.html` and `/privacy-policy.html`) and an OPTIONAL, unchecked `sms_consent` (the SMS opt-in). Carriers review these pages, so **do not paraphrase, re-punctuate or "improve" either sentence, and never pre-check or require the SMS box** (it must stay optional; the server reads `sms_consent=yes` as the explicit yes to texts). The markup is built in one place, `consent_boxes_html()` in `build/build.py` (the five ROI funnels' copy is `CONSENT` in `build/postprocess_roi_conversion.py`), and the recorded wording is `SMS_CONSENT_TEXT` in `netlify/functions/submission-created.js`; `tests/test-consent-boxes.js` and `tests/test-consent-record.js` pin all of it. `terms_agree` is a record only: the server notes whether it was ticked and never holds or drops a lead because it is missing. The committed `site/` is only the fallback (Netlify regenerates it), so a wording change means editing the generators and then patching the committed pages' blocks to match.
+
 ## Analytics events
 
 Business funnel events should be privacy-safe and useful, not noisy.

@@ -16,6 +16,21 @@
 #
 # Do not add `required` back without resolving the disclosure and the A2P filing
 # at the same time.
+#
+# 2026-10-07 (10DLC campaign registration): Lofty's compliance team will have the
+# carriers review the real sign-up form, and wrote the two checkboxes it must
+# carry, in this wording. Every lead form now has exactly this PAIR, built in one
+# place (consent_boxes_html() below) so no form can drift from the other:
+#
+#   1. `terms_agree`  -- REQUIRED. Agreement to this website's Terms of Service
+#      and Privacy Policy. It is not consent to texts, so requiring it does not
+#      touch the point above.
+#   2. `sms_consent`  -- OPTIONAL and unchecked, as before: the SMS opt-in.
+#
+# The wording is Lofty's compliance text. Do not paraphrase, re-punctuate or
+# "improve" either sentence; tests/test-consent-boxes.js compares every form on
+# every page against the literal strings. `sms_consent` keeps its name and value
+# because netlify/functions/lib/_lofty-consent.js reads it as the explicit yes.
 
 
 #!/usr/bin/env python3
@@ -59,6 +74,44 @@ DATA = os.path.join(HERE, "data")
 # rebuilding this stamp on every run is what keeps lastmod/dateModified
 # honest even when content itself hasn't changed).
 BUILD_DATE = datetime.date.today().isoformat()
+
+
+# The two consent checkboxes on every lead form (see the header comment above).
+# These two sentences are Lofty's compliance wording for the 10DLC campaign,
+# character for character. The visible words of the first must stay exactly as
+# written; only the phrases "Terms of Service" and "Privacy Policy" are links.
+CONSENT_TERMS_TEXT = ("By checking this box, I agree to the Terms of Service and "
+                      "Privacy Policy of this website.")
+CONSENT_SMS_TEXT = ("By checking this box, I agree to receive transactional and "
+                    "informational SMS communications, including appointment "
+                    "reminders, property updates, and account notifications from "
+                    "Little Lady. Message frequency varies. Message and data rates "
+                    "may apply. Reply HELP for help or STOP to opt out.")
+
+
+def consent_boxes_html():
+    """The required Terms/Privacy box, then the optional SMS box.
+
+    Same <label class="consent"> pattern for both, so they style as a pair. The
+    caller's own indentation (six spaces inside a form) is baked in because the
+    committed pages are diffed against this output. The SMS box is deliberately
+    NOT `required` and NOT `checked`; the Terms box is `required`. Each sentence
+    sits on one source line so a plain-text search finds it whole.
+    """
+    terms = CONSENT_TERMS_TEXT.replace(
+        "Terms of Service", '<a href="/terms-of-service.html">Terms of Service</a>'
+    ).replace(
+        "Privacy Policy", '<a href="/privacy-policy.html">Privacy Policy</a>')
+    return (
+        '<label class="consent">\n'
+        '        <input type="checkbox" name="terms_agree" value="yes" required>\n'
+        f'        {terms}\n'
+        '      </label>\n'
+        '      <label class="consent">\n'
+        '        <input type="checkbox" name="sms_consent" value="yes">\n'
+        f'        {CONSENT_SMS_TEXT}\n'
+        '      </label>'
+    )
 
 
 def _load_json(name):
@@ -5693,14 +5746,7 @@ def build_seller_local_proof():
       <input type="tel" name="phone" placeholder="Phone">
       <input type="text" name="address" placeholder="Your home's address" required>
       <input type="hidden" name="local_proof_town" id="spt-town-field" value="">
-      <label class="consent">
-        <input type="checkbox" name="sms_consent" value="yes">
-        I agree to receive marketing communication via call, text, or similar automated
-        means from {SITE['name']}. Consent is not a condition of purchase. Message
-        frequency varies. Msg/data rates may apply. Reply STOP to unsubscribe, HELP for
-        help. See our <a href="/privacy-policy.html">Privacy Policy</a> and
-        <a href="/terms-of-service.html">Terms of Service</a>.
-      </label>
+      {consent_boxes_html()}
       <button class="btn btn-dark" type="submit">Send Me My Local Proof</button>
     </form>
   </div>
@@ -8657,14 +8703,7 @@ def build_contact():
       <input type="email" name="email" placeholder="Email" required>
       <input type="tel" name="phone" placeholder="Phone" required>
       <textarea name="message" rows="5" placeholder="Comments, Questions?" required></textarea>
-      <label class="consent">
-        <input type="checkbox" name="sms_consent" value="yes">
-        I agree to receive marketing communication via call, text, or similar automated
-        means from {SITE['name']}. Consent is not a condition of purchase. Message
-        frequency varies. Msg/data rates may apply. Reply STOP to unsubscribe, HELP for
-        help. See our <a href="/privacy-policy.html">Privacy Policy</a> and
-        <a href="/terms-of-service.html">Terms of Service</a>.
-      </label>
+      {consent_boxes_html()}
       <button class="btn btn-dark" type="submit">Submit</button>
     </form>
     <div class="card">
@@ -8929,14 +8968,7 @@ def build_guides():
       <p style="display:none" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" autocomplete="off" tabindex="-1"></label></p>
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email" required>
-      <label class="consent">
-        <input type="checkbox" name="sms_consent" value="yes">
-        I agree to receive marketing communication via call, text, or similar automated
-        means from {SITE['name']}. Consent is not a condition of purchase. Message
-        frequency varies. Msg/data rates may apply. Reply STOP to unsubscribe, HELP for
-        help. See our <a href="/privacy-policy.html">Privacy Policy</a> and
-        <a href="/terms-of-service.html">Terms of Service</a>.
-      </label>
+      {consent_boxes_html()}
       <button class="btn btn-dark" type="submit">Get Access To This Free Guide</button>
     </form>
   </div>
@@ -10528,14 +10560,7 @@ def _tool_lead_form(form_name, button_label, extra_fields=""):
       <input type="email" name="email" placeholder="Email" aria-label="Email address" required>
       <input type="tel" name="phone" placeholder="Phone" aria-label="Phone number">
       {extra_fields}
-      <label class="consent">
-        <input type="checkbox" name="sms_consent" value="yes">
-        I agree to receive marketing communication via call, text, or similar automated
-        means from {SITE['name']}. Consent is not a condition of purchase. Message
-        frequency varies. Msg/data rates may apply. Reply STOP to unsubscribe, HELP for
-        help. See our <a href="/privacy-policy.html">Privacy Policy</a> and
-        <a href="/terms-of-service.html">Terms of Service</a>.
-      </label>
+      {consent_boxes_html()}
       <button class="btn btn-dark" type="submit">{esc(button_label)}</button>
     </form>"""
 
