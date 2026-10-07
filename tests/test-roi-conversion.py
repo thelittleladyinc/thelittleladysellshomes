@@ -69,19 +69,30 @@ for make, form_name in [
     forms = module.actual_lead_forms(make())
     assert len(forms) == 1, f"{form_name}: one lead form expected"
     assert roi.optional_sms_consent(forms[0]), f"{form_name}: optional SMS yes expected"
+    assert roi.required_terms_agree(forms[0]), f"{form_name}: required Terms/Privacy box expected"
+    assert roi.consent_pair(forms[0]), f"{form_name}: the consent pair expected"
     assert f'name="{form_name}"' in forms[0]
     assert f'action="/thank-you.html?from={form_name}"' in forms[0]
     for field in roi.ATTR_FIELDS:
         assert forms[0].count(f'name="{field}"') == 1
 
+# 2026-10-07 (10DLC): the funnels carry the same PAIR of boxes as every other lead
+# form -- a required Terms/Privacy box and an optional, unchecked SMS box. The exact
+# wording is pinned in tests/test-consent-boxes.js; this checks the gate itself.
+sms_label, terms_label = roi.CONSENT[roi.CONSENT.index('<label class="consent">', 10):], roi.CONSENT[:roi.CONSENT.index('<label class="consent">', 10)]
 for malformed in [
-    roi.CONSENT.replace('style="width:auto"', 'required style="width:auto"'),
-    roi.CONSENT.replace('name="sms_consent"', 'name="consent"'),
-    roi.CONSENT.replace('value="yes"', 'value="no"'),
-    roi.CONSENT + roi.CONSENT,
+    roi.CONSENT.replace('name="sms_consent" value="yes"', 'name="sms_consent" value="yes" required'),  # SMS box required
+    roi.CONSENT.replace('name="sms_consent" value="yes"', 'name="sms_consent" value="yes" checked'),   # SMS box pre-checked
+    roi.CONSENT.replace('name="sms_consent"', 'name="consent"'),                                      # wrong SMS field name
+    roi.CONSENT.replace('value="yes"', 'value="no"'),                                                 # wrong values
+    roi.CONSENT.replace(' required style', ' style'),                                                 # Terms box not required
+    roi.CONSENT.replace('name="terms_agree"', 'name="terms"'),                                        # wrong Terms field name
+    sms_label,                                                                                       # SMS box without the Terms box
+    terms_label,                                                                                     # Terms box without the SMS box
+    roi.CONSENT + roi.CONSENT,                                                                       # duplicated
     "",
 ]:
-    assert not roi.optional_sms_consent(malformed), "consent gate must reject required, wrong, duplicated or missing boxes"
+    assert not roi.consent_pair(malformed), "consent gate must reject required, pre-checked, wrong, duplicated or missing boxes"
 
-print("Five ROI forms: optional SMS consent, thank-you routes and attribution: PASS")
+print("Five ROI forms: required terms box, optional SMS consent, thank-you routes and attribution: PASS")
 print("ROI conversion source checks: PASS")

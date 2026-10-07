@@ -206,6 +206,27 @@ const COLLECTION_TAGS = {
 // email always goes out inside the function's time limit.
 const CREATE_DEADLINE_MS = 7000;
 
+// 2026-10-07 (10DLC): the two checkbox sentences every website lead form carries,
+// character for character (Lofty's compliance wording; build/build.py
+// CONSENT_SMS_TEXT / CONSENT_TERMS_TEXT hold the same strings, and
+// tests/test-consent-boxes.js checks all three agree). The lead note records the
+// SMS sentence the visitor actually saw, so a later reader can see what was
+// agreed to. Do not paraphrase it; change it here and in build.py together.
+const SMS_CONSENT_TEXT = "By checking this box, I agree to receive transactional and informational SMS " +
+  "communications, including appointment reminders, property updates, and account notifications from " +
+  "Little Lady. Message frequency varies. Message and data rates may apply. Reply HELP for help or STOP " +
+  "to opt out.";
+
+// Was the REQUIRED "Terms of Service and Privacy Policy" box ticked? The browser
+// enforces it, but this is a record, never a gate: a bot, a direct POST or a page
+// cached from before the box existed arrives without it, and that lead is still
+// captured, pushed and emailed exactly like any other. Only the note says so.
+function termsAgreedFromForm(data) {
+  const v = data && typeof data === "object" ? data.terms_agree : undefined;
+  const vals = (Array.isArray(v) ? v : [v]).map((x) => String(x == null ? "" : x).trim().toLowerCase()).filter(Boolean);
+  return vals.length > 0 && vals.every((x) => /^(yes|y|true|on|1|checked|agree|agreed)$/.test(x));
+}
+
 function splitName(fullName) {
   const parts = (fullName || "").trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return { firstName: undefined, lastName: undefined };
@@ -471,30 +492,40 @@ async function handleLead(event) {
     // 2026-09-30: the YES below is now the same test that decides texting in
     // Lofty (lib/_lofty-consent.js), so a value that isn't a yes is not written
     // up as one; the ROI funnels' required `consent` box is named for what it is.
+    //
+    // 2026-10-07 (10DLC): the YES records the NEW exact sentence (SMS_CONSENT_TEXT),
+    // and every branch adds one more line saying whether the required Terms/Privacy
+    // box (`terms_agree`) was ticked. That line is a record only: nothing here, and
+    // nothing below, holds or drops a lead because it is missing, and it has no part
+    // in the texting decision (that is `sms_consent` alone, above).
+    const termsLine = termsAgreedFromForm(data)
+      ? "\nTerms/Privacy box: ticked"
+      : "\nTerms/Privacy box: NOT ticked on this submission";
     if (consent.given) {
       body.notes += "\n\nCONSENT (TCPA)" +
-        "\nSMS/call consent: YES \u2014 box ticked at submit" +
-        "\nAgreed to: \"I agree to receive marketing communication via call, text, or " +
-        "similar automated means from The Little Lady Sells Homes. Consent is not a " +
-        "condition of purchase. Message frequency varies. Msg/data rates may apply. " +
-        "Reply STOP to unsubscribe, HELP for help.\"";
+        "\nSMS consent: YES \u2014 box ticked at submit (texts only; this wording does not cover calls)" +
+        `\nAgreed to: "${SMS_CONSENT_TEXT}"` +
+        termsLine;
     } else if (consent.answered) {
       body.notes += "\n\nCONSENT (TCPA)" +
         "\n!! SMS consent NOT given on this submission (the sms_consent field was not a yes). " +
         "Texting is off for this lead in Lofty. Do NOT text or auto-dial this lead until consent " +
-        "is obtained and logged.";
+        "is obtained and logged." +
+        termsLine;
     } else if (data.consent) {
       body.notes += "\n\nCONSENT (TCPA)" +
         "\n!! No texting consent on this submission. This form's consent box is REQUIRED to " +
         "submit, so ticking it is not a free choice and is not counted as agreeing to texts. " +
         "Texting is off for this lead in Lofty. Do NOT text or auto-dial this lead until consent " +
-        "is obtained and logged.";
+        "is obtained and logged." +
+        termsLine;
     } else {
       body.notes += "\n\nCONSENT (TCPA)" +
         "\n!! NO CONSENT RECORD on this submission \u2014 the sms_consent field was " +
         "absent, which means this did not arrive through the site's own form with the " +
         "box ticked. Do NOT text or auto-dial this lead until consent is obtained and " +
-        "logged.";
+        "logged." +
+        termsLine;
     }
 
     // 2026-09-24: a home-value lead carries its address as a real Lofty field

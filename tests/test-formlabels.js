@@ -192,23 +192,12 @@ check("the consent sentence is not split into flex columns",
   SPLIT.length === 0,
   `${SPLIT.length} split: ${[...new Set(SPLIT)].slice(0, 3).join("; ")}`);
 
-// The disclosure must survive the wrap intact -- it is what the A2P filing says
-// visitors are shown, so the required phrases are pinned rather than assumed.
-const MISSING = [];
-for (const file of walk(path.join(ROOT, "site"))) {
-  const html = fs.readFileSync(file, "utf8");
-  for (const lm of html.matchAll(/<label class="consent">([\s\S]*?)<\/label>/g)) {
-    if (!/<input\b[^>]*type="checkbox"[^>]*name="sms_consent"/.test(lm[1])) continue;
-    for (const phrase of ["Consent is not a condition of purchase",
-                          "Reply STOP to unsubscribe",
-                          "/privacy-policy.html",
-                          "/terms-of-service.html"]) {
-      if (!lm[1].includes(phrase)) MISSING.push(`${path.relative(ROOT, file)}: ${phrase}`);
-    }
-  }
-}
-check("the SMS consent disclosure is still complete", MISSING.length === 0,
-  `${MISSING.length} missing: ${MISSING.slice(0, 3).join("; ")}`);
+// The wording itself used to be pinned here as four phrases from the old marketing
+// disclosure ("Consent is not a condition of purchase", "Reply STOP to
+// unsubscribe", and the two links). 2026-10-07 (10DLC): the boxes are now Lofty's
+// exact two sentences, and tests/test-consent-boxes.js compares every form on
+// every page against them word for word, so that check lives there. What stays
+// here is the structural half above, which now covers both boxes of the pair.
 
 // Half of each accessibility commit is presentational: markup that ships unstyled
 // is markup that does not do its job. The label would render as an unspaced run of

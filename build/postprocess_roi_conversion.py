@@ -57,17 +57,25 @@ def attr_inputs() -> str:
 
 
 ATTR_INPUTS = attr_inputs()
+# 2026-10-07 (10DLC): the five ROI funnel forms carry the same PAIR of consent
+# boxes as every other lead form -- the wording is Lofty's compliance text, copied
+# character for character from build.py (CONSENT_TERMS_TEXT / CONSENT_SMS_TEXT,
+# built there by consent_boxes_html()). tests/test-consent-boxes.js pins both
+# copies to the same literal strings. Do not paraphrase either sentence.
+#   terms_agree  -- REQUIRED: agreement to the Terms of Service and Privacy Policy.
+#   sms_consent  -- OPTIONAL, unchecked: the SMS opt-in the server reads as a yes.
+# The old single box (marketing wording, optional) is replaced by the pair.
 CONSENT = """<label class="consent">
+  <input type="checkbox" name="terms_agree" value="yes" required style="width:auto">
+  By checking this box, I agree to the <a href="/terms-of-service.html">Terms of Service</a> and <a href="/privacy-policy.html">Privacy Policy</a> of this website.
+</label>
+<label class="consent">
   <input type="checkbox" name="sms_consent" value="yes" style="width:auto">
-  I agree to receive marketing communication via email, call, text, or similar automated means
-  from The Little Lady Sells Homes. Consent is not a condition of purchase. Message frequency
-  varies. Msg/data rates may apply. Reply STOP to unsubscribe, HELP for help. See our
-  <a href="/privacy-policy.html">Privacy Policy</a> and
-  <a href="/terms-of-service.html">Terms of Service</a>.
+  By checking this box, I agree to receive transactional and informational SMS communications, including appointment reminders, property updates, and account notifications from Little Lady. Message frequency varies. Message and data rates may apply. Reply HELP for help or STOP to opt out.
 </label>"""
 
 
-def optional_sms_consent(html: str) -> bool:
+def _checkbox_inputs(html: str, name: str) -> list:
     class Inputs(HTMLParser):
         def __init__(self):
             super().__init__()
@@ -75,13 +83,32 @@ def optional_sms_consent(html: str) -> bool:
 
         def handle_starttag(self, tag, attrs):
             attrs = dict(attrs)
-            if tag == "input" and attrs.get("name") == "sms_consent":
+            if tag == "input" and attrs.get("name") == name:
                 self.fields.append(attrs)
 
     parser = Inputs()
     parser.feed(html)
-    return len(parser.fields) == 1 and parser.fields[0].get("type") == "checkbox" \
-        and parser.fields[0].get("value") == "yes" and "required" not in parser.fields[0]
+    return parser.fields
+
+
+def optional_sms_consent(html: str) -> bool:
+    """Exactly one sms_consent checkbox, value yes, neither required nor pre-checked."""
+    fields = _checkbox_inputs(html, "sms_consent")
+    return len(fields) == 1 and fields[0].get("type") == "checkbox" \
+        and fields[0].get("value") == "yes" \
+        and "required" not in fields[0] and "checked" not in fields[0]
+
+
+def required_terms_agree(html: str) -> bool:
+    """Exactly one terms_agree checkbox, value yes, and REQUIRED."""
+    fields = _checkbox_inputs(html, "terms_agree")
+    return len(fields) == 1 and fields[0].get("type") == "checkbox" \
+        and fields[0].get("value") == "yes" and "required" in fields[0]
+
+
+def consent_pair(html: str) -> bool:
+    """The whole pair: a required Terms/Privacy box and an optional SMS box."""
+    return required_terms_agree(html) and optional_sms_consent(html)
 
 
 def form_shell(name: str, fields: str, button: str, form_id: str) -> str:
@@ -564,8 +591,8 @@ def validate(src: str) -> None:
         if f'action="/thank-you.html?from={form_name}"' not in html: errors.append(f"{path.name}: wrong thank-you action")
         forms = re.findall(r"<form\b[^>]*>.*?</form>", html, re.I | re.S)
         funnel = [f for f in forms if f'name="{form_name}"' in f]
-        if len(funnel) != 1 or not optional_sms_consent(funnel[0]):
-            errors.append(f"{path.name}: expected one optional SMS consent field")
+        if len(funnel) != 1 or not consent_pair(funnel[0]):
+            errors.append(f"{path.name}: expected one required terms box and one optional SMS consent box")
         if html.count(src) != 1: errors.append(f"{path.name}: ROI JS not exactly once")
 
     land = read(TARGETS["land"])
