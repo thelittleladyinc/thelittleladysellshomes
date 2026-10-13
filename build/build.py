@@ -4219,19 +4219,28 @@ def write_deferred_font_css():
 # to them, and expired ad links still resolve) but Google consolidates ranking
 # signals onto Signature's copy. These paths are also excluded from TLLSH's
 # sitemap -- see build_sitemap() below.
+#
+# 2026-10-13: EMPTY NOW -- the 11 pages are this site's own again. Signature is
+# being folded into this site (Signature repo, docs/CUTOVER-RUNBOOK.md), and
+# cutover group 5 301s Signature's copies of these same addresses to the pages
+# here. Under the old arrangement each page here would then have named, as its
+# canonical, a Signature URL that redirects straight back to it. So each page now
+# names itself, and the sitemap step lists it again (it leaves out only a page
+# whose canonical names another URL). This is meant to merge just before group 5
+# goes live; until group 5 is live both domains serve these pages as their own.
+# Rollback: put the 11 paths back (the runbook's rollback step):
+#   boyd-lake-north-loveland, buckhorn-subdivisions-loveland,
+#   downtown-loveland-real-estate, kinston-centerra-loveland,
+#   lakes-at-centerra-loveland, mariana-butte-loveland, namaqua-hills-loveland,
+#   pyrenees-french-country-loveland, thompson-valley-loveland,
+#   waterfront-at-boyd-lake-loveland, west-loveland-riverfront-homes
+#   (each "/communities/loveland/<name>.html").
+#
+# The set is kept, empty, rather than deleted: the Signature repo's cutover check
+# (build/cutover.py verify-targets) reads it from this file by name, and with no
+# path left in it stops reporting the group-5 blocker.
 _SIGNATURE_URL = "https://signaturepropertycollection.com"
 CROSS_BRAND_CANONICAL_TO_SIGNATURE = frozenset([
-    "/communities/loveland/boyd-lake-north-loveland.html",
-    "/communities/loveland/buckhorn-subdivisions-loveland.html",
-    "/communities/loveland/downtown-loveland-real-estate.html",
-    "/communities/loveland/kinston-centerra-loveland.html",
-    "/communities/loveland/lakes-at-centerra-loveland.html",
-    "/communities/loveland/mariana-butte-loveland.html",
-    "/communities/loveland/namaqua-hills-loveland.html",
-    "/communities/loveland/pyrenees-french-country-loveland.html",
-    "/communities/loveland/thompson-valley-loveland.html",
-    "/communities/loveland/waterfront-at-boyd-lake-loveland.html",
-    "/communities/loveland/west-loveland-riverfront-homes.html",
 ])
 
 
