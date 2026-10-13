@@ -550,7 +550,7 @@ async function handleLead(event) {
         name: data.name, email: data.email, phone: data.phone,
         source: SOURCE_LABELS[formName] || formName, sourceShort: formName,
         noteText: `${body.notes}\n\nMANUAL REVIEW: ${existing.error}. No Lofty contact changed.`,
-        leadId: null, stamp: `${stamp} MT`,
+        leadId: null, stamp: `${stamp} MT`, site: "main",
       });
       let store = null;
       try { store = getBlobStore(getStore, DIAG_STORE); } catch (e) { store = null; }
@@ -614,6 +614,8 @@ async function handleLead(event) {
       // need it repeated.
       sourceShort: stampedSource.replace("The Little Lady Sells Homes - ", ""),
       noteText: body.notes, leadId: existing.leadId || leadId, stamp: `${stamp} MT`,
+      // Which site's brand lines the alert carries (lib/_notify.js ALERT_BRANDS).
+      site: "main",
     });
 
     if (!result.ok) {
