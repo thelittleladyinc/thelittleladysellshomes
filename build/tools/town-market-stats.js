@@ -544,4 +544,6 @@ module.exports = {
   // the hub source
   resolveSource, validateHub, runHub, HUB_PATH, HUB_ATTEMPTS, HUB_TIMEOUT_MS,
   TOWN_COUNT_TOLERANCE, TOWN_COUNT_TOLERANCE_MIN,
+  // read-only, for build/tools/town-market-compare.js
+  fetchHub, HubError, fetchPublished,
 };
