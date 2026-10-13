@@ -96,5 +96,21 @@ for (const phrase of ["0 days ago", "1 days ago"]) {
     pages.length ? `${pages.length} page(s) e.g. ${pages[0]}` : "");
 }
 
+// The question names the statistic the answer gives.
+//
+// 2026-10-13 (Town Figures Parity). The town market-report FAQ asked "What is the
+// average home price in <town>?" and answered with the median ASKING price, in the
+// page and in its FAQPage schema. A median is not an average, and an asking price is
+// not a sale price. Checked on the raw HTML so the schema copy is covered too.
+{
+  const reports = walk(SITE).filter((f) => /market-report-and-trends(-\d+)?\.html$/.test(f));
+  const asked = (re) => reports.filter((f) => re.test(fs.readFileSync(f, "utf8"))).map((f) => path.relative(ROOT, f));
+  const average = asked(/What is the average home price in [^?<"]+\?/);
+  check("no town market report asks for an average and answers with a median asking price",
+    reports.length > 0 && average.length === 0, average.length ? `${average.length} page(s) e.g. ${average[0]}` : `${reports.length} reports`);
+  const median = asked(/What is the median asking price in [^?<"]+\?[\s\S]*?The median asking price in /);
+  check("the reports with town figures ask for the median asking price", median.length > 0, `${median.length} of ${reports.length}`);
+}
+
 console.log(failures === 0 ? "\nAll checks passed.\n" : `\n${failures} FAILED\n`);
 process.exit(failures ? 1 : 0);

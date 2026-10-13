@@ -7232,7 +7232,10 @@ def town_market_report_body(city, state, page_url):
     ])
 
     faqs = [
-        (f"What is the average home price in {place}?",
+        # 2026-10-13 (Town Figures Parity): this asked "What is the average home
+        # price" and answered with the median ASKING price -- a different statistic.
+        # The question now names the figure the answer gives.
+        (f"What is the median asking price in {place}?",
          f"The median asking price in {city} is ${median:,} across {active:,} homes currently "
          f"for sale."
          + (f" That is about ${ppsf} per square foot." if ppsf else "")
