@@ -121,7 +121,7 @@ them at deploy time, so each change needs a deploy.
 | `LISTINGS_SOURCE` | everything | no | leave unset (or `lofty`). `mlsgrid` keeps everything passing through |
 | `MLS_DISABLED` | MLS Grid kill switch | no | `true` recommended (belt and braces; `/.netlify/functions/mls-usage` then says MLS Grid is switched off here) |
 | `MLSGRID_MARKET_DATA` | MLS Grid gate | no | `off` recommended (same reason) |
-| `RESEND_API_KEY`, `LEAD_ALERT_TO`, `LEAD_ALERT_FROM` | lead alerts, `/status` rows | yes | keep |
+| `HUB_API_URL`, `HUB_API_KEY`, `LEAD_ALERT_TO`, `LEAD_ALERT_FROM` | lead alerts (sent by the Seller Intelligence hub since 2026-10-15), `/status` rows | `HUB_API_KEY` no (new) | a hub key with `email:send`; `LEAD_ALERT_FROM` only for a sender the hub allows. `RESEND_API_KEY` is no longer read: remove it once the hub alert has arrived |
 | `LISTING_FEED_KEY`, `LISTING_ENGINE_URL`, `RECENT_ACTIVITY_DISPLAY` | recent-activity, `/status` row | yes | keep |
 | `GA_MEASUREMENT_ID`, `META_PIXEL_ID` | build (listing page tags) | yes | keep |
 

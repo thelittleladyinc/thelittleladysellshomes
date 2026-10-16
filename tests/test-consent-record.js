@@ -46,9 +46,9 @@ function fakeLofty() {
   const f = { calls: [], posts: [], puts: [], emails: [], notes: [], leads: { [NEWID]: { phones: ["+1 970-555-0100"], emails: ["pat@example.com"], tags: [HOT, "Website Lead", "contact"] } } };
   f.fetch = async (url, init = {}) => {
     const s = String(url); const m = init.method || "GET";
-    const p = s.replace(/^https:\/\/api\.(lofty|resend)\.com/, "").split("?")[0];
+    const p = s.replace(/^https:\/\/(api\.lofty\.com|hub\.example\.test\/functions\/v1\/hub-api)/, "").split("?")[0];
     f.calls.push(`${m} ${p}`);
-    if (/resend\.com/.test(s)) { f.emails.push(JSON.parse(init.body)); return resp(200, { id: "e1" }); }
+    if (/hub\.example\.test/.test(s)) { f.emails.push(JSON.parse(init.body)); return resp(200, { status: "sent", provider_id: "e1" }); }
     if (m === "GET" && /\/v1\.0\/leads\?/.test(s)) return resp(200, { leads: [] });
     if (m === "POST" && /\/v1\.0\/leads$/.test(s)) { f.posts.push(JSON.parse(init.body)); return resp(200, `{"data":{"leadId": ${NEWID}}}`); }
     if (/\/notes$/.test(s)) { f.notes.push(JSON.parse(init.body)); return resp(200, "{}"); }
@@ -77,7 +77,7 @@ require.cache[blobsPath] = { id: blobsPath, filename: blobsPath, loaded: true, e
 } };
 for (const k of Object.keys(require.cache)) if (k.startsWith(FN_DIR) && k !== blobsPath && !k.endsWith(".json")) delete require.cache[k];
 process.env.LOFTY_API_KEY = "k";
-process.env.RESEND_API_KEY = "r";
+process.env.HUB_API_URL = "https://hub.example.test/functions/v1/hub-api"; process.env.HUB_API_KEY = "hub_test";
 delete process.env.FLODESK_API_KEY;
 const handler = require(`${FN_DIR}/submission-created.js`).handler;
 
