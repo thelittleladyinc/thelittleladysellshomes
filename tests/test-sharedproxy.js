@@ -155,6 +155,31 @@ const SHARED = {
   const lp = await load("listing-page").handler(ev("id=IRE123"));
   check("listing-page: Signature's status and noindex/Retry-After come back as they did through the CDN rule",
     lp.statusCode === 503 && lp.headers["x-robots-tag"] === "noindex" && lp.headers["retry-after"] === "3600", JSON.stringify(lp.headers));
+  // 2026-10-13 (before cutover group 5): a passed-through listing page names this
+  // site's /listing/<id> as canonical, not the Signature address group 5 forwards here.
+  const SIG_PAGE = '<html><head><link rel="canonical" href="https://signaturepropertycollection.com/listing/IRE123">' +
+    '<meta property="og:url" content="https://signaturepropertycollection.com/listing/IRE123">' +
+    '<script type="application/ld+json">{"@type":"RealEstateListing","url":"https://signaturepropertycollection.com/listing/IRE123"}</script>' +
+    '</head><body><a href="https://signaturepropertycollection.com/explore.html">map</a> é</body></html>';
+  fresh(SHARED);
+  signatureAnswers(200, { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=300" }, SIG_PAGE);
+  const lp200 = await load("listing-page").handler(ev("id=IRE123"));
+  const page200 = Buffer.from(lp200.body, lp200.isBase64Encoded ? "base64" : "utf8").toString("utf8");
+  check("listing-page, passed through: canonical, og:url and schema url name this site's /listing/<id>",
+    page200.includes('<link rel="canonical" href="https://www.thelittleladysellshomes.com/listing/IRE123">') &&
+    page200.includes('<meta property="og:url" content="https://www.thelittleladysellshomes.com/listing/IRE123">') &&
+    page200.includes('"url":"https://www.thelittleladysellshomes.com/listing/IRE123"') &&
+    !page200.includes("signaturepropertycollection.com/listing/"), page200.slice(0, 200));
+  check("...and nothing else on the page, its status or its headers changed",
+    lp200.statusCode === 200 && lp200.headers["cache-control"] === "public, max-age=300" && lp200.headers["X-Backend"] === "proxy" &&
+    page200 === SIG_PAGE.split("https://signaturepropertycollection.com/listing/").join("https://www.thelittleladysellshomes.com/listing/"));
+  const { canonicalHere } = load("listing-page");
+  const notHtml = { statusCode: 200, headers: { "content-type": "application/json" },
+    body: Buffer.from('{"u":"https://signaturepropertycollection.com/listing/X"}').toString("base64"), isBase64Encoded: true };
+  const gone = { statusCode: 410, headers: { "content-type": "text/html" },
+    body: Buffer.from(SIG_PAGE).toString("base64"), isBase64Encoded: true };
+  check("...only a 200 HTML page is touched (JSON and the noindex 410/503 pages pass as they are)",
+    canonicalHere(notHtml) === notHtml && canonicalHere(gone) === gone);
   signatureAnswers(200, { "content-type": "application/json" }, JSON.stringify({ from: "signature" }));
   // POSTs used to have nowhere to go; now they go to Signature as they are.
   calls.length = 0;

@@ -3393,8 +3393,10 @@ GOOGLE_REVIEWS_URL = "https://g.page/r/CZbs8kiTCII_EBM"
 # Live Google Business Profile review stats, cached to build/data/google_reviews.json.
 # 2026-08-22 (per Christine): visible site copy is now count-free ("5-Star Rated on
 # Google"), while structured data (aggregateRating) still emits the real 98 count
-# pulled from her actual GBP location so Google can verify it. Refresh via:
-# python3 build/refresh_google_reviews.py.
+# pulled from her actual GBP location so Google can verify it. The file is
+# updated by hand from her Google Business Profile (2026-10-13: the old
+# build/refresh_google_reviews.py was removed -- it fetched nothing and no build
+# or workflow ran it).
 try:
     with open(os.path.join(os.path.dirname(__file__), "data", "google_reviews.json")) as _gr_f:
         GOOGLE_REVIEWS_STATS = json.load(_gr_f)
@@ -4219,19 +4221,28 @@ def write_deferred_font_css():
 # to them, and expired ad links still resolve) but Google consolidates ranking
 # signals onto Signature's copy. These paths are also excluded from TLLSH's
 # sitemap -- see build_sitemap() below.
+#
+# 2026-10-13: EMPTY NOW -- the 11 pages are this site's own again. Signature is
+# being folded into this site (Signature repo, docs/CUTOVER-RUNBOOK.md), and
+# cutover group 5 301s Signature's copies of these same addresses to the pages
+# here. Under the old arrangement each page here would then have named, as its
+# canonical, a Signature URL that redirects straight back to it. So each page now
+# names itself, and the sitemap step lists it again (it leaves out only a page
+# whose canonical names another URL). This is meant to merge just before group 5
+# goes live; until group 5 is live both domains serve these pages as their own.
+# Rollback: put the 11 paths back (the runbook's rollback step):
+#   boyd-lake-north-loveland, buckhorn-subdivisions-loveland,
+#   downtown-loveland-real-estate, kinston-centerra-loveland,
+#   lakes-at-centerra-loveland, mariana-butte-loveland, namaqua-hills-loveland,
+#   pyrenees-french-country-loveland, thompson-valley-loveland,
+#   waterfront-at-boyd-lake-loveland, west-loveland-riverfront-homes
+#   (each "/communities/loveland/<name>.html").
+#
+# The set is kept, empty, rather than deleted: the Signature repo's cutover check
+# (build/cutover.py verify-targets) reads it from this file by name, and with no
+# path left in it stops reporting the group-5 blocker.
 _SIGNATURE_URL = "https://signaturepropertycollection.com"
 CROSS_BRAND_CANONICAL_TO_SIGNATURE = frozenset([
-    "/communities/loveland/boyd-lake-north-loveland.html",
-    "/communities/loveland/buckhorn-subdivisions-loveland.html",
-    "/communities/loveland/downtown-loveland-real-estate.html",
-    "/communities/loveland/kinston-centerra-loveland.html",
-    "/communities/loveland/lakes-at-centerra-loveland.html",
-    "/communities/loveland/mariana-butte-loveland.html",
-    "/communities/loveland/namaqua-hills-loveland.html",
-    "/communities/loveland/pyrenees-french-country-loveland.html",
-    "/communities/loveland/thompson-valley-loveland.html",
-    "/communities/loveland/waterfront-at-boyd-lake-loveland.html",
-    "/communities/loveland/west-loveland-riverfront-homes.html",
 ])
 
 
@@ -7221,7 +7232,10 @@ def town_market_report_body(city, state, page_url):
     ])
 
     faqs = [
-        (f"What is the average home price in {place}?",
+        # 2026-10-13 (Town Figures Parity): this asked "What is the average home
+        # price" and answered with the median ASKING price -- a different statistic.
+        # The question now names the figure the answer gives.
+        (f"What is the median asking price in {place}?",
          f"The median asking price in {city} is ${median:,} across {active:,} homes currently "
          f"for sale."
          + (f" That is about ${ppsf} per square foot." if ppsf else "")

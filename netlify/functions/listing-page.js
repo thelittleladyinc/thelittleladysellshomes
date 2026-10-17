@@ -831,13 +831,38 @@ function listingIdOf(event) {
   }
   return id;
 }
+// 2026-10-13 (Signature cutover, before group 5 -- the Signature repo's
+// docs/CUTOVER-RUNBOOK.md). Signature's render always names
+// signaturepropertycollection.com/listing/<id> as its canonical (and og:url, and
+// the RealEstateListing schema's url), and cutover group 5 301s that address to
+// this site's /listing/<id>. Served here, the page would then name as canonical a
+// URL that redirects straight back to it. The runbook's fix is switching
+// listing-page on here (BACKEND_MODE), where the page is rendered with this
+// site's canonical; this keeps the canonical right on the pass-through too, for
+// as long as the page is still Signature's -- BACKEND_MODE not yet set, or a
+// setting it needs missing. Only that one address prefix changes, and only on a
+// 200 HTML page; the status, headers and everything else Signature sent come
+// back as they were. (The 404/410/503 pages are noindex and keep theirs.)
+const SIGNATURE_LISTING_URL = "https://signaturepropertycollection.com/listing/";
+function canonicalHere(res) {
+  if (!res || res.statusCode !== 200) return res;
+  const headers = res.headers || {};
+  if (!/^text\/html/i.test(String(headers["content-type"] || headers["Content-Type"] || ""))) return res;
+  const html = res.isBase64Encoded
+    ? Buffer.from(String(res.body || ""), "base64").toString("utf8")
+    : String(res.body || "");
+  if (!html.includes(SIGNATURE_LISTING_URL)) return res;
+  const here = html.split(SIGNATURE_LISTING_URL).join(`${SITE_DOMAIN}/listing/`);
+  return { ...res, body: Buffer.from(here, "utf8").toString("base64"), isBase64Encoded: true };
+}
 async function proxyHandler(event) {
   const id = listingIdOf(event);
   if (isHiddenListing(id)) return hiddenListingResponse();
   const q = new URLSearchParams();
   if (id) q.set("id", id);
   q.set("brand", "tllsh");
-  return passThrough(withQuery(event, q));
+  return canonicalHere(await passThrough(withQuery(event, q)));
 }
 exports.proxyHandler = proxyHandler;
+exports.canonicalHere = canonicalHere;
 exports.handler = backendSwitch("listing-page", localHandler, { proxy: proxyHandler });

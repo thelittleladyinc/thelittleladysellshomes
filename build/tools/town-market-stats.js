@@ -125,11 +125,15 @@ const PUBLISHED_URL = process.env.TOWN_MARKET_URL ||
 // so copying them only to have them hidden is pointless.
 const STALE_DAYS = 21;
 
+// Whole dollars either way. 2026-10-13 (Town Figures Parity, draft A4): an odd
+// count returned the middle price as it was, cents and all, while an even count
+// was rounded. Both are rounded now (half up, as an even count already was), so
+// the file never carries a figure in cents.
 function median(values) {
   if (!values.length) return null;
   const s = [...values].sort((a, b) => a - b);
   const mid = Math.floor(s.length / 2);
-  return s.length % 2 ? s[mid] : Math.round((s[mid - 1] + s[mid]) / 2);
+  return Math.round(s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2);
 }
 
 // THE SHAPE OF THE LISTINGS BLOB IS AN OBJECT KEYED BY listingId, NOT AN ARRAY.
@@ -544,4 +548,6 @@ module.exports = {
   // the hub source
   resolveSource, validateHub, runHub, HUB_PATH, HUB_ATTEMPTS, HUB_TIMEOUT_MS,
   TOWN_COUNT_TOLERANCE, TOWN_COUNT_TOLERANCE_MIN,
+  // read-only, for build/tools/town-market-compare.js
+  fetchHub, HubError, fetchPublished,
 };

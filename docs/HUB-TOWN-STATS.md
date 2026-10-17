@@ -67,23 +67,23 @@ before this change.
 ## Switch-on (the plan's P4 sequence)
 
 1. **Compare first.** The hub's town output must match Signature's latest file
-   within tolerance: the same towns, counts within 5%. With the hub key in
-   `HUB_APP_KEY` in your shell (never pasted into a file or a chat):
+   within tolerance: the same towns, and for each one the homes for sale, the
+   median asking price and the price per square foot within 5%. With
+   `HUB_API_URL` and the hub key in `HUB_APP_KEY` in your shell (never pasted
+   into a file or a chat):
 
    ```
-   curl -sS -H "x-hub-key: $HUB_APP_KEY" "$HUB_API_URL/v1/market/towns" -o /tmp/hub-towns.json
-   python3 - <<'EOF'
-   import json
-   mine = json.load(open("build/data/town_market.json"))["towns"]
-   hub = json.load(open("/tmp/hub-towns.json"))["towns"]
-   print("only in the committed file:", sorted(set(mine) - set(hub)))
-   print("only in the hub:", sorted(set(hub) - set(mine)))
-   off = [t for t in set(mine) & set(hub) if abs(hub[t]["active"] - mine[t]["active"]) > 0.05 * max(mine[t]["active"], 1)]
-   print("active count more than 5% apart:", sorted(off))
-   EOF
+   node build/tools/town-market-compare.js
    ```
 
-   Do not go on until the lists are empty or explained.
+   It reads the hub and Signature's published file, writes nothing, never prints
+   the key or the address, lists every town on one side only (and any that look
+   like the same town spelled differently) and every figure more than 5% apart,
+   and ends `CLEAN` (exit 0) or `NOT CLEAN` (exit 1). `--hub-file` / `--sig-file`
+   compare saved copies instead. Run it on switch day and weekly while both
+   copies run (Town Figures Parity, draft A1).
+
+   Do not go on until it says `CLEAN` or every line is explained.
 2. **Netlify build hook.** TLLSH Netlify, Site configuration, Build and deploy,
    Build hooks: create one named `hub-town-stats` (branch `main`). Its URL is a
    secret. It goes to the hub as the Edge secret `TLLSH_BUILD_HOOK_URL` and

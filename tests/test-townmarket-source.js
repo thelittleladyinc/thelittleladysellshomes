@@ -52,5 +52,11 @@ check("a scheduled workflow runs the script", /schedule:\s*\n\s*- cron: "[^"]+"/
 check("it runs the regression suites before committing", /bash tests\/run-all\.sh/.test(wf));
 check("it commits only the data file, to main", /git add build\/data\/town_market\.json/.test(wf) && /HEAD:main/.test(wf));
 
+// 2026-10-13 (Town Figures Parity, draft A4): the median is whole dollars whether
+// the count is odd or even (an odd count used to keep a listed price's cents).
+check("median of an odd count is rounded to whole dollars", tool.median([500000, 425000.6, 300000]) === 425001);
+check("median of an even count is rounded half up, as before", tool.median([400000, 400001]) === 400001);
+check("median of whole dollars is unchanged", tool.median([3, 1, 2]) === 2 && tool.median([]) === null);
+
 console.log(failures === 0 ? "\nAll checks passed.\n" : `\n${failures} check(s) FAILED\n`);
 process.exit(failures ? 1 : 0);
