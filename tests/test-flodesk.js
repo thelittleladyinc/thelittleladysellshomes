@@ -51,7 +51,7 @@ function check(label, cond, extra) {
 }
 const of = (m, p) => calls.filter((c) => c.method === m && c.url.includes(p));
 const lofty = ({ url, method }) => {
-  if (url.includes("api.resend.com")) return { status: 200, body: { id: "email_1" } };
+  if (url.includes("hub.example.test")) return { status: 200, body: { status: "sent", provider_id: "email_1" } };
   if (url.includes("/leads") && method === "POST") return { status: 200, body: { data: { leadId: 777 } } };
   if (url.includes("/notes")) return { status: 200, body: { data: { noteId: 1 } } };
   if (url.includes("/leads/777") && method === "GET") return { status: 200, body: { data: { tags: [] } } };
@@ -60,7 +60,7 @@ const lofty = ({ url, method }) => {
 };
 
 process.env.LOFTY_API_KEY = "lofty-test-key";
-process.env.RESEND_API_KEY = "resend-test-key";
+process.env.HUB_API_URL = "https://hub.example.test/functions/v1/hub-api"; process.env.HUB_API_KEY = "hub_test";
 const fd = require(path.join(FN_DIR, "lib/_flodesk.js"));
 
 (async () => {
@@ -112,7 +112,7 @@ const fd = require(path.join(FN_DIR, "lib/_flodesk.js"));
   res = await loadHandler()(submission({ name: "Sam", email: "sam@example.com", county: "weld" }));
   check("handler still returns 200 ok", res.statusCode === 200 && res.body === "ok", res.body);
   check("lead still pushed to Lofty", of("POST", "api.lofty.com/v1.0/leads").length === 1);
-  check("alert email still sent", of("POST", "api.resend.com").length === 1);
+  check("alert email still sent", of("POST", "hub.example.test").length === 1);
 
   console.log("\n5. Fail-soft: Flodesk rejects the subscriber");
   stubFetch((r) => (r.url.includes("api.flodesk.com") ? { status: 500, body: {} } : lofty(r) || { status: 404, body: {} }));
