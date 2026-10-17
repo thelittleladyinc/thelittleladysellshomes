@@ -98,7 +98,7 @@ The site has many lead forms. A browser `submit` event is **not** proof of a lea
 | B1 `TOF – VA Buyer` | Buyer | veteran-home-purchase |
 | S1 `TOF – Seller Ready to List` | Seller (1) | sellers-guide, seller-local-proof, loveland-market-seller, sellers-page-inquiry; home-lead "sell"/"both" |
 | S2 `S2 - Seller Options` | Seller | cash-offer; free-home-valuation and home-lead "value" while `VALUE_REVIEW_PLAN` is off |
-| HV (starts in Lofty on `Value Review Sent`) | Seller | with `VALUE_REVIEW_PLAN=on`: free-home-valuation and home-lead "value" get the Seller lead type and no plan tag; the hub adds `Value Review Sent` after Christine sends their value review (Build E). Signature's free-home-valuation keeps SPC-S either way |
+| HV (starts in Lofty on `Value Review Sent`) | Seller | with `VALUE_REVIEW_PLAN=on`: free-home-valuation and home-lead "value" get the Seller lead type and no plan tag; the hub adds `Value Review Sent` after Christine sends their value review (Build E). Signature's free-home-valuation gets BOTH (Christine, 2026-10-17): SPC-S and the plain tag `Luxury` in the PUT after the create, and HV later |
 | SPC-S `TOF – Luxury / Signature` | Seller | signature-sellers-inquiry, signature-expired-inquiry (and, on the Signature site only, sellers-page-inquiry, sellers-guide, seller-local-proof, free-home-valuation) |
 | DS1 `TOF – Downsizing` | Seller | noco-retirement |
 | `Agent Recruit` | none | lpt-join, lpt-join-co, co-license-guide, agent-coaching |
@@ -107,6 +107,8 @@ The site has many lead forms. A browser `submit` event is **not** proof of a lea
 How `submission-created.js` applies it — **only for a contact proven new** (both Lofty lookups found nobody and the create's own id took the note): the lead type rides on the create (`leadTypes`, also on the minimal retry); the plan tag is **never** in the create's tags, because a "Tag Changed → tag added" Smart Plan does not fire for a tag sent on the create — it is added afterwards by `lib/_notify.js addPlanTags` (read the lead's tags, keep them all, add the plan tag in one PUT; refuse to write when the tags can't be read), right after the "Hot Lead - Website" re-add. Returning contacts, phone-only matches and lookups that can't answer get no lead type and no plan tag (a returning contact still gets its Call task). A queued lead carries its `plan`; the replay (`lib/_lofty.js`) re-decides "new" on its own lookup and adds the tag in `finishReplay` (step `planTags`).
 
 **Lofty setting needed:** `TOF – Website Buyer` enrolls nobody until it is added to B1's start (trigger) tags in Lofty. Each plan also enrolls only the lead types in its scope.
+
+**Lofty setting needed (Build E, before `VALUE_REVIEW_PLAN` goes on):** a lead can now be in two plans that start a few hours apart. Signature's free-home-valuation starts SPC-S at the form and HV when Christine sends its value review, usually the same day; sellers-page-inquiry (S1 here, SPC-S on Signature) also gets a value review, so HV too. Lofty decides when each plan's first email goes, not this site: set the first email of SPC-S (and S1) to wait at least 2 days longer than HV's first email, so two plans never send on the same day.
 
 ## Analytics events
 
