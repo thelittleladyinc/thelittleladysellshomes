@@ -5,9 +5,14 @@ on:
   push:
     branches: [main]
 
+# A newer push to the same pull request cancels the run it replaces. Pushes to
+# main are never cancelled: each merged commit gets its full run (before, the
+# next merge cancelled the one still running). No paths-ignore:
+# tests/test-one-number.js scans every tracked file, Markdown included, and
+# test-desclines / test-townmarket-hub read files under docs/.
 concurrency:
-  group: site-regression-${{ github.ref }}
-  cancel-in-progress: true
+  group: site-regression-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build-and-test:
