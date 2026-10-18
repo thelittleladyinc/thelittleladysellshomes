@@ -10579,6 +10579,59 @@ def _tool_lead_form(form_name, button_label, extra_fields=""):
     </form>"""
 
 
+# 2026-10-18: RealScout's "Home Value Alert" sign-up (a homeowner enters an
+# address and gets a monthly home-value email; Christine gets a "viewed the Home
+# Value Alert" notice). Its only link was on the old
+# how-much-is-my-northern-colorado-home-worth page, which now 301s to
+# /free-home-valuation.html, so no live page offered it. OFF unless the build
+# setting HVA_SIGNUP_LINK is exactly "on" (trimmed, any case -- the same reading
+# as LISTINGS_SOURCE); off, the page is byte for byte what it was. The address
+# comes from REALSCOUT_HVA_SIGNUP_URL, else the default below, and is used only
+# when it is https on realscout.com or a subdomain of it, with no user name or
+# port -- anything else leaves the block out rather than linking somewhere
+# unexpected. The default was not opened from the build machine: check it opens
+# the sign-up page before switching on. It is not a lead (nothing is submitted
+# here), so its click is the ROI client's privacy-safe roi_cta_click (CTA id +
+# page path) and there is no conversion event. Pinned by tests/test-hva-signup.js.
+HVA_SIGNUP_DEFAULT_URL = "https://christinegwinnup.realscout.com/homesearch/home-reports?hva_public=true"
+
+
+def _hva_signup_url(raw):
+    """The sign-up address to link, or None when it is not https on realscout.com."""
+    url = (raw or "").strip()
+    if not url or not url.isascii() or re.search(r"[\s\"'<>`\\]", url):
+        return None
+    try:
+        parts = urllib.parse.urlsplit(url)
+        host = (parts.hostname or "").lower()
+        port = parts.port
+    except ValueError:
+        return None
+    if parts.scheme != "https" or parts.username is not None or port is not None:
+        return None
+    if host != "realscout.com" and not host.endswith(".realscout.com"):
+        return None
+    return url
+
+
+def _hva_signup_html():
+    """The sign-up block that follows the free-home-valuation form; "" while off."""
+    if (os.environ.get("HVA_SIGNUP_LINK") or "").strip().lower() != "on":
+        return ""
+    url = _hva_signup_url((os.environ.get("REALSCOUT_HVA_SIGNUP_URL") or "").strip()
+                          or HVA_SIGNUP_DEFAULT_URL)
+    if not url:
+        return ""
+    return f"""<section class="tight">
+  <div class="wrap center" style="max-width:640px">
+    <p class="lede">Rather keep an eye on it yourself? Get a free monthly Home Value Alert
+    for your address, sent by email through RealScout. It's an automated estimate, so read
+    it as a trend line, not a price.</p>
+    <div class="btn-row" style="justify-content:center"><a class="btn btn-outline" href="{esc(url)}" target="_blank" rel="noopener" data-roi-cta="home-value-alert-signup">Get My Home Value Alert</a></div>
+  </div>
+</section>
+"""
+
 
 # ------------------------------------------------------------- QUIZ ----
 # Replaces AgentFire's paid "Neighborhood Quiz" addon ($199 setup + $20/mo)
@@ -11711,7 +11764,7 @@ def build_nav_pages():
         '<input type="text" name="address" placeholder="Property Address" required>')}
   </div>
 </section>
-"""
+{_hva_signup_html()}"""
     breadcrumbs = _breadcrumb_schema([("Home", "/index.html"), ("Free Home Valuation", None)])
     page(
         "Free Home Valuation For Northern Colorado | The Little Lady Sells Homes",
