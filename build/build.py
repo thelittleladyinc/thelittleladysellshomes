@@ -7904,7 +7904,7 @@ def build_city_pages():
   </div>
 </section>
 {moving_block}
-{search_widget_block}
+{search_widget_block}{_town_search_html(city, c['slug'])}
 {local_block}
 {distance_block}
 {video_block}
@@ -10596,8 +10596,10 @@ def _tool_lead_form(form_name, button_label, extra_fields=""):
 HVA_SIGNUP_DEFAULT_URL = "https://christinegwinnup.realscout.com/homesearch/home-reports?hva_public=true"
 
 
-def _hva_signup_url(raw):
-    """The sign-up address to link, or None when it is not https on realscout.com."""
+def _realscout_url(raw):
+    """A RealScout address to link, or None when it is not https on realscout.com
+    (or a subdomain) with no user name or port. Used for the Home Value Alert
+    sign-up below and the town pages' search button (_town_search_html)."""
     url = (raw or "").strip()
     if not url or not url.isascii() or re.search(r"[\s\"'<>`\\]", url):
         return None
@@ -10618,8 +10620,8 @@ def _hva_signup_html():
     """The sign-up block that follows the free-home-valuation form; "" while off."""
     if (os.environ.get("HVA_SIGNUP_LINK") or "").strip().lower() != "on":
         return ""
-    url = _hva_signup_url((os.environ.get("REALSCOUT_HVA_SIGNUP_URL") or "").strip()
-                          or HVA_SIGNUP_DEFAULT_URL)
+    url = _realscout_url((os.environ.get("REALSCOUT_HVA_SIGNUP_URL") or "").strip()
+                         or HVA_SIGNUP_DEFAULT_URL)
     if not url:
         return ""
     return f"""<section class="tight">
@@ -10631,6 +10633,55 @@ def _hva_signup_html():
   </div>
 </section>
 """
+
+
+# 2026-10-18 (Christine): her RealScout search on the Northern Colorado town
+# pages, the same "Search ... With Christine" button the mountain pages carry
+# (collection_pages.py, REALSCOUT_SEARCH_URL). One button per town page, in its
+# own section straight after the page's "Search Homes In <Town>" section --
+# below the on-page search and its results, outside every form (the listing
+# inquiry and alert forms live in that section's overlays, the quiz further down).
+# The town pages are the ones build_city_pages() makes in the three counties this
+# site calls Northern Colorado (Larimer, Weld, Boulder -- the same trio as the
+# town-figures roll-up and the schema), not the Denver-metro, Broomfield or
+# Morgan County pages and not the Loveland subdivision pages.
+#
+# OFF unless the build setting TOWN_SEARCH_LINK is exactly "on" (trimmed, any
+# case -- the same reading as HVA_SIGNUP_LINK); off, every page is byte for byte
+# what it was. The address is REALSCOUT_SEARCH_URL, else the default below (the
+# mountain pages' address; tests/test-town-search-link.js keeps the two equal),
+# and is linked only when _realscout_url accepts it -- anything else leaves the
+# button out. It opens her general RealScout search, not one filtered to the
+# town. Not a lead: its click is the ROI client's privacy-safe roi_cta_click (CTA
+# id + page path), and there is no conversion event. The freshness comparison
+# ignores the section (postprocess_audit_fixes.py), so switching it on does not
+# date the town pages "today" on every deploy.
+TOWN_SEARCH_DEFAULT_URL = "https://christinegwinnup.realscout.com/agent/search"
+TOWN_SEARCH_COUNTIES = ("larimer", "weld", "boulder")
+
+
+def _town_search_html(city, county_slug):
+    """The RealScout search button section for one town page; "" while off, or
+    for a town outside TOWN_SEARCH_COUNTIES. Starts with a newline and ends at
+    </section>, so the page template line it joins is unchanged when it is ""."""
+    if county_slug not in TOWN_SEARCH_COUNTIES:
+        return ""
+    if (os.environ.get("TOWN_SEARCH_LINK") or "").strip().lower() != "on":
+        return ""
+    url = _realscout_url((os.environ.get("REALSCOUT_SEARCH_URL") or "").strip()
+                         or TOWN_SEARCH_DEFAULT_URL)
+    if not url:
+        return ""
+    first = SITE["agent"].split()[0]
+    return f"""
+<section class="tight">
+  <div class="wrap">
+    <div class="btn-row" style="justify-content:flex-start">
+      <a class="btn btn-dark" href="{esc(url)}" target="_blank" rel="noopener" data-roi-cta="town-realscout-search">Search {esc(city)} Homes With {esc(first)} &rsaquo;</a>
+    </div>
+    <p class="search-note">Opens {esc(first)}'s RealScout home search in a new tab.</p>
+  </div>
+</section>"""
 
 
 # ------------------------------------------------------------- QUIZ ----
