@@ -186,7 +186,29 @@ const SOURCE_LABELS = {
   "signature-luxury-market": "The Little Lady's Signature Property Collection - Homes Over $1M Page",
   "signature-resort-buyer-inquiry": "The Little Lady's Signature Property Collection - Mountain Resort Buyer Inquiry",
   "signature-expired-inquiry": "The Little Lady's Signature Property Collection - Expired Listing Second Opinion (printed book or letter)",
+  // 2026-10-18: the "Selling it yourself?" form on the FSBO guide page, built only
+  // while FSBO_FORM is "on" (build/build.py fsbo_section_for). An owner selling on
+  // their own, so a seller lead with the property they are selling.
+  "fsbo-inquiry": "The Little Lady Sells Homes - Selling It Yourself (FSBO)",
 };
+
+// 2026-10-18 (Christine: the "Selling it yourself?" form "tags Funnel - FSBO and
+// Source - Website"). "Source - Website" rides with the form's other tags on the
+// create, by the same rule as every tag above it (`tags` for a contact proven new,
+// `tagsAdd` -- which only adds -- for anyone else). "Funnel - FSBO" starts her
+// existing Lofty plan "FSBO – Seller Support (21 Days)" (never a second FSBO plan),
+// so it is a plan tag (lib/_form-plans.js PLAN_TAGS.FSBO, its one home) and follows
+// the plan-tag rule instead: never on the create, added afterwards, and only for a
+// contact proven new. Both spelled with a plain ASCII hyphen, as she typed them.
+const FSBO_FORM = "fsbo-inquiry";
+const FSBO_TAGS = Object.freeze(["Source - Website"]);
+// The optional "How far along are you?" answer (build/build.py FSBO_STAGES), in words for the note.
+const FSBO_STAGES = Object.freeze({
+  thinking: "Just thinking about it",
+  preparing: "Getting the house ready",
+  listed: "It's for sale now",
+  offer: "Has an offer or is under contract",
+});
 
 // 2026-09-30: tags for the Collection's forms (and the two old Signature form
 // names that only the Signature site sends), so every luxury lead carries
@@ -367,6 +389,18 @@ async function handleLead(event) {
         (data.alert_query ? `\nReproduce this search: https://www.thelittleladysellshomes.com/search-homes.html?${data.alert_query}` : "") +
         (data.message ? `\nAlso said: "${data.message}"` : "");
       body.tags.push("Property Alert Request", "Saved Search");
+    } else if (formName === FSBO_FORM) {
+      // 2026-10-18: the "Selling it yourself?" form. Its own branch, ahead of the
+      // address branch below, because this is not a valuation request: the owner is
+      // selling on their own and asked for a second set of eyes.
+      const stage = String(data.fsbo_stage || "").trim();
+      const stageWords = Object.prototype.hasOwnProperty.call(FSBO_STAGES, stage) ? FSBO_STAGES[stage]
+        : stage ? `"${stage.slice(0, 80)}"` : "(not answered)";
+      body.notes = `${banner}\nSelling it themselves (FSBO).` +
+        `\nProperty: ${data.property_address || "(not given)"}` +
+        `\nHow far along: ${stageWords}` +
+        (data.message ? `\nAlso said: "${data.message}"` : "");
+      body.tags.push(...FSBO_TAGS);
     } else if (data.listing_address) {
       // From the Current Listings page's Ask A Question / Request A Tour
       // buttons (netlify/functions/listings-search.js + build_current_listings()).
