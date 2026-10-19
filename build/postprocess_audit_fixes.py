@@ -78,6 +78,15 @@ def _committed_text(path: Path) -> str | None:
 
 def _normalize_for_change_detection(text: str) -> str:
     """Ignore only known build/deploy noise; real copy/markup changes remain."""
+    # 2026-10-18: the "Selling it yourself?" form on the FSBO guide page exists
+    # only while the Netlify setting FSBO_FORM is "on" (build.py
+    # fsbo_section_for), and the committed site/ is built without Netlify's
+    # settings -- so, like the analytics tags below, it would differ from the
+    # committed copy on every deploy and re-date the guide "today" each time.
+    # A lead form is a conversion layer, not an edit to the guide's content.
+    # Removed first, so the blank-line squeeze below tidies the gap it leaves.
+    # Matches only that one marked section; no other page has it.
+    text = re.sub(r'\n?<section class="tight" id="selling-it-yourself">[\s\S]*?</section>', '', text)
     text = re.sub(
         r'<meta property="og:updated_time" content="\d{4}-\d{2}-\d{2}">',
         '<meta property="og:updated_time" content="DATE">',

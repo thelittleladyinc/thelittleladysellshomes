@@ -1005,6 +1005,13 @@ def build_legacy_pages(B):
   </div>
 </section>""")
 
+        # 2026-10-18: "Selling it yourself?" on the FSBO guide page, only while
+        # the build switch FSBO_FORM is "on" (build.py fsbo_section_for, which
+        # answers "" for every other page and whenever the switch is off).
+        fsbo = B.fsbo_section_for(url)
+        if fsbo:
+            body_parts.append(fsbo)
+
         search = t.get("search")
         if search:
             qs = _search_qs(search)
