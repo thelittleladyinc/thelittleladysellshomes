@@ -10684,6 +10684,86 @@ def _town_search_html(city, county_slug):
 </section>"""
 
 
+# ---- "Selling it yourself?" (FSBO) -- OFF unless FSBO_FORM is exactly "on" ------
+# 2026-10-18 (Christine: "Also add a 'Selling it yourself?' form to
+# thelittleladysellshomes ... that tags Funnel - FSBO and Source - Website").
+#
+# Where: the FSBO guide page that already exists and already answers FSBO
+# searches (/for-sale-by-owner-northern-colorado-fsbo.html, rebuilt by
+# legacy_pages.py at its old address). No new URL, no redirect, no sitemap
+# change: the form is a conversion layer added to that page, the smallest change
+# that puts the ask where FSBO sellers already land (ROI_CONVERSION.md). The
+# page's own copy is left exactly as it is.
+#
+# The form is this site's one lead form (_tool_lead_form: honeypot, the exact
+# consent boxes, /thank-you.html?from=<name>, Netlify -> submission-created ->
+# Lofty), plus the property address and an optional "how far along" choice.
+# It asks about the PROPERTY and the TIMING only, never about the people.
+#
+# Off (unset, or anything but "on" once trimmed and lowercased): nothing here is
+# rendered and site/ is byte-identical to a build without this code. The
+# netlify function side (submission-created.js, lib/_form-plans.js) only ever
+# acts on a submission of this form, which cannot exist while no page carries it.
+#
+# Freshness: the section is marked (id below) so postprocess_audit_fixes.py
+# _normalize_for_change_detection leaves it out of the "did this page change?"
+# comparison. The committed site/ is built without Netlify's settings, so
+# without that every deploy with the switch on would re-date the guide "today"
+# (the analytics-tag problem of 2026-09-29). A form is not an edit to the guide.
+def fsbo_form_on(value=None):
+    """FSBO_FORM, exactly "on" (spaces and case forgiven); anything else is off.
+    `value` is for tests; unset, the build's environment is read."""
+    if value is None:
+        value = os.environ.get("FSBO_FORM")
+    return (value or "").strip().lower() == "on"
+
+
+FSBO_FORM_ON = fsbo_form_on()
+FSBO_FORM_NAME = "fsbo-inquiry"
+FSBO_FORM_PAGE = "/for-sale-by-owner-northern-colorado-fsbo"
+FSBO_SECTION_ID = "selling-it-yourself"
+# The optional "How far along are you?" choices: where the SALE is, never who is
+# selling. netlify/functions/submission-created.js FSBO_STAGES puts the same
+# values into words for the Lofty note.
+FSBO_STAGES = (
+    ("thinking", "Just thinking about it"),
+    ("preparing", "Getting the house ready"),
+    ("listed", "It's for sale now"),
+    ("offer", "I have an offer or I'm under contract"),
+)
+
+
+def fsbo_form_section():
+    """The "Selling it yourself?" section: a heading, two plain sentences in
+    Christine's voice and the form. No fees, no commission, no lender, no
+    claims about her; nothing about the people selling."""
+    options = "\n        ".join(
+        f'<option value="{value}">{esc(label)}</option>' for value, label in FSBO_STAGES)
+    extra = f"""<input type="text" name="property_address" placeholder="Property address" required>
+      <select name="fsbo_stage" aria-label="How far along are you? (optional)">
+        <option value="">Pick one, or skip it</option>
+        {options}
+      </select>"""
+    return f"""
+<section class="tight" id="{FSBO_SECTION_ID}">
+  <div class="wrap" style="max-width:640px">
+    <span class="eyebrow" style="color:var(--dusty-rose)">Selling On Your Own</span>
+    <h2 class="section-title">Selling It Yourself?</h2>
+    <p class="lede">Plenty of people sell their own homes, and some do it really well.
+    Want a local second set of eyes? Tell me where the house is and how far along you
+    are. I&rsquo;ll look at it, and at what has actually sold near it, and get back to
+    you myself. No obligation. It&rsquo;s still your sale.</p>
+    {_tool_lead_form(FSBO_FORM_NAME, "Send It Over", extra)}
+  </div>
+</section>"""
+
+
+def fsbo_section_for(url):
+    """The section for the FSBO guide page while the switch is on, else ""."""
+    return fsbo_form_section() if FSBO_FORM_ON and url == FSBO_FORM_PAGE else ""
+
+
+
 # ------------------------------------------------------------- QUIZ ----
 # Replaces AgentFire's paid "Neighborhood Quiz" addon ($199 setup + $20/mo)
 # with a real, free, client-side quiz scored against actual Northern
