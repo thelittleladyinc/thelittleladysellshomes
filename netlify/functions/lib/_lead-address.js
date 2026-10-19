@@ -30,6 +30,9 @@ const HOME_VALUE_FORMS = new Set([
   // 2026-09-30: the Collection's seller forms (a luxury homeowner's own address).
   "signature-sellers-inquiry",
   "signature-expired-inquiry",
+  // 2026-10-18: "Selling it yourself?" (FSBO_FORM=on) -- the home the owner is
+  // selling on their own, typed in `property_address`.
+  "fsbo-inquiry",
 ]);
 
 function propertyFromAddress(raw) {

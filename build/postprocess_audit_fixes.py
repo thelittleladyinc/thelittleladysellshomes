@@ -78,6 +78,15 @@ def _committed_text(path: Path) -> str | None:
 
 def _normalize_for_change_detection(text: str) -> str:
     """Ignore only known build/deploy noise; real copy/markup changes remain."""
+    # 2026-10-18: the "Selling it yourself?" form on the FSBO guide page exists
+    # only while the Netlify setting FSBO_FORM is "on" (build.py
+    # fsbo_section_for), and the committed site/ is built without Netlify's
+    # settings -- so, like the analytics tags below, it would differ from the
+    # committed copy on every deploy and re-date the guide "today" each time.
+    # A lead form is a conversion layer, not an edit to the guide's content.
+    # Removed first, so the blank-line squeeze below tidies the gap it leaves.
+    # Matches only that one marked section; no other page has it.
+    text = re.sub(r'\n?<section class="tight" id="selling-it-yourself">[\s\S]*?</section>', '', text)
     text = re.sub(
         r'<meta property="og:updated_time" content="\d{4}-\d{2}-\d{2}">',
         '<meta property="og:updated_time" content="DATE">',
@@ -142,6 +151,17 @@ def _normalize_for_change_detection(text: str) -> str:
     # 2026-09-24: the lead-submit marker (build.py _lead_submit_marker) is
     # measurement plumbing on every page, not copy -- same rule as above.
     text = re.sub(r'<script>(?:(?!</script>)[\s\S])*?tll_lead_submit[\s\S]*?</script>\n?', '', text)
+    # 2026-10-18: the RealScout Home Value Alert sign-up on /free-home-valuation.html
+    # (build.py _hva_signup_html) exists only where the build setting
+    # HVA_SIGNUP_LINK is on -- a Netlify setting, like the analytics tags above --
+    # and the committed site/ is built without it. Counted as an edit, switching it
+    # on would date that page "today" on every deploy. Removed from both sides by
+    # its CTA id, one section only; any other change to the page still counts.
+    # 2026-10-18: the same for the town pages' RealScout search button (build.py
+    # _town_search_html, build setting TOWN_SEARCH_LINK), CTA id town-realscout-search.
+    text = re.sub(r'<section class="tight">(?:(?!</?section\b)[\s\S])*'
+                  r'data-roi-cta="(?:home-value-alert-signup|town-realscout-search)"'
+                  r'(?:(?!</?section\b)[\s\S])*</section>\n?', '', text)
     # 2026-09-26: Christine's street address was removed from every page (footer
     # NAP line, Contact card, Terms contact, RealEstateAgent PostalAddress). That
     # is a sitewide contact-detail swap, not an edit to any page's content, so it
