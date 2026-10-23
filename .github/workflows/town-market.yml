@@ -68,6 +68,19 @@ jobs:
           HUB_APP_KEY: ${{ secrets.HUB_APP_KEY }}
         run: node build/tools/town-market-stats.js --source hub
 
+      # OPTIONAL, off unless the repository variable HUB_SIDE_BY_SIDE lists mls_read (2026-10-23, the side-by-side
+      # check, docs/hub-side-by-side.md): the figures just taken against the hub's GET /v1/market/towns, one ledger
+      # row per town (field names only). Read-only, always exits 0, and can never stop or change this job.
+      - name: Side-by-side check of the town figures (only when HUB_SIDE_BY_SIDE is set)
+        if: ${{ vars.HUB_SIDE_BY_SIDE != '' }}
+        continue-on-error: true
+        env:
+          HUB_SIDE_BY_SIDE: ${{ vars.HUB_SIDE_BY_SIDE }}
+          HUB_SIDE_BY_SIDE_MAX: ${{ vars.HUB_SIDE_BY_SIDE_MAX }}
+          HUB_API_URL: ${{ vars.HUB_API_URL }}
+          HUB_API_KEY: ${{ secrets.HUB_APP_KEY }}
+        run: node build/tools/hub-side-by-side-towns.js
+
       - name: Anything new?
         id: diff
         run: |

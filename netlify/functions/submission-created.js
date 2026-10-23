@@ -73,6 +73,9 @@ const {
   findExistingLead, alertReturningLead, websiteFieldValues, ensureWebsiteFields, setWebsiteFields,
   leadIdFromResponse, inquiryFromForm, placeInquiry,
 } = require("./lib/_lofty-returning");
+// 2026-10-23: the side-by-side check with the hub (lib/_hub-side-by-side.js, docs/hub-side-by-side.md). OFF unless
+// HUB_SIDE_BY_SIDE lists lofty_write; it never changes what this function sends to Lofty, when, or what it returns.
+const { leadSideBySide } = require("./lib/_hub-side-by-side");
 
 const DIAG_STORE = "mls-listings";        // same store the rest of the site uses
 
@@ -288,19 +291,26 @@ function planLogLine(formName, plan, planResult, leadTypeSent) {
 // block, delay or fail it -- newsletterFromEvent() never throws or rejects.
 exports.handler = async (event) => {
   const flodesk = newsletterFromEvent(event);
-  const result = await handleLead(event);
-  const fd = await flodesk;
-  if (fd.attempted) {
-    console.log(`Flodesk newsletter sync: ${fd.ok ? "ok" : "FAILED"} ` +
-      `(county ${fd.county || "unknown"}, segment ${fd.segmentEnv || "none"}` +
-      `${fd.httpStatus ? `, HTTP ${fd.httpStatus}` : ""}${fd.error ? `, ${fd.error}` : ""})`);
-  } else if (fd.reason === "FLODESK_API_KEY not set") {
-    console.log("Flodesk newsletter sync skipped: FLODESK_API_KEY not set.");
+  // Inert (no hub call, nothing wrapped) unless HUB_SIDE_BY_SIDE lists lofty_write.
+  const side = leadSideBySide({ startedAt: Date.now() });
+  try {
+    const result = await handleLead(event, side);
+    const fd = await flodesk;
+    if (fd.attempted) {
+      console.log(`Flodesk newsletter sync: ${fd.ok ? "ok" : "FAILED"} ` +
+        `(county ${fd.county || "unknown"}, segment ${fd.segmentEnv || "none"}` +
+        `${fd.httpStatus ? `, HTTP ${fd.httpStatus}` : ""}${fd.error ? `, ${fd.error}` : ""})`);
+    } else if (fd.reason === "FLODESK_API_KEY not set") {
+      console.log("Flodesk newsletter sync skipped: FLODESK_API_KEY not set.");
+    }
+    return result;
+  } finally {
+    // After everything above: compares the hub's dry run with what this function sent, and records the row.
+    await side.finish();
   }
-  return result;
 };
 
-async function handleLead(event) {
+async function handleLead(event, side) {
   const startedAt = Date.now();
   try {
     const apiKey = process.env.LOFTY_API_KEY;
@@ -572,6 +582,11 @@ async function handleLead(event) {
     const homeProperty = homeValueProperty(formName, data);
     if (homeProperty) body.property = homeProperty;
 
+    // The side-by-side check (off unless HUB_SIDE_BY_SIDE lists lofty_write): the hub's dry run of this same push is
+    // asked now, before this function's own lookup and create, and runs alongside them; nothing waits for it.
+    side.lead({ body, plan, data, triggerTag: TRIGGER_TAG, property: homeProperty, submissionId,
+      label: SOURCE_LABELS[formName] || formName });
+
     // 2026-09-29: ask Lofty first whether this person is already a contact
     // (exact email and phone searches, in parallel, capped at 2 seconds in total --
     // lib/_lofty-returning.js). A returning lead's note, call-back task and phone
@@ -579,7 +594,12 @@ async function handleLead(event) {
     // instead of the absorbed record a merge hands back. Never throws; if Lofty
     // can't answer in time, everything below runs exactly as before.
     const existing = await findExistingLead(data.email, data.phone, apiKey);
+    side.lookedUp(existing, {
+      label: (SOURCE_LABELS[formName] || formName).replace("The Little Lady Sells Homes - ", ""),
+      name: data.name, phone: data.phone, email: data.email,
+    });
     if (existing.manualReview) {
+      side.own({ held: existing.error });
       const held = { ok: false, attempted: false, manualReview: true,
         payloadShape: "held for identity review", responseBody: existing.error };
       const emailResult = await sendLeadAlertEmail({
@@ -657,6 +677,7 @@ async function handleLead(event) {
     });
 
     if (!result.ok) {
+      side.own({ failed: true });
       console.error(`Lofty API ${result.httpStatus} (payload shape "${result.payloadShape}"): ${result.responseBody}`);
       // The lead is queued for retry by the next scheduled drain
       // (lofty-queue-drain.js), is sitting in Netlify
@@ -793,6 +814,7 @@ async function handleLead(event) {
       : provenNew ? await placeInquiry(newLeadId, inquiry, apiKey)
       : { attempted: false, reason: "not a proven-new contact; the search is in the note" };
 
+    side.own({ existing, newLeadId, leadId, provenNew });
     const hubIntakeResult = await hubIntake;
     if (hubIntakeResult.attempted) {
       console.log(`Value review to the hub for "${formName}": ${hubIntakeResult.ok ? `${hubIntakeResult.hubStatus}` +
