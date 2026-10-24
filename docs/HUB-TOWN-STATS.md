@@ -64,6 +64,23 @@ printed.
 With `TOWN_STATS_SOURCE` unset, empty or `github`, all three behave exactly as
 before this change.
 
+**The key (2026-10-24).** The tool sends `HUB_APP_KEY`; when that is not set it
+sends `HUB_API_KEY`, the site's own hub key that Netlify already holds for the
+Lofty doorway (key `tllsh`, which carries `market:read`). So with
+`TOWN_STATS_SOURCE=hub` already in Netlify, the production build takes the hub's
+figures on every deploy without a second key; the GitHub workflow still passes
+`HUB_APP_KEY` (a repository secret), which wins when both are set. A key without
+`market:read` is refused by the hub (HTTP 403): the build carries on with the
+committed file and says why, naming the setting, never its value.
+
+**After the switch, nothing reads the Signature repo's file.** With the
+repository variable `TOWN_STATS_SOURCE=hub` the scheduled workflow takes the hub
+too, so the raw GitHub copy of Signature's `build/data/town_market.json` is no
+longer read by anything this site runs (only by `town-market-compare.js`, a
+by-hand comparison, and the workflow's default path if the variable is removed).
+The Signature site can take the same hub figures for its own pages
+(signature-property-collection `docs/mls-via-hub.md`, its `TOWN_STATS_SOURCE`).
+
 ## Switch-on (the plan's P4 sequence)
 
 1. **Compare first.** The hub's town output must match Signature's latest file

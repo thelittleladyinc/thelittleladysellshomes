@@ -87,7 +87,10 @@
 // reads the one MLS Grid copy that now feeds every app, and answers with EXACTLY
 // the JSON in build/data/town_market.json, so build.py needs no change. It needs
 // HUB_API_URL (the hub's base address) and HUB_APP_KEY (this site's key, sent as
-// the x-hub-key header). Anything else -- unset, "github" -- is the path above,
+// the x-hub-key header; 2026-10-24: when HUB_APP_KEY is not set, HUB_API_KEY -- the
+// site's own hub key, which Netlify already holds for the Lofty doorway -- is used,
+// so TOWN_STATS_SOURCE=hub in Netlify works with the key that is there; it needs the
+// scope market:read). Anything else -- unset, "github" -- is the path above,
 // untouched. The hub's answer goes through the same checks as the Signature file
 // (shape, generated_at a real date that is neither future nor past the 21-day
 // window nor older than the file already here) plus two of its own: no town below
@@ -274,9 +277,20 @@ function hubEndpoint(rawBase) {
   return u.toString();
 }
 
+// The key: HUB_APP_KEY (the name the workflow and the switch-on note use), else
+// HUB_API_KEY (the site's own hub key, 2026-10-24). Null when neither is set.
+function hubKeySetting(env) {
+  const app = String((env && env.HUB_APP_KEY) || "").trim();
+  if (app) return { name: "HUB_APP_KEY", value: app };
+  const api = String((env && env.HUB_API_KEY) || "").trim();
+  if (api) return { name: "HUB_API_KEY", value: api };
+  return null;
+}
+
 async function fetchHub({ env, fetchImpl, sleep }) {
   const base = String((env && env.HUB_API_URL) || "").trim();
-  const key = String((env && env.HUB_APP_KEY) || "").trim();
+  const setting = hubKeySetting(env);
+  const key = setting ? setting.value : "";
   const missing = [];
   if (!base) missing.push("HUB_API_URL");
   if (!key) missing.push("HUB_APP_KEY");
@@ -300,7 +314,7 @@ async function fetchHub({ env, fetchImpl, sleep }) {
         continue;
       }
       if (res.status !== 200) {
-        const hint = res.status === 401 || res.status === 403 ? " (check HUB_APP_KEY)"
+        const hint = res.status === 401 || res.status === 403 ? ` (check ${setting.name})`
           : res.status === 404 ? " (check HUB_API_URL)" : "";
         throw new HubError(`the hub answered HTTP ${res.status}, expected 200${hint}`);
       }
@@ -362,7 +376,7 @@ async function runHub(opts) {
   const errLog = o.errLog || ((m) => console.error(m));
   // Belt and braces: nothing here prints the key or the address, but if a future
   // edit ever did, it would still not reach the log.
-  const secrets = [env.HUB_APP_KEY, env.HUB_API_URL].map((v) => String(v || "").trim()).filter((v) => v.length >= 6);
+  const secrets = [env.HUB_APP_KEY, env.HUB_API_KEY, env.HUB_API_URL].map((v) => String(v || "").trim()).filter((v) => v.length >= 6);
   const scrub = (m) => secrets.reduce((acc, v) => acc.split(v).join("[hidden]"), String(m));
   const say = (m) => log(scrub(m));
   const refuse = (reason) => {
@@ -371,7 +385,8 @@ async function runHub(opts) {
     return { ok: false, reason: scrub(reason) };
   };
 
-  say("TOWN_STATS_SOURCE=hub — taking the town figures from the hub (HUB_API_URL, HUB_APP_KEY): GET " + HUB_PATH);
+  say("TOWN_STATS_SOURCE=hub — taking the town figures from the hub (HUB_API_URL, " +
+    (hubKeySetting(env) || { name: "HUB_APP_KEY" }).name + "): GET " + HUB_PATH);
   let pub;
   try {
     pub = await fetchHub({ env, fetchImpl, sleep });
@@ -546,7 +561,7 @@ if (require.main === module) {
 module.exports = {
   listingsFromBlob, median, validatePublished, MIN_SAMPLE, STALE_DAYS,
   // the hub source
-  resolveSource, validateHub, runHub, HUB_PATH, HUB_ATTEMPTS, HUB_TIMEOUT_MS,
+  resolveSource, validateHub, runHub, hubKeySetting, HUB_PATH, HUB_ATTEMPTS, HUB_TIMEOUT_MS,
   TOWN_COUNT_TOLERANCE, TOWN_COUNT_TOLERANCE_MIN,
   // read-only, for build/tools/town-market-compare.js
   fetchHub, HubError, fetchPublished,

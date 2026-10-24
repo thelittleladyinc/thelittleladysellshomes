@@ -200,6 +200,18 @@ const NETLIFY_ENV = { PYTHON_BIN: "true", BUILD_SCRIPT: "dummy.py", POSTPROCESS_
   const bare = await run({ env: { HUB_API_URL: "https://hub.example.test/functions/v1/hub-api?x=1#y", HUB_APP_KEY: `  ${KEY}\n` } });
   check("a base with a query, no trailing slash, and a key with stray whitespace still work",
     bare.result.ok === true && bare.calls[0].url === "https://hub.example.test/functions/v1/hub-api/v1/market/towns" && bare.calls[0].init.headers["x-hub-key"] === KEY, bare.calls[0] && bare.calls[0].url);
+  // 2026-10-24: Netlify already holds the site's own hub key as HUB_API_KEY (the Lofty doorway); with no
+  // HUB_APP_KEY the tool uses it, so TOWN_STATS_SOURCE=hub in Netlify works with the key that is there.
+  const apiKeyOnly = await run({ env: { HUB_API_URL: BASE, HUB_API_KEY: KEY } });
+  check("HUB_API_KEY alone (no HUB_APP_KEY): used, and named", apiKeyOnly.result.ok === true &&
+    apiKeyOnly.calls[0].init.headers["x-hub-key"] === KEY && /HUB_API_KEY/.test(apiKeyOnly.said) && !leaks(apiKeyOnly.said), apiKeyOnly.said);
+  const both = await run({ env: { HUB_API_URL: BASE, HUB_APP_KEY: KEY, HUB_API_KEY: "hub_" + "0".repeat(64) } });
+  check("both set: HUB_APP_KEY wins (what the workflow passes)", both.result.ok === true && both.calls[0].init.headers["x-hub-key"] === KEY && /HUB_APP_KEY/.test(both.said));
+  const apiRefused = await run({ env: { HUB_API_URL: BASE, HUB_API_KEY: KEY }, responses: [reply(403, "no")] });
+  check("a refusal names the key setting actually used", apiRefused.result.ok === false && /\(check HUB_API_KEY\)/.test(apiRefused.result.reason) &&
+    apiRefused.untouched && !leaks(apiRefused.said), apiRefused.result.reason);
+  check("hubKeySetting: HUB_APP_KEY, else HUB_API_KEY, else nothing", tool.hubKeySetting({ HUB_APP_KEY: " a ", HUB_API_KEY: "b" }).name === "HUB_APP_KEY" &&
+    tool.hubKeySetting({ HUB_API_KEY: "b" }).name === "HUB_API_KEY" && tool.hubKeySetting({ HUB_APP_KEY: "  " }) === null && tool.hubKeySetting({}) === null);
   const first = await run({ current: null });
   check("with no committed file yet, a good answer is written", first.result.ok === true && fs.existsSync(first.file));
   const garbled = await run({ current: "{ not json" });
@@ -410,6 +422,12 @@ const NETLIFY_ENV = { PYTHON_BIN: "true", BUILD_SCRIPT: "dummy.py", POSTPROCESS_
     r.code === 0 && /town figures refreshed from the hub/.test(r.stdout) && JSON.parse(fs.readFileSync(t.data, "utf8")).via === "hub" && server.requests.length === 1
       && r.stdout.indexOf("refreshed from the hub") < r.stdout.indexOf("regenerating site/"), r.all);
   check("TOWN_STATS_SOURCE=hub: the key is not printed", !r.all.includes(KEY), r.all);
+  server.requests.length = 0;
+  t = makeTree(committed);
+  r = await exec("bash", ["scripts/netlify-build.sh"], { cwd: t.dir, env: { ...NETLIFY_ENV, HUB_API_URL: server.url, HUB_API_KEY: KEY, TOWN_STATS_SOURCE: "hub" } });
+  check("TOWN_STATS_SOURCE=hub with only the site's HUB_API_KEY (as Netlify holds it): the figures are fetched, the key not printed",
+    r.code === 0 && /town figures refreshed from the hub/.test(r.stdout) && JSON.parse(fs.readFileSync(t.data, "utf8")).via === "hub" &&
+      server.requests.length === 1 && server.requests[0].key === KEY && !r.all.includes(KEY), r.all);
 
   const down = await startServer(serveJson(403, "no"));
   t = makeTree(committed);

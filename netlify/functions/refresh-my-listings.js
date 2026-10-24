@@ -33,7 +33,9 @@ const { runMineSync } = require("./lib/_lofty-listings");
 // stays on Signature), so the check comes from lib/_mls-onmarket.js: the same
 // code, gated the same way, plus HIDE_LISTING_IDS -- and, with no MLS Grid token
 // here, it answers from what the Signature sync already stored and never asks
-// MLS Grid.
+// MLS Grid. 2026-10-24: with MLS_SOURCE=hub the gate is on without a token and
+// the check asks the Seller Intelligence hub (HUB_API_URL + HUB_API_KEY, scope
+// mls:read) for a listing that store does not settle -- still never MLS Grid.
 const { makeOnMarketConfirmer, mlsGridMarketDataOn } = require("./lib/_mls-onmarket");
 
 function json(statusCode, body) {
