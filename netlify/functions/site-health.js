@@ -163,6 +163,12 @@ function mlsGridMarketDataRow(gridState, now) {
   // Intelligence copy) and writes the store this page reads. So with no token
   // here the row reports that job's copy instead of calling it switched off.
   const elsewhere = !tokenSet;
+  // 2026-10-24: with MLS_SOURCE=hub on the Signature site its copy is read from the
+  // Seller Intelligence hub (its sync-state says lastRunVia "hub"): the row says so
+  // instead of calling it MLS Grid.
+  if (elsewhere && gridState && gridState.lastRunVia === "hub") {
+    row.name = "Market data from the hub refreshing (optional)";
+  }
   if (!elsewhere && (off || disabled)) {
     return { ...row, ok: false, detail: off ? "Switched off (MLSGRID_MARKET_DATA=off); the town market figures will go stale."
       : "MLS_DISABLED is set, so nothing is read from MLS Grid; the town market figures will go stale." };
@@ -175,7 +181,9 @@ function mlsGridMarketDataRow(gridState, now) {
   return {
     ...row,
     ok,
-    detail: (elsewhere ? "Runs on the Signature site (no MLS Grid token here, on purpose). " : "") +
+    detail: (elsewhere ? (gridState && gridState.lastRunVia === "hub"
+      ? "Runs on the Signature site, read through the Seller Intelligence hub (MLS_SOURCE=hub there) — no MLS Grid request is made. "
+      : "Runs on the Signature site (no MLS Grid token here, on purpose). ") : "") +
       (lastRunAt ? `Last ran ${minutes} minute(s) ago. ` : "Has not run yet. ") + stored +
       (gridState && gridState.lastSuccessAt ? `Last complete pass ${gridState.lastSuccessAt}. ` : "") +
       (gridState && gridState.lastRunError ? `Error: ${gridState.lastRunError}. ` : "") +
@@ -266,7 +274,7 @@ function loftyListingRows(state, mineListings, now, alertCount, gridState) {
       : state && state.mlsCheck === "checked"
         ? `All ${mineCount} confirmed against the MLS on the last refresh` +
           (state.mlsUnconfirmed ? ` (${state.mlsUnconfirmed} could not be checked and were kept)` : "") + "."
-        : "Not checked: the MLS check runs only when the MLS Grid market-data run is on (MLSGRID_API_TOKEN set).",
+        : "Not checked: the MLS check runs only when the market-data run is on (MLSGRID_API_TOKEN set, or MLS_SOURCE=hub).",
   });
   const withDetails = (Array.isArray(mineListings) ? mineListings : []).filter((l) => l && l.detailsFor).length;
   rows.push({

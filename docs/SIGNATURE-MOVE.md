@@ -80,7 +80,9 @@ answering on this site" listing which answer here and why any do not.
   guard). **This site has no `MLSGRID_API_TOKEN`; leave it that way.** Without it,
   the check never calls MLS Grid and answers from the hide list and what the
   Signature sync already stored, so a refresh started here cannot bring back a
-  listing the Signature sync hid.
+  listing the Signature sync hid. With `MLS_SOURCE=hub` (2026-10-24) it may also
+  ask the Seller Intelligence hub for a listing that store does not settle --
+  still never MLS Grid (`docs/mls-via-hub.md`).
 
 ### The "never show" list: `HIDE_LISTING_IDS`
 

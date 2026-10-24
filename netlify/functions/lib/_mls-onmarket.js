@@ -23,6 +23,15 @@
 //     anything else. So a refresh started here cannot un-hide a listing the
 //     Signature sync hid a few minutes earlier.
 //
+// 2026-10-24 (MLS reads through the hub): with MLS_SOURCE=hub (exactly "hub",
+// trimmed; lib/_mls-hub.js) the one lookup asks the Seller Intelligence hub's
+// copy instead -- POST /v1/mls/search with listing_ids, the Signature site's own
+// hub-mode check -- and nothing here calls MLS Grid. It needs no MLS Grid token,
+// only HUB_API_URL + HUB_API_KEY (scope mls:read); same order, cap, pace, cache
+// and grace, and "no record" for a listing the Signature site's hub run removed
+// is "off the market" (lib/_mls-hub.js HUB_REMOVED_MINE_KEY). A hub that is not
+// set up, refuses, or cannot answer is "unknown" -- the listing is kept.
+//
 // The comment below is carried over from sync-listings.js unchanged.
 //
 // 2026-09-30: "is this listing really on the market?" for runMineSync's
@@ -58,6 +67,7 @@
 const { BASE_URL, REPLICATED_STATUSES, MLSGRID_KEYS } = require("./_mls-shared");
 const { recordMlsCall, checkMlsQuota, bytesFromResponse } = require("./_mls-usage");
 const { isHiddenListing } = require("./_hidden-listings");
+const mlsHub = require("./_mls-hub");
 
 // The MLS Grid copy's keys, whatever this site shows (same as sync-listings.js).
 const { MINE_LISTINGS_KEY } = MLSGRID_KEYS;
@@ -105,13 +115,20 @@ const MAX_LOOKUPS_PER_RUN = 2;
 
 // `lookups: false` (no token on this site): never asks MLS Grid; answers from the
 // hide list, the MLS Grid copy and stored verdicts only. `env` is for tests.
+// With MLS_SOURCE=hub (read when the confirmer is made) the lookup asks the hub
+// instead, token or not (see the 2026-10-24 note above); `lookups: false` still
+// asks no one.
 function makeOnMarketConfirmer({ store, token, now, log, sleepImpl, lookups, env }) {
   const say = log || console.log;
   const clock = now || Date.now;
   const pause = sleepImpl || sleep;
-  const mayAsk = lookups !== false && !!token;
+  const viaHub = mlsHub.mlsSource(env || process.env) === "hub";
+  // `lookups: false` never asks anyone (MLSGRID_MARKET_DATA=off, or no source at all).
+  const mayAsk = lookups !== false && (viaHub || !!token);
   let gridMine = null;
   let verdicts = null;
+  // Hub mode only: her listings the Signature site's hub run removed. Unreadable = {}.
+  let removedMine = null;
   let asked = 0;
   async function load() {
     if (gridMine === null) {
@@ -121,6 +138,9 @@ function makeOnMarketConfirmer({ store, token, now, log, sleepImpl, lookups, env
     if (verdicts === null) {
       const v = await store.get(VERDICT_KEY, { type: "json" }).catch(() => null);
       verdicts = v && typeof v === "object" ? v : {};
+    }
+    if (viaHub && removedMine === null) {
+      removedMine = mlsHub.removedMemory(await store.get(mlsHub.HUB_REMOVED_MINE_KEY, { type: "json" }).catch(() => null));
     }
   }
   async function askMlsGrid(id) {
@@ -156,10 +176,12 @@ function makeOnMarketConfirmer({ store, token, now, log, sleepImpl, lookups, env
       return { onMarket: cached.onMarket, why: `${cached.why} (checked ${cached.checkedAt})` };
     }
     if (!mayAsk) {
-      return { onMarket: null, why: "no MLS Grid token on this site; the Signature site's sync checks it" };
+      return { onMarket: null, why: lookups === false && viaHub
+        ? "the MLS check is switched off here (MLSGRID_MARKET_DATA=off)"
+        : "no MLS Grid token on this site; the Signature site's sync checks it" };
     }
     if (asked >= MAX_LOOKUPS_PER_RUN) {
-      const why = `this run's ${MAX_LOOKUPS_PER_RUN} MLS Grid lookups are spent; it is checked on a later run`;
+      const why = `this run's ${MAX_LOOKUPS_PER_RUN} ${viaHub ? "hub" : "MLS Grid"} lookups are spent; it is checked on a later run`;
       say(`refresh-my-listings: could not confirm ${id} with the MLS (${why}); keeping it.`);
       return { onMarket: null, why };
     }
@@ -167,9 +189,15 @@ function makeOnMarketConfirmer({ store, token, now, log, sleepImpl, lookups, env
     asked += 1;
     let verdict;
     try {
-      verdict = await askMlsGrid(id);
+      verdict = viaHub
+        ? await mlsHub.hubOnMarket(mlsHub.makeHubClient(env || process.env, mlsHub.HUB_LOOKUP_TIMEOUT_MS), id)
+        : await askMlsGrid(id);
     } catch (err) {
-      verdict = { onMarket: null, why: `MLS Grid check failed: ${err && err.message}` };
+      verdict = { onMarket: null, why: `${viaHub ? "hub" : "MLS Grid"} check failed: ${err && err.message}` };
+    }
+    // Hub mode: "no record" for a listing the hub run removed is MLS Grid's "off the market".
+    if (viaHub && verdict.onMarket === false && verdict.status === "not in the feed") {
+      verdict = mlsHub.rememberedRemoval(removedMine, id) || verdict;
     }
     if (verdict.onMarket === false && verdict.status === "not in the feed") {
       const listed = listing.listDate ? Date.parse(listing.listDate) : NaN;
@@ -192,11 +220,14 @@ function makeOnMarketConfirmer({ store, token, now, log, sleepImpl, lookups, env
 
 // The gate, unchanged from sync-listings.js: on whenever there is an MLS Grid
 // token, unless MLSGRID_MARKET_DATA=off. MLS_DISABLED still stops the request
-// itself (checkMlsQuota above).
+// itself (checkMlsQuota above). With MLS_SOURCE=hub it needs no token (the
+// Signature site's own gate, 2026-10-17): on unless MLSGRID_MARKET_DATA=off; a
+// hub that is not set up is not "off" -- each lookup is "unknown" and says why.
 function mlsGridMarketDataOn(env) {
   const e = env || process.env;
-  return !!e.MLSGRID_API_TOKEN &&
-    String(e.MLSGRID_MARKET_DATA == null ? "" : e.MLSGRID_MARKET_DATA).trim().toLowerCase() !== "off";
+  const off = String(e.MLSGRID_MARKET_DATA == null ? "" : e.MLSGRID_MARKET_DATA).trim().toLowerCase() === "off";
+  if (mlsHub.mlsSource(e) === "hub") return !off;
+  return !!e.MLSGRID_API_TOKEN && !off;
 }
 
 module.exports = {
